@@ -1,0 +1,12 @@
+package me.zort.acs;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Acs2Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Acs2Application.class, args);
+    }
+}
