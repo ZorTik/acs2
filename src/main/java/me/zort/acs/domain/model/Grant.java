@@ -14,8 +14,8 @@ public class Grant {
         this.node = node;
     }
 
-    public boolean appliesTo(Node node) {
-        return this.node.isParentOf(node);
+    public boolean appliesTo(Node node, String delimiter) {
+        return this.node.isParentOf(node, delimiter);
     }
 
     public Subject getAccessor() {

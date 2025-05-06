@@ -8,8 +8,23 @@ public class Node {
     @Getter
     private final String value;
 
-    public boolean isParentOf(Node node) {
-        // TODO
+    public boolean isParentOf(Node node, String delimiter) {
+        String[] parentParts = this.value.split(delimiter);
+        String[] childParts = node.getValue().split(delimiter);
+
+        if (parentParts.length > childParts.length) {
+            return false;
+        }
+
+        for (int i = 0; i < parentParts.length; i++) {
+            if (parentParts[i].equals("*")) {
+                continue;
+            }
+            if (!parentParts[i].equals(childParts[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isLeafNode() {

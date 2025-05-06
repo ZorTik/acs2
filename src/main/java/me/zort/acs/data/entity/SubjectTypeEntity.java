@@ -1,5 +1,6 @@
 package me.zort.acs.data.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -16,7 +17,7 @@ public class SubjectTypeEntity {
     @OneToMany(mappedBy = "subjectType")
     private Set<NodeEntity> nodes;
 
-    @OneToMany(mappedBy = "subjectType")
+    @OneToMany(mappedBy = "subjectType", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SubjectEntity> subjects;
 
 }
