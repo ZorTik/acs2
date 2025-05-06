@@ -3,7 +3,6 @@ spring:
     name: acs-2
 
 acs:
-  delimiter: .
+  delimiter: ${ACS_DELIMITER:.}
   definitions:
-    source:
-      file: definitions.yml
+    source: "file://${ACS_DEFINITIONS_SOURCE}"
