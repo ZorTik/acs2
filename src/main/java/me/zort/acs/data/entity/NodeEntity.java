@@ -3,7 +3,8 @@ package me.zort.acs.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,5 +18,13 @@ public class NodeEntity {
             joinColumns = @JoinColumn(name = "node_value"),
             inverseJoinColumns = @JoinColumn(name = "subject_type_id")
     )
-    private Set<SubjectTypeEntity> subjectTypes;
+    private List<SubjectTypeEntity> subjectTypes;
+
+    public void addSubjectType(SubjectTypeEntity subjectType) {
+        if (subjectTypes == null) {
+            subjectTypes = new ArrayList<>();
+        }
+
+        subjectTypes.add(subjectType);
+    }
 }

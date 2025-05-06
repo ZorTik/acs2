@@ -19,4 +19,18 @@ public class Subject {
     public String getSubjectTypeId() {
         return type.getId();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Subject)) {
+            return false;
+        }
+
+        Subject other = (Subject) obj;
+
+        return id.equals(other.id) && type.equals(other.type);
+    }
 }

@@ -28,8 +28,8 @@ public class SubjectTypeService {
         return Optional.of(subjectType);
     }
 
-    public boolean deleteSubjectType(SubjectType subjectType) {
-        // TODO
+    public void deleteSubjectType(SubjectType subjectType) {
+        subjectTypeRepository.delete(subjectTypeMapper.toPersistence(subjectType));
     }
 
     public Optional<SubjectType> getSubjectType(String id) {

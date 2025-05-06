@@ -1,13 +1,17 @@
 package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.data.entity.NodeEntity;
+import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.repository.NodeRepository;
 import me.zort.acs.domain.mapper.DomainNodeMapper;
+import me.zort.acs.domain.mapper.DomainSubjectTypeMapper;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -15,13 +19,14 @@ import java.util.Optional;
 public class NodeService {
     private final NodeRepository nodeRepository;
     private final DomainNodeMapper nodeMapper;
+    private final DomainSubjectTypeMapper subjectTypeMapper;
 
     public Optional<Node> createNode(String value) {
         if (existsNode(value)) {
             return Optional.empty();
         }
 
-        Node node = new Node(value);
+        Node node = new Node(value, Collections.emptyList());
 
         nodeRepository.save(nodeMapper.toPersistence(node));
 
@@ -29,7 +34,18 @@ public class NodeService {
     }
 
     public boolean assignNode(Node node, SubjectType subjectType) {
-        // TODO
+        NodeEntity nodeEntity = nodeMapper.toPersistence(node);
+        SubjectTypeEntity subjectTypeEntity = subjectTypeMapper.toPersistence(subjectType);
+
+        if (nodeEntity.getSubjectTypes().contains(subjectTypeEntity)) {
+            return false;
+        }
+
+        nodeEntity.addSubjectType(subjectTypeEntity);
+
+        nodeRepository.save(nodeEntity);
+
+        return true;
     }
 
     public Optional<Node> getNode(String value) {

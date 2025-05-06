@@ -1,6 +1,7 @@
 package me.zort.acs.domain.rule;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.config.properties.AcsConfigurationProperties;
 import me.zort.acs.domain.AccessRequest;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.service.GrantService;
@@ -13,6 +14,7 @@ import java.util.List;
 @Component
 public class GrantsRule implements AccessRule {
     private final GrantService grantService;
+    private final AcsConfigurationProperties properties;
 
     @Override
     public void onRequest(AccessRequest request) {
@@ -20,7 +22,7 @@ public class GrantsRule implements AccessRule {
 
         if (grants
                 .stream()
-                .anyMatch(grant -> grant.appliesTo(request.getNode()))) {
+                .anyMatch(grant -> grant.appliesTo(request.getNode(), properties.getDelimiter()))) {
             request.grant();
         }
     }

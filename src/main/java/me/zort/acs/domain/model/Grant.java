@@ -14,6 +14,10 @@ public class Grant {
         this.node = node;
     }
 
+    public boolean appliesTo(Subject accessor, Subject accessed) {
+        return this.holder.equals(accessor) && this.on.equals(accessed);
+    }
+
     public boolean appliesTo(Node node, String delimiter) {
         return this.node.isParentOf(node, delimiter);
     }

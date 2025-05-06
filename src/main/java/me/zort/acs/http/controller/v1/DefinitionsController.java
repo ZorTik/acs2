@@ -1,7 +1,7 @@
 package me.zort.acs.http.controller.v1;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.service.DefinitionsRefreshService;
+import me.zort.acs.domain.service.DefinitionsService;
 import me.zort.acs.http.dto.body.BasicResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RequestMapping("/v1/definitions")
 public class DefinitionsController {
-    private final DefinitionsRefreshService refreshService;
+    private final DefinitionsService refreshService;
 
     @PostMapping("/refresh")
     public ResponseEntity<BasicResponse> refresh() {

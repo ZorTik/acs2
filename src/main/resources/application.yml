@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: acs-2
+
+acs:
+  delimiter: .
+  definitions:
+    source:
+      file: definitions.yml
