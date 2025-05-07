@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -50,6 +51,10 @@ public class NodeService {
 
     public Optional<Node> getNode(String value) {
         return nodeRepository.findById(value).map(nodeMapper::toDomain);
+    }
+
+    public List<Node> getNodes(SubjectType subjectType) {
+        // TODO
     }
 
     public boolean existsNode(String value) {

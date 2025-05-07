@@ -25,10 +25,10 @@ public class AccessController {
 
     @PostMapping("/check")
     public ResponseEntity<AccessCheckResponseDto> checkAccess(@RequestBody AccessCheckRequestDto body) {
-        Subject from = subjectMapper.getSubject(body.getAccessor());
-        Subject to = subjectMapper.getSubject(body.getResource());
+        Subject from = subjectMapper.toDomain(body.getAccessor());
+        Subject to = subjectMapper.toDomain(body.getResource());
 
-        Node node = nodeMapper.getNode(body.getNode());
+        Node node = nodeMapper.toDomain(body.getNode());
 
         AccessRequest accessRequest = accessRequestProvider.getAccessRequest(from, to, node);
 

@@ -16,7 +16,7 @@ public class HttpSubjectMapper {
     private final SubjectTypeService subjectTypeService;
     private final SubjectService service;
 
-    public Subject getSubject(SubjectDto dto) {
+    public Subject toDomain(SubjectDto dto) {
         SubjectType type = subjectTypeService.getSubjectType(dto.getGroup())
                 .orElseThrow(() -> new ACSHttpException("Subject type not found", 400));
 
