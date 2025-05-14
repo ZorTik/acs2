@@ -1,32 +1,10 @@
 package me.zort.acs.domain.model;
 
-import lombok.Getter;
+public interface Grant {
 
-public class Grant {
-    private final Subject holder;
-    private final Subject on;
-    @Getter
-    private final Node node;
+    boolean appliesTo(Node node);
 
-    public Grant(Subject holder, Subject on, Node node) {
-        this.holder = holder;
-        this.on = on;
-        this.node = node;
-    }
+    Subject getAccessor();
 
-    public boolean appliesTo(Subject accessor, Subject accessed) {
-        return this.holder.equals(accessor) && this.on.equals(accessed);
-    }
-
-    public boolean appliesTo(Node node, String delimiter) {
-        return this.node.isParentOf(node, delimiter);
-    }
-
-    public Subject getAccessor() {
-        return holder;
-    }
-
-    public Subject getAccessed() {
-        return on;
-    }
+    Subject getAccessed();
 }
