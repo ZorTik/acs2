@@ -12,6 +12,7 @@ import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.*;
@@ -27,6 +28,7 @@ public class DefinitionsService {
 
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
 
+    @Transactional(rollbackFor = Exception.class)
     @SneakyThrows(IOException.class)
     public void refresh() {
         DefinitionsModel model = definitionsSource.getModel();

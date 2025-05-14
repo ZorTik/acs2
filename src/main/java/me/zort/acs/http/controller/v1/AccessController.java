@@ -11,7 +11,6 @@ import me.zort.acs.http.dto.body.access.check.AccessCheckResponseDto;
 import me.zort.acs.http.mapper.HttpNodeMapper;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +23,7 @@ public class AccessController {
     private final AccessControlService accessService;
 
     @PostMapping("/check")
-    public ResponseEntity<AccessCheckResponseDto> checkAccess(@RequestBody AccessCheckRequestDto body) {
+    public AccessCheckResponseDto checkAccess(@RequestBody AccessCheckRequestDto body) {
         Subject from = subjectMapper.toDomain(body.getAccessor());
         Subject to = subjectMapper.toDomain(body.getResource());
 
@@ -34,6 +33,6 @@ public class AccessController {
 
         accessService.checkAccess(accessRequest);
 
-        return ResponseEntity.ok(new AccessCheckResponseDto(accessRequest.isGranted()));
+        return new AccessCheckResponseDto(accessRequest.isGranted());
     }
 }

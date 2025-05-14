@@ -2,14 +2,17 @@ package me.zort.acs.domain.model;
 
 import lombok.Getter;
 
+import java.util.List;
 import java.util.Objects;
 
+@Getter
 public class SubjectType {
-    @Getter
     private final String id;
+    private final List<Node> nodes;
 
-    public SubjectType(String id) {
+    public SubjectType(String id, List<Node> nodes) {
         this.id = id;
+        this.nodes = nodes;
     }
 
     @Override

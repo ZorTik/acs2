@@ -19,5 +19,4 @@ public class SubjectTypeEntity {
 
     @OneToMany(mappedBy = "subjectType", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SubjectEntity> subjects;
-
 }

@@ -7,7 +7,7 @@ import me.zort.acs.http.dto.model.node.NodeDto;
 import java.util.List;
 
 @AllArgsConstructor
-public class ListNodesResponse {
+public class ListNodesResponseDto {
     private List<NodeDto> nodes;
 
 }

@@ -21,7 +21,7 @@ public class SubjectTypeService {
             return Optional.empty();
         }
 
-        SubjectType subjectType = new SubjectType(id);
+        SubjectType subjectType = new SubjectType(id, List.of());
 
         subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
 
