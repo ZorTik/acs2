@@ -41,7 +41,7 @@ public class NodeService {
             return false;
         }
 
-        nodeEntity.addSubjectType(subjectTypeEntity);
+        nodeEntity.getSubjectTypes().add(subjectTypeEntity);
 
         nodeRepository.save(nodeEntity);
 

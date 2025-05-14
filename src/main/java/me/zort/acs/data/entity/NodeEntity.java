@@ -3,7 +3,6 @@ package me.zort.acs.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,11 +19,4 @@ public class NodeEntity {
     )
     private List<SubjectTypeEntity> subjectTypes;
 
-    public void addSubjectType(SubjectTypeEntity subjectType) {
-        if (subjectTypes == null) {
-            subjectTypes = new ArrayList<>();
-        }
-
-        subjectTypes.add(subjectType);
-    }
 }
