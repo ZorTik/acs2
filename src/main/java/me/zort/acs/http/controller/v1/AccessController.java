@@ -13,6 +13,10 @@ import me.zort.acs.http.mapper.HttpSubjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/v1/access")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -27,12 +31,18 @@ public class AccessController {
         Subject from = subjectMapper.toDomain(body.getAccessor());
         Subject to = subjectMapper.toDomain(body.getResource());
 
-        Node node = nodeMapper.toDomain(body.getNode());
+        Map<String, Boolean> states = body.getNodes()
+                .stream()
+                .collect(Collectors.toMap(Function.identity(), value -> {
+                    Node node = nodeMapper.toDomain(value);
 
-        AccessRequest accessRequest = accessRequestProvider.getAccessRequest(from, to, node);
+                    AccessRequest accessRequest = accessRequestProvider.getAccessRequest(from, to, node);
 
-        accessService.checkAccess(accessRequest);
+                    accessService.checkAccess(accessRequest);
 
-        return new AccessCheckResponseDto(accessRequest.isGranted());
+                    return accessRequest.isGranted();
+                }));
+
+        return new AccessCheckResponseDto(states);
     }
 }

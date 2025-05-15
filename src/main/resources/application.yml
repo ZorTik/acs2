@@ -1,8 +1,15 @@
 spring:
   application:
     name: acs-2
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${DATASOURCE_HOST}:${DATASOURCE_PORT:3306}/${DATASOURCE_DB}
+    username: ${DATASOURCE_USR}
+    password: ${DATASOURCE_PWD}
 
 acs:
   delimiter: ${ACS_DELIMITER:.}
   definitions:
-    source: "file://${ACS_DEFINITIONS_SOURCE}"
+    # Supports all types of input stream sources
+    # Example: file://path
+    source: ${ACS_DEFINITIONS_SOURCE}

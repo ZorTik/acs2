@@ -1,10 +1,32 @@
 services:
-  mariadb:
-    image: 'mariadb:latest'
+  db:
+    image: mariadb:latest
+    container_name: db
     environment:
-      - 'MARIADB_DATABASE=mydatabase'
-      - 'MARIADB_PASSWORD=secret'
-      - 'MARIADB_ROOT_PASSWORD=verysecret'
-      - 'MARIADB_USER=myuser'
+      - MARIADB_DATABASE=test
+      - MARIADB_USER=test
+      - MARIADB_PASSWORD=test
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
     ports:
-      - '3306'
+      - "3306:3306"
+  app:
+    image: gradle:8.5-jdk17-alpine
+    container_name: app
+    user: root
+    working_dir: /home/gradle/project
+    command: gradle bootRun
+    environment:
+      DATASOURCE_USR: test
+      DATASOURCE_PWD: test
+      DATASOURCE_HOST: db
+      DATASOURCE_PORT: 3306
+      DATASOURCE_DB: test
+      ACS_DEFINITIONS_SOURCE: file://example_definitions.yml
+    volumes:
+      - .:/home/gradle/project
+      - /home/gradle/project/.gradle
+      - /home/gradle/project/build
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
