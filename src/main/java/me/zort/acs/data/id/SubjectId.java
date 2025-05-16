@@ -1,5 +1,6 @@
 package me.zort.acs.data.id;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -14,7 +15,10 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 public class SubjectId implements Serializable {
+    @Column(name = "id")
     private String id;
+
+    @Column(name = "subject_type_id")
     private String subjectTypeId;
 
 }
