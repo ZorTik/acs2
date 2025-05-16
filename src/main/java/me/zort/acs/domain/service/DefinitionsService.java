@@ -10,6 +10,7 @@ import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,8 @@ public class DefinitionsService {
     @SneakyThrows(IOException.class)
     public void refresh() {
         DefinitionsModel model = definitionsSource.getModel();
+
+        LoggerFactory.getLogger(getClass()).info("Refreshing definitions...");
 
         // Save subject types and its links
         refreshSubjectTypes(model);
