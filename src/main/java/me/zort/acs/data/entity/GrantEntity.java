@@ -5,7 +5,7 @@ import lombok.Data;
 import me.zort.acs.data.id.GrantId;
 
 @Data
-@Entity
+@Entity(name = "acs_grants")
 public class GrantEntity {
     @EmbeddedId
     private GrantId id;

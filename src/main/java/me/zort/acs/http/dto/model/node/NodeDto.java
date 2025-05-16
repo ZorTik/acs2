@@ -11,6 +11,5 @@ import java.util.List;
 @Getter
 public class NodeDto {
     private String value;
-    private List<String> subjects;
 
 }

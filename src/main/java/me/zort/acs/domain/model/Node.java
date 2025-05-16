@@ -9,7 +9,6 @@ import java.util.List;
 public class Node {
     @Getter
     private final String value;
-    private final List<SubjectType> subjectTypes;
 
     public boolean isParentOf(Node node, String delimiter) {
         String[] parentParts = this.value.split(delimiter);
@@ -32,9 +31,5 @@ public class Node {
 
     public boolean isLeafNode() {
         return !value.endsWith("*");
-    }
-
-    public List<SubjectType> getSubjectTypes() {
-        return List.copyOf(subjectTypes);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 import me.zort.acs.data.id.SubjectId;
 
 @Data
-@Entity
+@Entity(name = "acs_subjects")
 public class SubjectEntity {
     @EmbeddedId
     private SubjectId id;

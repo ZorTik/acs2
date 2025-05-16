@@ -22,11 +22,8 @@ public class HttpNodeMapper {
 
     public NodeDto toHttp(Node node) {
         String value = node.getValue();
-        List<String> subjectTypes = node.getSubjectTypes()
-                .stream()
-                .map(SubjectType::getId).toList();
 
-        return new NodeDto(value, subjectTypes);
+        return new NodeDto(value);
     }
 
     public String toHttpValue(Node node) {

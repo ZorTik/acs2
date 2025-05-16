@@ -6,6 +6,11 @@ spring:
     url: jdbc:mariadb://${DATASOURCE_HOST}:${DATASOURCE_PORT:3306}/${DATASOURCE_DB}
     username: ${DATASOURCE_USR}
     password: ${DATASOURCE_PWD}
+  liquibase:
+    change-log: classpath:/db.changelog/16-01-changelog.xml
+  web:
+    resources:
+      add-mappings: false
 
 acs:
   delimiter: ${ACS_DELIMITER:.}

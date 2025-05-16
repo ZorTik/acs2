@@ -11,7 +11,6 @@ import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -26,7 +25,7 @@ public class NodeService {
             return Optional.empty();
         }
 
-        Node node = new Node(value, Collections.emptyList());
+        Node node = new Node(value);
 
         nodeRepository.save(nodeMapper.toPersistence(node));
 

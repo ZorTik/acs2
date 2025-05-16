@@ -6,14 +6,14 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "acs_nodes")
 public class NodeEntity {
     @Id
     private String value;
 
     @ManyToMany
     @JoinTable(
-            name = "node_subject_type",
+            name = "acs_subject_types_nodes",
             joinColumns = @JoinColumn(name = "node_value"),
             inverseJoinColumns = @JoinColumn(name = "subject_type_id")
     )
