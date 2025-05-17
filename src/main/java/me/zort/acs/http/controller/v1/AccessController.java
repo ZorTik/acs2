@@ -1,5 +1,6 @@
 package me.zort.acs.http.controller.v1;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.AccessRequest;
 import me.zort.acs.domain.model.Grant;
@@ -36,7 +37,7 @@ public class AccessController {
     private final GrantService grantService;
 
     @PostMapping("/check")
-    public AccessCheckResponseDto checkAccess(@RequestBody AccessCheckRequestDto body) {
+    public AccessCheckResponseDto checkAccess(@Valid @RequestBody AccessCheckRequestDto body) {
         Subject from = subjectMapper.toDomain(body.getAccessor());
         Subject to = subjectMapper.toDomain(body.getResource());
 
@@ -56,7 +57,7 @@ public class AccessController {
     }
 
     @PostMapping("/grant")
-    public GrantNodesResponseDto grantAccess(@RequestBody GrantNodesRequestDto body) {
+    public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
         Subject from = subjectMapper.toDomain(body.getSourceSubject());
         Subject to = subjectMapper.toDomain(body.getTargetSubject());
 
@@ -73,7 +74,7 @@ public class AccessController {
     }
 
     @PostMapping("/revoke")
-    public RevokeNodesResponseDto revokeAccess(@RequestBody RevokeNodesRequestDto body) {
+    public RevokeNodesResponseDto revokeAccess(@Valid @RequestBody RevokeNodesRequestDto body) {
         Subject from = subjectMapper.toDomain(body.getSourceSubject());
         Subject to = subjectMapper.toDomain(body.getTargetSubject());
 
