@@ -16,13 +16,8 @@ public class DomainNodeMapper implements DomainModelMapper<Node, NodeEntity> {
 
     @Override
     public NodeEntity toPersistence(Node domain) {
-        NodeEntity entity = new NodeEntity();
-        entity.setValue(domain.getValue());
-        entity.setSubjectTypes(nodeRepository.findById(domain.getValue())
-                .map(NodeEntity::getSubjectTypes)
-                .orElseGet(ArrayList::new));
-
-        return entity;
+        return nodeRepository.findById(domain.getValue())
+                .orElseGet(() -> new NodeEntity(domain.getValue(), new ArrayList<>()));
     }
 
     @Override
