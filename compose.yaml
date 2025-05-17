@@ -16,14 +16,15 @@ services:
     container_name: app
     user: root
     working_dir: /home/gradle/project
-    command: gradle bootRun
+    command: >
+      sh -c "gradle bootRun --no-daemon"
     environment:
       DATASOURCE_USR: test
       DATASOURCE_PWD: test
       DATASOURCE_HOST: db
       DATASOURCE_PORT: 3306
       DATASOURCE_DB: test
-      ACS_DEFINITIONS_SOURCE: file://example_definitions.yml
+      ACS_DEFINITIONS_SOURCE: file:example_definitions.yml
     volumes:
       - .:/home/gradle/project
       - /home/gradle/project/.gradle

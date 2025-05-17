@@ -10,6 +10,7 @@ import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +35,15 @@ public class DefinitionsService {
     public void refresh() {
         DefinitionsModel model = definitionsSource.getModel();
 
-        LoggerFactory.getLogger(getClass()).info("Refreshing definitions...");
+        Logger logger = LoggerFactory.getLogger(getClass());
+        logger.info("Refreshing definitions...");
 
         // Save subject types and its links
         refreshSubjectTypes(model);
         // Cache default grants
         refreshDefaultGrants(model);
+
+        logger.info("Definitions refreshed successfully.");
     }
 
     public boolean checkDefaultGrant(Subject from, Subject to, Node node) {
@@ -54,7 +58,7 @@ public class DefinitionsService {
     }
 
     private void refreshSubjectTypes(DefinitionsModel model) {
-        List<SubjectType> localTypes = subjectTypeService.getSubjectTypes();
+        List<SubjectType> localTypes = new ArrayList<>(subjectTypeService.getSubjectTypes());
         model.getSubjectTypes().forEach(def -> {
             String id = def.getId();
 
