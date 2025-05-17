@@ -15,6 +15,12 @@ public class AccessControlService {
     }
 
     public void checkAccess(AccessRequest request) {
-        accessRules.forEach(rule -> rule.onRequest(request));
+        for (AccessRule rule : accessRules) {
+            rule.onRequest(request);
+
+            if (request.isGranted()) {
+                return;
+            }
+        }
     }
 }

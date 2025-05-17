@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ErrorControllerImpl extends AbstractErrorController {
+public class ErrorHandlingController extends AbstractErrorController {
 
-    public ErrorControllerImpl(ErrorAttributes errorAttributes) {
+    public ErrorHandlingController(ErrorAttributes errorAttributes) {
         super(errorAttributes);
     }
 
