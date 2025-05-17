@@ -1,16 +1,13 @@
-package me.zort.acs.domain.definitions.yaml;
+package me.zort.acs.domain.definitions.model;
 
-import me.zort.acs.domain.definitions.DefaultGrantsDefinition;
-import me.zort.acs.domain.definitions.DefinitionsModel;
-import me.zort.acs.domain.definitions.SubjectTypeDefinition;
 import me.zort.acs.domain.definitions.exception.IllegalDefinitionsFormatException;
 
 import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class YamlDefinitionsModel implements DefinitionsModel {
-    private final Map<String, SubjectTypeDefinition> subjectTypeDefinitions;
-    private final List<DefaultGrantsDefinition> defaultGrantsDefinitions;
+    private final Map<String, SubjectTypeDefinitionModel> subjectTypeDefinitions;
+    private final List<DefaultGrantsDefinitionModel> defaultGrantsDefinitions;
     private final Set<String> nodes;
 
     public YamlDefinitionsModel(Map<String, Object> data) {
@@ -26,7 +23,7 @@ public class YamlDefinitionsModel implements DefinitionsModel {
         for (String key : data.keySet()) {
             Map<String, Object> typeData = (Map<String, Object>) data.get(key);
 
-            SubjectTypeDefinition def = new SubjectTypeDefinition(key, (List<String>) typeData.get("nodes"));
+            SubjectTypeDefinitionModel def = new SubjectTypeDefinitionModel(key, (List<String>) typeData.get("nodes"));
 
             subjectTypeDefinitions.put(key, def);
             nodes.addAll(def.getNodes());
@@ -40,8 +37,8 @@ public class YamlDefinitionsModel implements DefinitionsModel {
             String fromKey = (String) grantData.get("from");
             String toKey = (String) grantData.get("to");
 
-            SubjectTypeDefinition fromDef = subjectTypeDefinitions.get(fromKey);
-            SubjectTypeDefinition toDef = subjectTypeDefinitions.get(toKey);
+            SubjectTypeDefinitionModel fromDef = subjectTypeDefinitions.get(fromKey);
+            SubjectTypeDefinitionModel toDef = subjectTypeDefinitions.get(toKey);
 
             String illegalKey = null;
             if (fromDef == null) {
@@ -63,17 +60,17 @@ public class YamlDefinitionsModel implements DefinitionsModel {
                 nodes.add(node);
             }
 
-            defaultGrantsDefinitions.add(new DefaultGrantsDefinition(fromDef, toDef, nodes));
+            defaultGrantsDefinitions.add(new DefaultGrantsDefinitionModel(fromDef, toDef, nodes));
         });
     }
 
     @Override
-    public List<SubjectTypeDefinition> getSubjectTypes() {
+    public List<SubjectTypeDefinitionModel> getSubjectTypes() {
         return List.copyOf(subjectTypeDefinitions.values());
     }
 
     @Override
-    public List<DefaultGrantsDefinition> getDefaultGrants() {
+    public List<DefaultGrantsDefinitionModel> getDefaultGrants() {
         return List.copyOf(defaultGrantsDefinitions);
     }
 }

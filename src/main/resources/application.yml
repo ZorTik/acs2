@@ -18,3 +18,4 @@ acs:
     # Supports all types of input stream sources
     # Example: file://path
     source: ${ACS_DEFINITIONS_SOURCE}
+    format: ${ACS_DEFINITIONS_FORMAT:YAML}

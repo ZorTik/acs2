@@ -7,7 +7,7 @@ import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.provider.AccessRequestProvider;
-import me.zort.acs.domain.provider.GrantProvider;
+import me.zort.acs.domain.provider.ModelProvider;
 import me.zort.acs.domain.service.AccessControlService;
 import me.zort.acs.domain.service.GrantService;
 import me.zort.acs.http.dto.body.access.check.AccessCheckRequestDto;
@@ -33,7 +33,7 @@ public class AccessController {
     private final HttpNodeMapper nodeMapper;
     private final AccessRequestProvider accessRequestProvider;
     private final AccessControlService accessService;
-    private final GrantProvider grantProvider;
+    private final ModelProvider modelProvider;
     private final GrantService grantService;
 
     @PostMapping("/check")
@@ -65,7 +65,7 @@ public class AccessController {
                 .stream()
                 .map(nodeMapper::toDomain)
                 .collect(Collectors.toMap(Node::getValue, node -> {
-                    Grant grant = grantProvider.getGrant(from, to, node);
+                    Grant grant = modelProvider.getGrant(from, to, node);
 
                     return grantService.addGrant(grant);
                 }));
@@ -82,7 +82,7 @@ public class AccessController {
                 .stream()
                 .map(nodeMapper::toDomain)
                 .collect(Collectors.toMap(Node::getValue, node -> {
-                    Grant grant = grantProvider.getGrant(from, to, node);
+                    Grant grant = modelProvider.getGrant(from, to, node);
 
                     return grantService.removeGrant(grant);
                 }));

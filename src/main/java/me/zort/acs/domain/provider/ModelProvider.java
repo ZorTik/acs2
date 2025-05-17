@@ -6,7 +6,7 @@ import me.zort.acs.domain.model.Subject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GrantProvider {
+public class ModelProvider {
 
     public Grant getGrant(Subject accessor, Subject accessed, Node node) {
         return new Grant(accessor, accessed, node);

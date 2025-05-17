@@ -3,9 +3,9 @@ package me.zort.acs.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import me.zort.acs.config.properties.AcsConfigurationProperties;
-import me.zort.acs.domain.definitions.DefinitionsModel;
-import me.zort.acs.domain.definitions.DefinitionsSource;
-import me.zort.acs.domain.definitions.SubjectTypeDefinition;
+import me.zort.acs.domain.definitions.model.DefinitionsModel;
+import me.zort.acs.domain.definitions.source.DefinitionsSource;
+import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
@@ -69,7 +69,7 @@ public class DefinitionsService {
         localTypes.forEach(subjectTypeService::deleteSubjectType);
     }
 
-    private void refreshSubjectType(SubjectTypeDefinition def) {
+    private void refreshSubjectType(SubjectTypeDefinitionModel def) {
         subjectTypeService.createSubjectType(def.getId()).ifPresent(subjectType -> {
             def.getNodes()
                     .forEach(value -> {
