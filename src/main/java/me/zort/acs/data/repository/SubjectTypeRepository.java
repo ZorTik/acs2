@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubjectTypeRepository extends JpaRepository<SubjectTypeEntity, String> {
+
+    default SubjectTypeEntity findByIdOrThrow(String id) {
+        return findById(id).orElseThrow(() -> new IllegalArgumentException("Subject type not found"));
+    }
 }

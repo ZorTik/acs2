@@ -2,7 +2,6 @@ package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.data.entity.SubjectTypeEntity;
-import me.zort.acs.data.repository.SubjectTypeRepository;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ public class DomainSubjectTypeMapper implements DomainModelMapper<SubjectType, S
                 .stream()
                 .map(nodeMapper::toPersistence)
                 .collect(Collectors.toSet()));
-
         return entity;
     }
 

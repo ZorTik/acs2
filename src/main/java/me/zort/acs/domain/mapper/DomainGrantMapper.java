@@ -10,6 +10,7 @@ import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.provider.GrantProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
