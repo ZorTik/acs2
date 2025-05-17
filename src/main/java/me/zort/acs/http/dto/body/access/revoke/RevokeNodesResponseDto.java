@@ -1,4 +1,4 @@
-package me.zort.acs.http.dto.body.nodes.revoke;
+package me.zort.acs.http.dto.body.access.revoke;
 
 import lombok.AllArgsConstructor;
 

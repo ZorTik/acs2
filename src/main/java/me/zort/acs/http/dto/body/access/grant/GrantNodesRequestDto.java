@@ -1,4 +1,4 @@
-package me.zort.acs.http.dto.body.nodes.grant;
+package me.zort.acs.http.dto.body.access.grant;
 
 import lombok.Data;
 import me.zort.acs.http.dto.model.subject.SubjectDto;

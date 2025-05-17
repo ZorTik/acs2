@@ -1,4 +1,4 @@
-package me.zort.acs.http.dto.body.nodes.grant;
+package me.zort.acs.http.dto.body.access.grant;
 
 import lombok.AllArgsConstructor;
 

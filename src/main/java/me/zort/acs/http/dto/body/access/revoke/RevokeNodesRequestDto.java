@@ -1,4 +1,4 @@
-package me.zort.acs.http.dto.body.nodes.revoke;
+package me.zort.acs.http.dto.body.access.revoke;
 
 import lombok.Data;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
