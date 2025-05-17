@@ -13,14 +13,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class HttpSubjectMapper {
-    private final SubjectTypeService subjectTypeService;
+    private final HttpSubjectTypeMapper subjectTypeMapper;
     private final SubjectService service;
 
     public Subject toDomain(SubjectDto dto) {
-        SubjectType type = subjectTypeService.getSubjectType(dto.getGroup())
-                .orElseThrow(() -> new ACSHttpException("Subject type not found", 400));
+        SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
 
         return service.getSubject(type, dto.getId())
-                .orElseThrow(() -> new ACSHttpException("Subject not found", 400));
+                .orElseThrow(() -> new ACSHttpException("Subject not found", 404));
     }
 }
