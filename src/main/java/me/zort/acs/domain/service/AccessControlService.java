@@ -1,6 +1,6 @@
 package me.zort.acs.domain.service;
 
-import me.zort.acs.domain.AccessRequest;
+import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.rule.AccessRule;
 import org.springframework.stereotype.Service;
 

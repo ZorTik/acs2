@@ -1,6 +1,6 @@
 package me.zort.acs.domain.rule;
 
-import me.zort.acs.domain.AccessRequest;
+import me.zort.acs.domain.model.AccessRequest;
 
 public interface AccessRule {
 

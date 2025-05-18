@@ -12,4 +12,6 @@ import java.util.List;
 public interface GrantRepository extends JpaRepository<GrantEntity, GrantId> {
 
     List<GrantEntity> findByAccessor_IdAndAccessed_Id(SubjectId accessorId, SubjectId accessedId);
+
+    int countByAccessor_Id(SubjectId accessorId);
 }

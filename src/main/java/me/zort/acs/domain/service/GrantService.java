@@ -5,12 +5,14 @@ import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.GrantId;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.data.repository.GrantRepository;
+import me.zort.acs.domain.event.GrantRemoveEvent;
 import me.zort.acs.domain.mapper.DomainGrantIdMapper;
 import me.zort.acs.domain.mapper.DomainGrantMapper;
 import me.zort.acs.domain.mapper.DomainSubjectIdMapper;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,37 +24,33 @@ public class GrantService {
     private final DomainGrantIdMapper grantIdMapper;
     private final DomainGrantMapper grantMapper;
     private final DomainSubjectIdMapper subjectIdMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
     public boolean addGrant(Grant grant) {
-        GrantId id = grantIdMapper.toPersistence(grant);
-
-        if (grantRepository.existsById(id)) {
+        if (grantRepository.existsById(grantIdMapper.toPersistence(grant))) {
             return false;
+        } else {
+            grantRepository.save(grantMapper.toPersistence(grant));
+
+            return true;
         }
-
-        GrantEntity entity = grantMapper.toPersistence(grant);
-
-        grantRepository.save(entity);
-
-        return true;
     }
 
     public boolean removeGrant(Grant grant) {
         GrantId id = grantIdMapper.toPersistence(grant);
 
-        if (!grantRepository.existsById(id)) {
+        if (grantRepository.existsById(id)) {
+            grantRepository.deleteById(id);
+
+            eventPublisher.publishEvent(new GrantRemoveEvent(grant));
+            return true;
+        } else {
             return false;
         }
-
-        grantRepository.deleteById(id);
-
-        return true;
     }
 
     public boolean existsGrant(Grant grant) {
-        GrantId id = grantIdMapper.toPersistence(grant);
-
-        return grantRepository.existsById(id);
+        return grantRepository.existsById(grantIdMapper.toPersistence(grant));
     }
 
     public List<Grant> getGrants(Subject accessor, Subject accessed) {
@@ -63,5 +61,9 @@ public class GrantService {
                 .stream()
                 .map(grantMapper::toDomain)
                 .toList();
+    }
+
+    public int getGrantsCount(Subject accessor) {
+        return grantRepository.countByAccessor_Id(subjectIdMapper.toPersistence(accessor));
     }
 }

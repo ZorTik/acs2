@@ -2,14 +2,14 @@ package me.zort.acs.http.controller.v1;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.AccessRequest;
+import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.provider.AccessRequestProvider;
 import me.zort.acs.domain.provider.ModelProvider;
 import me.zort.acs.domain.service.AccessControlService;
 import me.zort.acs.domain.service.GrantService;
+import me.zort.acs.domain.service.SubjectService;
 import me.zort.acs.http.dto.body.access.check.AccessCheckRequestDto;
 import me.zort.acs.http.dto.body.access.check.AccessCheckResponseDto;
 import me.zort.acs.http.dto.body.access.grant.GrantNodesRequestDto;
@@ -31,22 +31,25 @@ import java.util.stream.Collectors;
 public class AccessController {
     private final HttpSubjectMapper subjectMapper;
     private final HttpNodeMapper nodeMapper;
-    private final AccessRequestProvider accessRequestProvider;
     private final AccessControlService accessService;
     private final ModelProvider modelProvider;
     private final GrantService grantService;
 
     @PostMapping("/check")
     public AccessCheckResponseDto checkAccess(@Valid @RequestBody AccessCheckRequestDto body) {
-        Subject from = subjectMapper.toDomain(body.getAccessor());
-        Subject to = subjectMapper.toDomain(body.getResource());
+        Subject from = subjectMapper.toDomainOrNull(body.getAccessor());
+        Subject to = subjectMapper.toDomainOrNull(body.getResource());
 
         Map<String, Boolean> states = body.getNodes()
                 .stream()
                 .collect(Collectors.toMap(Function.identity(), value -> {
+                    if (from == null || to == null) {
+                        return false;
+                    }
+
                     Node node = nodeMapper.toDomain(value);
 
-                    AccessRequest accessRequest = accessRequestProvider.getAccessRequest(from, to, node);
+                    AccessRequest accessRequest = modelProvider.getAccessRequest(from, to, node);
 
                     accessService.checkAccess(accessRequest);
 
@@ -58,8 +61,8 @@ public class AccessController {
 
     @PostMapping("/grant")
     public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
-        Subject from = subjectMapper.toDomain(body.getSourceSubject());
-        Subject to = subjectMapper.toDomain(body.getTargetSubject());
+        Subject from = subjectMapper.toDomainOrCreate(body.getSourceSubject());
+        Subject to = subjectMapper.toDomainOrCreate(body.getTargetSubject());
 
         Map<String, Boolean> results = body.getNodes()
                 .stream()

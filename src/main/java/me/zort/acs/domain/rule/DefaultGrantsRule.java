@@ -1,7 +1,7 @@
 package me.zort.acs.domain.rule;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.AccessRequest;
+import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.service.DefinitionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

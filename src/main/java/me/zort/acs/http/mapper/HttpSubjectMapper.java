@@ -20,6 +20,29 @@ public class HttpSubjectMapper {
         SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
 
         return service.getSubject(type, dto.getId())
-                .orElseThrow(() -> new ACSHttpException("Subject not found", 404));
+                .orElseThrow(() -> new ACSHttpException("Subject not found", 404, ACSHttpException.HTTP_MAPPER_SUBJECT_NOT_FOUND));
+    }
+
+    public Subject toDomainOrNull(SubjectDto dto) {
+        try {
+            return toDomain(dto);
+        } catch (ACSHttpException e) {
+            if (e.isErrorSpecific() && e.getErrorCode() == ACSHttpException.HTTP_MAPPER_SUBJECT_NOT_FOUND) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    public Subject toDomainOrCreate(SubjectDto dto) {
+        Subject subject = toDomainOrNull(dto);
+        if (subject == null) {
+            SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
+
+            subject = service.getSubject(type, dto.getId(), true).orElseThrow();
+        }
+
+        return subject;
     }
 }

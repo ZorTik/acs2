@@ -1,8 +1,9 @@
 package me.zort.acs.domain.model;
 
 import lombok.Getter;
+import me.zort.acs.domain.garbage.Disposable;
 
-public class Subject {
+public class Subject implements Disposable {
     private final SubjectType type;
     @Getter
     private final String id;

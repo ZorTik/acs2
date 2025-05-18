@@ -1,8 +1,6 @@
-package me.zort.acs.domain;
+package me.zort.acs.domain.model;
 
 import lombok.Getter;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
 
 @Getter
 public final class AccessRequest {
