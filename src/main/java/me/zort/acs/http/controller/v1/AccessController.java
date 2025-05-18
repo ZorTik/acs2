@@ -13,6 +13,7 @@ import me.zort.acs.http.dto.body.access.grant.GrantNodesRequestDto;
 import me.zort.acs.http.dto.body.access.grant.GrantNodesResponseDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesRequestDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesResponseDto;
+import me.zort.acs.http.exception.ACSHttpException;
 import me.zort.acs.http.mapper.HttpNodeMapper;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +43,15 @@ public class AccessController {
                 .collect(Collectors.toMap(Function.identity(), value -> {
                     Node node = nodeMapper.toDomain(value);
 
-                    AccessRequest accessRequest = modelProvider.getAccessRequest(from, to, node);
+                    try {
+                        AccessRequest accessRequest = modelProvider.getAccessRequest(from, to, node);
 
-                    accessService.checkAccess(accessRequest);
+                        accessService.checkAccess(accessRequest);
 
-                    return accessRequest.isGranted();
+                        return accessRequest.isGranted();
+                    } catch (IllegalArgumentException e) {
+                        throw new ACSHttpException(e.getMessage(), 400);
+                    }
                 }));
 
         return new AccessCheckResponseDto(states);

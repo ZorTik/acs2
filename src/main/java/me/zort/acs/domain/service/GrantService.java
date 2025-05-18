@@ -27,7 +27,7 @@ public class GrantService {
     private final ApplicationEventPublisher eventPublisher;
 
     public boolean addGrant(Grant grant) {
-        if (grantRepository.existsById(grantIdMapper.toPersistence(grant))) {
+        if (existsGrant(grant)) {
             return false;
         } else {
             grantRepository.save(grantMapper.toPersistence(grant));

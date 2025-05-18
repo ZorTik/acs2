@@ -17,7 +17,7 @@ public class NodeEntity {
     @Id
     private String value;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "acs_subject_types_nodes",
             joinColumns = @JoinColumn(name = "node_value"),

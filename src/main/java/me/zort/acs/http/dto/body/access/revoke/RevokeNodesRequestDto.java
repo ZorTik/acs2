@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class RevokeNodesRequestDto {
@@ -19,6 +19,6 @@ public class RevokeNodesRequestDto {
     private SubjectDto targetSubject;
 
     @NotEmpty(message = "{validation.nodes.notempty}")
-    private List<String> nodes;
+    private Set<String> nodes;
 
 }

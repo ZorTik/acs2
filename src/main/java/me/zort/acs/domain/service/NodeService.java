@@ -48,6 +48,13 @@ public class NodeService {
         return true;
     }
 
+    public boolean isNodeAssigned(Node node, SubjectType subjectType) {
+        NodeEntity nodeEntity = nodeMapper.toPersistence(node);
+        SubjectTypeEntity subjectTypeEntity = subjectTypeMapper.toPersistence(subjectType);
+
+        return subjectTypeEntity.getNodes().contains(nodeEntity);
+    }
+
     public Optional<Node> getNode(String value) {
         return nodeRepository.findById(value).map(nodeMapper::toDomain);
     }

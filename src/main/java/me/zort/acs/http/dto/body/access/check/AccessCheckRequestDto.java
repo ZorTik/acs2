@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 public class AccessCheckRequestDto {
@@ -19,6 +19,6 @@ public class AccessCheckRequestDto {
     private SubjectDto resource;
 
     @NotEmpty(message = "{validation.nodes.notempty}")
-    private List<String> nodes;
+    private Set<String> nodes;
 
 }
