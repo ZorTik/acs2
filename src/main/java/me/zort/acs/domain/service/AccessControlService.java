@@ -30,7 +30,7 @@ public class AccessControlService {
      * @throws IllegalArgumentException if the node is not applicable on the accessed object
      */
     public AccessRequest checkAccess(SubjectLike accessor, SubjectLike accessed, Node node) {
-        AccessRequest request = accessRequestProvider.getAccessRequest(accessor, accessed, node);
+        AccessRequest request = accessRequestProvider.createAccessRequest(accessor, accessed, node);
 
         checkAccess(request);
 

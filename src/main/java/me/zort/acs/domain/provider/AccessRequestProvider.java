@@ -1,19 +1,20 @@
 package me.zort.acs.domain.provider;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.domain.access.validator.AccessRequestValidator;
 import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectLike;
-import me.zort.acs.domain.model.SubjectType;
-import me.zort.acs.domain.service.NodeService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class AccessRequestProvider {
-    private final NodeService nodeService;
+    private final List<AccessRequestValidator> validators;
 
     /**
      * Constructs an AccessRequest object with the given parameters.
@@ -25,14 +26,20 @@ public class AccessRequestProvider {
      *
      * @throws IllegalArgumentException if the node is not applicable on the accessed object
      */
-    public @NotNull AccessRequest getAccessRequest(
+    public @NotNull AccessRequest createAccessRequest(
             SubjectLike from, SubjectLike to, Node node) throws IllegalArgumentException {
-        SubjectType toSubjectType = to.getSubjectType();
+        validate(from, to, node);
 
-        if (!nodeService.isNodeAssigned(node, toSubjectType)) {
-            throw new IllegalArgumentException("Resource's subject type (" + toSubjectType.getId() + ") " +
-                            "does not contain provided node (" + node.getValue() + ")!");
-        }
         return new AccessRequest(from, to, node);
+    }
+
+    private void validate(SubjectLike from, SubjectLike to, Node node) {
+        for (AccessRequestValidator validator : validators) {
+            String error = validator.validate(from, to, node);
+
+            if (error != null) {
+                throw new IllegalArgumentException(error);
+            }
+        }
     }
 }
