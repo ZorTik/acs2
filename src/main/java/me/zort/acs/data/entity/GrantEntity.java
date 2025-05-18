@@ -11,18 +11,32 @@ public class GrantEntity {
     private GrantId id;
 
     @ManyToOne
-    @MapsId("accessorId")
     @JoinColumns({
-            @JoinColumn(name = "accessor_id", referencedColumnName = "id"),
-            @JoinColumn(name = "accessor_subject_type_id", referencedColumnName = "subject_type_id")
+            @JoinColumn(
+                    name = "accessor_id",
+                    referencedColumnName = "id",
+                    insertable = false,
+                    updatable = false),
+            @JoinColumn(
+                    name = "accessor_subject_type_id",
+                    referencedColumnName = "subject_type_id",
+                    insertable = false,
+                    updatable = false)
     })
     private SubjectEntity accessor;
 
     @ManyToOne
-    @MapsId("accessedId")
     @JoinColumns({
-            @JoinColumn(name = "accessed_id", referencedColumnName = "id"),
-            @JoinColumn(name = "accessed_subject_type_id", referencedColumnName = "subject_type_id")
+            @JoinColumn(
+                    name = "accessed_id",
+                    referencedColumnName = "id",
+                    insertable = false,
+                    updatable = false),
+            @JoinColumn(
+                    name = "accessed_subject_type_id",
+                    referencedColumnName = "subject_type_id",
+                    insertable = false,
+                    updatable = false)
     })
     private SubjectEntity accessed;
 

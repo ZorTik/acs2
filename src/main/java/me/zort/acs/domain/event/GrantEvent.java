@@ -1,11 +1,11 @@
 package me.zort.acs.domain.event;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.zort.acs.domain.garbage.Disposable;
 import me.zort.acs.domain.garbage.DisposablesHolder;
 import me.zort.acs.domain.model.Grant;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,13 +13,24 @@ import java.util.List;
  * disposables evict logic. If accessor or accessed don't contain links, they are evicted as a result of this
  * trigger.
  */
-@AllArgsConstructor
 @Getter
 public abstract class GrantEvent implements DisposablesHolder {
     private final Grant grant;
+    private final boolean shouldDispose;
+
+    public GrantEvent(Grant grant) {
+        this(grant, false);
+    }
+
+    public GrantEvent(Grant grant, boolean shouldDispose) {
+        this.grant = grant;
+        this.shouldDispose = shouldDispose;
+    }
 
     @Override
     public List<Disposable> getDisposables() {
-        return List.of(grant.getAccessor(), grant.getAccessed());
+        return shouldDispose
+                ? List.of(grant.getAccessor(), grant.getAccessed())
+                : Collections.emptyList();
     }
 }

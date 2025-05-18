@@ -5,6 +5,6 @@ import me.zort.acs.domain.model.Grant;
 public class GrantRemoveEvent extends GrantEvent {
 
     public GrantRemoveEvent(Grant grant) {
-        super(grant);
+        super(grant, true);
     }
 }

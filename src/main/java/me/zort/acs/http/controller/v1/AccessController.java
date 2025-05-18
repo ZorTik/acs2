@@ -66,15 +66,18 @@ public class AccessController {
 
     @PostMapping("/revoke")
     public RevokeNodesResponseDto revokeAccess(@Valid @RequestBody RevokeNodesRequestDto body) {
-        Subject from = subjectMapper.toDomain(body.getSourceSubject());
-        Subject to = subjectMapper.toDomain(body.getTargetSubject());
+        SubjectLike from = subjectMapper.toDomainOrNull(body.getSourceSubject());
+        SubjectLike to = subjectMapper.toDomainOrNull(body.getTargetSubject());
 
         Map<String, Boolean> results = body.getNodes()
                 .stream()
                 .map(nodeMapper::toDomain)
-                .collect(Collectors.toMap(Node::getValue, node -> grantService.getGrant(from, to, node)
-                        .map(grantService::removeGrant)
-                        .orElse(false)));
+                .collect(Collectors.toMap(Node::getValue, node ->
+                        from instanceof Subject fromSubject && to instanceof Subject toSubject
+                                ? grantService.getGrant(fromSubject, toSubject, node)
+                                    .map(grantService::removeGrant)
+                                    .orElse(false)
+                                : false));
 
         return new RevokeNodesResponseDto(results);
     }

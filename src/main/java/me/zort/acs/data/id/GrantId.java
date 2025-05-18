@@ -13,8 +13,17 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @Embeddable
 public class GrantId implements Serializable {
-    private SubjectId accessorId;
-    private SubjectId accessedId;
+    @Column(name = "accessor_id")
+    private String accessorId;
+
+    @Column(name = "accessor_subject_type_id")
+    private String accessorSubjectTypeId;
+
+    @Column(name = "accessed_id")
+    private String accessedId;
+
+    @Column(name = "accessed_subject_type_id")
+    private String accessedSubjectTypeId;
 
     @Column(name = "node_value")
     private String nodeValue;

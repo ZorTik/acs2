@@ -8,7 +8,7 @@ import me.zort.acs.data.id.GrantId;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.service.GrantService;
+import me.zort.acs.domain.provider.GrantProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class DomainGrantMapper implements DomainModelMapper<Grant, GrantEntity> 
     private final DomainSubjectMapper subjectMapper;
     private final DomainNodeMapper nodeMapper;
 
-    private final GrantService grantService;
+    private final GrantProvider grantProvider;
 
     @Override
     public GrantEntity toPersistence(Grant domain) {
@@ -46,7 +46,6 @@ public class DomainGrantMapper implements DomainModelMapper<Grant, GrantEntity> 
         Subject accessed = subjectMapper.toDomain(persistence.getAccessed());
         Node node = nodeMapper.toDomain(persistence.getNode());
 
-        return grantService.getGrant(accessor, accessed, node)
-                .orElseThrow(() -> new IllegalArgumentException("Grant not found"));
+        return grantProvider.getGrant(accessor, accessed, node);
     }
 }
