@@ -32,4 +32,6 @@ public class NodesController {
 
         return new ListNodesResponseDto(nodes);
     }
+
+    // TODO: List nodes granted for subject on subject
 }
