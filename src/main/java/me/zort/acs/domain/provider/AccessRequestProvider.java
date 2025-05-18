@@ -26,11 +26,14 @@ public class AccessRequestProvider {
      */
     public AccessRequest getAccessRequest(SubjectLike from, SubjectLike to, Node node) throws IllegalArgumentException {
         SubjectType toSubjectType = to.getSubjectType();
-        if (!nodeService.isNodeAssigned(node, toSubjectType)) {
-            throw new IllegalArgumentException(String.format("Resource's subject type (%s) does not contain provided node (%s)!",
-                    toSubjectType.getId(), node.getValue()));
-        }
 
+        if (!nodeService.isNodeAssigned(node, toSubjectType)) {
+            String err = String.format(
+                    "Resource's subject type (%s) does not contain provided node (%s)!",
+                    toSubjectType.getId(), node.getValue());
+
+            throw new IllegalArgumentException(err);
+        }
         return new AccessRequest(from, to, node);
     }
 }
