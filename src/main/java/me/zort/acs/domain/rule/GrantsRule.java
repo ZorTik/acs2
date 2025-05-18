@@ -23,7 +23,8 @@ public class GrantsRule implements AccessRule {
 
         if (grants
                 .stream()
-                .anyMatch(grant -> rightsStrategy.isNodeApplicableOn(grant.getNode(), request.getNode()))) {
+                .anyMatch(grant -> grant.isValid()
+                        && rightsStrategy.isNodeApplicableOn(grant.getNode(), request.getNode()))) {
             request.grant();
         }
     }

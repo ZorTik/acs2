@@ -8,10 +8,10 @@ import me.zort.acs.domain.mapper.DomainNodeMapper;
 import me.zort.acs.domain.mapper.DomainSubjectTypeMapper;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.provider.NodeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -19,6 +19,7 @@ import java.util.Optional;
 public class NodeService {
     private final NodeRepository nodeRepository;
     private final DomainNodeMapper nodeMapper;
+    private final NodeProvider nodeProvider;
     private final DomainSubjectTypeMapper subjectTypeMapper;
 
     public Optional<Node> createNode(String value) {
@@ -26,26 +27,24 @@ public class NodeService {
             return Optional.empty();
         }
 
-        Node node = new Node(value, new ArrayList<>());
+        Node node = nodeProvider.getNode(value);
 
         nodeRepository.save(nodeMapper.toPersistence(node));
 
         return Optional.of(node);
     }
 
-    public boolean assignNode(Node node, SubjectType subjectType) {
+    public void assignNode(Node node, SubjectType subjectType) {
         NodeEntity nodeEntity = nodeMapper.toPersistence(node);
         SubjectTypeEntity subjectTypeEntity = subjectTypeMapper.toPersistence(subjectType);
 
         if (nodeEntity.getSubjectTypes().contains(subjectTypeEntity)) {
-            return false;
+            return;
         }
 
         nodeEntity.getSubjectTypes().add(subjectTypeEntity);
 
         nodeRepository.save(nodeEntity);
-
-        return true;
     }
 
     public boolean isNodeAssigned(Node node, SubjectType subjectType) {

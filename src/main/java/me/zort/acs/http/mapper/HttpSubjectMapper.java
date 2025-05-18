@@ -25,8 +25,8 @@ public class HttpSubjectMapper {
     public Subject toDomain(SubjectDto dto, boolean createIfAbsent) {
         SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
 
-        if (createIfAbsent) {
-            return service.getSubject(type, dto.getId(), true).orElseThrow();
+        if (createIfAbsent && !service.existsSubject(type, dto.getId())) {
+            return service.createSubject(type, dto.getId()).orElseThrow();
         } else {
             return service.getSubject(type, dto.getId())
                     .orElseThrow(() -> new ACSHttpException("Subject not found", 404, ACSHttpException.HTTP_MAPPER_SUBJECT_NOT_FOUND));

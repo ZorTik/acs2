@@ -21,4 +21,14 @@ public class Grant {
     public Subject getAccessed() {
         return on;
     }
+
+    /**
+     * Returns if this grant is now ready to be checked for the applicable state.
+     * Extending classes should override this and set their own logic for validity.
+     *
+     * @return The valid state of this grant
+     */
+    public boolean isValid() {
+        return true;
+    }
 }

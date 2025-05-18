@@ -21,6 +21,18 @@ public class SubjectService {
     private final DomainSubjectIdMapper subjectIdMapper;
     private final SubjectProvider subjectProvider;
 
+    public Optional<Subject> createSubject(SubjectType type, String id) {
+        if (existsSubject(type, id)) {
+            return Optional.empty();
+        }
+
+        Subject subject = subjectProvider.getSubject(type, id);
+
+        subject = subjectMapper.toDomain(subjectRepository.save(subjectMapper.toPersistence(subject)));
+
+        return Optional.of(subject);
+    }
+
     public void deleteSubject(Subject subject) {
         SubjectId id = subjectIdMapper.toPersistence(subject);
 
@@ -28,19 +40,7 @@ public class SubjectService {
     }
 
     public Optional<Subject> getSubject(SubjectType type, String id) {
-        return getSubject(type, id, false);
-    }
-
-    public Optional<Subject> getSubject(SubjectType type, String id, boolean createIfAbsent) {
-        if (createIfAbsent && !existsSubject(type, id)) {
-            Subject subject = subjectProvider.getSubject(type, id);
-
-            subject = subjectMapper.toDomain(subjectRepository.save(subjectMapper.toPersistence(subject)));
-
-            return Optional.of(subject);
-        } else {
-            return subjectRepository.findById(new SubjectId(id, type.getId())).map(subjectMapper::toDomain);
-        }
+        return subjectRepository.findById(new SubjectId(id, type.getId())).map(subjectMapper::toDomain);
     }
 
     public boolean existsSubject(SubjectType type, String id) {
