@@ -6,6 +6,7 @@ import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.provider.SubjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEntity> {
     private final DomainSubjectIdMapper subjectIdMapper;
     private final DomainSubjectTypeMapper subjectTypeMapper;
+    private final SubjectProvider subjectProvider;
 
     @Override
     public SubjectEntity toPersistence(Subject domain) {
@@ -32,6 +34,6 @@ public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEn
     public Subject toDomain(SubjectEntity persistence) {
         SubjectType subjectType = subjectTypeMapper.toDomain(persistence.getSubjectType());
 
-        return new Subject(subjectType, persistence.getSubjectId());
+        return subjectProvider.getSubject(subjectType, persistence.getSubjectId());
     }
 }

@@ -10,6 +10,7 @@ import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.provider.NodeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class NodeService {
     private final NodeProvider nodeProvider;
     private final DomainSubjectTypeMapper subjectTypeMapper;
 
+    @CacheEvict(value = "nodes", key = "#value")
     public Optional<Node> createNode(String value) {
         if (existsNode(value)) {
             return Optional.empty();
@@ -34,6 +36,7 @@ public class NodeService {
         return Optional.of(node);
     }
 
+    @CacheEvict(value = "nodes", key = "#node.value")
     public void assignNode(Node node, SubjectType subjectType) {
         NodeEntity nodeEntity = nodeMapper.toPersistence(node);
         SubjectTypeEntity subjectTypeEntity = subjectTypeMapper.toPersistence(subjectType);

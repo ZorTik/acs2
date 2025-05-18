@@ -15,6 +15,7 @@ import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.provider.GrantProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class GrantService {
     private final DomainSubjectIdMapper subjectIdMapper;
     private final ApplicationEventPublisher eventPublisher;
 
+    @CacheEvict(value = "grants", key = "#accessor.subjectType.id + ':' + #accessor.id + '->' + #accessed.subjectType.id + ':' + #accessed.id + '@' + #node.value")
     public Optional<Grant> addGrant(Subject accessor, Subject accessed, Node node) {
         Grant grant = grantProvider.getGrant(accessor, accessed, node);
 
@@ -44,6 +46,7 @@ public class GrantService {
         }
     }
 
+    @CacheEvict(value = "grants", key = "#grant.accessor.subjectType.id + ':' + #grant.accessor.id + '->' + #grant.accessed.subjectType.id + ':' + #grant.accessed.id + '@' + #grant.node.value")
     public boolean removeGrant(Grant grant) {
         GrantId id = grantIdMapper.toPersistence(grant);
 

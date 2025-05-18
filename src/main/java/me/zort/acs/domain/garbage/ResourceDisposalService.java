@@ -10,7 +10,10 @@ public class ResourceDisposalService {
     private final ResourceDisposalRegistry registry;
 
     public void checkForGarbage(DisposablesHolder disposablesHolder) {
-        disposablesHolder.getDisposables().forEach(disposable ->
-                registry.getDisposalFor(disposable).disposeIfNecessary(disposable));
+        disposablesHolder.getDisposables().forEach(this::checkForGarbage);
+    }
+
+    public void checkForGarbage(Disposable disposable) {
+        registry.getDisposalFor(disposable).disposeIfNecessary(disposable);
     }
 }

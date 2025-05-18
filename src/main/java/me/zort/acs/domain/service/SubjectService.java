@@ -9,6 +9,7 @@ import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.provider.SubjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -33,6 +34,7 @@ public class SubjectService {
         return Optional.of(subject);
     }
 
+    @CacheEvict(value = "subjects", key = "#subject.subjectType.id + ':' + #subject.id")
     public void deleteSubject(Subject subject) {
         SubjectId id = subjectIdMapper.toPersistence(subject);
 

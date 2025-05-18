@@ -8,6 +8,11 @@ import me.zort.acs.domain.model.Grant;
 
 import java.util.List;
 
+/**
+ * An event holding a grant. This is configured to always trigger
+ * disposables evict logic. If accessor or accessed don't contain links, they are evicted as a result of this
+ * trigger.
+ */
 @AllArgsConstructor
 @Getter
 public abstract class GrantEvent implements DisposablesHolder {

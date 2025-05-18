@@ -6,6 +6,7 @@ import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.service.NodeService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,15 +25,13 @@ public class AccessRequestProvider {
      *
      * @throws IllegalArgumentException if the node is not applicable on the accessed object
      */
-    public AccessRequest getAccessRequest(SubjectLike from, SubjectLike to, Node node) throws IllegalArgumentException {
+    public @NotNull AccessRequest getAccessRequest(
+            SubjectLike from, SubjectLike to, Node node) throws IllegalArgumentException {
         SubjectType toSubjectType = to.getSubjectType();
 
         if (!nodeService.isNodeAssigned(node, toSubjectType)) {
-            String err = String.format(
-                    "Resource's subject type (%s) does not contain provided node (%s)!",
-                    toSubjectType.getId(), node.getValue());
-
-            throw new IllegalArgumentException(err);
+            throw new IllegalArgumentException("Resource's subject type (" + toSubjectType.getId() + ") " +
+                            "does not contain provided node (" + node.getValue() + ")!");
         }
         return new AccessRequest(from, to, node);
     }

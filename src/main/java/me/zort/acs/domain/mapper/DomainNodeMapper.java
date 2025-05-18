@@ -3,12 +3,15 @@ package me.zort.acs.domain.mapper;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.domain.model.Node;
+import me.zort.acs.domain.provider.NodeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class DomainNodeMapper implements DomainModelMapper<Node, NodeEntity> {
+    private final NodeProvider nodeProvider;
+
     @Override
     public NodeEntity toPersistence(Node domain) {
         NodeEntity entity = new NodeEntity();
@@ -20,6 +23,6 @@ public class DomainNodeMapper implements DomainModelMapper<Node, NodeEntity> {
 
     @Override
     public Node toDomain(NodeEntity persistence) {
-        return new Node(persistence.getValue());
+        return nodeProvider.getNode(persistence.getValue());
     }
 }
