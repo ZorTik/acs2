@@ -9,6 +9,14 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface AccessRequestValidator {
 
+    /**
+     * Validates the given AccessRequest object.
+     *
+     * @param from The accessing object
+     * @param to The accessed object
+     * @param node The node
+     * @return Null if the request is valid, otherwise a String describing the error.
+     */
     @Nullable
     String validate(SubjectLike from, SubjectLike to, Node node);
 }

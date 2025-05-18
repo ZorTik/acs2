@@ -7,14 +7,18 @@ import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectLike;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class AccessRequestProvider {
     private final List<AccessRequestValidator> validators;
+    private final MessageSource messageSource;
 
     /**
      * Constructs an AccessRequest object with the given parameters.
@@ -38,6 +42,11 @@ public class AccessRequestProvider {
             String error = validator.validate(from, to, node);
 
             if (error != null) {
+                try {
+                    error = messageSource.getMessage(error, null, Locale.getDefault());
+                } catch (NoSuchMessageException ignored) {
+                }
+
                 throw new IllegalArgumentException(error);
             }
         }
