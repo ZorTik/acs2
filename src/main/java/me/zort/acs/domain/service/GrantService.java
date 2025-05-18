@@ -10,29 +10,35 @@ import me.zort.acs.domain.mapper.DomainGrantIdMapper;
 import me.zort.acs.domain.mapper.DomainGrantMapper;
 import me.zort.acs.domain.mapper.DomainSubjectIdMapper;
 import me.zort.acs.domain.model.Grant;
+import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.provider.GrantProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class GrantService {
     private final GrantRepository grantRepository;
+    private final GrantProvider grantProvider;
     private final DomainGrantIdMapper grantIdMapper;
     private final DomainGrantMapper grantMapper;
     private final DomainSubjectIdMapper subjectIdMapper;
     private final ApplicationEventPublisher eventPublisher;
 
-    public boolean addGrant(Grant grant) {
+    public Optional<Grant> addGrant(Subject accessor, Subject accessed, Node node) {
+        Grant grant = grantProvider.getGrant(accessor, accessed, node);
+
         if (existsGrant(grant)) {
-            return false;
+            return Optional.empty();
         } else {
             grantRepository.save(grantMapper.toPersistence(grant));
 
-            return true;
+            return Optional.of(grant);
         }
     }
 
@@ -51,6 +57,16 @@ public class GrantService {
 
     public boolean existsGrant(Grant grant) {
         return grantRepository.existsById(grantIdMapper.toPersistence(grant));
+    }
+
+    public Optional<Grant> getGrant(Subject accessor, Subject accessed, Node node) {
+        Grant grant = grantProvider.getGrant(accessor, accessed, node);
+
+        if (existsGrant(grant)) {
+            return Optional.of(grant);
+        } else {
+            return Optional.empty();
+        }
     }
 
     public List<Grant> getGrants(Subject accessor, Subject accessed) {

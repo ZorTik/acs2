@@ -30,7 +30,6 @@ public class AccessController {
     private final HttpSubjectMapper subjectMapper;
     private final HttpNodeMapper nodeMapper;
     private final AccessControlService accessService;
-    private final ModelProvider modelProvider;
     private final GrantService grantService;
 
     @PostMapping("/check")
@@ -44,11 +43,7 @@ public class AccessController {
                     Node node = nodeMapper.toDomain(value);
 
                     try {
-                        AccessRequest accessRequest = modelProvider.getAccessRequest(from, to, node);
-
-                        accessService.checkAccess(accessRequest);
-
-                        return accessRequest.isGranted();
+                        return accessService.checkAccess(from, to, node).isGranted();
                     } catch (IllegalArgumentException e) {
                         throw new ACSHttpException(e.getMessage(), 400);
                     }
@@ -65,11 +60,8 @@ public class AccessController {
         Map<String, Boolean> results = body.getNodes()
                 .stream()
                 .map(nodeMapper::toDomain)
-                .collect(Collectors.toMap(Node::getValue, node -> {
-                    Grant grant = modelProvider.getGrant(from, to, node);
-
-                    return grantService.addGrant(grant);
-                }));
+                .collect(Collectors.toMap(
+                        Node::getValue, node -> grantService.addGrant(from, to, node).isPresent()));
 
         return new GrantNodesResponseDto(results);
     }
@@ -82,11 +74,9 @@ public class AccessController {
         Map<String, Boolean> results = body.getNodes()
                 .stream()
                 .map(nodeMapper::toDomain)
-                .collect(Collectors.toMap(Node::getValue, node -> {
-                    Grant grant = modelProvider.getGrant(from, to, node);
-
-                    return grantService.removeGrant(grant);
-                }));
+                .collect(Collectors.toMap(Node::getValue, node -> grantService.getGrant(from, to, node)
+                        .map(grantService::removeGrant)
+                        .orElse(false)));
 
         return new RevokeNodesResponseDto(results);
     }
