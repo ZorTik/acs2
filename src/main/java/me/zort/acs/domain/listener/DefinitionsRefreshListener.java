@@ -1,4 +1,4 @@
-package me.zort.acs.listener;
+package me.zort.acs.domain.listener;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.service.DefinitionsService;

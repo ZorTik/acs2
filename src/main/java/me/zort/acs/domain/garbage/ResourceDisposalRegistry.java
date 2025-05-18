@@ -18,7 +18,7 @@ public class ResourceDisposalRegistry {
 
     // Type safety is ensured.
     @SuppressWarnings("unchecked")
-    public @NotNull <T> ResourceDisposal<T> getDisposalFor(T resource) {
+    public @NotNull <T extends Disposable> ResourceDisposal<T> getDisposalFor(T resource) {
         return disposals
                 .stream()
                 .filter(disposal -> disposal.getResourceType().isAssignableFrom(resource.getClass()))

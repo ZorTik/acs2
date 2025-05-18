@@ -1,6 +1,8 @@
 package me.zort.acs.domain.garbage.disposal;
 
-public abstract class ResourceDisposal<T> {
+import me.zort.acs.domain.garbage.Disposable;
+
+public abstract class ResourceDisposal<T extends Disposable> {
 
     public abstract void dispose(T resource);
 
