@@ -47,3 +47,13 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.withType(JavaExec).configureEach {
+    debugOptions {
+        enabled = true
+        host = "*"
+        port = 5005
+        server = true
+        suspend = false
+    }
+}

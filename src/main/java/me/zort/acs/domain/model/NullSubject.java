@@ -1,25 +1,22 @@
 package me.zort.acs.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.zort.acs.domain.garbage.Disposable;
 
-public class Subject implements SubjectLike, Disposable {
+@AllArgsConstructor
+public class NullSubject implements SubjectLike {
     private final SubjectType type;
     @Getter
     private final String id;
 
-    public Subject(SubjectType type, String id) {
-        this.type = type;
-        this.id = id;
-    }
-
+    @Override
     public SubjectType getSubjectType() {
         return type;
     }
 
     @Override
     public boolean isNull() {
-        return false;
+        return true;
     }
 
     @Override

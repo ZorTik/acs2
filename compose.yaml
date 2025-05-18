@@ -17,7 +17,7 @@ services:
     user: root
     working_dir: /home/gradle/project
     command: >
-      sh -c "gradle bootRun --no-daemon"
+      sh -c "gradle bootRun --no-daemon --debug-jvm"
     environment:
       DATASOURCE_USR: test
       DATASOURCE_PWD: test
@@ -31,6 +31,7 @@ services:
       - /home/gradle/project/build
     ports:
       - "8080:8080"
+      - "5005:5005"
     depends_on:
       - db
 volumes:

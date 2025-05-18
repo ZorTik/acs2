@@ -15,7 +15,13 @@ public class AccessControlService {
     }
 
     public void checkAccess(AccessRequest request) {
+        boolean hasNullableSubjects = request.getAccessor().isNull() || request.getAccessed().isNull();
+
         for (AccessRule rule : accessRules) {
+            if (hasNullableSubjects && !rule.acceptsNullableSubjects()) {
+                continue;
+            }
+
             rule.onRequest(request);
 
             if (request.isGranted()) {

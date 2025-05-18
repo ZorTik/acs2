@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.check.RightsStrategy;
 import me.zort.acs.domain.model.Grant;
+import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.service.GrantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class GrantsRule implements AccessRule {
 
     @Override
     public void onRequest(AccessRequest request) {
-        List<Grant> grants = grantService.getGrants(request.getAccessor(), request.getAccessed());
+        List<Grant> grants = grantService.getGrants((Subject) request.getAccessor(), (Subject) request.getAccessed());
 
         if (grants
                 .stream()

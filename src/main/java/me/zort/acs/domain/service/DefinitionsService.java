@@ -8,6 +8,7 @@ import me.zort.acs.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class DefinitionsService {
         logger.info("Definitions refreshed successfully.");
     }
 
-    public boolean checkDefaultGrant(Subject from, Subject to, Node node) {
+    public boolean checkDefaultGrant(SubjectLike from, SubjectLike to, Node node) {
         Set<Node> nodes = defaultGrants.get(Pair.of(from.getSubjectType(), to.getSubjectType()));
 
         if (nodes == null) {

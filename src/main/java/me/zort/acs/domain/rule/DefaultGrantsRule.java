@@ -2,6 +2,7 @@ package me.zort.acs.domain.rule;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.model.AccessRequest;
+import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.service.DefinitionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,5 +17,10 @@ public class DefaultGrantsRule implements AccessRule {
         if (definitionsService.checkDefaultGrant(request.getAccessor(), request.getAccessed(), request.getNode())) {
             request.grant();
         }
+    }
+
+    @Override
+    public boolean acceptsNullableSubjects() {
+        return true;
     }
 }

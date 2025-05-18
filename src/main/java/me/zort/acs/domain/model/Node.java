@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class Node {
@@ -12,8 +13,8 @@ public class Node {
     private final List<String> subjectTypeIds;
 
     public boolean isParentOf(Node node, String delimiter) {
-        String[] parentParts = this.value.split(delimiter);
-        String[] childParts = node.getValue().split(delimiter);
+        String[] parentParts = this.value.split(Pattern.quote(delimiter));
+        String[] childParts = node.getValue().split(Pattern.quote(delimiter));
 
         if (parentParts.length > childParts.length) {
             return false;

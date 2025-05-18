@@ -2,10 +2,7 @@ package me.zort.acs.http.controller.v1;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.model.AccessRequest;
-import me.zort.acs.domain.model.Grant;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.model.*;
 import me.zort.acs.domain.provider.ModelProvider;
 import me.zort.acs.domain.service.AccessControlService;
 import me.zort.acs.domain.service.GrantService;
@@ -37,16 +34,12 @@ public class AccessController {
 
     @PostMapping("/check")
     public AccessCheckResponseDto checkAccess(@Valid @RequestBody AccessCheckRequestDto body) {
-        Subject from = subjectMapper.toDomainOrNull(body.getAccessor());
-        Subject to = subjectMapper.toDomainOrNull(body.getResource());
+        SubjectLike from = subjectMapper.toDomainOrNull(body.getAccessor());
+        SubjectLike to = subjectMapper.toDomainOrNull(body.getResource());
 
         Map<String, Boolean> states = body.getNodes()
                 .stream()
                 .collect(Collectors.toMap(Function.identity(), value -> {
-                    if (from == null || to == null) {
-                        return false;
-                    }
-
                     Node node = nodeMapper.toDomain(value);
 
                     AccessRequest accessRequest = modelProvider.getAccessRequest(from, to, node);
@@ -61,8 +54,8 @@ public class AccessController {
 
     @PostMapping("/grant")
     public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
-        Subject from = subjectMapper.toDomainOrCreate(body.getSourceSubject());
-        Subject to = subjectMapper.toDomainOrCreate(body.getTargetSubject());
+        Subject from = subjectMapper.toDomain(body.getSourceSubject(), true);
+        Subject to = subjectMapper.toDomain(body.getTargetSubject(), true);
 
         Map<String, Boolean> results = body.getNodes()
                 .stream()

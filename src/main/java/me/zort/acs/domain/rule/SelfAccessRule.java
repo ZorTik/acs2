@@ -11,4 +11,9 @@ public class SelfAccessRule implements AccessRule {
             request.grant();
         }
     }
+
+    @Override
+    public boolean acceptsNullableSubjects() {
+        return true;
+    }
 }

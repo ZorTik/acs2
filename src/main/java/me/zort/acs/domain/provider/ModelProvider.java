@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelProvider {
 
-    public AccessRequest getAccessRequest(Subject from, Subject to, Node node) {
+    public AccessRequest getAccessRequest(SubjectLike from, SubjectLike to, Node node) {
         return new AccessRequest(from, to, node);
     }
 
