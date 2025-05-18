@@ -5,6 +5,7 @@ import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.GrantId;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.data.repository.GrantRepository;
+import me.zort.acs.domain.event.GrantAddEvent;
 import me.zort.acs.domain.event.GrantRemoveEvent;
 import me.zort.acs.domain.mapper.DomainGrantIdMapper;
 import me.zort.acs.domain.mapper.DomainGrantMapper;
@@ -38,6 +39,7 @@ public class GrantService {
         } else {
             grantRepository.save(grantMapper.toPersistence(grant));
 
+            eventPublisher.publishEvent(new GrantAddEvent(grant));
             return Optional.of(grant);
         }
     }
@@ -48,6 +50,7 @@ public class GrantService {
         if (grantRepository.existsById(id)) {
             grantRepository.deleteById(id);
 
+            // Publish remove event to clear potential resources without any links.
             eventPublisher.publishEvent(new GrantRemoveEvent(grant));
             return true;
         } else {
