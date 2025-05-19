@@ -9,6 +9,7 @@ import me.zort.acs.domain.service.SubjectService;
 import me.zort.acs.domain.service.SubjectTypeService;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
 import me.zort.acs.http.exception.ACSHttpException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,14 @@ public class HttpSubjectMapper {
         }
     }
 
+    /**
+     * Maps subject dto to domain subject, or domain NullObject if it does not exist.
+     * The difference can be easily checked using {@link NullSubject#isNull()}.
+     *
+     * @param dto The dto to map
+     * @return The Subject, or NullSubject, depending on it presence in the system
+     */
+    @NotNull
     public SubjectLike toDomainOrNull(SubjectDto dto) {
         try {
             return toDomain(dto);
