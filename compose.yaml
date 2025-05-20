@@ -17,7 +17,7 @@ services:
     user: root
     working_dir: /home/gradle/project
     command: >
-      sh -c "gradle bootRun --no-daemon --debug-jvm"
+      sh -c "gradle :acs-server:bootRun --no-daemon --debug-jvm"
     environment:
       DATASOURCE_USR: test
       DATASOURCE_PWD: test
