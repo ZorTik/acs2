@@ -5,6 +5,8 @@ import me.zort.acs.client.http.HttpRequest;
 import me.zort.acs.client.http.HttpResponse;
 import okhttp3.*;
 
+import java.util.Objects;
+
 @RequiredArgsConstructor
 public class OkHttpHttpAdapter implements HttpAdapter {
     private final OkHttpClient client;
@@ -27,11 +29,11 @@ public class OkHttpHttpAdapter implements HttpAdapter {
         String url = request.buildUrl();
 
         RequestBody body = request.hasBody()
-                ? RequestBody.create(request.getBody(), MediaType.parse(request.getContentType()))
+                ? RequestBody.create(Objects.requireNonNull(request.body()), MediaType.parse(request.contentType()))
                 : null;
         return new Request.Builder()
                 .url(url)
-                .method(request.getMethod().name(), body)
+                .method(request.method().name(), body)
                 .build();
     }
 }

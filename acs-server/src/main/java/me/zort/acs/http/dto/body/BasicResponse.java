@@ -2,6 +2,7 @@ package me.zort.acs.http.dto.body;
 
 import lombok.AllArgsConstructor;
 
+@SuppressWarnings("all")
 @AllArgsConstructor
 public class BasicResponse {
     private int code;

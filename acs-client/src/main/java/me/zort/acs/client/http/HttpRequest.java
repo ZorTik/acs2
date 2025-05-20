@@ -1,20 +1,12 @@
 package me.zort.acs.client.http;
 
 import lombok.Builder;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-@Getter
-public class HttpRequest {
-    private final String baseUrl;
-    private final HttpMethod method;
-    private final String path;
-    private final String body;
-    private final String contentType;
-
+public record HttpRequest(String baseUrl, HttpMethod method, String path, String body, String contentType) {
     @Builder
     public HttpRequest(
             final @NotNull String baseUrl,
@@ -35,7 +27,7 @@ public class HttpRequest {
         this.contentType = contentType;
     }
 
-    public final String buildUrl() {
+    public String buildUrl() {
         return baseUrl + path;
     }
 

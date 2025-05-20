@@ -10,10 +10,6 @@ public interface HttpResponse {
     @Nullable
     String getBody();
 
-    static @NotNull HttpResponse ok(@Nullable final String value) {
-        return new HttpResponseImpl(200, value);
-    }
-
     static @NotNull HttpResponse of(final int code, @Nullable final String value) {
         return new HttpResponseImpl(code, value);
     }
