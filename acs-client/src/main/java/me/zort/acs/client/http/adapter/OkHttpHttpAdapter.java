@@ -29,11 +29,12 @@ public class OkHttpHttpAdapter implements HttpAdapter {
         String url = request.buildUrl();
 
         RequestBody body = request.hasBody()
-                ? RequestBody.create(Objects.requireNonNull(request.body()), MediaType.parse(request.contentType()))
+                ? RequestBody.create(
+                        Objects.requireNonNull(request.getBody()), MediaType.parse(request.getContentType()))
                 : null;
         return new Request.Builder()
                 .url(url)
-                .method(request.method().name(), body)
+                .method(request.getMethod().name(), body)
                 .build();
     }
 }

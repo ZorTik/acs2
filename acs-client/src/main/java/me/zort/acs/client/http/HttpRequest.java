@@ -1,17 +1,26 @@
 package me.zort.acs.client.http;
 
 import lombok.Builder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import lombok.Getter;
 
+import java.util.Map;
 import java.util.Objects;
 
-public record HttpRequest(String baseUrl, HttpMethod method, String path, String body, String contentType) {
-    @Builder
-    public HttpRequest(
-            final @NotNull String baseUrl,
-            final @NotNull HttpMethod method,
-            final @NotNull String path, final @Nullable String body, final @NotNull String contentType) {
+@Getter
+@Builder
+public class HttpRequest {
+    private String baseUrl;
+    @Builder.Default
+    private HttpMethod method = HttpMethod.GET;
+    private String path;
+    @Builder.Default
+    private String body = null;
+    @Builder.Default
+    private String contentType = "application/json";
+    @Builder.Default
+    private Map<String, String> queryAttributes = Map.of();
+
+    public void validate() {
         Objects.requireNonNull(baseUrl, "Base url can't be null");
         Objects.requireNonNull(method, "Method can't be null");
         Objects.requireNonNull(path, "Path can't be null");
@@ -19,12 +28,6 @@ public record HttpRequest(String baseUrl, HttpMethod method, String path, String
         if (body != null && !method.supportsBody()) {
             throw new IllegalArgumentException("Method " + method + " does not support body");
         }
-
-        this.baseUrl = baseUrl;
-        this.method = method;
-        this.path = path;
-        this.body = body;
-        this.contentType = contentType;
     }
 
     public String buildUrl() {

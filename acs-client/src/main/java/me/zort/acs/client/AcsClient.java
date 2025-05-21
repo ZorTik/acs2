@@ -1,5 +1,9 @@
 package me.zort.acs.client;
 
+import me.zort.acs.client.http.builder.ListNodesQueryBuilder;
+import me.zort.acs.client.http.exception.InvalidListNodesQueryException;
+import me.zort.acs.client.http.model.nodes.list.ListNodesQuery;
+import me.zort.acs.client.http.model.nodes.list.ListNodesResponse;
 import me.zort.acs.client.v1.AcsClientBuilderV1;
 import me.zort.acs.client.http.model.check.CheckAccessResponse;
 import org.jetbrains.annotations.NotNull;
@@ -21,5 +25,9 @@ public interface AcsClient {
 
     // TODO: Revoke
 
-    // TODO: List nodes
+    @NotNull
+    ListNodesResponse listNodes(final @NotNull ListNodesQuery query) throws InvalidListNodesQueryException;
+
+    @NotNull
+    ListNodesQueryBuilder listNodesQueryBuilder();
 }
