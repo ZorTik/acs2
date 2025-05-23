@@ -1,4 +1,4 @@
-package me.zort.acs.domain.check;
+package me.zort.acs.domain.access.strategy;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.config.properties.AcsConfigurationProperties;

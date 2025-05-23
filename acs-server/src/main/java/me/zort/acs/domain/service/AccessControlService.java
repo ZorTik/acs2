@@ -1,10 +1,10 @@
 package me.zort.acs.domain.service;
 
-import me.zort.acs.api.domain.factory.AccessRequestFactory;
-import me.zort.acs.domain.model.AccessRequest;
+import me.zort.acs.api.domain.access.AccessRequest;
+import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectLike;
-import me.zort.acs.domain.rule.AccessRule;
+import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.domain.access.rule.AccessRule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

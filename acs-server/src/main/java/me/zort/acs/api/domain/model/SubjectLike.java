@@ -1,4 +1,6 @@
-package me.zort.acs.domain.model;
+package me.zort.acs.api.domain.model;
+
+import me.zort.acs.domain.model.SubjectType;
 
 public interface SubjectLike {
 

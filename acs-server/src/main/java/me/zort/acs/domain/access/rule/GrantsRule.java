@@ -1,8 +1,8 @@
-package me.zort.acs.domain.rule;
+package me.zort.acs.domain.access.rule;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.model.AccessRequest;
-import me.zort.acs.domain.check.RightsStrategy;
+import me.zort.acs.api.domain.access.AccessRequest;
+import me.zort.acs.domain.access.strategy.RightsStrategy;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.service.GrantService;

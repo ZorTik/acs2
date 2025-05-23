@@ -3,7 +3,7 @@ package me.zort.acs.http.mapper;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.model.NullSubject;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.model.SubjectLike;
+import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.service.SubjectService;
 import me.zort.acs.http.dto.model.subject.SubjectDto;

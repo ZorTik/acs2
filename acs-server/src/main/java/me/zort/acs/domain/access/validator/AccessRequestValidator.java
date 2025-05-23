@@ -1,7 +1,7 @@
 package me.zort.acs.domain.access.validator;
 
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectLike;
+import me.zort.acs.api.domain.model.SubjectLike;
 import org.jetbrains.annotations.Nullable;
 
 /**

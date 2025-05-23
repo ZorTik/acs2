@@ -2,7 +2,7 @@ package me.zort.acs.domain.access.validator;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectLike;
+import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.service.NodeService;
 import org.jetbrains.annotations.Nullable;

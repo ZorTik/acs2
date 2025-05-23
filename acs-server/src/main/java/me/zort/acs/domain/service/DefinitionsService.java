@@ -7,7 +7,7 @@ import me.zort.acs.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectLike;
+import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;

@@ -2,6 +2,7 @@ package me.zort.acs.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.zort.acs.api.domain.model.SubjectLike;
 
 @AllArgsConstructor
 public class NullSubject implements SubjectLike {

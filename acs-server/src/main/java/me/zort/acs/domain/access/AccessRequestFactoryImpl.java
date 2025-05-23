@@ -1,11 +1,12 @@
-package me.zort.acs.domain.factory;
+package me.zort.acs.domain.access;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.factory.AccessRequestFactory;
+import me.zort.acs.api.domain.access.AccessRequest;
+import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.domain.access.validator.AccessRequestValidator;
-import me.zort.acs.domain.model.AccessRequest;
+import me.zort.acs.domain.model.DefaultAccessRequest;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectLike;
+import me.zort.acs.api.domain.model.SubjectLike;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,7 +27,7 @@ public class AccessRequestFactoryImpl implements AccessRequestFactory {
             SubjectLike from, SubjectLike to, Node node) throws IllegalArgumentException {
         validate(from, to, node);
 
-        return new AccessRequest(from, to, node);
+        return new DefaultAccessRequest(from, to, node);
     }
 
     private void validate(SubjectLike from, SubjectLike to, Node node) {

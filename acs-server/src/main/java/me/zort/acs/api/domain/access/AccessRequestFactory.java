@@ -1,8 +1,7 @@
-package me.zort.acs.api.domain.factory;
+package me.zort.acs.api.domain.access;
 
-import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectLike;
+import me.zort.acs.api.domain.model.SubjectLike;
 import org.jetbrains.annotations.NotNull;
 
 public interface AccessRequestFactory {
