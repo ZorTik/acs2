@@ -1,9 +1,9 @@
 package me.zort.acs.domain.service;
 
+import me.zort.acs.api.domain.factory.AccessRequestFactory;
 import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectLike;
-import me.zort.acs.domain.provider.AccessRequestProvider;
 import me.zort.acs.domain.rule.AccessRule;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class AccessControlService {
-    private final AccessRequestProvider accessRequestProvider;
+    private final AccessRequestFactory accessRequestFactory;
 
     private final List<AccessRule> accessRules;
 
-    public AccessControlService(AccessRequestProvider accessRequestProvider, List<AccessRule> accessRules) {
-        this.accessRequestProvider = accessRequestProvider;
+    public AccessControlService(AccessRequestFactory accessRequestFactory, List<AccessRule> accessRules) {
+        this.accessRequestFactory = accessRequestFactory;
         this.accessRules = accessRules;
     }
 
@@ -33,7 +33,7 @@ public class AccessControlService {
      * @throws IllegalArgumentException if the node is not applicable on the accessed object
      */
     public AccessRequest checkAccess(SubjectLike accessor, SubjectLike accessed, Node node) {
-        AccessRequest request = accessRequestProvider.createAccessRequest(accessor, accessed, node);
+        AccessRequest request = accessRequestFactory.createAccessRequest(accessor, accessed, node);
 
         checkAccess(request);
 

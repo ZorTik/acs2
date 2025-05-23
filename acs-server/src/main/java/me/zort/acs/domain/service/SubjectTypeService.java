@@ -1,8 +1,9 @@
 package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.data.repository.SubjectTypeRepository;
-import me.zort.acs.domain.mapper.DomainSubjectTypeMapper;
+import me.zort.acs.api.data.repository.SubjectTypeRepository;
+import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Service
 public class SubjectTypeService {
     private final SubjectTypeRepository subjectTypeRepository;
-    private final DomainSubjectTypeMapper subjectTypeMapper;
+    private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
 
     public Optional<SubjectType> createSubjectType(String id) {
         if (subjectTypeRepository.existsById(id)) {

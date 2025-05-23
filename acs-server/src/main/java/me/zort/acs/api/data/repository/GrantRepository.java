@@ -1,15 +1,15 @@
-package me.zort.acs.data.repository;
+package me.zort.acs.api.data.repository;
 
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.GrantId;
 import me.zort.acs.data.id.SubjectId;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 
-@Repository
-public interface GrantRepository extends JpaRepository<GrantEntity, GrantId> {
+@NoRepositoryBean
+public interface GrantRepository extends CrudRepository<GrantEntity, GrantId> {
 
     List<GrantEntity> findByAccessor_IdAndAccessed_Id(SubjectId accessorId, SubjectId accessedId);
 

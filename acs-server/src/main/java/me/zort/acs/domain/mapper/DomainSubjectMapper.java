@@ -1,20 +1,22 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.api.domain.provider.SubjectProvider;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
-import me.zort.acs.domain.provider.SubjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEntity> {
-    private final DomainSubjectIdMapper subjectIdMapper;
-    private final DomainSubjectTypeMapper subjectTypeMapper;
+    private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
+    private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
     private final SubjectProvider subjectProvider;
 
     @Override

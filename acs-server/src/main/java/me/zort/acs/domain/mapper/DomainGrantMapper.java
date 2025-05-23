@@ -1,6 +1,9 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.api.domain.provider.GrantProvider;
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectEntity;
@@ -8,16 +11,15 @@ import me.zort.acs.data.id.GrantId;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.provider.GrantProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class DomainGrantMapper implements DomainModelMapper<Grant, GrantEntity> {
-    private final DomainGrantIdMapper grantIdMapper;
-    private final DomainSubjectMapper subjectMapper;
-    private final DomainNodeMapper nodeMapper;
+    private final DomainToPersistenceMapper<Grant, GrantId> grantIdMapper;
+    private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
+    private final DomainModelMapper<Node, NodeEntity> nodeMapper;
 
     private final GrantProvider grantProvider;
 

@@ -1,6 +1,7 @@
-package me.zort.acs.domain.provider;
+package me.zort.acs.domain.factory;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.factory.AccessRequestFactory;
 import me.zort.acs.domain.access.validator.AccessRequestValidator;
 import me.zort.acs.domain.model.AccessRequest;
 import me.zort.acs.domain.model.Node;
@@ -16,20 +17,11 @@ import java.util.Locale;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
-public class AccessRequestProvider {
+public class AccessRequestFactoryImpl implements AccessRequestFactory {
     private final List<AccessRequestValidator> validators;
     private final MessageSource messageSource;
 
-    /**
-     * Constructs an AccessRequest object with the given parameters.
-     *
-     * @param from The accessing object
-     * @param to The accessed object
-     * @param node The node to check applicability for
-     * @return An AccessRequest object with the given parameters
-     *
-     * @throws IllegalArgumentException if the node is not applicable on the accessed object
-     */
+    @Override
     public @NotNull AccessRequest createAccessRequest(
             SubjectLike from, SubjectLike to, Node node) throws IllegalArgumentException {
         validate(from, to, node);

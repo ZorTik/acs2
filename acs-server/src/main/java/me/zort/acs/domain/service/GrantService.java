@@ -1,18 +1,18 @@
 package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.data.repository.GrantRepository;
+import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.api.domain.provider.GrantProvider;
+import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.GrantId;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.data.repository.GrantRepository;
 import me.zort.acs.domain.event.GrantAddEvent;
 import me.zort.acs.domain.event.GrantRemoveEvent;
-import me.zort.acs.domain.mapper.DomainGrantIdMapper;
-import me.zort.acs.domain.mapper.DomainGrantMapper;
-import me.zort.acs.domain.mapper.DomainSubjectIdMapper;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.provider.GrantProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,9 +26,9 @@ import java.util.Optional;
 public class GrantService {
     private final GrantRepository grantRepository;
     private final GrantProvider grantProvider;
-    private final DomainGrantIdMapper grantIdMapper;
-    private final DomainGrantMapper grantMapper;
-    private final DomainSubjectIdMapper subjectIdMapper;
+    private final DomainToPersistenceMapper<Grant, GrantId> grantIdMapper;
+    private final DomainModelMapper<Grant, GrantEntity> grantMapper;
+    private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
     private final ApplicationEventPublisher eventPublisher;
 
     @CacheEvict(value = "grants", key = "#accessor.subjectType.id + ':' + #accessor.id + '->' + #accessed.subjectType.id + ':' + #accessed.id + '@' + #node.value")

@@ -1,4 +1,4 @@
-package me.zort.acs.domain.mapper;
+package me.zort.acs.api.domain.mapper;
 
 public interface DomainModelMapper<D, P> extends DomainToPersistenceMapper<D, P>, PersistenceToDomainMapper<P, D> {
     // This interface combines the two mapper interfaces

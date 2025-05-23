@@ -1,12 +1,14 @@
 package me.zort.acs.domain.garbage;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.garbage.ResourceDisposalRegistry;
+import me.zort.acs.api.domain.garbage.ResourceDisposalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
-public class ResourceDisposalService {
+public class ResourceDisposalServiceImpl implements ResourceDisposalService {
     private final ResourceDisposalRegistry registry;
 
     public void checkForGarbage(DisposablesHolder disposablesHolder) {

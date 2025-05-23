@@ -1,13 +1,14 @@
 package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.data.repository.SubjectRepository;
+import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.api.domain.provider.SubjectProvider;
+import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.data.repository.SubjectRepository;
-import me.zort.acs.domain.mapper.DomainSubjectIdMapper;
-import me.zort.acs.domain.mapper.DomainSubjectMapper;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
-import me.zort.acs.domain.provider.SubjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ import java.util.Optional;
 @Service
 public class SubjectService {
     private final SubjectRepository subjectRepository;
-    private final DomainSubjectMapper subjectMapper;
-    private final DomainSubjectIdMapper subjectIdMapper;
+    private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
+    private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
     private final SubjectProvider subjectProvider;
 
     public Optional<Subject> createSubject(SubjectType type, String id) {

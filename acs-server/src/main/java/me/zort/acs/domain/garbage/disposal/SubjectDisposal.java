@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
-public class SubjectDisposal extends ResourceDisposal<Subject> {
+public class SubjectDisposal implements ResourceDisposal<Subject> {
     private final GrantService grantService;
     private final SubjectService subjectService;
 

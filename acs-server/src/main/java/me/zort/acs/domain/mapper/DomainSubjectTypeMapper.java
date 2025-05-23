@@ -1,6 +1,8 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class DomainSubjectTypeMapper implements DomainModelMapper<SubjectType, SubjectTypeEntity> {
-    private final DomainNodeMapper nodeMapper;
+    private final DomainModelMapper<Node, NodeEntity> nodeMapper;
 
     @Override
     public SubjectTypeEntity toPersistence(SubjectType domain) {

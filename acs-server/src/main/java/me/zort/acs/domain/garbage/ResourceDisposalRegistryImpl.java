@@ -1,5 +1,6 @@
 package me.zort.acs.domain.garbage;
 
+import me.zort.acs.api.domain.garbage.ResourceDisposalRegistry;
 import me.zort.acs.domain.garbage.disposal.ResourceDisposal;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ResourceDisposalRegistry {
+public class ResourceDisposalRegistryImpl implements ResourceDisposalRegistry {
     private final List<ResourceDisposal<?>> disposals;
 
     @Autowired
-    public ResourceDisposalRegistry(List<ResourceDisposal<?>> disposals) {
+    public ResourceDisposalRegistryImpl(List<ResourceDisposal<?>> disposals) {
         this.disposals = disposals;
     }
 
