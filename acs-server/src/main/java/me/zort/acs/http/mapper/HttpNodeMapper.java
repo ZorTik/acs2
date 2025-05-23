@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.service.NodeService;
 import me.zort.acs.http.dto.model.node.NodeDto;
+import me.zort.acs.http.dto.model.node.NodeWithStateDto;
 import me.zort.acs.http.exception.ACSHttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,5 +22,11 @@ public class HttpNodeMapper {
         String value = node.getValue();
 
         return new NodeDto(value);
+    }
+
+    public NodeWithStateDto toHttpWithState(Node node, boolean state) {
+        String value = node.getValue();
+
+        return new NodeWithStateDto(value, state);
     }
 }

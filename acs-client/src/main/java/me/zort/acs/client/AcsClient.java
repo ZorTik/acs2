@@ -4,6 +4,7 @@ import me.zort.acs.client.http.builder.ListNodesQueryBuilder;
 import me.zort.acs.client.http.exception.InvalidListNodesQueryException;
 import me.zort.acs.client.http.model.check.CheckAccessResponse;
 import me.zort.acs.client.http.model.grant.GrantAccessResponse;
+import me.zort.acs.client.http.model.nodes.granted.GrantedNodesResponse;
 import me.zort.acs.client.http.model.nodes.list.ListNodesQuery;
 import me.zort.acs.client.http.model.nodes.list.ListNodesResponse;
 import me.zort.acs.client.http.model.revoke.RevokeAccessResponse;
@@ -36,6 +37,10 @@ public interface AcsClient {
 
     @NotNull
     ListNodesResponse listNodes(final @NotNull ListNodesQuery query) throws InvalidListNodesQueryException;
+
+    @NotNull
+    GrantedNodesResponse listNodesWithGrantState(
+            final @NotNull AcsSubjectResolvable accessor, final @NotNull AcsSubjectResolvable resource);
 
     @NotNull
     ListNodesQueryBuilder listNodesQueryBuilder();

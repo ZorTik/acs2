@@ -11,6 +11,7 @@ import me.zort.acs.client.http.builder.ListNodesQueryBuilder;
 import me.zort.acs.client.http.exception.InvalidListNodesQueryException;
 import me.zort.acs.client.http.model.check.CheckAccessResponse;
 import me.zort.acs.client.http.model.grant.GrantAccessResponse;
+import me.zort.acs.client.http.model.nodes.granted.GrantedNodesResponse;
 import me.zort.acs.client.http.model.nodes.list.ListNodesQuery;
 import me.zort.acs.client.http.model.revoke.RevokeAccessResponse;
 import me.zort.acs.client.v1.builder.ListNodesQueryBuilderV1;
@@ -21,6 +22,8 @@ import me.zort.acs.client.v1.model.check.CheckAccessRequestV1;
 import me.zort.acs.client.v1.model.check.CheckAccessResponseV1;
 import me.zort.acs.client.v1.model.grant.GrantAccessRequestV1;
 import me.zort.acs.client.v1.model.grant.GrantAccessResponseV1;
+import me.zort.acs.client.v1.model.nodes.granted.GrantedNodesRequestV1;
+import me.zort.acs.client.v1.model.nodes.granted.GrantedNodesResponseV1;
 import me.zort.acs.client.v1.model.nodes.list.ListNodesResponseV1;
 import me.zort.acs.client.v1.model.revoke.RevokeAccessRequestV1;
 import me.zort.acs.client.v1.model.revoke.RevokeAccessResponseV1;
@@ -36,6 +39,7 @@ public class AcsClientV1 extends AbstractAcsClient {
     private static final String CHECK_ACCESS_URL = PREFIX + "/access/check";
     private static final String GRANT_ACCESS_URL = PREFIX + "/access/grant";
     private static final String LIST_NODES_URL = PREFIX + "/nodes";
+    private static final String LIST_NODES_GRANTED_URL = PREFIX + "/nodes/granted";
 
     public AcsClientV1(String baseUrl, HttpAdapter httpAdapter, HttpSerializer httpSerializer) {
         super(baseUrl, httpAdapter, httpSerializer, List.of(new CommonFailuresInterceptor(httpSerializer)));
@@ -95,6 +99,15 @@ public class AcsClientV1 extends AbstractAcsClient {
         } else {
             throw new InvalidListNodesQueryException(query);
         }
+    }
+
+    @Override
+    public @NotNull GrantedNodesResponse listNodesWithGrantState(
+            final @NotNull AcsSubjectResolvable accessor, @NotNull AcsSubjectResolvable resource) {
+        return executeRequest(GrantedNodesResponseV1.class, (builder, serializer) -> builder
+                .method(HttpMethod.POST)
+                .path(LIST_NODES_GRANTED_URL)
+                .body(serializer.apply(new GrantedNodesRequestV1(accessor, resource))));
     }
 
     @Override

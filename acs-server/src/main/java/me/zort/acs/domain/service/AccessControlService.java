@@ -8,6 +8,9 @@ import me.zort.acs.domain.rule.AccessRule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class AccessControlService {
@@ -56,5 +59,27 @@ public class AccessControlService {
                 break;
             }
         }
+    }
+
+    /**
+     * Returns ALL nodes that are assignable to accessed's subject type and their
+     * grant states in relation with accessor.
+     *
+     * @param accessor The accessor subject
+     * @param accessed The accessed subject
+     * @return The nodes and their states
+     */
+    public Map<Node, Boolean> getGrantStatesFor(SubjectLike accessor, SubjectLike accessed) {
+        return accessed.getSubjectType().getNodes()
+                .stream()
+                .collect(Collectors.toMap(Function.identity(), node -> {
+                    // There is no connection between them since either of them is not present
+                    // in the system.
+                    if (accessed.isNull() || accessed.isNull()) {
+                        return false;
+                    }
+
+                    return checkAccess(accessor, accessed, node).isGranted();
+                }));
     }
 }
