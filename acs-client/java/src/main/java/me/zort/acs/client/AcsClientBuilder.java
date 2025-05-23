@@ -8,6 +8,7 @@ import me.zort.acs.client.http.adapter.HttpAdapter;
 import me.zort.acs.client.http.adapter.OkHttpHttpAdapter;
 import me.zort.acs.client.http.serializer.GsonHttpSerializer;
 import me.zort.acs.client.http.serializer.HttpSerializer;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -28,6 +29,7 @@ public abstract class AcsClientBuilder {
         this.responseMapper = new GsonHttpSerializer(DEFAULT_GSON);
     }
 
+    @ApiStatus.OverrideOnly
     protected abstract AcsClient doBuild();
 
     public @NotNull AcsClientBuilder withOkHttpAdapter() {

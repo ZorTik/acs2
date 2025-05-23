@@ -75,7 +75,7 @@ public class AccessControlService {
                 .collect(Collectors.toMap(Function.identity(), node -> {
                     // There is no connection between them since either of them is not present
                     // in the system.
-                    if (accessed.isNull() || accessed.isNull()) {
+                    if (accessed.isNull() || accessor.isNull()) {
                         return false;
                     }
 

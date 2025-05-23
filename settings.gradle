@@ -1,4 +1,5 @@
 rootProject.name = 'acs'
 
 include 'acs-client'
+include 'acs-client:java'
 include 'acs-server'
