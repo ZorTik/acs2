@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class DefinitionsRefreshListener implements ApplicationListener<ApplicationReadyEvent> {
-    private final DefinitionsService refreshService;
+    private final DefinitionsService definitionsService;
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent event) {
-        refreshService.refresh();
+        definitionsService.refresh();
     }
 }
