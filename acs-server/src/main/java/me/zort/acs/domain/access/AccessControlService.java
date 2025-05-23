@@ -1,4 +1,4 @@
-package me.zort.acs.domain.service;
+package me.zort.acs.domain.access;
 
 import me.zort.acs.api.domain.access.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;

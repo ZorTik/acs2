@@ -22,7 +22,6 @@ public class AssignedNodeRequestValidator implements AccessRequestValidator {
             return "Resource's subject type (" + toSubjectType.getId() + ") " +
                     "does not contain provided node (" + node.getValue() + ")!";
         }
-
         return null;
     }
 }

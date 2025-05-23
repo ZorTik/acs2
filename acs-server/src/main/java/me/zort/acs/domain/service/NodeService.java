@@ -6,7 +6,6 @@ import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.NodeProvider;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
-import me.zort.acs.domain.mapper.DomainSubjectTypeMapper;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class NodeService {
     private final NodeRepository nodeRepository;
     private final DomainModelMapper<Node, NodeEntity> nodeMapper;
     private final NodeProvider nodeProvider;
-    private final DomainSubjectTypeMapper subjectTypeMapper;
+    private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
 
     @CacheEvict(value = "nodes", key = "#value")
     public Optional<Node> createNode(String value) {
