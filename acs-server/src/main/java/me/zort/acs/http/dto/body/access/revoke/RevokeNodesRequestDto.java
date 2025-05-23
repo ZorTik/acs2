@@ -12,11 +12,11 @@ import java.util.Set;
 public class RevokeNodesRequestDto {
     @Valid
     @NotNull(message = "{validation.accessor.notnull}")
-    private SubjectDto sourceSubject;
+    private SubjectDto accessor;
 
     @Valid
     @NotNull(message = "{validation.accessed.notnull}")
-    private SubjectDto targetSubject;
+    private SubjectDto resource;
 
     @NotEmpty(message = "{validation.nodes.notempty}")
     private Set<String> nodes;

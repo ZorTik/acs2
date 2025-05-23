@@ -22,8 +22,4 @@ public class HttpNodeMapper {
 
         return new NodeDto(value);
     }
-
-    public String toHttpValue(Node node) {
-        return node.getValue();
-    }
 }

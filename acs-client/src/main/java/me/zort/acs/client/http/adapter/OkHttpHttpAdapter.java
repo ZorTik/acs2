@@ -13,7 +13,7 @@ public class OkHttpHttpAdapter implements HttpAdapter {
 
     @Override
     public HttpResponse perform(HttpRequest request) throws Exception {
-        Call call = client.newCall(newRequest(request));
+        Call call = client.newCall(adaptRequest(request));
 
         try (Response response = call.execute()) {
             ResponseBody body = response.body();
@@ -25,7 +25,7 @@ public class OkHttpHttpAdapter implements HttpAdapter {
         }
     }
 
-    private Request newRequest(HttpRequest request) {
+    private Request adaptRequest(HttpRequest request) {
         String url = request.buildUrl();
 
         RequestBody body = request.hasBody()

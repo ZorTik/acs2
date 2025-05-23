@@ -16,7 +16,7 @@ public abstract class ErrorResponseInterceptor implements HttpInterceptor {
             HttpRequest request, HttpResponse response, BasicErrorModel error) throws RuntimeException;
 
     @Override
-    public void intercept(HttpRequest request, HttpResponse response) throws RuntimeException {
+    public void afterCall(HttpRequest request, HttpResponse response) throws RuntimeException {
         if (response.getCode() < 400) {
             return;
         }

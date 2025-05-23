@@ -1,24 +1,14 @@
 package me.zort.acs.client.v1.model.check;
 
-import lombok.AllArgsConstructor;
 import me.zort.acs.client.http.model.check.CheckAccessResponse;
+import me.zort.acs.client.v1.model.NodeStatesResponseV1;
 
-import java.util.Arrays;
 import java.util.Map;
 
-@AllArgsConstructor
-public class CheckAccessResponseV1 implements CheckAccessResponse {
-    private final Map<String, Boolean> states;
 
-    public boolean grants(String... nodes) {
-        return Arrays.stream(nodes).anyMatch(this::checkGrantState);
-    }
+public class CheckAccessResponseV1 extends NodeStatesResponseV1 implements CheckAccessResponse {
 
-    private boolean checkGrantState(String node) {
-        if (states.containsKey(node)) {
-            return states.get(node);
-        }
-
-        throw new IllegalArgumentException("Node " + node + " is not part of this grant response!");
+    public CheckAccessResponseV1(Map<String, Boolean> states) {
+        super(states);
     }
 }

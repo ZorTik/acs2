@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -23,7 +24,7 @@ public abstract class AbstractAcsClient implements AcsClient {
     private final HttpSerializer serializer;
     private final List<HttpInterceptor> interceptors;
 
-    protected @NotNull <T> T makeCall(
+    protected @NotNull <T> T executeRequest(
             final Class<T> responseType,
             final BiConsumer<HttpRequest.HttpRequestBuilder, Function<Object, String>> requestConfig,
             final HttpInterceptor... interceptors) {
@@ -34,20 +35,29 @@ public abstract class AbstractAcsClient implements AcsClient {
         HttpRequest request = requestBuilder.build();
         request.validate();
 
+        HttpResponse response = executeAndInterceptRequest(request, responseType, interceptors);
+        try {
+            return serializer.deserializeResponseBody(response, responseType);
+        } catch (Exception e) {
+            throw new AcsRequestException(request, responseType, e);
+        }
+    }
+
+    private @NotNull HttpResponse executeAndInterceptRequest(
+            HttpRequest request, Class<?> responseType, HttpInterceptor... interceptors) {
+        callInterceptors(interceptor -> interceptor.beforeCall(request), interceptors);
         HttpResponse response;
         try {
             response = httpAdapter.perform(request);
         } catch (Exception e) {
             throw new AcsRequestException(request, responseType, e);
         }
+        callInterceptors(interceptor -> interceptor.afterCall(request, response), interceptors);
 
-        Stream.concat(Arrays.stream(interceptors), this.interceptors.stream())
-                .forEach(interceptor -> interceptor.intercept(request, response));
+        return response;
+    }
 
-        try {
-            return serializer.deserializeResponseBody(response, responseType);
-        } catch (Exception e) {
-            throw new AcsRequestException(request, responseType, e);
-        }
+    private void callInterceptors(Consumer<HttpInterceptor> action, HttpInterceptor... additionalInterceptors) {
+        Stream.concat(Arrays.stream(additionalInterceptors), this.interceptors.stream()).forEach(action);
     }
 }

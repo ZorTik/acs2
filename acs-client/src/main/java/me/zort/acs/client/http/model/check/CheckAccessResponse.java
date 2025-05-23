@@ -1,6 +1,6 @@
 package me.zort.acs.client.http.model.check;
 
-public interface CheckAccessResponse {
+import me.zort.acs.client.http.model.NodeStatesResponse;
 
-    boolean grants(String... nodes);
+public interface CheckAccessResponse extends NodeStatesResponse {
 }

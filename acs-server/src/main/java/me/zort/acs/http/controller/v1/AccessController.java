@@ -54,8 +54,8 @@ public class AccessController {
 
     @PostMapping("/grant")
     public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
-        Subject from = subjectMapper.toDomain(body.getSourceSubject(), true);
-        Subject to = subjectMapper.toDomain(body.getTargetSubject(), true);
+        Subject from = subjectMapper.toDomain(body.getAccessor(), true);
+        Subject to = subjectMapper.toDomain(body.getResource(), true);
 
         Map<String, Boolean> results = body.getNodes()
                 .stream()
@@ -68,8 +68,8 @@ public class AccessController {
 
     @PostMapping("/revoke")
     public RevokeNodesResponseDto revokeAccess(@Valid @RequestBody RevokeNodesRequestDto body) {
-        SubjectLike from = subjectMapper.toDomainOrNull(body.getSourceSubject());
-        SubjectLike to = subjectMapper.toDomainOrNull(body.getTargetSubject());
+        SubjectLike from = subjectMapper.toDomainOrNull(body.getAccessor());
+        SubjectLike to = subjectMapper.toDomainOrNull(body.getResource());
 
         Map<String, Boolean> results = body.getNodes()
                 .stream()
