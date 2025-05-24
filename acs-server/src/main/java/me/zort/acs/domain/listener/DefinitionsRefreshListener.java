@@ -1,7 +1,7 @@
 package me.zort.acs.domain.listener;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.service.DefinitionsService;
+import me.zort.acs.api.domain.service.DefinitionsService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

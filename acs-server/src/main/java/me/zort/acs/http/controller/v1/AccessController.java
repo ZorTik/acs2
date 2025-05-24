@@ -1,12 +1,12 @@
 package me.zort.acs.http.controller.v1;
 
+import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.api.domain.model.SubjectLike;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.domain.access.AccessControlService;
-import me.zort.acs.domain.service.GrantService;
 import me.zort.acs.http.dto.body.access.check.AccessCheckRequestDto;
 import me.zort.acs.http.dto.body.access.check.AccessCheckResponseDto;
 import me.zort.acs.http.dto.body.access.grant.GrantNodesRequestDto;

@@ -2,7 +2,7 @@ package me.zort.acs.domain.access.rule;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessRequest;
-import me.zort.acs.domain.service.DefinitionsService;
+import me.zort.acs.api.domain.service.DefinitionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -2,10 +2,10 @@ package me.zort.acs.domain.access.rule;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessRequest;
+import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.domain.access.strategy.RightsStrategy;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.service.GrantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

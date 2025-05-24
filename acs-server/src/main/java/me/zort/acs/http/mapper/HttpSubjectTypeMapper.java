@@ -1,8 +1,8 @@
 package me.zort.acs.http.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.service.SubjectTypeService;
 import me.zort.acs.domain.model.SubjectType;
-import me.zort.acs.domain.service.SubjectTypeService;
 import me.zort.acs.http.exception.ACSHttpException;
 import org.springframework.stereotype.Component;
 

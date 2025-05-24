@@ -1,9 +1,9 @@
 package me.zort.acs.domain.garbage.disposal;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.service.GrantService;
+import me.zort.acs.api.domain.service.SubjectService;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.service.GrantService;
-import me.zort.acs.domain.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

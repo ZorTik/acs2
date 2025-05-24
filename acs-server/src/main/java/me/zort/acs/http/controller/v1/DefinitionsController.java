@@ -1,7 +1,7 @@
 package me.zort.acs.http.controller.v1;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.service.DefinitionsService;
+import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.http.dto.body.BasicResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

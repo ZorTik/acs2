@@ -2,6 +2,9 @@ package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import me.zort.acs.api.domain.service.DefinitionsService;
+import me.zort.acs.api.domain.service.NodeService;
+import me.zort.acs.api.domain.service.SubjectTypeService;
 import me.zort.acs.config.properties.AcsConfigurationProperties;
 import me.zort.acs.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.domain.definitions.source.DefinitionsSource;
@@ -21,7 +24,7 @@ import java.util.*;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
-public class DefinitionsService {
+public class DefinitionsServiceImpl implements DefinitionsService {
     private final SubjectTypeService subjectTypeService;
     private final NodeService nodeService;
     private final AcsConfigurationProperties properties;
@@ -32,6 +35,7 @@ public class DefinitionsService {
 
     @Transactional(rollbackFor = Exception.class)
     @SneakyThrows(IOException.class)
+    @Override
     public void refresh() {
         DefinitionsModel model = definitionsSource.getModel();
 
@@ -46,6 +50,7 @@ public class DefinitionsService {
         logger.info("Definitions refreshed successfully.");
     }
 
+    @Override
     public boolean checkDefaultGrant(SubjectLike from, SubjectLike to, Node node) {
         Set<Node> nodes = defaultGrants.get(Pair.of(from.getSubjectType(), to.getSubjectType()));
 
