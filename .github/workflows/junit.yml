@@ -25,8 +25,15 @@ jobs:
       - name: Run all tests from root
         run: ./gradlew test
 
-      # Tests summary
-      - name: Upload Test Results
-        uses: actions/upload-test-report@v3
+      - name: Upload test reports artifact
+        uses: actions/upload-artifact@v3
         with:
+          name: test-results
           path: '**/build/test-results/test/*.xml'
+
+      - name: Test Reporter
+        uses: dorny/test-reporter@v1
+        with:
+          name: Gradle Tests
+          path: '**/build/test-results/test/*.xml'
+          reporter: junit
