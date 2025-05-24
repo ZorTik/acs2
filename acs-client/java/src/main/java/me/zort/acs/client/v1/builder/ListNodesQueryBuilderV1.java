@@ -10,9 +10,9 @@ import java.util.Objects;
 
 public class ListNodesQueryBuilderV1 implements ListNodesQueryBuilder {
     @Override
-    public ListNodesQuery bySubject(@NotNull String subjectId) {
-        Objects.requireNonNull(subjectId, "subjectId cannot be null");
+    public ListNodesQuery bySubjectType(@NotNull String subjectTypeId) {
+        Objects.requireNonNull(subjectTypeId, "subjectTypeId cannot be null");
 
-        return new ListNodesQueryV1(Map.of("subjectType", subjectId));
+        return new ListNodesQueryV1(Map.of("subjectType", subjectTypeId));
     }
 }

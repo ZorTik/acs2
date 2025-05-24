@@ -1,4 +1,4 @@
-package me.zort.acs.domain.access.strategy;
+package me.zort.acs.api.domain.access.strategy;
 
 import me.zort.acs.domain.model.Node;
 

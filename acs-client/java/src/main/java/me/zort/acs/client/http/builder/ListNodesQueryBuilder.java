@@ -5,5 +5,5 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ListNodesQueryBuilder {
 
-    ListNodesQuery bySubject(final @NotNull String subjectId);
+    ListNodesQuery bySubjectType(final @NotNull String subjectTypeId);
 }

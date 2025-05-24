@@ -88,7 +88,7 @@ public class AcsClientV1Tests extends BaseTestCase {
                         "{\"value\":\"node2.subnode\"}]}"));
 
         ListNodesResponse response = client.listNodes(client.listNodesQueryBuilder()
-                .bySubject("subjectType"));
+                .bySubjectType("subjectType"));
 
         assertEquals("application/json", lastRequest.getContentType());
         assertEquals(HttpMethod.GET, lastRequest.getMethod());

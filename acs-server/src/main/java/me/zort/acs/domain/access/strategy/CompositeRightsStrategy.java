@@ -1,5 +1,6 @@
 package me.zort.acs.domain.access.strategy;
 
+import me.zort.acs.api.domain.access.strategy.RightsStrategy;
 import me.zort.acs.domain.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

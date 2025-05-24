@@ -5,12 +5,10 @@ import lombok.SneakyThrows;
 import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.service.NodeService;
 import me.zort.acs.api.domain.service.SubjectTypeService;
-import me.zort.acs.config.properties.AcsConfigurationProperties;
 import me.zort.acs.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -27,7 +25,6 @@ import java.util.*;
 public class DefinitionsServiceImpl implements DefinitionsService {
     private final SubjectTypeService subjectTypeService;
     private final NodeService nodeService;
-    private final AcsConfigurationProperties properties;
 
     private final DefinitionsSource definitionsSource;
 
@@ -51,15 +48,8 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     }
 
     @Override
-    public boolean checkDefaultGrant(SubjectLike from, SubjectLike to, Node node) {
-        Set<Node> nodes = defaultGrants.get(Pair.of(from.getSubjectType(), to.getSubjectType()));
-
-        if (nodes == null) {
-            return false;
-        }
-        return nodes
-                .stream()
-                .anyMatch(defNode -> defNode.isParentOf(node, properties.getDelimiter()));
+    public Set<Node> getDefaultGrantedNodes(SubjectType accessorType, SubjectType accessedType) {
+        return defaultGrants.get(Pair.of(accessorType, accessedType));
     }
 
     private void refreshSubjectTypes(DefinitionsModel model) {
