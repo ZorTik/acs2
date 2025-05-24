@@ -25,6 +25,6 @@ public class ErrorHandlingController extends AbstractErrorController {
         String message = (String) getErrorAttributes(request, ErrorAttributeOptions.defaults())
                 .getOrDefault("message", "Unknown error");
 
-        return ResponseEntity.status(status).body(new BasicResponse(status.value(), message));
+        return ResponseEntity.status(status).body(new BasicResponse(status.value(), 0, message));
     }
 }

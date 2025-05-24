@@ -30,14 +30,14 @@ public class AcsExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             @NotNull HttpMessageNotReadableException e,
             @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, @NotNull WebRequest request) {
-        return ResponseEntity.status(400).body(new BasicResponse(400, "Invalid request body"));
+        return ResponseEntity.status(400).body(new BasicResponse(400, 0, "Invalid request body"));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
             @NotNull HttpRequestMethodNotSupportedException e,
             @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, @NotNull WebRequest request) {
-        return ResponseEntity.status(405).body(new BasicResponse(405, "Method not supported"));
+        return ResponseEntity.status(405).body(new BasicResponse(405, 0, "Method not supported"));
     }
 
     @Override
@@ -48,13 +48,13 @@ public class AcsExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .collect(Collectors.toMap(FieldError::getField, fieldError -> messageSource.getMessage(fieldError, request.getLocale())));
 
-        BasicResponse responseBody = new BasicResponse(405, "Invalid request format", Map.of(
+        BasicResponse responseBody = new BasicResponse(405, 0, "Invalid request format", Map.of(
                 "errors", errors));
         return ResponseEntity.status(400).body(responseBody);
     }
 
     @ExceptionHandler(ACSHttpException.class)
     public ResponseEntity<BasicResponse> handleACSException(ACSHttpException e) {
-        return ResponseEntity.status(e.getCode()).body(new BasicResponse(e.getCode(), e.getMessage()));
+        return ResponseEntity.status(e.getCode()).body(new BasicResponse(e.getCode(), e.getErrorCode(), e.getMessage()));
     }
 }

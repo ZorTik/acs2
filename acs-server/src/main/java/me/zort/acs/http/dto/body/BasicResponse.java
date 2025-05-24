@@ -6,18 +6,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BasicResponse {
     private int code;
+    private int errorCode;
     private String message;
     private Object data;
 
     public BasicResponse(String message) {
-        this(200, message, null);
+        this(200, 0, message, null);
     }
 
     public BasicResponse(String message, Object data) {
-        this(200, message, data);
+        this(200, 0, message, data);
     }
 
-    public BasicResponse(int code, String message) {
-        this(code, message, null);
+    public BasicResponse(int code, int errorCode, String message) {
+        this(code, errorCode, message, null);
     }
 }
