@@ -19,3 +19,7 @@ allprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.38'
     }
 }
+
+project('acs-spring').dependencies {
+    compileOnly project('acs-client:java')
+}

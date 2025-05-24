@@ -2,7 +2,9 @@ package me.zort.acs.client.http.model;
 
 public interface NodeStatesResponse {
 
-    boolean anyNodes(String... nodes);
+    boolean anyOf(String... nodes);
 
-    boolean allNodes(String... nodes);
+    boolean allOf(String... nodes);
+
+    boolean all();
 }

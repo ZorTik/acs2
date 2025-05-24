@@ -10,13 +10,18 @@ import java.util.Map;
 public class NodeStatesResponseV1 implements NodeStatesResponse {
     private final Map<String, Boolean> states;
 
-    public boolean anyNodes(String... nodes) {
+    public boolean anyOf(String... nodes) {
         return Arrays.stream(nodes).anyMatch(this::checkGrantState);
     }
 
     @Override
-    public boolean allNodes(String... nodes) {
+    public boolean allOf(String... nodes) {
         return Arrays.stream(nodes).allMatch(this::checkGrantState);
+    }
+
+    @Override
+    public boolean all() {
+        return states.keySet().stream().allMatch(this::checkGrantState);
     }
 
     private boolean checkGrantState(String node) {
