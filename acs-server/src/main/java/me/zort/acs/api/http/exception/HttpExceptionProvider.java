@@ -6,8 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 public interface HttpExceptionProvider {
 
-    RuntimeException getException(HttpException type);
-
     @NotNull
     RuntimeException getException(HttpException type, @Nullable Throwable cause, @Nullable Object... args);
 }

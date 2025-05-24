@@ -16,11 +16,6 @@ public class HttpExceptionProviderImpl implements HttpExceptionProvider {
     private final MessageSource messageSource;
 
     @Override
-    public RuntimeException getException(HttpException type) {
-        return getException(type, null);
-    }
-
-    @Override
     public @NotNull RuntimeException getException(HttpException type, @Nullable Throwable cause, Object... args) {
         if (args.length != type.getRequiredArgumentCount()) {
             throw new IllegalArgumentException("Invalid number of arguments provided for exception type: " + type);
