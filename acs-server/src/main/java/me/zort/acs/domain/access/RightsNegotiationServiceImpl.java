@@ -31,10 +31,9 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
         Set<Node> grantedNodes = grantService.getGrants(accessor, accessed)
                 .stream()
                 .filter(Grant::isValid)
-                .map(Grant::getNode)
-                .collect(Collectors.toSet());
+                .map(Grant::getNode).collect(Collectors.toSet());
 
-        // TODO: Groups
+        // TODO: Groups, ty budou implementovat RightsHolder
 
         return List.of(
                 NodesBulk.of(defaultGrantedNodes),

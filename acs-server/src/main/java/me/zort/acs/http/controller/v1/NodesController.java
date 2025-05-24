@@ -3,14 +3,13 @@ package me.zort.acs.http.controller.v1;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.model.SubjectLike;
-import me.zort.acs.api.http.exception.HttpExceptionProvider;
+import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.access.AccessControlService;
 import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesRequestDto;
 import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesResponseDto;
 import me.zort.acs.http.dto.body.nodes.list.ListNodesResponseDto;
 import me.zort.acs.http.dto.model.node.NodeDto;
 import me.zort.acs.http.dto.model.node.NodeWithStateDto;
-import me.zort.acs.http.exception.ACSHttpException;
 import me.zort.acs.http.exception.HttpException;
 import me.zort.acs.http.mapper.HttpNodeMapper;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
@@ -18,9 +17,7 @@ import me.zort.acs.http.mapper.HttpSubjectTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RestController
@@ -30,7 +27,7 @@ public class NodesController {
     private final HttpSubjectTypeMapper subjectTypeMapper;
     private final HttpSubjectMapper subjectMapper;
     private final AccessControlService accessControlService;
-    private final HttpExceptionProvider exceptionProvider;
+    private final HttpExceptionFactory exceptionProvider;
 
     @GetMapping
     public ListNodesResponseDto listNodes(@RequestParam(required = false) String subjectType) {
@@ -43,7 +40,7 @@ public class NodesController {
             // The possible combinations of query params
             String options = String.join(", ", new String[]{"subjectType"});
 
-            throw exceptionProvider.getException(
+            throw exceptionProvider.createException(
                     HttpException.CONTROLLER_LIST_NODES_QUERY_NOT_APPLICABLE, null, options);
         }
         return new ListNodesResponseDto(nodes);

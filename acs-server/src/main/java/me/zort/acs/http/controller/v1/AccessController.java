@@ -1,7 +1,7 @@
 package me.zort.acs.http.controller.v1;
 
 import me.zort.acs.api.domain.service.GrantService;
-import me.zort.acs.api.http.exception.HttpExceptionProvider;
+import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.api.domain.model.SubjectLike;
@@ -14,7 +14,6 @@ import me.zort.acs.http.dto.body.access.grant.GrantNodesRequestDto;
 import me.zort.acs.http.dto.body.access.grant.GrantNodesResponseDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesRequestDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesResponseDto;
-import me.zort.acs.http.exception.ACSHttpException;
 import me.zort.acs.http.exception.HttpException;
 import me.zort.acs.http.mapper.HttpNodeMapper;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
@@ -33,7 +32,7 @@ public class AccessController {
     private final HttpNodeMapper nodeMapper;
     private final AccessControlService accessService;
     private final GrantService grantService;
-    private final HttpExceptionProvider exceptionProvider;
+    private final HttpExceptionFactory exceptionProvider;
 
     @PostMapping("/check")
     public AccessCheckResponseDto checkAccess(@Valid @RequestBody AccessCheckRequestDto body) {
@@ -48,7 +47,7 @@ public class AccessController {
                     try {
                         return accessService.checkAccess(from, to, node).isGranted();
                     } catch (IllegalArgumentException e) {
-                        throw exceptionProvider.getException(
+                        throw exceptionProvider.createException(
                                 HttpException.NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE, null, node, to.getSubjectType());
                     }
                 }));

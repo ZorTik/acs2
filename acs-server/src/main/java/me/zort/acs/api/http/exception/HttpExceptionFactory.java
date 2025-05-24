@@ -4,8 +4,8 @@ import me.zort.acs.http.exception.HttpException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface HttpExceptionProvider {
+public interface HttpExceptionFactory {
 
     @NotNull
-    RuntimeException getException(HttpException type, @Nullable Throwable cause, @Nullable Object... args);
+    RuntimeException createException(HttpException type, @Nullable Throwable cause, @Nullable Object... args);
 }

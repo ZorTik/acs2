@@ -2,7 +2,7 @@ package me.zort.acs.http.mapper;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.service.SubjectService;
-import me.zort.acs.api.http.exception.HttpExceptionProvider;
+import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.NullSubject;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.api.domain.model.SubjectLike;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class HttpSubjectMapper {
     private final HttpSubjectTypeMapper subjectTypeMapper;
     private final SubjectService service;
-    private final HttpExceptionProvider exceptionProvider;
+    private final HttpExceptionFactory exceptionProvider;
 
     public Subject toDomain(SubjectDto dto) {
         return toDomain(dto, false);
@@ -32,7 +32,7 @@ public class HttpSubjectMapper {
             return service.createSubject(type, dto.getId()).orElseThrow();
         } else {
             return service.getSubject(type, dto.getId())
-                    .orElseThrow(() -> exceptionProvider.getException(HttpException.SUBJECT_NOT_FOUND, null, dto.getId()));
+                    .orElseThrow(() -> exceptionProvider.createException(HttpException.SUBJECT_NOT_FOUND, null, dto.getId()));
         }
     }
 

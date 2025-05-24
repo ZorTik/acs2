@@ -1,7 +1,7 @@
 package me.zort.acs.http.exception;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.http.exception.HttpExceptionProvider;
+import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,11 @@ import java.util.Locale;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
-public class HttpExceptionProviderImpl implements HttpExceptionProvider {
+public class HttpExceptionFactoryImpl implements HttpExceptionFactory {
     private final MessageSource messageSource;
 
     @Override
-    public @NotNull RuntimeException getException(HttpException type, @Nullable Throwable cause, Object... args) {
+    public @NotNull RuntimeException createException(HttpException type, @Nullable Throwable cause, Object... args) {
         if (args.length != type.getRequiredArgumentCount()) {
             throw new IllegalArgumentException("Invalid number of arguments provided for exception type: " + type);
         }
