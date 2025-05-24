@@ -9,9 +9,6 @@ jobs:
   test:
     # Latest ubuntu runner
     runs-on: ubuntu-latest
-    permissions:
-      checks: write
-      pull-requests: write
 
     steps:
       - name: Checkout repository
