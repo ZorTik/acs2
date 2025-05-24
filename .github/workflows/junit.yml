@@ -9,6 +9,9 @@ jobs:
   test:
     # Latest ubuntu runner
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -28,15 +31,8 @@ jobs:
       - name: Run all tests from root
         run: ./gradlew test
 
-      - name: Upload test reports artifact
-        uses: actions/upload-artifact@v4
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
         with:
-          name: test-results
-          path: '**/build/test-results/test/*.xml'
-
-      - name: Test Reporter
-        uses: dorny/test-reporter@v1
-        with:
-          name: Gradle Tests
-          path: '**/build/test-results/test/*.xml'
-          reporter: java-junit
+          report_paths: '**/build/test-results/test/TEST-*.xml'
