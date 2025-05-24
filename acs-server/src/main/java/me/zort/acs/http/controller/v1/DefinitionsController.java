@@ -17,7 +17,7 @@ public class DefinitionsController {
 
     @PostMapping("/refresh")
     public ResponseEntity<BasicResponse> refresh() {
-        refreshService.refresh();
+        refreshService.refreshDefinitions();
 
         return ResponseEntity.ok(new BasicResponse("Definitions refreshed successfully"));
     }

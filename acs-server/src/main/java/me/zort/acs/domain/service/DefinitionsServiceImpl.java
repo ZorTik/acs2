@@ -36,7 +36,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     @Transactional(rollbackFor = Exception.class)
     @SneakyThrows(IOException.class)
     @Override
-    public void refresh() {
+    public void refreshDefinitions() {
         DefinitionsModel model = definitionsSource.getModel();
 
         Logger logger = LoggerFactory.getLogger(getClass());

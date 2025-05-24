@@ -5,7 +5,7 @@ import me.zort.acs.domain.model.Node;
 
 public interface DefinitionsService {
 
-    void refresh();
+    void refreshDefinitions();
 
     boolean checkDefaultGrant(SubjectLike from, SubjectLike to, Node node);
 }

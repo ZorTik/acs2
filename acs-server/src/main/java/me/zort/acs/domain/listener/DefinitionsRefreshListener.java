@@ -15,6 +15,6 @@ public class DefinitionsRefreshListener implements ApplicationListener<Applicati
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent event) {
-        definitionsService.refresh();
+        definitionsService.refreshDefinitions();
     }
 }

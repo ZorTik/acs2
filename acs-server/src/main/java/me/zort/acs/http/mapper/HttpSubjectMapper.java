@@ -2,12 +2,14 @@ package me.zort.acs.http.mapper;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.service.SubjectService;
+import me.zort.acs.api.http.exception.HttpExceptionProvider;
 import me.zort.acs.domain.model.NullSubject;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
 import me.zort.acs.http.exception.ACSHttpException;
+import me.zort.acs.http.exception.HttpException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class HttpSubjectMapper {
     private final HttpSubjectTypeMapper subjectTypeMapper;
     private final SubjectService service;
+    private final HttpExceptionProvider exceptionProvider;
 
     public Subject toDomain(SubjectDto dto) {
         return toDomain(dto, false);
@@ -29,7 +32,7 @@ public class HttpSubjectMapper {
             return service.createSubject(type, dto.getId()).orElseThrow();
         } else {
             return service.getSubject(type, dto.getId())
-                    .orElseThrow(() -> new ACSHttpException("Subject not found", 404, ACSHttpException.HTTP_MAPPER_SUBJECT_NOT_FOUND));
+                    .orElseThrow(() -> exceptionProvider.getException(HttpException.SUBJECT_NOT_FOUND, null, dto.getId()));
         }
     }
 
@@ -45,7 +48,7 @@ public class HttpSubjectMapper {
         try {
             return toDomain(dto);
         } catch (ACSHttpException e) {
-            if (e.isErrorSpecific() && e.getErrorCode() == ACSHttpException.HTTP_MAPPER_SUBJECT_NOT_FOUND) {
+            if (e.isErrorSpecific() && e.getErrorCode() == HttpException.SUBJECT_NOT_FOUND.getErrorCode()) {
                 SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
 
                 return new NullSubject(type, dto.getId());
