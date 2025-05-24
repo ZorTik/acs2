@@ -39,4 +39,4 @@ jobs:
         with:
           name: Gradle Tests
           path: '**/build/test-results/test/*.xml'
-          reporter: junit
+          reporter: java-junit
