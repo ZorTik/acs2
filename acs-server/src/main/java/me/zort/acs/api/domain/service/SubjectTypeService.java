@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface SubjectTypeService {
 
-    Optional<SubjectType> createSubjectType(String id);
+    SubjectType createSubjectType(String id);
 
     void deleteSubjectType(SubjectType subjectType);
 

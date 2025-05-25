@@ -33,7 +33,7 @@ public class AccessController {
     private final AccessControlService accessService;
     private final GrantService grantService;
     private final HttpExceptionFactory exceptionProvider;
-
+    
     @PostMapping("/check")
     public AccessCheckResponseDto checkAccess(@Valid @RequestBody AccessCheckRequestDto body) {
         SubjectLike from = subjectMapper.toDomainOrNull(body.getAccessor());

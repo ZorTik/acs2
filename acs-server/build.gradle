@@ -17,6 +17,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-json') {
         exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
     }
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.jetbrains:annotations:15.0'
     implementation 'com.google.code.gson:gson:2.10.1'

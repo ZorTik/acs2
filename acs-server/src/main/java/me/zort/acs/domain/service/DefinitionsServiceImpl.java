@@ -2,6 +2,8 @@ package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import me.zort.acs.api.domain.garbage.ResourceDisposalService;
+import me.zort.acs.api.domain.provider.CachedProvider;
 import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.service.NodeService;
 import me.zort.acs.api.domain.service.SubjectTypeService;
@@ -25,6 +27,7 @@ import java.util.*;
 public class DefinitionsServiceImpl implements DefinitionsService {
     private final SubjectTypeService subjectTypeService;
     private final NodeService nodeService;
+    private final ResourceDisposalService disposalService;
 
     private final DefinitionsSource definitionsSource;
 
@@ -43,6 +46,9 @@ public class DefinitionsServiceImpl implements DefinitionsService {
         refreshSubjectTypes(model);
         // Cache default grants
         refreshDefaultGrants(model);
+
+        // Clear caches
+        disposalService.disposeBeans(CachedProvider.class);
 
         logger.info("Definitions refreshed successfully.");
     }
@@ -65,17 +71,13 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     }
 
     private void refreshSubjectType(SubjectTypeDefinitionModel def) {
-        subjectTypeService.createSubjectType(def.getId()).ifPresent(subjectType -> {
-            def.getNodes()
-                    .forEach(value -> {
-                        Optional<Node> nodeOptional = nodeService.createNode(value);
-                        if (nodeOptional.isEmpty()) {
-                            return;
-                        }
+        SubjectType subjectType = subjectTypeService.createSubjectType(def.getId());
+        def.getNodes()
+                .forEach(value -> {
+                    Node node = nodeService.createNode(value);
 
-                        nodeService.assignNode(nodeOptional.get(), subjectType);
-                    });
-        });
+                    nodeService.assignNode(node, subjectType);
+                });
     }
 
     private void refreshDefaultGrants(DefinitionsModel model) {

@@ -25,16 +25,16 @@ public class NodeServiceImpl implements NodeService {
 
     @CacheEvict(value = "nodes", key = "#value")
     @Override
-    public Optional<Node> createNode(String value) {
+    public Node createNode(String value) {
         if (existsNode(value)) {
-            return Optional.empty();
+            return getNode(value).orElseThrow();
         }
 
         Node node = nodeProvider.getNode(value);
 
         nodeRepository.save(nodeMapper.toPersistence(node));
 
-        return Optional.of(node);
+        return node;
     }
 
     @CacheEvict(value = "nodes", key = "#node.value")

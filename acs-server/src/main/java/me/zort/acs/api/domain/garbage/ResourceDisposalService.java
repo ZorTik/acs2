@@ -5,7 +5,9 @@ import me.zort.acs.domain.garbage.DisposablesHolder;
 
 public interface ResourceDisposalService {
 
-    void checkForGarbage(DisposablesHolder disposablesHolder);
+    void dispose(DisposablesHolder disposablesHolder);
 
-    void checkForGarbage(Disposable disposable);
+    void dispose(Disposable disposable);
+
+    <T extends Disposable> void disposeBeans(Class<T> beanClass);
 }

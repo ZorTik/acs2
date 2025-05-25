@@ -6,6 +6,7 @@ import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.service.SubjectTypeService;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.domain.model.SubjectType;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +19,18 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
     private final SubjectTypeRepository subjectTypeRepository;
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
 
+    @NotNull
     @Override
-    public Optional<SubjectType> createSubjectType(String id) {
+    public SubjectType createSubjectType(String id) {
         if (subjectTypeRepository.existsById(id)) {
-            return Optional.empty();
+            return getSubjectType(id).orElseThrow();
         }
 
         SubjectType subjectType = new SubjectType(id, List.of());
 
         subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
 
-        return Optional.of(subjectType);
+        return subjectType;
     }
 
     @Override

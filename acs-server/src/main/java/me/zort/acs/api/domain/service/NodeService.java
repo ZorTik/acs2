@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface NodeService {
 
-    Optional<Node> createNode(String value);
+    Node createNode(String value);
 
     void assignNode(Node node, SubjectType subjectType);
 

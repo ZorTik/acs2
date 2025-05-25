@@ -6,9 +6,11 @@ public interface ResourceDisposal<T extends Disposable> {
 
     void dispose(T resource);
 
-    boolean shouldDispose(T resource);
-
     Class<T> getResourceType();
+
+    default boolean shouldDispose(T resource) {
+        return true;
+    }
 
     default void disposeIfNecessary(T resource) {
         if (shouldDispose(resource)) {

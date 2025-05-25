@@ -15,7 +15,7 @@ public class DisposablesListener {
     @EventListener
     public void onEvent(Object event) {
         if (event instanceof DisposablesHolder disposablesHolder) {
-            disposalService.checkForGarbage(disposablesHolder);
+            disposalService.dispose(disposablesHolder);
         }
     }
 }
