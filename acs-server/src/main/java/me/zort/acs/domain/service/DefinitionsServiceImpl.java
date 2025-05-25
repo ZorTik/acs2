@@ -33,7 +33,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     @SneakyThrows(IOException.class)
     @Override
     public void refreshDefinitions() {

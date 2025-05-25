@@ -24,7 +24,6 @@ public class ProviderCacheDisposal implements ResourceDisposal<CachedProvider> {
                     "Key: {}", key);
             return;
         }
-
         cache.clear();
     }
 
