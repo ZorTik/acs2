@@ -2,7 +2,7 @@ package me.zort.acs.config;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.config.properties.AcsDefinitionsConfigurationProperties;
-import me.zort.acs.domain.definitions.source.DefinitionsSource;
+import me.zort.acs.api.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.domain.definitions.source.InputStreamDefinitionsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

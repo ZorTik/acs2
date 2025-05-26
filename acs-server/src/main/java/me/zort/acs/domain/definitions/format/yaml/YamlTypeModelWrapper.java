@@ -2,7 +2,7 @@ package me.zort.acs.domain.definitions.format.yaml;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
+import me.zort.acs.api.domain.definitions.model.SubjectTypeDefinitionModel;
 
 import java.util.List;
 

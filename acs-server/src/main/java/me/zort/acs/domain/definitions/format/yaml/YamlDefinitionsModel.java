@@ -1,13 +1,15 @@
 package me.zort.acs.domain.definitions.format.yaml;
 
 import lombok.Data;
-import me.zort.acs.domain.definitions.model.DefaultGrantsDefinitionModel;
-import me.zort.acs.domain.definitions.model.DefinitionsModel;
-import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
+import lombok.NoArgsConstructor;
+import me.zort.acs.api.domain.definitions.model.DefaultGrantsDefinitionModel;
+import me.zort.acs.api.domain.definitions.model.DefinitionsModel;
+import me.zort.acs.api.domain.definitions.model.SubjectTypeDefinitionModel;
 
 import java.util.List;
 import java.util.Map;
 
+@NoArgsConstructor
 @Data
 public class YamlDefinitionsModel implements DefinitionsModel {
     private Map<String, YamlTypeModel> types;
@@ -36,5 +38,13 @@ public class YamlDefinitionsModel implements DefinitionsModel {
 
     public SubjectTypeDefinitionModel getSubjectType(String id) {
         return types.containsKey(id) ? mapSubjectTypeModel(types.get(id), id) : null;
+    }
+
+    @Override
+    public String toString() {
+        return "YamlDefinitionsModel{" +
+                "types=" + types +
+                ", defaultGrants=" + defaultGrants +
+                '}';
     }
 }

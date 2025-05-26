@@ -1,4 +1,4 @@
-package me.zort.acs.domain.definitions.model;
+package me.zort.acs.api.domain.definitions.model;
 
 import java.util.List;
 

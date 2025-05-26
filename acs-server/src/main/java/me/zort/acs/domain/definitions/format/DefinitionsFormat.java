@@ -1,6 +1,6 @@
 package me.zort.acs.domain.definitions.format;
 
-import me.zort.acs.domain.definitions.model.DefinitionsModel;
+import me.zort.acs.api.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.domain.definitions.format.yaml.YamlDefinitionsModel;
 import me.zort.acs.domain.definitions.format.yaml.YamlPropertyUtils;
 import org.jetbrains.annotations.NotNull;

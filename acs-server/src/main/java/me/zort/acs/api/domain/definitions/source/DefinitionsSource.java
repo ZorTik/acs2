@@ -1,6 +1,6 @@
-package me.zort.acs.domain.definitions.source;
+package me.zort.acs.api.domain.definitions.source;
 
-import me.zort.acs.domain.definitions.model.DefinitionsModel;
+import me.zort.acs.api.domain.definitions.model.DefinitionsModel;
 
 import java.io.IOException;
 
