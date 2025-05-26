@@ -2,10 +2,12 @@ package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.api.domain.provider.SubjectTypeProvider;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.provider.options.SubjectTypeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class DomainSubjectTypeMapper implements DomainModelMapper<SubjectType, SubjectTypeEntity> {
     private final DomainModelMapper<Node, NodeEntity> nodeMapper;
+    private final SubjectTypeProvider subjectTypeProvider;
 
     @Override
     public SubjectTypeEntity toPersistence(SubjectType domain) {
@@ -34,6 +37,8 @@ public class DomainSubjectTypeMapper implements DomainModelMapper<SubjectType, S
                 .stream()
                 .map(nodeMapper::toDomain).toList();
 
-        return new SubjectType(persistence.getId(), nodes);
+        return subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
+                .id(persistence.getId())
+                .nodes(nodes).build());
     }
 }

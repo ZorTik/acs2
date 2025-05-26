@@ -3,9 +3,11 @@ package me.zort.acs.domain.service;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.SubjectTypeRepository;
 import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.api.domain.provider.SubjectTypeProvider;
 import me.zort.acs.api.domain.service.SubjectTypeService;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.provider.options.SubjectTypeOptions;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class SubjectTypeServiceImpl implements SubjectTypeService {
     private final SubjectTypeRepository subjectTypeRepository;
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
+    private final SubjectTypeProvider subjectTypeProvider;
 
     @NotNull
     @Override
@@ -26,7 +29,9 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
             return getSubjectType(id).orElseThrow();
         }
 
-        SubjectType subjectType = new SubjectType(id, List.of());
+        SubjectType subjectType = subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
+                .id(id)
+                .nodes(List.of()).build());
 
         subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
 

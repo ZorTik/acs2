@@ -18,4 +18,7 @@ public class SubjectTypeEntity {
     @OneToMany(mappedBy = "subjectType", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SubjectEntity> subjects = new HashSet<>();
 
+    @OneToMany(mappedBy = "subjectType", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GroupEntity> groups = new HashSet<>();
+
 }

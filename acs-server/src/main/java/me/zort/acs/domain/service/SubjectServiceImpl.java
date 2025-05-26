@@ -10,10 +10,12 @@ import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.provider.options.SubjectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -30,7 +32,10 @@ public class SubjectServiceImpl implements SubjectService {
             return Optional.empty();
         }
 
-        Subject subject = subjectProvider.getSubject(type, id);
+        Subject subject = subjectProvider.getSubject(SubjectOptions.builder()
+                .subjectType(type)
+                .id(id)
+                .groups(new ArrayList<>()).build());
 
         subject = subjectMapper.toDomain(subjectRepository.save(subjectMapper.toPersistence(subject)));
 

@@ -15,6 +15,7 @@ import me.zort.acs.domain.event.GrantRemoveEvent;
 import me.zort.acs.domain.model.Grant;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.provider.options.GrantOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
@@ -39,7 +40,10 @@ public class GrantServiceImpl implements GrantService {
         if (existsGrant(accessor, accessed, node)) {
             return Optional.empty();
         } else {
-            Grant grant = grantProvider.getGrant(accessor, accessed, node);
+            Grant grant = grantProvider.getGrant(GrantOptions.builder()
+                    .accessor(accessor)
+                    .accessed(accessed)
+                    .node(node).build());
 
             grantRepository.save(grantMapper.toPersistence(grant));
 
@@ -74,7 +78,10 @@ public class GrantServiceImpl implements GrantService {
     @Override
     public Optional<Grant> getGrant(Subject accessor, Subject accessed, Node node) {
         if (existsGrant(accessor, accessed, node)) {
-            Grant grant = grantProvider.getGrant(accessor, accessed, node);
+            Grant grant = grantProvider.getGrant(GrantOptions.builder()
+                    .accessor(accessor)
+                    .accessed(accessed)
+                    .node(node).build());
 
             return Optional.of(grant);
         } else {

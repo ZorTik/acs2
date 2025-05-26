@@ -1,10 +1,10 @@
 package me.zort.acs.api.domain.provider;
 
 import me.zort.acs.domain.model.Grant;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.provider.options.GrantOptions;
+import org.jetbrains.annotations.NotNull;
 
 public interface GrantProvider {
 
-    Grant getGrant(Subject accessor, Subject accessed, Node node);
+    Grant getGrant(final @NotNull GrantOptions options);
 }

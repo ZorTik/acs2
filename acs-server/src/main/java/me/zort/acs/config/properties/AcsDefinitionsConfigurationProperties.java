@@ -1,7 +1,7 @@
 package me.zort.acs.config.properties;
 
 import lombok.Data;
-import me.zort.acs.domain.definitions.DefinitionsFormat;
+import me.zort.acs.domain.definitions.format.DefinitionsFormat;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

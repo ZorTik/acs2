@@ -1,4 +1,4 @@
-package me.zort.acs.domain.garbage;
+package me.zort.acs.api.domain.garbage.disposable;
 
 public interface Disposable {
     // Marks an object as disposable. Purpose of this is to

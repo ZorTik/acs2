@@ -1,5 +1,6 @@
 package me.zort.acs.domain.garbage;
 
+import me.zort.acs.api.domain.garbage.disposable.Disposable;
 import me.zort.acs.api.domain.garbage.ResourceDisposalRegistry;
 import me.zort.acs.domain.garbage.disposal.ResourceDisposal;
 import org.jetbrains.annotations.NotNull;

@@ -9,6 +9,7 @@ import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.provider.options.NodeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,9 @@ public class NodeServiceImpl implements NodeService {
             return getNode(value).orElseThrow();
         }
 
-        Node node = nodeProvider.getNode(value);
+        Node node = nodeProvider.getNode(NodeOptions.builder()
+                .value(value)
+                .build());
 
         nodeRepository.save(nodeMapper.toPersistence(node));
 

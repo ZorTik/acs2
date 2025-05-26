@@ -3,20 +3,27 @@ package me.zort.acs.domain.mapper;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.api.domain.mapper.PersistenceToDomainMapper;
 import me.zort.acs.api.domain.provider.SubjectProvider;
+import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.id.SubjectId;
+import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.provider.options.SubjectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEntity> {
     private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
+    private final PersistenceToDomainMapper<GroupEntity, Group> groupMapper;
     private final SubjectProvider subjectProvider;
 
     @Override
@@ -36,6 +43,13 @@ public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEn
     public Subject toDomain(SubjectEntity persistence) {
         SubjectType subjectType = subjectTypeMapper.toDomain(persistence.getSubjectType());
 
-        return subjectProvider.getSubject(subjectType, persistence.getSubjectId());
+        List<Group> groups = persistence.getGroups()
+                .stream()
+                .map(groupMapper::toDomain).toList();
+
+        return subjectProvider.getSubject(SubjectOptions.builder()
+                .subjectType(subjectType)
+                .id(persistence.getSubjectId())
+                .groups(groups).build());
     }
 }

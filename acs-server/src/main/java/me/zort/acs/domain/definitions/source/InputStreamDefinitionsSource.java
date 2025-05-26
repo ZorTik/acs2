@@ -1,7 +1,7 @@
 package me.zort.acs.domain.definitions.source;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.definitions.DefinitionsFormat;
+import me.zort.acs.domain.definitions.format.DefinitionsFormat;
 import me.zort.acs.domain.definitions.model.DefinitionsModel;
 import org.springframework.core.io.InputStreamSource;
 

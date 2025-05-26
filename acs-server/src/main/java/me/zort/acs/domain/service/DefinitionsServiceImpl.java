@@ -3,7 +3,7 @@ package me.zort.acs.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
-import me.zort.acs.api.domain.provider.CachedProvider;
+import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
 import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.service.NodeService;
 import me.zort.acs.api.domain.service.SubjectTypeService;
@@ -48,7 +48,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
         refreshDefaultGrants(model);
 
         // Clear caches
-        disposalService.disposeBeans(CachedProvider.class);
+        disposalService.disposeBeans(CacheDisposable.class);
 
         logger.info("Definitions refreshed successfully.");
     }

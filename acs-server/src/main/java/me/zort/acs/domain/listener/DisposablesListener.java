@@ -2,7 +2,7 @@ package me.zort.acs.domain.listener;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
-import me.zort.acs.domain.garbage.DisposablesHolder;
+import me.zort.acs.api.domain.garbage.DisposablesHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

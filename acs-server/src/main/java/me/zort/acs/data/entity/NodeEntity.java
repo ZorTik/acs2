@@ -24,4 +24,11 @@ public class NodeEntity {
     )
     private List<SubjectTypeEntity> subjectTypes = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "acs_groups_nodes",
+            joinColumns = @JoinColumn(name = "node_value"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private List<GroupEntity> groups = new ArrayList<>();
 }

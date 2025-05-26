@@ -1,7 +1,6 @@
 package me.zort.acs.api.domain.garbage;
 
-import me.zort.acs.domain.garbage.Disposable;
-import me.zort.acs.domain.garbage.DisposablesHolder;
+import me.zort.acs.api.domain.garbage.disposable.Disposable;
 
 public interface ResourceDisposalService {
 

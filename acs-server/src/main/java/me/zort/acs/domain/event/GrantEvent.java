@@ -1,8 +1,8 @@
 package me.zort.acs.domain.event;
 
 import lombok.Getter;
-import me.zort.acs.domain.garbage.Disposable;
-import me.zort.acs.domain.garbage.DisposablesHolder;
+import me.zort.acs.api.domain.garbage.disposable.Disposable;
+import me.zort.acs.api.domain.garbage.DisposablesHolder;
 import me.zort.acs.domain.model.Grant;
 
 import java.util.Collections;

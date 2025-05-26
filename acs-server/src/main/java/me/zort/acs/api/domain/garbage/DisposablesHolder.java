@@ -1,4 +1,6 @@
-package me.zort.acs.domain.garbage;
+package me.zort.acs.api.domain.garbage;
+
+import me.zort.acs.api.domain.garbage.disposable.Disposable;
 
 import java.util.List;
 

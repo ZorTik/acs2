@@ -1,20 +1,25 @@
 package me.zort.acs.domain.provider;
 
-import me.zort.acs.api.domain.provider.CachedProvider;
+import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
 import me.zort.acs.api.domain.provider.GrantProvider;
 import me.zort.acs.domain.model.Grant;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.provider.options.GrantOptions;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GrantProviderImpl implements GrantProvider, CachedProvider {
+public class GrantProviderImpl implements GrantProvider, CacheDisposable {
 
-    @Cacheable(value = "grants", key = "#accessor.subjectType.id + ':' + #accessor.id + '->' + #accessed.subjectType.id + ':' + #accessed.id + '@' + #node.value")
+    @Cacheable(
+            value = "grants",
+            key = "#options.accessor.subjectType.id + ':' " +
+                    "+ #options.accessor.id + '->' " +
+                    "+ #options.accessed.subjectType.id + ':' " +
+                    "+ #options.accessed.id + '@' + #options.node.value")
     @Override
-    public Grant getGrant(Subject accessor, Subject accessed, Node node) {
-        return new Grant(accessor, accessed, node);
+    public Grant getGrant(@NotNull GrantOptions options) {
+        return new Grant(options.getAccessor(), options.getAccessed(), options.getNode());
     }
 
     @Override
