@@ -5,6 +5,7 @@ import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.access.rule.AccessRule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class AccessControlService {
 
     private final List<AccessRule> accessRules;
 
+    @Autowired
     public AccessControlService(AccessRequestFactory accessRequestFactory, List<AccessRule> accessRules) {
         this.accessRequestFactory = accessRequestFactory;
         this.accessRules = accessRules;

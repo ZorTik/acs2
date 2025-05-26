@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1748275484712-9" author="konda">
+        <createTable tableName="acs_groups">
+            <column name="group_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject_type_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_subject_type_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1748275484712-10" author="konda">
+        <createTable tableName="acs_groups_nodes">
+            <column name="groups_group_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="groups_subject_type_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="node_value" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1748275484712-11" author="konda">
+        <createTable tableName="acs_groups_subjects">
+            <column name="groups_group_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="groups_subject_type_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nodes_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nodes_subject_type_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1748275484712-12" author="konda">
+        <addPrimaryKey columnNames="subject_type_id, group_name" constraintName="pk_acs_groups" tableName="acs_groups"/>
+    </changeSet>
+    <changeSet id="1748275484712-13" author="konda">
+        <addForeignKeyConstraint baseColumnNames="parent_subject_type_id" baseTableName="acs_groups"
+                                 constraintName="FK_ACS_GROUPS_ON_PARENT_SUBJECT_TYPE"
+                                 referencedColumnNames="subject_type_id" referencedTableName="acs_groups"/>
+    </changeSet>
+    <changeSet id="1748275484712-14" author="konda">
+        <addForeignKeyConstraint baseColumnNames="subject_type_id" baseTableName="acs_groups"
+                                 constraintName="FK_ACS_GROUPS_ON_SUBJECT_TYPE" referencedColumnNames="id"
+                                 referencedTableName="acs_subject_types"/>
+    </changeSet>
+    <changeSet id="1748275484712-15" author="konda">
+        <addForeignKeyConstraint baseColumnNames="groups_subject_type_id,groups_group_name"
+                                 baseTableName="acs_groups_nodes" constraintName="fk_acsgronod_on_group_entity"
+                                 referencedColumnNames="subject_type_id,group_name" referencedTableName="acs_groups"/>
+    </changeSet>
+    <changeSet id="1748275484712-16" author="konda">
+        <addForeignKeyConstraint baseColumnNames="node_value" baseTableName="acs_groups_nodes"
+                                 constraintName="fk_acsgronod_on_node_entity" referencedColumnNames="value"
+                                 referencedTableName="acs_nodes"/>
+    </changeSet>
+    <changeSet id="1748275484712-17" author="konda">
+        <addForeignKeyConstraint baseColumnNames="groups_subject_type_id,groups_group_name"
+                                 baseTableName="acs_groups_subjects" constraintName="fk_acsgrosub_on_group_entity"
+                                 referencedColumnNames="subject_type_id,group_name" referencedTableName="acs_groups"/>
+    </changeSet>
+    <changeSet id="1748275484712-18" author="konda">
+        <addForeignKeyConstraint baseColumnNames="nodes_id,nodes_subject_type_id" baseTableName="acs_groups_subjects"
+                                 constraintName="fk_acsgrosub_on_subject_entity"
+                                 referencedColumnNames="id,subject_type_id" referencedTableName="acs_subjects"/>
+    </changeSet>
+
+</databaseChangeLog>

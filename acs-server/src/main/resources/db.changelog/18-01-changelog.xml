@@ -88,5 +88,6 @@
                                  constraintName="fk_acssubtypnod_on_subject_type_entity" referencedColumnNames="id"
                                  referencedTableName="acs_subject_types"/>
     </changeSet>
+    <include file="db.changelog/26-01-changelog.xml"/>
 
 </databaseChangeLog>
