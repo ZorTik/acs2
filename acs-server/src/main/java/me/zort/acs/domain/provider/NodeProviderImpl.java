@@ -7,6 +7,8 @@ import me.zort.acs.domain.provider.options.NodeOptions;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 public class NodeProviderImpl implements NodeProvider, CacheDisposable {
 
@@ -17,7 +19,7 @@ public class NodeProviderImpl implements NodeProvider, CacheDisposable {
     }
 
     @Override
-    public String getCacheKey() {
-        return "nodes";
+    public Set<String> getCacheKeys() {
+        return Set.of("nodes");
     }
 }

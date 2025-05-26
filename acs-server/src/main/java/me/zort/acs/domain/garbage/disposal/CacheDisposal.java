@@ -11,20 +11,21 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
-public class ProviderCacheDisposal implements ResourceDisposal<CacheDisposable> {
+public class CacheDisposal implements ResourceDisposal<CacheDisposable> {
     private final CacheManager cacheManager;
 
     @Override
     public void dispose(CacheDisposable resource) {
-        String key = resource.getCacheKey();
+        for (String key : resource.getCacheKeys()) {
+            Cache cache = cacheManager.getCache(key);
+            if (cache == null) {
+                log.error("Could not dispose cache for provider. Cache does not exist. " +
+                        "Key: {}", key);
+                return;
+            }
 
-        Cache cache = cacheManager.getCache(key);
-        if (cache == null) {
-            log.error("Could not dispose cache for provider. Cache does not exist. " +
-                    "Key: {}", key);
-            return;
+            cache.clear();
         }
-        cache.clear();
     }
 
     @Override

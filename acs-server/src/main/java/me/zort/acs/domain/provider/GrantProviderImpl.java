@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 public class GrantProviderImpl implements GrantProvider, CacheDisposable {
 
@@ -23,7 +25,7 @@ public class GrantProviderImpl implements GrantProvider, CacheDisposable {
     }
 
     @Override
-    public String getCacheKey() {
-        return "grants";
+    public Set<String> getCacheKeys() {
+        return Set.of("grants");
     }
 }

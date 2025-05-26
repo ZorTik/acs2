@@ -7,6 +7,8 @@ import me.zort.acs.domain.provider.options.GroupOptions;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 public class GroupProviderImpl implements GroupProvider, CacheDisposable {
 
@@ -17,7 +19,7 @@ public class GroupProviderImpl implements GroupProvider, CacheDisposable {
     }
 
     @Override
-    public String getCacheKey() {
-        return "groups";
+    public Set<String> getCacheKeys() {
+        return Set.of("groups");
     }
 }
