@@ -1,14 +1,12 @@
 package me.zort.acs.domain.definitions.format.yaml;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 import me.zort.acs.domain.definitions.model.DefaultGrantsDefinitionModel;
 import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class YamlDefaultGrantModel implements DefaultGrantsDefinitionModel {
     private String from;
     private String to;

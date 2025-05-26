@@ -23,7 +23,7 @@ public class GroupEntity {
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "parent_group_id", referencedColumnName = "group_id"),
+            @JoinColumn(name = "parent_group_id", referencedColumnName = "group_name"),
             @JoinColumn(name = "parent_subject_type_id", referencedColumnName = "subject_type_id")
     })
     private GroupEntity parent;

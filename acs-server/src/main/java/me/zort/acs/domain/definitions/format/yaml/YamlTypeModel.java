@@ -1,12 +1,10 @@
 package me.zort.acs.domain.definitions.format.yaml;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class YamlTypeModel {
     private List<String> nodes;
 

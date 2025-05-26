@@ -21,8 +21,14 @@ public class SubjectEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "acs_groups_subjects",
-            joinColumns = @JoinColumn(name = "subject_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
+            joinColumns = {
+                    @JoinColumn(name = "subject_id", referencedColumnName = "id"),
+                    @JoinColumn(name = "subject_type_id", referencedColumnName = "subject_type_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "group_name", referencedColumnName = "group_name"),
+                    @JoinColumn(name = "group_subject_type_id", referencedColumnName = "subject_type_id")
+            }
     )
     private List<GroupEntity> groups = new ArrayList<>();
 

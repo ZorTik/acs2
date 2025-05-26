@@ -48,7 +48,8 @@ public abstract class AbstractAcsClient implements AcsClient {
             final Class<T> responseType,
             final BiConsumer<HttpRequest.HttpRequestBuilder, Function<Object, String>> requestConfig,
             final HttpInterceptor... interceptors) {
-        HttpRequest.HttpRequestBuilder requestBuilder = HttpRequest.builder().baseUrl(baseUrl);
+        HttpRequest.HttpRequestBuilder requestBuilder = HttpRequest.builder()
+                .baseUrl(baseUrl);
 
         requestConfig.accept(requestBuilder, serializer::serializeRequestBody);
 

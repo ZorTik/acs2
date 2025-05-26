@@ -1,7 +1,6 @@
 package me.zort.acs.domain.definitions.format.yaml;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 import me.zort.acs.domain.definitions.model.DefaultGrantsDefinitionModel;
 import me.zort.acs.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
@@ -9,8 +8,7 @@ import me.zort.acs.domain.definitions.model.SubjectTypeDefinitionModel;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class YamlDefinitionsModel implements DefinitionsModel {
     private Map<String, YamlTypeModel> types;
     private List<YamlDefaultGrantModel> defaultGrants;
