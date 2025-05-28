@@ -21,5 +21,7 @@ public interface RightsStrategy {
      * @param on   The node to check against.
      * @return True if the node is applicable on the given node, false otherwise.
      */
-    boolean isNodeApplicableOn(Node node, Node on);
+    default boolean isNodeApplicableOn(Node node, Node on) {
+        return true;
+    }
 }

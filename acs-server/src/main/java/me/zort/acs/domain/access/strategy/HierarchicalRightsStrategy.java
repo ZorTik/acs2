@@ -3,6 +3,7 @@ package me.zort.acs.domain.access.strategy;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.strategy.RightsStrategy;
 import me.zort.acs.config.properties.AcsConfigurationProperties;
+import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

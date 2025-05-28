@@ -27,19 +27,19 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectProvider subjectProvider;
 
     @Override
-    public Optional<Subject> createSubject(SubjectType type, String id) {
-        if (existsSubject(type, id)) {
-            return Optional.empty();
-        }
+    public Subject createSubject(SubjectType type, String id) {
+        Optional<Subject> subjectOptional = getSubject(type, id);
 
-        Subject subject = subjectProvider.getSubject(SubjectOptions.builder()
-                .subjectType(type)
-                .id(id)
-                .groups(new ArrayList<>()).build());
+        return subjectOptional.orElseGet(() -> {
+            Subject subject = subjectProvider.getSubject(SubjectOptions.builder()
+                    .subjectType(type)
+                    .id(id)
+                    .groups(new ArrayList<>()).build());
 
-        subject = subjectMapper.toDomain(subjectRepository.save(subjectMapper.toPersistence(subject)));
+            subject = subjectMapper.toDomain(subjectRepository.save(subjectMapper.toPersistence(subject)));
 
-        return Optional.of(subject);
+            return subject;
+        });
     }
 
     @CacheEvict(value = "subjects", key = "#subject.subjectType.id + ':' + #subject.id")

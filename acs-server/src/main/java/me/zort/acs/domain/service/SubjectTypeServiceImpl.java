@@ -25,17 +25,15 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
     @NotNull
     @Override
     public SubjectType createSubjectType(String id) {
-        if (subjectTypeRepository.existsById(id)) {
-            return getSubjectType(id).orElseThrow();
-        }
+        return getSubjectType(id).orElseGet(() -> {
+            SubjectType subjectType = subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
+                    .id(id)
+                    .nodes(List.of()).build());
 
-        SubjectType subjectType = subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
-                .id(id)
-                .nodes(List.of()).build());
+            subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
 
-        subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
-
-        return subjectType;
+            return subjectType;
+        });
     }
 
     @Override

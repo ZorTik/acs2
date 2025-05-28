@@ -1,11 +1,12 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.mapper.PersistenceToDomainMapper;
+import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
+import me.zort.acs.data.id.GroupId;
 import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
@@ -18,10 +19,10 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
-public class DomainGroupMapper implements PersistenceToDomainMapper<GroupEntity, Group> {
+public class DomainGroupMapper implements DomainModelMapper<Group, GroupEntity> {
     private final GroupProvider groupProvider;
-    private final PersistenceToDomainMapper<SubjectTypeEntity, SubjectType> subjectTypeMapper;
-    private final PersistenceToDomainMapper<NodeEntity, Node> nodeMapper;
+    private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
+    private final DomainModelMapper<Node, NodeEntity> nodeMapper;
 
     @Override
     public Group toDomain(GroupEntity persistence) {
@@ -32,6 +33,7 @@ public class DomainGroupMapper implements PersistenceToDomainMapper<GroupEntity,
 
         Group parentGroup = null;
         if (persistence.getParent() != null) {
+            // Recursively fill
             parentGroup = toDomain(persistence.getParent());
         }
 
@@ -40,5 +42,22 @@ public class DomainGroupMapper implements PersistenceToDomainMapper<GroupEntity,
                 .name(persistence.getName())
                 .parentGroup(parentGroup)
                 .nodes(nodes).build());
+    }
+
+    @Override
+    public GroupEntity toPersistence(Group domain) {
+        GroupEntity entity = new GroupEntity();
+        entity.setId(new GroupId(domain.getSubjectType().getId(), domain.getName()));
+        entity.setName(domain.getName());
+        entity.setSubjectType(subjectTypeMapper.toPersistence(domain.getSubjectType()));
+        entity.setNodes(domain.getNodes()
+                .stream()
+                .map(nodeMapper::toPersistence).collect(Collectors.toSet()));
+
+        if (domain.getParent() != null) {
+            entity.setParent(toPersistence(domain.getParent()));
+        }
+
+        return entity;
     }
 }

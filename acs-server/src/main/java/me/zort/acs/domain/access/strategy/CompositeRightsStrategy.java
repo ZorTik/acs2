@@ -38,14 +38,14 @@ public class CompositeRightsStrategy implements RightsStrategy {
     }
 
     /**
-     * Checks if any of the delegated strategies considers the 'node' applicable on 'on'.
+     * Checks if all the delegated strategies consider the 'node' applicable on 'on'.
      *
      * @param node the node to check applicability for
      * @param on   the node to check against
-     * @return true if any strategy matches; false otherwise
+     * @return true if all strategies match; false otherwise
      */
     @Override
     public boolean isNodeApplicableOn(Node node, Node on) {
-        return strategies.stream().anyMatch(strategy -> strategy.isNodeApplicableOn(node, on));
+        return strategies.stream().allMatch(strategy -> strategy.isNodeApplicableOn(node, on));
     }
 }

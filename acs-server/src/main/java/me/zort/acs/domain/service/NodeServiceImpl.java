@@ -27,17 +27,15 @@ public class NodeServiceImpl implements NodeService {
     @CacheEvict(value = "nodes", key = "#value")
     @Override
     public Node createNode(String value) {
-        if (existsNode(value)) {
-            return getNode(value).orElseThrow();
-        }
+        return getNode(value).orElseGet(() -> {
+            Node node = nodeProvider.getNode(NodeOptions.builder()
+                    .value(value)
+                    .build());
 
-        Node node = nodeProvider.getNode(NodeOptions.builder()
-                .value(value)
-                .build());
+            nodeRepository.save(nodeMapper.toPersistence(node));
 
-        nodeRepository.save(nodeMapper.toPersistence(node));
-
-        return node;
+            return node;
+        });
     }
 
     @CacheEvict(value = "nodes", key = "#node.value")

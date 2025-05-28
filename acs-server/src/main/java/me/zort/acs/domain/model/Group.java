@@ -8,11 +8,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Getter
 @RequiredArgsConstructor
 public class Group implements RightsHolder {
-    @Getter
     private final SubjectType subjectType;
-    @Getter
     private final String name;
     private final Group parent;
     private final Set<Node> nodes;

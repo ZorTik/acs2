@@ -6,10 +6,7 @@ import me.zort.acs.api.domain.access.RightsHolder;
 import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
-import me.zort.acs.domain.model.Grant;
-import me.zort.acs.domain.model.Group;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +24,12 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
 
     @Override
     public List<RightsHolder> getRightsHolders(Subject accessor, Subject accessed) {
+        SubjectType accessorType = accessor.getSubjectType();
+        SubjectType accessedType = accessed.getSubjectType();
+
         // Nodes granted by definitions source
         Set<Node> defaultGrantedNodes = definitionsService
-                .getDefaultGrantedNodes(accessor.getSubjectType(), accessed.getSubjectType());
+                .getDefaultGrantedNodes(accessorType, accessedType);
 
         // Nodes granted by external requests
         Set<Node> grantedNodes = grantService.getGrants(accessor, accessed)
@@ -38,7 +38,7 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
                 .map(Grant::getNode).collect(Collectors.toSet());
 
         // Groups the subject is member of
-        List<Group> groups = groupService.getGroupMemberships(accessor, accessed.getSubjectType());
+        List<Group> groups = groupService.getGroupMemberships(accessor, accessedType);
 
         List<RightsHolder> holders = new ArrayList<>();
         holders.add(NodesBulk.of(defaultGrantedNodes));

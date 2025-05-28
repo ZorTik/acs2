@@ -29,7 +29,7 @@ public class HttpSubjectMapper {
         SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
 
         if (createIfAbsent && !service.existsSubject(type, dto.getId())) {
-            return service.createSubject(type, dto.getId()).orElseThrow();
+            return service.createSubject(type, dto.getId());
         } else {
             return service.getSubject(type, dto.getId())
                     .orElseThrow(() -> exceptionProvider.createException(HttpException.SUBJECT_NOT_FOUND, null, dto.getId()));
