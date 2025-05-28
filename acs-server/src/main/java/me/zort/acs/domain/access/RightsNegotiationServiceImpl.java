@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -32,17 +31,14 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
                 .getDefaultGrantedNodes(accessorType, accessedType);
 
         // Nodes granted by external requests
-        Set<Node> grantedNodes = grantService.getGrants(accessor, accessed)
-                .stream()
-                .filter(Grant::isValid)
-                .map(Grant::getNode).collect(Collectors.toSet());
+        List<Grant> grants = grantService.getGrants(accessor, accessed);
 
         // Groups the subject is member of
         List<Group> groups = groupService.getGroupMemberships(accessor, accessedType);
 
         List<RightsHolder> holders = new ArrayList<>();
         holders.add(NodesBulk.of(defaultGrantedNodes));
-        holders.add(NodesBulk.of(grantedNodes));
+        holders.addAll(grants);
         holders.addAll(groups);
 
         return holders;

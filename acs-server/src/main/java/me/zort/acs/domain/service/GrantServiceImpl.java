@@ -83,10 +83,12 @@ public class GrantServiceImpl implements GrantService {
                     .accessed(accessed)
                     .node(node).build());
 
-            return Optional.of(grant);
-        } else {
-            return Optional.empty();
+            if (grant.isValid()) {
+                return Optional.of(grant);
+            }
         }
+
+        return Optional.empty();
     }
 
     @Override
@@ -97,6 +99,7 @@ public class GrantServiceImpl implements GrantService {
         return grantRepository.findByAccessor_IdAndAccessed_Id(accessorId, accessedId)
                 .stream()
                 .map(grantMapper::toDomain)
+                .filter(Grant::isValid)
                 .toList();
     }
 
