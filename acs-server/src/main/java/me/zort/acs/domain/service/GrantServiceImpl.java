@@ -42,9 +42,14 @@ public class GrantServiceImpl implements GrantService {
         if (existsGrant(accessor, accessed, node)) {
             return Optional.empty();
         } else {
-            // Validate if this grant can be created for this
-            // combination.
-            accessValidatorService.validate(accessor, accessed, node);
+            try {
+                // Validate if this grant can be created for this
+                // combination.
+                accessValidatorService.validate(accessor, accessed, node);
+            } catch (IllegalArgumentException e) {
+                // Invalid grant
+                return Optional.empty();
+            }
 
             Grant grant = grantProvider.getGrant(GrantOptions.builder()
                     .accessor(accessor)
