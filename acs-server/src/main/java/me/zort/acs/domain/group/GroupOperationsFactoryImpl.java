@@ -2,7 +2,7 @@ package me.zort.acs.domain.group;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GroupRepository;
-import me.zort.acs.api.domain.group.operation.GroupOperation;
+import me.zort.acs.api.domain.operation.Operation;
 import me.zort.acs.api.domain.group.GroupOperationsFactory;
 import me.zort.acs.api.domain.mapper.PersistenceToDomainMapper;
 import me.zort.acs.data.entity.GroupEntity;
@@ -22,12 +22,12 @@ public class GroupOperationsFactoryImpl implements GroupOperationsFactory {
     private final PersistenceToDomainMapper<GroupEntity, Group> groupMapper;
 
     @Override
-    public GroupOperation assignParent(Group parent) {
+    public Operation<Group> assignParent(Group parent) {
         return new AssignParentOperationImpl(groupRepository, groupMapper, parent);
     }
 
     @Override
-    public GroupOperation assignNodes(Collection<Node> nodes) {
+    public Operation<Group> assignNodes(Collection<Node> nodes) {
         return new AssignNodesOperationImpl(nodes);
     }
 }

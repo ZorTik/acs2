@@ -46,6 +46,8 @@ public class DefinitionsServiceImpl implements DefinitionsService {
         refreshSubjectTypes(model);
         // Cache default grants
         refreshDefaultGrants(model);
+        // Refresh groups (if applicable)
+        refreshGroups(model);
 
         // Clear caches
         disposalService.disposeBeans(CacheDisposable.class);
@@ -97,5 +99,9 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                     .computeIfAbsent(key, k -> new HashSet<>())
                     .addAll(nodes);
         });
+    }
+
+    private void refreshGroups(DefinitionsModel model) {
+        // TODO
     }
 }

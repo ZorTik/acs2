@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.group;
 
-import me.zort.acs.api.domain.group.operation.GroupOperation;
+import me.zort.acs.api.domain.operation.Operation;
 import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
 
@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public interface GroupOperationsFactory {
 
-    GroupOperation assignParent(Group parent);
+    Operation<Group> assignParent(Group parent);
 
-    GroupOperation assignNodes(Collection<Node> nodes);
+    Operation<Group> assignNodes(Collection<Node> nodes);
 }

@@ -2,7 +2,7 @@ package me.zort.acs.domain.group;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GroupRepository;
-import me.zort.acs.api.domain.group.GroupOperationExecutor;
+import me.zort.acs.api.domain.operation.OperationExecutor;
 import me.zort.acs.api.domain.group.GroupOperationsFactory;
 import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
@@ -28,7 +28,7 @@ public class GroupServiceImpl implements GroupService {
     private final DomainModelMapper<Group, GroupEntity> groupMapper;
     private final GroupProvider groupProvider;
     private final GroupOperationsFactory operationsFactory;
-    private final GroupOperationExecutor operationExecutor;
+    private final OperationExecutor<Group> operationExecutor;
 
     @Override
     public Group createGroup(SubjectType subjectType, String name) {
