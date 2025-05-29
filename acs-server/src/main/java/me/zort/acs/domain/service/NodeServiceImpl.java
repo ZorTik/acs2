@@ -55,10 +55,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public boolean isNodeAssigned(Node node, SubjectType subjectType) {
-        NodeEntity nodeEntity = nodeMapper.toPersistence(node);
-        SubjectTypeEntity subjectTypeEntity = subjectTypeMapper.toPersistence(subjectType);
-
-        return subjectTypeEntity.getNodes().contains(nodeEntity);
+        return subjectType.containsNode(node);
     }
 
     @Override

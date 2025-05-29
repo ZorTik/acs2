@@ -3,6 +3,7 @@ package me.zort.acs.domain.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
@@ -27,5 +28,16 @@ public class Node {
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Node node)) return false;
+        return Objects.equals(getValue(), node.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getValue());
     }
 }

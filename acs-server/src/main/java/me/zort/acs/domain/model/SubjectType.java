@@ -15,6 +15,10 @@ public class SubjectType {
         this.nodes = nodes;
     }
 
+    public boolean containsNode(Node node) {
+        return nodes.contains(node);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof SubjectType that)) return false;
