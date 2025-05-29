@@ -10,6 +10,7 @@ import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.GrantId;
 import me.zort.acs.data.id.SubjectId;
+import me.zort.acs.domain.access.AccessValidatorService;
 import me.zort.acs.domain.event.GrantAddEvent;
 import me.zort.acs.domain.event.GrantRemoveEvent;
 import me.zort.acs.domain.model.Grant;
@@ -32,6 +33,7 @@ public class GrantServiceImpl implements GrantService {
     private final DomainGrantIdMapper grantIdMapper;
     private final DomainModelMapper<Grant, GrantEntity> grantMapper;
     private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
+    private final AccessValidatorService accessValidatorService;
     private final ApplicationEventPublisher eventPublisher;
 
     @CacheEvict(value = "grants", key = "#accessor.subjectType.id + ':' + #accessor.id + '->' + #accessed.subjectType.id + ':' + #accessed.id + '@' + #node.value")
@@ -40,13 +42,16 @@ public class GrantServiceImpl implements GrantService {
         if (existsGrant(accessor, accessed, node)) {
             return Optional.empty();
         } else {
+            // Validate if this grant can be created for this
+            // combination.
+            accessValidatorService.validate(accessor, accessed, node);
+
             Grant grant = grantProvider.getGrant(GrantOptions.builder()
                     .accessor(accessor)
                     .accessed(accessed)
                     .node(node).build());
 
             grantRepository.save(grantMapper.toPersistence(grant));
-
             eventPublisher.publishEvent(new GrantAddEvent(grant));
             return Optional.of(grant);
         }

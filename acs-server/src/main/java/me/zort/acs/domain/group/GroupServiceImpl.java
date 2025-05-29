@@ -52,9 +52,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public boolean assignGroupNodes(Group group, List<Node> nodes) {
-        // TODO: operationExecutor.executeOperation(operationsFactory.assignNodes(nodes), group);
-
-        return false;
+        return operationExecutor.executeOperation(operationsFactory.assignNodes(nodes), group);
     }
 
     @Override

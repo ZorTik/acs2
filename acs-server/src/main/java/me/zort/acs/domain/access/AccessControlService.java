@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class AccessControlService {
     private final AccessRequestFactory accessRequestFactory;
-
     private final List<AccessRule> accessRules;
 
     @Autowired
