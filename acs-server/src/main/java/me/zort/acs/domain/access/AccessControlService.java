@@ -24,24 +24,6 @@ public class AccessControlService {
         this.accessRules = accessRules;
     }
 
-    /**
-     * Creates an AccessRequest object with the given parameters and checks if is granted.
-     *
-     * @param accessor The accessing object
-     * @param accessed The accessed object
-     * @param node The node to check applicability for
-     * @return An AccessRequest object with the given parameters and is granted if true.
-     * @throws IllegalArgumentException if the node is not applicable on the accessed object
-     */
-    @Deprecated // Use checkAccess(AccessRequest) instead
-    public AccessRequest checkAccess(SubjectLike accessor, SubjectLike accessed, Node node) {
-        AccessRequest request = accessRequestFactory.createAccessRequest(accessor, accessed, node);
-
-        checkAccess(request);
-
-        return request;
-    }
-
     // TODO: Předělat na obecnější AccessRequest a v rámci toho
     // TODO: přidat abstraktní access rule který pustí rule pokud je typu Subject to subject
     /**
@@ -83,7 +65,10 @@ public class AccessControlService {
                         return false;
                     }
 
-                    return checkAccess(accessor, accessed, node).isGranted();
+                    AccessRequest request = accessRequestFactory.createAccessRequest(accessor, accessed, node);
+                    checkAccess(request);
+
+                    return request.isGranted();
                 }));
     }
 }

@@ -1,5 +1,7 @@
 package me.zort.acs.http.controller.v1;
 
+import me.zort.acs.api.domain.access.AccessRequest;
+import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.Node;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 public class AccessController {
     private final HttpSubjectMapper subjectMapper;
     private final HttpNodeMapper nodeMapper;
+    private final AccessRequestFactory accessRequestFactory;
     private final AccessControlService accessService;
     private final GrantService grantService;
     private final HttpExceptionFactory exceptionProvider;
@@ -45,7 +48,11 @@ public class AccessController {
                     Node node = nodeMapper.toDomain(value);
 
                     try {
-                        return accessService.checkAccess(from, to, node).isGranted();
+                        AccessRequest accessRequest = accessRequestFactory.createAccessRequest(from, to, node);
+
+                        accessService.checkAccess(accessRequest);
+
+                        return accessRequest.isGranted();
                     } catch (IllegalArgumentException e) {
                         throw exceptionProvider.createException(
                                 HttpException.NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE, null, node, to.getSubjectType());
