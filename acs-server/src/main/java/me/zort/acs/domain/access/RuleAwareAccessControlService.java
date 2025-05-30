@@ -1,6 +1,7 @@
 package me.zort.acs.domain.access;
 
-import me.zort.acs.api.domain.access.AccessRequest;
+import me.zort.acs.api.domain.access.AccessControlService;
+import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.api.domain.model.SubjectLike;
@@ -14,31 +15,19 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class AccessControlService {
+public class RuleAwareAccessControlService implements AccessControlService {
     private final AccessRequestFactory accessRequestFactory;
     private final List<AccessRule> accessRules;
 
     @Autowired
-    public AccessControlService(AccessRequestFactory accessRequestFactory, List<AccessRule> accessRules) {
+    public RuleAwareAccessControlService(AccessRequestFactory accessRequestFactory, List<AccessRule> accessRules) {
         this.accessRequestFactory = accessRequestFactory;
         this.accessRules = accessRules;
     }
 
-    // TODO: Předělat na obecnější AccessRequest a v rámci toho
-    // TODO: přidat abstraktní access rule který pustí rule pokud je typu Subject to subject
-    /**
-     * Performs a check on the given AccessRequest object.
-     *
-     * @param request The AccessRequest object to check
-     */
+    @Override
     public void checkAccess(AccessRequest request) {
-        boolean hasNullableSubjects = request.getAccessor().isNull() || request.getAccessed().isNull();
-
         for (AccessRule rule : accessRules) {
-            if (hasNullableSubjects && !rule.acceptsNullableSubjects()) {
-                continue;
-            }
-
             rule.onRequest(request);
 
             if (request.isGranted()) {
@@ -47,14 +36,7 @@ public class AccessControlService {
         }
     }
 
-    /**
-     * Returns ALL nodes that are assignable to accessed's subject type and their
-     * grant states in relation with accessor.
-     *
-     * @param accessor The accessor subject
-     * @param accessed The accessed subject
-     * @return The nodes and their states
-     */
+    @Override
     public Map<Node, Boolean> getGrantStatesFor(SubjectLike accessor, SubjectLike accessed) {
         return accessed.getSubjectType().getNodes()
                 .stream()

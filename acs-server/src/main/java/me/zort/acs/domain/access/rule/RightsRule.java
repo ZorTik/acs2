@@ -1,8 +1,8 @@
 package me.zort.acs.domain.access.rule;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.AccessRequest;
 import me.zort.acs.api.domain.access.RightsNegotiationService;
+import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.strategy.RightsStrategy;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
-public class RightsRule implements AccessRule {
+public class RightsRule extends SubjectToSubjectAccessRule {
     private final RightsNegotiationService rightsNegotiationService;
     private final RightsStrategy rightsStrategy;
 
     @Override
-    public void onRequest(AccessRequest request) {
+    public void onRequest(SubjectToSubjectAccessRequest request) {
         if (request.getAccessor() instanceof Subject accessor
                 && request.getAccessed() instanceof Subject accessed
                 && hasRights(accessor, accessed, request.getNode())) {

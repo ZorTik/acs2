@@ -1,6 +1,7 @@
 package me.zort.acs.http.controller.v1;
 
-import me.zort.acs.api.domain.access.AccessRequest;
+import me.zort.acs.api.domain.access.AccessControlService;
+import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
@@ -9,7 +10,6 @@ import me.zort.acs.domain.model.Subject;
 import me.zort.acs.api.domain.model.SubjectLike;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.access.AccessControlService;
 import me.zort.acs.http.dto.body.access.check.AccessCheckRequestDto;
 import me.zort.acs.http.dto.body.access.check.AccessCheckResponseDto;
 import me.zort.acs.http.dto.body.access.grant.GrantNodesRequestDto;
@@ -33,7 +33,7 @@ public class AccessController {
     private final HttpSubjectMapper subjectMapper;
     private final HttpNodeMapper nodeMapper;
     private final AccessRequestFactory accessRequestFactory;
-    private final AccessControlService accessService;
+    private final AccessControlService accessControlService;
     private final GrantService grantService;
     private final HttpExceptionFactory exceptionProvider;
     
@@ -50,7 +50,7 @@ public class AccessController {
                     try {
                         AccessRequest accessRequest = accessRequestFactory.createAccessRequest(from, to, node);
 
-                        accessService.checkAccess(accessRequest);
+                        accessControlService.checkAccess(accessRequest);
 
                         return accessRequest.isGranted();
                     } catch (IllegalArgumentException e) {

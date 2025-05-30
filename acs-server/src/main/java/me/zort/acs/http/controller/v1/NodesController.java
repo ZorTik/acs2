@@ -2,9 +2,9 @@ package me.zort.acs.http.controller.v1;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.access.AccessControlService;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
-import me.zort.acs.domain.access.AccessControlService;
 import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesRequestDto;
 import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesResponseDto;
 import me.zort.acs.http.dto.body.nodes.list.ListNodesResponseDto;
