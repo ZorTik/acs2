@@ -3,6 +3,7 @@ package me.zort.acs.domain.definitions;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.api.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.api.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
 import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
@@ -58,8 +59,6 @@ public class DefinitionsServiceImpl implements DefinitionsService {
         refreshSubjectTypes(model);
         // Cache default grants
         refreshDefaultGrants(model);
-        // Refresh groups (if applicable)
-        refreshGroups(model);
 
         // Clear caches
         disposalService.disposeBeans(CacheDisposable.class);
@@ -92,6 +91,10 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
                     nodeService.assignNode(node, subjectType);
                 });
+        def.getGroups()
+                .forEach(group -> {
+                    // TODO: Refresh group
+                });
     }
 
     private void refreshDefaultGrants(DefinitionsModel model) {
@@ -111,9 +114,5 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                     .computeIfAbsent(key, k -> new HashSet<>())
                     .addAll(nodes);
         });
-    }
-
-    private void refreshGroups(DefinitionsModel model) {
-        // TODO
     }
 }
