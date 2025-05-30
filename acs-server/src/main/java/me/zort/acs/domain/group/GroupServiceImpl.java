@@ -28,7 +28,7 @@ public class GroupServiceImpl implements GroupService {
     private final DomainModelMapper<Group, GroupEntity> groupMapper;
     private final GroupProvider groupProvider;
     private final GroupOperationsFactory operationsFactory;
-    private final OperationExecutor<Group> operationExecutor;
+    private final OperationExecutor operationExecutor;
 
     @Override
     public Group createGroup(SubjectType subjectType, String name) {

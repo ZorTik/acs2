@@ -1,21 +1,26 @@
-package me.zort.acs.api.domain.operation;
+package me.zort.acs.domain.operation;
 
 import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.api.domain.operation.Operation;
+import me.zort.acs.api.domain.operation.OperationExecutor;
+import me.zort.acs.api.domain.operation.OperationValidator;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
-public class AbstractOperationExecutor<O> implements OperationExecutor<O> {
+@Service
+public class OperationExecutorImpl implements OperationExecutor {
     private final List<OperationValidator<?>> validators;
 
-    public AbstractOperationExecutor(List<OperationValidator<?>> validators) {
+    public OperationExecutorImpl(List<OperationValidator<?>> validators) {
         this.validators = validators;
     }
 
     // Type safety ensured by the OperationValidator(s)
     @SuppressWarnings("unchecked")
     @Override
-    public final <OP extends Operation<O>> boolean executeOperation(OP operation, O object) {
+    public final <O, OP extends Operation<O>> boolean executeOperation(OP operation, O object) {
         try {
             validators
                     .stream()

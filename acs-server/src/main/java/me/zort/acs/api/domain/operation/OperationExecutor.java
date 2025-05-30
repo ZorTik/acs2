@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.operation;
 
-public interface OperationExecutor<O> {
+public interface OperationExecutor {
 
-    <OP extends Operation<O>> boolean executeOperation(OP operation, O object);
+    <O, OP extends Operation<O>> boolean executeOperation(OP operation, O object);
 }
