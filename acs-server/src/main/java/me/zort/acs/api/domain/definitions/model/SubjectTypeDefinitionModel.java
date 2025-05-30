@@ -5,5 +5,8 @@ import java.util.List;
 public interface SubjectTypeDefinitionModel {
 
     String getId();
-    List<String> getNodes();
+
+    List<NodeDefinitionModel> getNodes();
+
+    List<GroupDefinitionModel> getGroups();
 }

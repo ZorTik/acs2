@@ -2,6 +2,8 @@ package me.zort.acs.domain.definitions.format.yaml;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.zort.acs.api.domain.definitions.model.GroupDefinitionModel;
+import me.zort.acs.api.domain.definitions.model.NodeDefinitionModel;
 import me.zort.acs.api.domain.definitions.model.SubjectTypeDefinitionModel;
 
 import java.util.List;
@@ -13,7 +15,12 @@ public class YamlTypeModelWrapper implements SubjectTypeDefinitionModel {
     private final String id;
 
     @Override
-    public List<String> getNodes() {
-        return model.getNodes();
+    public List<NodeDefinitionModel> getNodes() {
+        return List.copyOf(model.getNodes());
+    }
+
+    @Override
+    public List<GroupDefinitionModel> getGroups() {
+        return List.copyOf(model.getGroups());
     }
 }

@@ -8,9 +8,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class YamlTypeModel {
-    private List<String> nodes;
+    private List<YamlNodeModel> nodes;
+    private List<YamlGroupModel> groups;
 
-    public List<String> getNodes() {
-        return List.copyOf(nodes);
-    }
 }

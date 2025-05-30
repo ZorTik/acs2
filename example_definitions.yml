@@ -4,15 +4,19 @@ types:
   # A subject group, such as a user group or role
   example:
     nodes:
-      - "example.node"
-      - "example.node.subnode"
+      - value: "example.node"
+      - value: "example.node.subnode"
+    groups:
+      group1:
+        nodes:
+          - "example.node"
 
   # A subject group representing resources (e.g., files, endpoints)
   example2:
     nodes:
-      - "example2.node"
-      - "example2.node2"
-      - "example2.node.subnode"
+      - value: "example2.node"
+      - value: "example2.node2"
+      - value: "example2.node.subnode"
 
 # Default access grants between subject types
 # These define default permissions from one subject group (e.g., users)

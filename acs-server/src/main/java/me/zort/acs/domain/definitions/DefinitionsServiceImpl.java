@@ -1,7 +1,9 @@
-package me.zort.acs.domain.service;
+package me.zort.acs.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.api.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
 import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
 import me.zort.acs.api.domain.service.DefinitionsService;
@@ -10,6 +12,7 @@ import me.zort.acs.api.domain.service.SubjectTypeService;
 import me.zort.acs.api.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.api.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.api.domain.definitions.model.SubjectTypeDefinitionModel;
+import me.zort.acs.domain.definitions.exception.InvalidDefinitionsException;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.*;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class DefinitionsServiceImpl implements DefinitionsService {
@@ -30,6 +34,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private final ResourceDisposalService disposalService;
 
     private final DefinitionsSource definitionsSource;
+    private final DefinitionsValidator definitionsValidator;
 
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
 
@@ -41,6 +46,13 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
         Logger logger = LoggerFactory.getLogger(getClass());
         logger.info("Refreshing definitions...");
+
+        try {
+            definitionsValidator.validateDefinitions(model);
+        } catch (InvalidDefinitionsException e) {
+            log.error("Failed to refresh definitions. Validation failed.", e);
+            return;
+        }
 
         // Save subject types and its links
         refreshSubjectTypes(model);
@@ -75,8 +87,8 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private void refreshSubjectType(SubjectTypeDefinitionModel def) {
         SubjectType subjectType = subjectTypeService.createSubjectType(def.getId());
         def.getNodes()
-                .forEach(value -> {
-                    Node node = nodeService.createNode(value);
+                .forEach(model -> {
+                    Node node = nodeService.createNode(model.getValue());
 
                     nodeService.assignNode(node, subjectType);
                 });
