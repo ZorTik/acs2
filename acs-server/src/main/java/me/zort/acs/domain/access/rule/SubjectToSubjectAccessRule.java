@@ -26,8 +26,4 @@ public abstract class SubjectToSubjectAccessRule implements AccessRule {
 
         return !hasNullableSubjects || acceptsNullableSubjects;
     }
-
-    public boolean isAcceptingNullableSubjects() {
-        return this.acceptsNullableSubjects;
-    }
 }
