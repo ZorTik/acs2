@@ -33,6 +33,7 @@ public class AccessControlService {
      * @return An AccessRequest object with the given parameters and is granted if true.
      * @throws IllegalArgumentException if the node is not applicable on the accessed object
      */
+    @Deprecated // Use checkAccess(AccessRequest) instead
     public AccessRequest checkAccess(SubjectLike accessor, SubjectLike accessed, Node node) {
         AccessRequest request = accessRequestFactory.createAccessRequest(accessor, accessed, node);
 
@@ -41,6 +42,8 @@ public class AccessControlService {
         return request;
     }
 
+    // TODO: Předělat na obecnější AccessRequest a v rámci toho
+    // TODO: přidat abstraktní access rule který pustí rule pokud je typu Subject to subject
     /**
      * Performs a check on the given AccessRequest object.
      *

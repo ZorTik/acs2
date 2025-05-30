@@ -7,13 +7,24 @@ import me.zort.acs.api.domain.group.operation.AssignParentOperation;
 import me.zort.acs.api.domain.mapper.PersistenceToDomainMapper;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.domain.model.Group;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Scope("prototype")
+@Component
 public class AssignParentOperationImpl implements AssignParentOperation {
     private final GroupRepository groupRepository;
     private final PersistenceToDomainMapper<GroupEntity, Group> groupMapper;
     @Getter
-    private final Group parent;
+    private Group parent;
+
+    public @NotNull AssignParentOperationImpl withParent(Group parent) {
+        this.parent = parent;
+        return this;
+    }
 
     @Override
     public void execute(Group group) {

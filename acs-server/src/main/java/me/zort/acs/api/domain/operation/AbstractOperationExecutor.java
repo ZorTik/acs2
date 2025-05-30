@@ -12,6 +12,7 @@ public class AbstractOperationExecutor<O> implements OperationExecutor<O> {
         this.validators = validators;
     }
 
+    // Type safety ensured by the OperationValidator(s)
     @SuppressWarnings("unchecked")
     @Override
     public final <OP extends Operation<O>> boolean executeOperation(OP operation, O object) {
@@ -21,7 +22,7 @@ public class AbstractOperationExecutor<O> implements OperationExecutor<O> {
                     .filter(validator ->
                             validator.getOperationClass().isAssignableFrom(operation.getClass()))
                     .map(validator -> (OperationValidator<OP>) validator)
-                    .findFirst().ifPresent(validator -> validator.validate(operation));
+                    .forEach(validator -> validator.validate(operation));
 
             operation.execute(object);
             return true;
