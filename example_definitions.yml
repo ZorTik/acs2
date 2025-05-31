@@ -10,6 +10,10 @@ types:
       group1:
         nodes:
           - "example.node"
+      group2:
+        parent: group1
+        nodes:
+          - "example.node.subnode"
 
   # A subject group representing resources (e.g., files, endpoints)
   example2:

@@ -4,5 +4,9 @@ import java.util.List;
 
 public interface GroupDefinitionModel {
 
+    String getName();
+
+    String getParentName();
+
     List<String> getNodes();
 }

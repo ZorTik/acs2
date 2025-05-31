@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Getter
 public class SubjectType {
@@ -17,6 +18,13 @@ public class SubjectType {
 
     public boolean containsNode(Node node) {
         return nodes.contains(node);
+    }
+
+    public Optional<Node> getNodeByValue(String value) {
+        return nodes
+                .stream()
+                .filter(node -> node.getValue().equals(value))
+                .findFirst();
     }
 
     @Override

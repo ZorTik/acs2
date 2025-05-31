@@ -9,6 +9,12 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class YamlGroupModel implements GroupDefinitionModel {
+    private String name = null;
+    private String parent;
     private List<String> nodes;
 
+    @Override
+    public String getParentName() {
+        return parent;
+    }
 }

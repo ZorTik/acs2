@@ -8,12 +8,14 @@ import me.zort.acs.api.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
 import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
 import me.zort.acs.api.domain.service.DefinitionsService;
+import me.zort.acs.api.domain.service.GroupService;
 import me.zort.acs.api.domain.service.NodeService;
 import me.zort.acs.api.domain.service.SubjectTypeService;
 import me.zort.acs.api.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.api.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.api.domain.definitions.model.SubjectTypeDefinitionModel;
 import me.zort.acs.domain.definitions.exception.InvalidDefinitionsException;
+import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
@@ -32,6 +34,7 @@ import java.util.*;
 public class DefinitionsServiceImpl implements DefinitionsService {
     private final SubjectTypeService subjectTypeService;
     private final NodeService nodeService;
+    private final GroupService groupService;
     private final ResourceDisposalService disposalService;
 
     private final DefinitionsSource definitionsSource;
@@ -92,9 +95,30 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                     nodeService.assignNode(node, subjectType);
                 });
         def.getGroups()
-                .forEach(group -> {
-                    // TODO: Refresh group
-                });
+                .forEach(model -> refreshGroup(model, def, subjectType));
+    }
+
+    private void refreshGroup(
+            GroupDefinitionModel def, SubjectTypeDefinitionModel subjectTypeDef, SubjectType subjectType) {
+        Group group = groupService.createGroup(subjectType, def.getName());
+
+        String parentName = def.getParentName();
+        if (parentName != null) {
+            GroupDefinitionModel parentGroupDef = subjectTypeDef.getGroups()
+                    .stream()
+                    .filter(groupDef -> groupDef.getName().equals(parentName))
+                    .findFirst().orElseThrow();
+
+            refreshGroup(parentGroupDef, subjectTypeDef, subjectType);
+
+            Group parentGroup = groupService.getGroup(subjectType, parentName).orElseThrow();
+            groupService.assignGroupParent(group, parentGroup);
+        }
+
+        groupService.assignGroupNodes(group, def.getNodes()
+                .stream()
+                .map(value -> subjectType.getNodeByValue(value).orElseThrow())
+                .toList());
     }
 
     private void refreshDefaultGrants(DefinitionsModel model) {
