@@ -6,6 +6,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 public class GrantNodesResponseDto {
-    private Map<String, Boolean> results;
+    private Map<String, Boolean> nodes;
+    private Map<String, Boolean> groups;
 
 }

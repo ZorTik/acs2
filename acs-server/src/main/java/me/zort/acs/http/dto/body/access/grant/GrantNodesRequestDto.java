@@ -18,7 +18,10 @@ public class GrantNodesRequestDto {
     @NotNull(message = "{validation.accessed.notnull}")
     private SubjectDto resource;
 
-    @NotEmpty(message = "{validation.nodes.notempty}")
+    @NotNull(message = "{validation.nodes.notnull}")
     private Set<String> nodes;
+
+    @NotNull(message = "{validation.groups.notnull}")
+    private Set<String> groups;
 
 }

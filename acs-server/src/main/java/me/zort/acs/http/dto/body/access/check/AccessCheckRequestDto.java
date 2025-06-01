@@ -18,7 +18,7 @@ public class AccessCheckRequestDto {
     @NotNull(message = "{validation.accessed.notnull}")
     private SubjectDto resource;
 
-    @NotEmpty(message = "{validation.nodes.notempty}")
+    @NotNull(message = "{validation.nodes.notnull}")
     private Set<String> nodes;
 
 }

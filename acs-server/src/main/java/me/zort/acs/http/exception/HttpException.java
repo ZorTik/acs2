@@ -17,6 +17,8 @@ public enum HttpException {
     SUBJECT_TYPE_NOT_FOUND(
             400, 1003, 1,
             "error.subject-type-not-found"),
+    GROUP_NOT_FOUND(400, 1004, 2,
+            "error.group-not-found"),
     NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE(
             400, 1004, 2,
             "error.node-not-applicable-on-subject-type"),

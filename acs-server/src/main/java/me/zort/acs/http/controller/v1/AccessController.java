@@ -1,6 +1,7 @@
 package me.zort.acs.http.controller.v1;
 
 import me.zort.acs.api.domain.access.AccessControlService;
+import me.zort.acs.api.domain.access.RightsHolder;
 import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.api.domain.service.GrantService;
@@ -17,12 +18,16 @@ import me.zort.acs.http.dto.body.access.grant.GrantNodesResponseDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesRequestDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesResponseDto;
 import me.zort.acs.http.exception.HttpException;
+import me.zort.acs.http.mapper.HttpGroupMapper;
 import me.zort.acs.http.mapper.HttpNodeMapper;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,6 +37,7 @@ import java.util.stream.Collectors;
 public class AccessController {
     private final HttpSubjectMapper subjectMapper;
     private final HttpNodeMapper nodeMapper;
+    private final HttpGroupMapper groupMapper;
     private final AccessRequestFactory accessRequestFactory;
     private final AccessControlService accessControlService;
     private final GrantService grantService;
@@ -62,18 +68,31 @@ public class AccessController {
         return new AccessCheckResponseDto(states);
     }
 
-    @PostMapping("/grant") // TODO: Přidat grant groupek, je to pošéfené na backendu (?kind=group)
+    @PostMapping("/grant")
     public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
         Subject from = subjectMapper.toDomain(body.getAccessor(), true);
         Subject to = subjectMapper.toDomain(body.getResource(), true);
 
-        Map<String, Boolean> results = body.getNodes()
-                .stream()
-                .map(nodeMapper::toDomain)
-                .collect(Collectors.toMap(
-                        Node::getValue, node -> grantService.addGrant(from, to, node).isPresent()));
+        BiFunction<
+                // Values
+                Set<String>,
+                // Mapper
+                Function<String, RightsHolder>,
+                // Result: Map of values and states of the action on them
+                Map<String, Boolean>> grantFunc = (grantees, mapper) -> {
+            Map<String, Boolean> results = new HashMap<>();
 
-        return new GrantNodesResponseDto(results);
+            grantees.forEach(grantee -> {
+                RightsHolder rightsHolder = mapper.apply(grantee);
+
+                results.put(grantee, grantService.addGrant(from, to, rightsHolder).isPresent());
+            });
+            return results;
+        };
+
+        return new GrantNodesResponseDto(
+                grantFunc.apply(body.getNodes(), nodeMapper::toDomain),
+                grantFunc.apply(body.getGroups(), name -> groupMapper.toDomain(to.getSubjectType(), name)));
     }
 
     @PostMapping("/revoke")
