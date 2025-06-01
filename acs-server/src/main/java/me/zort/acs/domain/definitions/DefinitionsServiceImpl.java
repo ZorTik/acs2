@@ -2,7 +2,6 @@ package me.zort.acs.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zort.acs.api.domain.definitions.exception.DefinitionsRefreshException;
 import me.zort.acs.api.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.api.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
@@ -41,7 +40,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     @Override
-    public void refreshDefinitions() throws DefinitionsRefreshException {
+    public void refreshDefinitions() {
         try {
             DefinitionsModel model = definitionsSource.getModel();
 
@@ -64,7 +63,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
             log.info("Definitions refreshed successfully.");
         } catch (Exception e) {
-            throw new DefinitionsRefreshException("Failed to refresh definitions.", e);
+            log.error("Failed to refresh definitions.", e);
         }
     }
 
