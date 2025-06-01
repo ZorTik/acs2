@@ -10,7 +10,6 @@ import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesResponseDto;
 import me.zort.acs.http.dto.body.nodes.list.ListNodesResponseDto;
 import me.zort.acs.http.dto.model.node.NodeDto;
 import me.zort.acs.http.dto.model.node.NodeWithStateDto;
-import me.zort.acs.http.exception.HttpException;
 import me.zort.acs.http.mapper.HttpNodeMapper;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
 import me.zort.acs.http.mapper.HttpSubjectTypeMapper;
@@ -37,11 +36,7 @@ public class NodesController {
                     .stream()
                     .map(nodeMapper::toHttp).toList();
         } else {
-            // The possible combinations of query params
-            String options = String.join(", ", new String[]{"subjectType"});
-
-            throw exceptionProvider.createException(
-                    HttpException.CONTROLLER_LIST_NODES_QUERY_NOT_APPLICABLE, null, options);
+            throw exceptionProvider.createBadQueryException("subjectType");
         }
         return new ListNodesResponseDto(nodes);
     }

@@ -67,6 +67,13 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public List<Group> getGroups(SubjectType subjectType) {
+        return groupRepository.findAllBySubjectType_Id(subjectType.getId())
+                .stream()
+                .map(groupMapper::toDomain).toList();
+    }
+
+    @Override
     public List<Group> getGroupMemberships(Subject subject, Subject on) {
         return grantService.getGrants(subject, on)
                 .stream()

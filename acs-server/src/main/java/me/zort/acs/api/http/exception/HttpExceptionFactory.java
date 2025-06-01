@@ -4,8 +4,15 @@ import me.zort.acs.http.exception.HttpException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface HttpExceptionFactory {
+public abstract class HttpExceptionFactory {
 
     @NotNull
-    RuntimeException createException(HttpException type, @Nullable Throwable cause, @Nullable Object... args);
+    public abstract RuntimeException createException(HttpException type, @Nullable Throwable cause, @Nullable Object... args);
+
+    public final RuntimeException createBadQueryException(String... options) {
+        // The possible combinations of query params
+        String optionsString = String.join(", ", options);
+
+        return createException(HttpException.CONTROLLER_QUERY_NOT_APPLICABLE, null, optionsString);
+    }
 }

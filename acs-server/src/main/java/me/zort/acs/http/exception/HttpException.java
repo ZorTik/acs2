@@ -22,9 +22,9 @@ public enum HttpException {
             "error.node-not-applicable-on-subject-type"),
 
     // Controller errors
-    CONTROLLER_LIST_NODES_QUERY_NOT_APPLICABLE(
+    CONTROLLER_QUERY_NOT_APPLICABLE(
             400, 2001, 1,
-            "error.controller.list-nodes.query-not-applicable");
+            "error.controller.query-not-applicable");
 
     private final int statusCode;
     private final int errorCode;

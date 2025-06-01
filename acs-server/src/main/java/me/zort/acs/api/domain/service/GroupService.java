@@ -19,5 +19,7 @@ public interface GroupService {
 
     Optional<Group> getGroup(SubjectType subjectType, String name);
 
+    List<Group> getGroups(SubjectType subjectType);
+
     List<Group> getGroupMemberships(Subject subject, Subject on);
 }

@@ -12,7 +12,7 @@ import java.util.Locale;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
-public class HttpExceptionFactoryImpl implements HttpExceptionFactory {
+public class HttpMessageExceptionFactory extends HttpExceptionFactory {
     private final MessageSource messageSource;
 
     @Override
