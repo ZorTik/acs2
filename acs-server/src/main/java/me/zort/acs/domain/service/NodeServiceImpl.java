@@ -41,16 +41,16 @@ public class NodeServiceImpl implements NodeService {
     @CacheEvict(value = "nodes", key = "#node.value")
     @Override
     public void assignNode(Node node, SubjectType subjectType) {
-        NodeEntity nodeEntity = nodeMapper.toPersistence(node);
-        SubjectTypeEntity subjectTypeEntity = subjectTypeMapper.toPersistence(subjectType);
-
-        if (nodeEntity.getSubjectTypes().contains(subjectTypeEntity)) {
+        if (subjectType.containsNode(node)) {
             return;
         }
 
-        nodeEntity.getSubjectTypes().add(subjectTypeEntity);
+        NodeEntity nodeEntity = nodeMapper.toPersistence(node);
+        nodeEntity.getSubjectTypes().add(subjectTypeMapper.toPersistence(subjectType));
 
         nodeRepository.save(nodeEntity);
+
+        subjectType.addNode(node);
     }
 
     @Override

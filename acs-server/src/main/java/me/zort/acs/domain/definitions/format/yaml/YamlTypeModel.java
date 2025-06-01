@@ -3,6 +3,7 @@ package me.zort.acs.domain.definitions.format.yaml;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,6 @@ import java.util.Map;
 @Data
 public class YamlTypeModel {
     private List<YamlNodeModel> nodes;
-    private Map<String, YamlGroupModel> groups;
+    private Map<String, YamlGroupModel> groups = new HashMap<>();
 
 }

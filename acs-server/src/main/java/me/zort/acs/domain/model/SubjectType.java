@@ -2,6 +2,7 @@ package me.zort.acs.domain.model;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,7 +14,11 @@ public class SubjectType {
 
     public SubjectType(String id, List<Node> nodes) {
         this.id = id;
-        this.nodes = nodes;
+        this.nodes = new ArrayList<>(nodes);
+    }
+
+    public void addNode(Node node) {
+        this.nodes.add(node);
     }
 
     public boolean containsNode(Node node) {

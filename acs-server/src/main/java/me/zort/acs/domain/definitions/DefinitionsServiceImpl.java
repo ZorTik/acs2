@@ -1,8 +1,8 @@
 package me.zort.acs.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.api.domain.definitions.exception.DefinitionsRefreshException;
 import me.zort.acs.api.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.api.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -41,29 +40,32 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
 
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    @SneakyThrows(IOException.class)
     @Override
-    public void refreshDefinitions() {
-        DefinitionsModel model = definitionsSource.getModel();
-
-        log.info("Refreshing definitions...");
-
+    public void refreshDefinitions() throws DefinitionsRefreshException {
         try {
-            definitionsValidator.validateDefinitions(model);
-        } catch (InvalidDefinitionsException e) {
-            log.error("Failed to refresh definitions. Validation failed.", e);
-            return;
+            DefinitionsModel model = definitionsSource.getModel();
+
+            log.info("Refreshing definitions...");
+
+            try {
+                definitionsValidator.validateDefinitions(model);
+            } catch (InvalidDefinitionsException e) {
+                log.error("Failed to refresh definitions. Validation failed.", e);
+                return;
+            }
+
+            // Save subject types and its links
+            refreshSubjectTypes(model);
+            // Cache default grants
+            refreshDefaultGrants(model);
+
+            // Clear caches
+            disposalService.disposeBeans(CacheDisposable.class);
+
+            log.info("Definitions refreshed successfully.");
+        } catch (Exception e) {
+            throw new DefinitionsRefreshException("Failed to refresh definitions.", e);
         }
-
-        // Save subject types and its links
-        refreshSubjectTypes(model);
-        // Cache default grants
-        refreshDefaultGrants(model);
-
-        // Clear caches
-        disposalService.disposeBeans(CacheDisposable.class);
-
-        log.info("Definitions refreshed successfully.");
     }
 
     @Override
