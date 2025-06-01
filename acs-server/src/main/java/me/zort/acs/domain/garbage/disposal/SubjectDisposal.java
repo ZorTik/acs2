@@ -20,7 +20,7 @@ public class SubjectDisposal implements ResourceDisposal<Subject> {
 
     @Override
     public boolean shouldDispose(Subject resource) {
-        return grantService.getGrantsCount(resource) == 0 && resource.getGroups().isEmpty();
+        return grantService.getGrantsCount(resource) == 0;
     }
 
     @Override

@@ -11,8 +11,6 @@ public interface NodeService {
 
     void assignNode(Node node, SubjectType subjectType);
 
-    boolean isNodeAssigned(Node node, SubjectType subjectType);
-
     Optional<Node> getNode(String value);
 
     boolean existsNode(String value);

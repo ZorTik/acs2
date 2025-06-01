@@ -33,8 +33,7 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectOptional.orElseGet(() -> {
             Subject subject = subjectProvider.getSubject(SubjectOptions.builder()
                     .subjectType(type)
-                    .id(id)
-                    .groups(new ArrayList<>()).build());
+                    .id(id).build());
 
             subject = subjectMapper.toDomain(subjectRepository.save(subjectMapper.toPersistence(subject)));
 

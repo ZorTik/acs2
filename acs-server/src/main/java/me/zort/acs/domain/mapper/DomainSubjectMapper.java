@@ -43,13 +43,8 @@ public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEn
     public Subject toDomain(SubjectEntity persistence) {
         SubjectType subjectType = subjectTypeMapper.toDomain(persistence.getSubjectType());
 
-        List<Group> groups = persistence.getGroups()
-                .stream()
-                .map(groupMapper::toDomain).toList();
-
         return subjectProvider.getSubject(SubjectOptions.builder()
                 .subjectType(subjectType)
-                .id(persistence.getSubjectId())
-                .groups(groups).build());
+                .id(persistence.getSubjectId()).build());
     }
 }

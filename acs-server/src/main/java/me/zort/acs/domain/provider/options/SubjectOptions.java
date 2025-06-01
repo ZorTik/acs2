@@ -12,6 +12,5 @@ import java.util.List;
 public class SubjectOptions {
     private final SubjectType subjectType;
     private final String id;
-    private final List<Group> groups;
 
 }

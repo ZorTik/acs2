@@ -62,7 +62,7 @@ public class AccessController {
         return new AccessCheckResponseDto(states);
     }
 
-    @PostMapping("/grant")
+    @PostMapping("/grant") // TODO: Přidat grant groupek, je to pošéfené na backendu
     public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
         Subject from = subjectMapper.toDomain(body.getAccessor(), true);
         Subject to = subjectMapper.toDomain(body.getResource(), true);

@@ -15,10 +15,10 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 public class SubjectId implements Serializable {
-    @Column(name = "id")
+    @Column(name = "id", length = 128)
     private String id;
 
-    @Column(name = "subject_type_id")
+    @Column(name = "subject_type_id", length = 128)
     private String subjectTypeId;
 
 }

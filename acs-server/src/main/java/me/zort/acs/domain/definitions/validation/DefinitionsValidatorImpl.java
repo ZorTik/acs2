@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class DefinitionsValidatorImpl implements DefinitionsValidator {
-    private final List<DefinitionsVisitor> visitors; // TODO: Priority
+    private final List<DefinitionsVisitor> visitors;
     private final ObjectProvider<ValidationContext> contextProvider;
 
     @Override

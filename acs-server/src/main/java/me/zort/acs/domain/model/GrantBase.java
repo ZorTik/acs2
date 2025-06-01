@@ -1,20 +1,20 @@
 package me.zort.acs.domain.model;
 
 import lombok.Getter;
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.model.Grant;
 
-import java.util.Set;
+import java.util.UUID;
 
-public class Grant implements RightsHolder {
+public abstract class GrantBase implements Grant {
+    @Getter
+    private final UUID id;
     private final Subject holder;
     private final Subject on;
-    @Getter
-    private final Node node;
 
-    public Grant(Subject holder, Subject on, Node node) {
+    public GrantBase(UUID id, Subject holder, Subject on) {
+        this.id = id;
         this.holder = holder;
         this.on = on;
-        this.node = node;
     }
 
     public Subject getAccessor() {
@@ -33,10 +33,5 @@ public class Grant implements RightsHolder {
      */
     public boolean isValid() {
         return true;
-    }
-
-    @Override
-    public Set<Node> getGrantedNodes() {
-        return Set.of(node);
     }
 }

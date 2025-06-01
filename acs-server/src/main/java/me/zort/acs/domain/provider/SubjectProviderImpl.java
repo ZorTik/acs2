@@ -15,7 +15,7 @@ public class SubjectProviderImpl implements SubjectProvider, CacheDisposable {
 
     @Cacheable(value = "subjects", key = "#options.subjectType.id + ':' + #options.id")
     public Subject getSubject(SubjectOptions options) {
-        return new Subject(options.getSubjectType(), options.getId(), options.getGroups());
+        return new Subject(options.getSubjectType(), options.getId());
     }
 
     @Override

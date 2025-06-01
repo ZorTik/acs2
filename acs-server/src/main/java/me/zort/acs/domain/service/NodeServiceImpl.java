@@ -54,11 +54,6 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public boolean isNodeAssigned(Node node, SubjectType subjectType) {
-        return subjectType.containsNode(node);
-    }
-
-    @Override
     public Optional<Node> getNode(String value) {
         return nodeRepository.findById(value).map(nodeMapper::toDomain);
     }

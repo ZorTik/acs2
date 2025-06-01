@@ -3,6 +3,7 @@ package me.zort.acs.domain.access;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.RightsNegotiationService;
 import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
@@ -31,14 +32,16 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
                 .getDefaultGrantedNodes(accessorType, accessedType);
 
         // Nodes granted by external requests
-        List<Grant> grants = grantService.getGrants(accessor, accessed);
+        List<RightsHolder> holdersOfGrants = grantService.getGrants(accessor, accessed)
+                .stream()
+                .map(Grant::getRightsHolder).toList();
 
         // Groups the subject is member of
-        List<Group> groups = groupService.getGroupMemberships(accessor, accessedType);
+        List<Group> groups = groupService.getGroupMemberships(accessor, accessed);
 
         List<RightsHolder> holders = new ArrayList<>();
         holders.add(NodesBulk.of(defaultGrantedNodes));
-        holders.addAll(grants);
+        holders.addAll(holdersOfGrants);
         holders.addAll(groups);
 
         return holders;

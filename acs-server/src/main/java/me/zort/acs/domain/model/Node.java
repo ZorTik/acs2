@@ -2,12 +2,14 @@ package me.zort.acs.domain.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.access.RightsHolder;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
-public class Node {
+public class Node implements RightsHolder {
     @Getter
     private final String value;
 
@@ -28,6 +30,11 @@ public class Node {
             }
         }
         return true;
+    }
+
+    @Override
+    public Set<Node> getGrantedNodes() {
+        return Set.of(this);
     }
 
     @Override

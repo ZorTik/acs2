@@ -1,6 +1,7 @@
 package me.zort.acs.domain.access;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.access.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.access.validator.AccessRequestValidator;
 import me.zort.acs.domain.model.Node;
@@ -18,9 +19,9 @@ public class AccessValidatorService {
     private final List<AccessRequestValidator> accessRequestValidators;
     private final MessageSource messageSource;
 
-    public void validate(SubjectLike from, SubjectLike to, Node node) throws IllegalArgumentException {
+    public void validate(SubjectLike from, SubjectLike to, RightsHolder rightsHolder) throws IllegalArgumentException {
         for (AccessRequestValidator validator : accessRequestValidators) {
-            String error = validator.validate(from, to, node);
+            String error = validator.validate(from, to, rightsHolder);
 
             if (error != null) {
                 try {

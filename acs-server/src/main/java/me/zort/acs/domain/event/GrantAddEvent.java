@@ -1,6 +1,6 @@
 package me.zort.acs.domain.event;
 
-import me.zort.acs.domain.model.Grant;
+import me.zort.acs.api.domain.model.Grant;
 
 public class GrantAddEvent extends GrantEvent {
 

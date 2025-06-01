@@ -1,6 +1,7 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.mapper.DomainGroupIdMapper;
 import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.data.entity.GroupEntity;
@@ -23,6 +24,7 @@ public class DomainGroupMapper implements DomainModelMapper<Group, GroupEntity> 
     private final GroupProvider groupProvider;
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
     private final DomainModelMapper<Node, NodeEntity> nodeMapper;
+    private final DomainGroupIdMapper groupIdMapper;
 
     @Override
     public Group toDomain(GroupEntity persistence) {
@@ -47,7 +49,7 @@ public class DomainGroupMapper implements DomainModelMapper<Group, GroupEntity> 
     @Override
     public GroupEntity toPersistence(Group domain) {
         GroupEntity entity = new GroupEntity();
-        entity.setId(new GroupId(domain.getSubjectType().getId(), domain.getName()));
+        entity.setId(groupIdMapper.toPersistence(domain.getSubjectType(), domain.getName()));
         entity.setName(domain.getName());
         entity.setSubjectType(subjectTypeMapper.toPersistence(domain.getSubjectType()));
         entity.setNodes(domain.getNodes()

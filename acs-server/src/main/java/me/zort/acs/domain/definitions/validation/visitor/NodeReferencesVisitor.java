@@ -5,10 +5,12 @@ import me.zort.acs.api.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.api.domain.definitions.model.SubjectTypeDefinitionModel;
 import me.zort.acs.domain.definitions.exception.InvalidDefinitionsException;
 import me.zort.acs.domain.definitions.validation.ValidationContext;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Order(1)
 @Component
 public class NodeReferencesVisitor implements DefinitionsVisitor {
 

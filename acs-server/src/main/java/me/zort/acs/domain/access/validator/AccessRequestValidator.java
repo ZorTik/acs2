@@ -1,5 +1,6 @@
 package me.zort.acs.domain.access.validator;
 
+import me.zort.acs.api.domain.access.RightsHolder;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.api.domain.model.SubjectLike;
 import org.jetbrains.annotations.Nullable;
@@ -14,9 +15,9 @@ public interface AccessRequestValidator {
      *
      * @param from The accessing object
      * @param to The accessed object
-     * @param node The node
+     * @param rightsHolder The holder of the rights granted
      * @return Null if the request is valid, otherwise a String describing the error.
      */
     @Nullable
-    String validate(SubjectLike from, SubjectLike to, Node node);
+    String validate(SubjectLike from, SubjectLike to, RightsHolder rightsHolder);
 }

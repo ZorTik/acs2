@@ -19,8 +19,6 @@ import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +46,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     public void refreshDefinitions() {
         DefinitionsModel model = definitionsSource.getModel();
 
-        Logger logger = LoggerFactory.getLogger(getClass());
-        logger.info("Refreshing definitions...");
+        log.info("Refreshing definitions...");
 
         try {
             definitionsValidator.validateDefinitions(model);
@@ -66,7 +63,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
         // Clear caches
         disposalService.disposeBeans(CacheDisposable.class);
 
-        logger.info("Definitions refreshed successfully.");
+        log.info("Definitions refreshed successfully.");
     }
 
     @Override

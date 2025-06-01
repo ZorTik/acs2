@@ -2,26 +2,28 @@ package me.zort.acs.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import me.zort.acs.data.id.GrantId;
+
+import java.util.UUID;
 
 @Data
 @Entity(name = "acs_grants")
 public class GrantEntity {
-    @EmbeddedId
-    private GrantId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
 
     @ManyToOne
     @JoinColumns({
             @JoinColumn(
                     name = "accessor_id",
                     referencedColumnName = "id",
-                    insertable = false,
-                    updatable = false),
+                    columnDefinition = "varchar(128)",
+                    insertable = false, updatable = false),
             @JoinColumn(
                     name = "accessor_subject_type_id",
                     referencedColumnName = "subject_type_id",
-                    insertable = false,
-                    updatable = false)
+                    columnDefinition = "varchar(128)",
+                    insertable = false, updatable = false)
     })
     private SubjectEntity accessor;
 
@@ -30,19 +32,31 @@ public class GrantEntity {
             @JoinColumn(
                     name = "accessed_id",
                     referencedColumnName = "id",
-                    insertable = false,
-                    updatable = false),
+                    columnDefinition = "varchar(128)",
+                    insertable = false, updatable = false),
             @JoinColumn(
                     name = "accessed_subject_type_id",
                     referencedColumnName = "subject_type_id",
-                    insertable = false,
-                    updatable = false)
+                    columnDefinition = "varchar(128)",
+                    insertable = false, updatable = false)
     })
     private SubjectEntity accessed;
 
     @ManyToOne
-    @MapsId("nodeValue")
     @JoinColumn(name = "node_value", referencedColumnName = "value")
-    private NodeEntity node;
+    private NodeEntity node = null;
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(
+                    name = "group_name",
+                    referencedColumnName = "group_name",
+                    insertable = false, updatable = false),
+            @JoinColumn(
+                    name = "group_subject_type_id",
+                    referencedColumnName = "subject_type_id",
+                    insertable = false, updatable = false)
+    })
+    private GroupEntity group = null;
 
 }

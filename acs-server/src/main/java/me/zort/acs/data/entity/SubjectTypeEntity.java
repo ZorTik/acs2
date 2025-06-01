@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity(name = "acs_subject_types")
 public class SubjectTypeEntity {
     @Id
+    @Column(length = 128)
     private String id;
 
     @ManyToMany(mappedBy = "subjectTypes", fetch = FetchType.EAGER)

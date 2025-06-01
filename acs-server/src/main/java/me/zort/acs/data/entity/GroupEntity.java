@@ -31,7 +31,4 @@ public class GroupEntity {
     @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
     private Set<NodeEntity> nodes = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups")
-    private Set<SubjectEntity> subjects = new HashSet<>();
-
 }
