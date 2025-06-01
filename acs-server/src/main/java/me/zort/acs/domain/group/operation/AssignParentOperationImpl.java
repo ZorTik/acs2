@@ -28,6 +28,8 @@ public class AssignParentOperationImpl implements AssignParentOperation {
 
     @Override
     public void execute(Group group) {
+        // TODO: Validate they can't be the same group, or different subject types, etc.
+
         // TODO: Execute the operation
     }
 }
