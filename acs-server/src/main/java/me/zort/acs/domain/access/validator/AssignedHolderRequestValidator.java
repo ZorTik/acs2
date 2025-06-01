@@ -22,7 +22,7 @@ public class AssignedHolderRequestValidator implements AccessRequestValidator {
             return "Resource's subject type (" + toSubjectType.getId() + ") " +
                     "does not contain provided node (" + node.getValue() + ")!";
         }
-        if (rightsHolder instanceof Group group && !group.getSubjectType().equals(toSubjectType)) {
+        if (rightsHolder instanceof Group group && !toSubjectType.equals(group.getSubjectType())) {
             return "Resource's subject type (" + toSubjectType.getId() + ") " +
                     "does not contain provided group (" + group.getName() + ")!";
         }
