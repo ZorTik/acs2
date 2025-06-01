@@ -73,6 +73,13 @@ public class AccessController {
         Subject from = subjectMapper.toDomain(body.getAccessor(), true);
         Subject to = subjectMapper.toDomain(body.getResource(), true);
 
+        Set<String> nodesToGrant = body.getNodes();
+        Set<String> groupsToGrant = body.getGroups();
+
+        if (nodesToGrant.isEmpty() && groupsToGrant.isEmpty()) {
+            throw exceptionProvider.createException(HttpException.NODES_GROUPS_NOT_EMPTY, null);
+        }
+
         BiFunction<
                 // Values
                 Set<String>,
@@ -91,8 +98,8 @@ public class AccessController {
         };
 
         return new GrantNodesResponseDto(
-                grantFunc.apply(body.getNodes(), nodeMapper::toDomain),
-                grantFunc.apply(body.getGroups(), name -> groupMapper.toDomain(to.getSubjectType(), name)));
+                grantFunc.apply(nodesToGrant, nodeMapper::toDomain),
+                grantFunc.apply(groupsToGrant, name -> groupMapper.toDomain(to.getSubjectType(), name)));
     }
 
     @PostMapping("/revoke")

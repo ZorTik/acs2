@@ -22,6 +22,8 @@ public enum HttpException {
     NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE(
             400, 1004, 2,
             "error.node-not-applicable-on-subject-type"),
+    NODES_GROUPS_NOT_EMPTY(400, 1005, 0,
+            "validation.nodes-groups.notempty"),
 
     // Controller errors
     CONTROLLER_QUERY_NOT_APPLICABLE(
