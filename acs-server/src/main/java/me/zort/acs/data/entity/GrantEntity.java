@@ -9,7 +9,6 @@ import java.util.UUID;
 @Entity(name = "acs_grants")
 public class GrantEntity {
     @Id
-    @GeneratedValue
     private UUID id;
 
     @ManyToOne
