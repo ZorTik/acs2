@@ -25,7 +25,7 @@ public class AssignNodesOperationImpl implements AssignNodesOperation {
 
     @Override
     public void execute(Group group) throws RuntimeException {
-        // TODO: Validovat: Podívat se jestli nepůjde použít logika validace z přidávání grantů pro subject
+        // TODO: Validovat: Jestli můžeme nalinkovat
 
         // TODO
     }

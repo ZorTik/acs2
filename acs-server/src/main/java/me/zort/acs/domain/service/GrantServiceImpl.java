@@ -54,6 +54,7 @@ public class GrantServiceImpl implements GrantService {
             }
 
             Grant grant = grantProvider.getGrant(GrantOptions.builder()
+                    .id(UUID.randomUUID())
                     .accessor(accessor)
                     .accessed(accessed)
                     .rightsHolder(rightsHolder).build());
@@ -92,13 +93,13 @@ public class GrantServiceImpl implements GrantService {
 
         Optional<GrantEntity> entityOptional = Optional.empty();
         if (rightsHolder instanceof Node node) {
-            entityOptional = grantRepository.findByAccessor_IdAndAccessed_IdAndNode_Value(
-                    accessorId, accessedId, node.getValue());
+            entityOptional = grantRepository
+                    .findByAccessor_IdAndAccessed_IdAndNode_Value(accessorId, accessedId, node.getValue());
         } else if (rightsHolder instanceof Group group) {
             GroupId groupId = groupIdMapper.toPersistence(group);
 
-            entityOptional = grantRepository.findByAccessor_IdAndAccessed_IdAndGroup_Id(
-                    accessorId, accessedId, groupId);
+            entityOptional = grantRepository
+                    .findByAccessor_IdAndAccessed_IdAndGroup_Id(accessorId, accessedId, groupId);
         }
 
         return entityOptional
