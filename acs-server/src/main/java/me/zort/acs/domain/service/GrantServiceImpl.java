@@ -3,19 +3,17 @@ package me.zort.acs.domain.service;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GrantRepository;
 import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.grant.GrantRepositoryAdapter;
 import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.provider.GrantProvider;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.data.entity.GrantEntity;
-import me.zort.acs.data.id.GroupId;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.access.AccessValidatorService;
 import me.zort.acs.domain.event.GrantAddEvent;
 import me.zort.acs.domain.event.GrantRemoveEvent;
-import me.zort.acs.domain.model.Group;
-import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.provider.options.GrantOptions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +30,9 @@ import java.util.UUID;
 public class GrantServiceImpl implements GrantService {
     private final GrantRepository grantRepository;
     private final GrantProvider grantProvider;
+    private final GrantRepositoryAdapter grantAdapter;
     private final DomainModelMapper<Grant, GrantEntity> grantMapper;
     private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
-    private final DomainToPersistenceMapper<Group, GroupId> groupIdMapper;
     private final AccessValidatorService accessValidatorService;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -91,18 +89,7 @@ public class GrantServiceImpl implements GrantService {
         SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
         SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
 
-        Optional<GrantEntity> entityOptional = Optional.empty();
-        if (rightsHolder instanceof Node node) {
-            entityOptional = grantRepository
-                    .findByAccessor_IdAndAccessed_IdAndNode_Value(accessorId, accessedId, node.getValue());
-        } else if (rightsHolder instanceof Group group) {
-            GroupId groupId = groupIdMapper.toPersistence(group);
-
-            entityOptional = grantRepository
-                    .findByAccessor_IdAndAccessed_IdAndGroup_Id(accessorId, accessedId, groupId);
-        }
-
-        return entityOptional
+        return grantAdapter.getGrantEntity(accessorId, accessedId, rightsHolder)
                 .map(entity -> {
                     Grant grant = grantProvider.getGrant(GrantOptions.builder()
                             .accessor(accessor)

@@ -1,0 +1,11 @@
+package me.zort.acs.api.domain.grant;
+
+import me.zort.acs.api.domain.model.Grant;
+import me.zort.acs.domain.provider.options.GrantOptions;
+import org.jetbrains.annotations.Nullable;
+
+public interface GrantFactory {
+
+    @Nullable
+    Grant createGrant(GrantOptions options);
+}
