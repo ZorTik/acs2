@@ -37,4 +37,12 @@ public class Group implements RightsHolder {
     public int hashCode() {
         return Objects.hash(getSubjectType(), name);
     }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "subjectType=" + subjectType +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -47,4 +47,11 @@ public class Node implements RightsHolder {
     public int hashCode() {
         return Objects.hashCode(getValue());
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "value='" + value + '\'' +
+                '}';
+    }
 }

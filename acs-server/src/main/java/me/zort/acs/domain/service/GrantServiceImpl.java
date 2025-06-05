@@ -81,23 +81,20 @@ public class GrantServiceImpl implements GrantService {
 
     @Override
     public boolean existsGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
-        return getGrant(accessor, accessed, rightsHolder).isPresent();
+        SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
+        SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
+
+        return grantAdapter.getGrantEntity(accessorId, accessedId, rightsHolder).isPresent();
     }
 
     @Override
     public Optional<Grant> getGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
-        SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
-        SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
+        Grant grant = grantProvider.getGrant(GrantOptions.builder()
+                .accessor(accessor)
+                .accessed(accessed)
+                .rightsHolder(rightsHolder).build());
 
-        return grantAdapter.getGrantEntity(accessorId, accessedId, rightsHolder)
-                .map(entity -> {
-                    Grant grant = grantProvider.getGrant(GrantOptions.builder()
-                            .accessor(accessor)
-                            .accessed(accessed)
-                            .rightsHolder(rightsHolder).build());
-
-                    return grant.isValid() ? grant : null;
-                });
+        return grant.isValid() ? Optional.of(grant) : Optional.empty();
     }
 
     @Override
