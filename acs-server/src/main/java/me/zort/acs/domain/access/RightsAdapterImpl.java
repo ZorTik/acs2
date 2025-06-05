@@ -1,4 +1,4 @@
-package me.zort.acs.domain.grant;
+package me.zort.acs.domain.access;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GrantRepository;
