@@ -6,8 +6,10 @@ import me.zort.acs.api.domain.grant.RightsAdapter;
 import me.zort.acs.api.domain.model.SubjectLike;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+@Order(1)
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class SupportedTypesRequestValidator implements AccessRequestValidator {
