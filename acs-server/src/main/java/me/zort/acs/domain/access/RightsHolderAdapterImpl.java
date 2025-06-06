@@ -3,7 +3,7 @@ package me.zort.acs.domain.access;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GrantRepository;
 import me.zort.acs.api.domain.access.RightsHolder;
-import me.zort.acs.api.domain.grant.RightsAdapter;
+import me.zort.acs.api.domain.grant.RightsHolderAdapter;
 import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.data.entity.GrantEntity;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
-public class RightsAdapterImpl extends RightsAdapter {
+public class RightsHolderAdapterImpl extends RightsHolderAdapter {
     private final GrantRepository grantRepository;
     private final DomainToPersistenceMapper<Group, GroupId> groupIdMapper;
 

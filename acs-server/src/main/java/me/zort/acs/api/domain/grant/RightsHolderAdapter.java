@@ -4,7 +4,7 @@ import me.zort.acs.api.domain.access.RightsHolder;
 import me.zort.acs.api.domain.access.RightsHolderPresenceVerifier;
 import org.apache.commons.lang3.ArrayUtils;
 
-public abstract class RightsAdapter implements GrantFactory, GrantRepositoryAdapter, RightsHolderPresenceVerifier {
+public abstract class RightsHolderAdapter implements GrantFactory, GrantRepositoryAdapter, RightsHolderPresenceVerifier {
 
     protected abstract Class<?>[] getSupportedHolderTypes();
 
