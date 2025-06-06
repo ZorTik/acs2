@@ -23,16 +23,6 @@ import java.util.stream.Stream;
  * serialization/deserialization, and interceptor invocation.
  * It delegates the actual HTTP call to the configured {@link HttpAdapter}.
  * <p></p>
- * Key responsibilities:
- * <ul>
- *     <li>Builds and validates HTTP requests</li>
- *     <li>Applies request configuration using a BiConsumer</li>
- *     <li>Executes HTTP calls through the {@link HttpAdapter}</li>
- *     <li>Invokes pre- and post-call {@link HttpInterceptor}s</li>
- *     <li>Serializes request bodies and deserializes response bodies using {@link HttpSerializer}</li>
- *     <li>Handles exceptions and wraps them into {@link AcsRequestException}</li>
- * </ul>
- *
  * Designed to be extended by concrete ACS client implementations
  * that provide specific API interaction methods.
  */
