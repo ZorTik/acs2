@@ -6,6 +6,7 @@ import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public interface GroupService {
 
     boolean assignGroupParent(Group group, Group parent);
 
-    boolean assignGroupNodes(Group group, List<Node> nodes);
+    boolean assignGroupNodes(Group group, Collection<Node> nodes);
 
     Optional<Group> getGroup(SubjectType subjectType, String name);
 

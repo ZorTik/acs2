@@ -3,14 +3,12 @@ package me.zort.acs.domain.operation;
 import lombok.extern.slf4j.Slf4j;
 import me.zort.acs.api.domain.operation.Operation;
 import me.zort.acs.api.domain.operation.OperationExecutor;
-import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service
-public class OperationExecutorImpl implements OperationExecutor {
+public class BaseOperationExecutor<O> implements OperationExecutor<O> {
 
     @Override
-    public final <O, OP extends Operation<O>> boolean executeOperation(OP operation, O object) {
+    public <OP extends Operation<O>> boolean executeOperation(OP operation, O object) {
         try {
             operation.execute(object);
             return true;

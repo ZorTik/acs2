@@ -15,7 +15,7 @@ public class GroupProviderImpl implements GroupProvider, CacheDisposable {
     @Cacheable(value = "groups", key = "#options.subjectType.id + ':' + #options.name")
     @Override
     public Group getGroup(GroupOptions options) {
-        return new Group(options.getSubjectType(), options.getName(), options.getParentGroup(), options.getNodes());
+        return new Group(options.getSubjectType(), options.getName(), options.getNodes(), options.getParentGroup());
     }
 
     @Override

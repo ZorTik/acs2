@@ -1,7 +1,7 @@
 package me.zort.acs.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.RightsHolder;
 
 import java.util.HashSet;
@@ -9,12 +9,37 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Group implements RightsHolder {
     private final SubjectType subjectType;
     private final String name;
-    private final Group parent;
     private final Set<Node> nodes;
+
+    private Group parent;
+
+    public void setParent(Group parent) throws IllegalArgumentException {
+        if (parent != null) {
+            if (!parent.getSubjectType().equals(this.subjectType)) {
+                throw new IllegalArgumentException("Parent group must have the same subject type as this group.");
+            }
+
+            if (parent.equals(this)) {
+                throw new IllegalArgumentException("A group cannot be its own parent.");
+            }
+
+            // TODO: Check circular dependency
+        }
+
+        this.parent = parent;
+    }
+
+    public void addNode(Node node) {
+        if (nodes.contains(node)) {
+            return;
+        }
+
+        nodes.add(node);
+    }
 
     @Override
     public Set<Node> getGrantedNodes() {

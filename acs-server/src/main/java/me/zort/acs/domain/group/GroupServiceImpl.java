@@ -19,6 +19,7 @@ import me.zort.acs.domain.provider.options.GroupOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class GroupServiceImpl implements GroupService {
     private final DomainGroupIdMapper groupIdMapper;
     private final GroupProvider groupProvider;
     private final GroupOperationsFactory operationsFactory;
-    private final OperationExecutor operationExecutor;
+    private final OperationExecutor<Group> operationExecutor;
 
     @Override
     public Group createGroup(SubjectType subjectType, String name) {
@@ -55,7 +56,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public boolean assignGroupNodes(Group group, List<Node> nodes) {
+    public boolean assignGroupNodes(Group group, Collection<Node> nodes) {
         return operationExecutor.executeOperation(operationsFactory.assignNodes(nodes), group);
     }
 
