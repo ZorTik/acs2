@@ -1,11 +1,8 @@
 package me.zort.acs.domain.group.operation;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.data.repository.GroupRepository;
 import me.zort.acs.api.domain.grant.RightsHolderAdapter;
 import me.zort.acs.api.domain.group.operation.AssignNodesOperation;
-import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
-import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
 import org.jetbrains.annotations.NotNull;
