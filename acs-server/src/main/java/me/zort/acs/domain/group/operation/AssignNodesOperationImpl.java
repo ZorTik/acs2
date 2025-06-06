@@ -20,8 +20,6 @@ import java.util.List;
 @Scope("prototype")
 @Component
 public class AssignNodesOperationImpl implements AssignNodesOperation {
-    private final GroupRepository groupRepository;
-    private final DomainToPersistenceMapper<Group, GroupEntity> groupMapper;
     private final RightsHolderAdapter rightsHolderAdapter;
 
     private Collection<Node> nodes;
@@ -40,10 +38,14 @@ public class AssignNodesOperationImpl implements AssignNodesOperation {
         }
 
         nodes.forEach(group::addNode);
-        groupRepository.save(groupMapper.toPersistence(group));
     }
 
     public Collection<Node> getNodes() {
         return List.copyOf(nodes);
+    }
+
+    @Override
+    public boolean isAutoCommit() {
+        return true;
     }
 }
