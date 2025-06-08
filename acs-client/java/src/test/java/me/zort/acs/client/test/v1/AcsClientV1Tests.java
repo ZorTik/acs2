@@ -5,10 +5,11 @@ import me.zort.acs.client.http.HttpMethod;
 import me.zort.acs.client.http.HttpRequest;
 import me.zort.acs.client.http.HttpResponse;
 import me.zort.acs.client.http.adapter.OkHttpHttpAdapter;
-import me.zort.acs.client.http.model.nodes.list.ListNodesResponse;
 import me.zort.acs.client.http.serializer.GsonHttpSerializer;
 import me.zort.acs.client.test.BaseTestCase;
 import me.zort.acs.client.v1.AcsClientV1;
+import me.zort.acs.client.v1.model.nodes.list.ListNodesQueryV1;
+import me.zort.acs.client.v1.model.nodes.list.ListNodesResponseV1;
 import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -87,8 +88,8 @@ public class AcsClientV1Tests extends BaseTestCase {
                         "{\"value\":\"node2\"}," +
                         "{\"value\":\"node2.subnode\"}]}"));
 
-        ListNodesResponse response = client.listNodes(client.listNodesQueryBuilder()
-                .bySubjectType("subjectType"));
+        ListNodesResponseV1 response = client.listNodes(
+                ListNodesQueryV1.bySubjectType("subjectType"));
 
         assertEquals("application/json", lastRequest.getContentType());
         assertEquals(HttpMethod.GET, lastRequest.getMethod());

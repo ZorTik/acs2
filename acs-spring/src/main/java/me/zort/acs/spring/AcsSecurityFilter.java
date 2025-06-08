@@ -5,9 +5,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.client.AcsClient;
 import me.zort.acs.client.AcsNodeResolvable;
 import me.zort.acs.client.AcsSubjectResolvable;
+import me.zort.acs.client.v1.AcsClientV1;
 import me.zort.acs.spring.exception.AcsInvalidPrincipalException;
 import me.zort.acs.spring.exception.AcsUnauthenticatedException;
 import me.zort.acs.spring.exception.AcsUnauthorizedException;
@@ -21,7 +21,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 public class AcsSecurityFilter extends OncePerRequestFilter {
-    private final AcsClient client;
+    private final AcsClientV1 client;
     private final AccessTargetResolver targetResolver;
 
     @Override

@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AcsClientBuilderTests extends BaseTestCase {
-    private AcsClientBuilder builder;
+    private AcsClientBuilder<AbstractAcsClient> builder;
 
     private static class TestClientBuilder extends AcsClientBuilder<AbstractAcsClient> {
         @Override

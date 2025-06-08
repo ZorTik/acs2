@@ -13,6 +13,12 @@ public class ListNodesQueryV1 implements PathQuery {
         this.query = Objects.requireNonNull(queryParameters, "queryParameters cannot be null");
     }
 
+    public static @NotNull ListNodesQueryV1 bySubjectType(@NotNull String subjectTypeId) {
+        Objects.requireNonNull(subjectTypeId, "subjectTypeId cannot be null");
+
+        return new ListNodesQueryV1(Map.of("subjectType", subjectTypeId));
+    }
+
     @Override
     public Map<String, Object> getQueryAttributes() {
         return Map.copyOf(query);
