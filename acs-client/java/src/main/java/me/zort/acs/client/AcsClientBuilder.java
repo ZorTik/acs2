@@ -22,7 +22,7 @@ import java.util.Objects;
  * a concrete client instance.
  */
 @Getter(AccessLevel.PROTECTED)
-public abstract class AcsClientBuilder {
+public abstract class AcsClientBuilder<C extends AbstractAcsClient> {
     private static final Gson DEFAULT_GSON = new GsonBuilder()
             .create();
 
@@ -39,19 +39,19 @@ public abstract class AcsClientBuilder {
 
     /**
      * Subclasses must override this method to create
-     * and return the actual {@link AcsClient} implementation.
+     * and return the actual {@link AbstractAcsClient} implementation.
      *
-     * @return a built {@link AcsClient} instance
+     * @return a built {@link AbstractAcsClient} instance
      */
     @ApiStatus.OverrideOnly
-    protected abstract AcsClient doBuild();
+    protected abstract C doBuild();
 
     /**
      * Configures the HTTP adapter to use an OkHttp-based implementation.
      *
      * @return this builder instance for chaining
      */
-    public @NotNull AcsClientBuilder withOkHttpAdapter() {
+    public @NotNull AcsClientBuilder<C> withOkHttpAdapter() {
         this.httpAdapter = new OkHttpHttpAdapter(new okhttp3.OkHttpClient.Builder()
                 .build());
 
@@ -64,7 +64,7 @@ public abstract class AcsClientBuilder {
      * @param baseUrl the base URL, must not be null
      * @return this builder instance for chaining
      */
-    public @NotNull AcsClientBuilder withBaseUrl(final @NotNull String baseUrl) {
+    public @NotNull AcsClientBuilder<C> withBaseUrl(final @NotNull String baseUrl) {
         this.baseUrl = Objects.requireNonNull(baseUrl);
 
         return this;
@@ -76,7 +76,7 @@ public abstract class AcsClientBuilder {
      * @param httpAdapter the HTTP adapter, must not be null
      * @return this builder instance for chaining
      */
-    public @NotNull AcsClientBuilder withHttpAdapter(final @NotNull HttpAdapter httpAdapter) {
+    public @NotNull AcsClientBuilder<C> withHttpAdapter(final @NotNull HttpAdapter httpAdapter) {
         this.httpAdapter = Objects.requireNonNull(httpAdapter);
 
         return this;
@@ -88,7 +88,7 @@ public abstract class AcsClientBuilder {
      * @param responseMapper the response serializer, must not be null
      * @return this builder instance for chaining
      */
-    public @NotNull AcsClientBuilder withHttpSerializer(final @NotNull HttpSerializer responseMapper) {
+    public @NotNull AcsClientBuilder<C> withHttpSerializer(final @NotNull HttpSerializer responseMapper) {
         this.responseMapper = Objects.requireNonNull(responseMapper);
 
         return this;
@@ -102,7 +102,7 @@ public abstract class AcsClientBuilder {
      * @return a new {@link AcsClient} instance
      * @throws NullPointerException if required configuration is missing
      */
-    public @NotNull AcsClient build() {
+    public @NotNull C build() {
         Objects.requireNonNull(baseUrl, "Base url cannot be null");
         Objects.requireNonNull(httpAdapter, "Http adapter cannot be null");
 

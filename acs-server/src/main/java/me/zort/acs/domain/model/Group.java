@@ -3,6 +3,7 @@ package me.zort.acs.domain.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.domain.util.GroupUtils;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -27,7 +28,9 @@ public class Group implements RightsHolder {
                 throw new IllegalArgumentException("A group cannot be its own parent.");
             }
 
-            // TODO: Check circular dependency
+            if (GroupUtils.detectCircularDependency(parent, Set.of(this))) {
+                throw new IllegalArgumentException("Setting this group as a parent would create a circular dependency.");
+            }
         }
 
         this.parent = parent;

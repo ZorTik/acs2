@@ -1,7 +1,6 @@
 package me.zort.acs.client.test;
 
 import me.zort.acs.client.AbstractAcsClient;
-import me.zort.acs.client.AcsClient;
 import me.zort.acs.client.AcsClientBuilder;
 import me.zort.acs.client.http.adapter.HttpAdapter;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +15,10 @@ import static org.mockito.Mockito.*;
 public class AcsClientBuilderTests extends BaseTestCase {
     private AcsClientBuilder builder;
 
-    private static class TestClientBuilder extends AcsClientBuilder {
+    private static class TestClientBuilder extends AcsClientBuilder<AbstractAcsClient> {
         @Override
-        protected AcsClient doBuild() {
-            return mock(AcsClient.class);
+        protected AbstractAcsClient doBuild() {
+            return mock(AbstractAcsClient.class);
         }
     }
 

@@ -7,15 +7,6 @@ import me.zort.acs.client.AcsSubjectResolvable;
 import me.zort.acs.client.PathQuery;
 import me.zort.acs.client.http.HttpMethod;
 import me.zort.acs.client.http.adapter.HttpAdapter;
-import me.zort.acs.client.http.builder.ListNodesQueryBuilder;
-import me.zort.acs.client.http.exception.InvalidListNodesQueryException;
-import me.zort.acs.client.http.model.check.CheckAccessResponse;
-import me.zort.acs.client.http.model.grant.GrantAccessResponse;
-import me.zort.acs.client.http.model.nodes.granted.GrantedNodesResponse;
-import me.zort.acs.client.http.model.nodes.list.ListNodesQuery;
-import me.zort.acs.client.http.model.revoke.RevokeAccessResponse;
-import me.zort.acs.client.v1.builder.ListNodesQueryBuilderV1;
-import me.zort.acs.client.http.model.nodes.list.ListNodesResponse;
 import me.zort.acs.client.http.serializer.HttpSerializer;
 import me.zort.acs.client.v1.interceptor.CommonFailuresInterceptor;
 import me.zort.acs.client.v1.model.check.CheckAccessRequestV1;
@@ -45,8 +36,15 @@ public class AcsClientV1 extends AbstractAcsClient {
         super(baseUrl, httpAdapter, httpSerializer, List.of(new CommonFailuresInterceptor(httpSerializer)));
     }
 
-    @Override
-    public @NotNull CheckAccessResponse checkAccess(
+    /**
+     * Checks whether the accessor has access to the accessed subject based on specified nodes.
+     *
+     * @param accessor the subject requesting access
+     * @param accessed the target subject or resource being accessed
+     * @param nodes    a set of nodes representing permissions to check
+     * @return the result of the access check
+     */
+    public @NotNull CheckAccessResponseV1 checkAccess(
             final @NotNull AcsSubjectResolvable accessor,
             final @NotNull AcsSubjectResolvable accessed, final @NotNull Set<AcsNodeResolvable> nodes) {
         Set<String> values = nodes
@@ -59,8 +57,15 @@ public class AcsClientV1 extends AbstractAcsClient {
                 .body(serializer.apply(new CheckAccessRequestV1(accessor, accessed, values))));
     }
 
-    @Override
-    public @NotNull GrantAccessResponse grantAccess(
+    /**
+     * Grants access for the accessor to the specified resource on given nodes.
+     *
+     * @param accessor the subject to whom access is granted
+     * @param resource the target resource or subject
+     * @param nodes    a set of nodes representing permissions to grant
+     * @return the result of the grant operation
+     */
+    public @NotNull GrantAccessResponseV1 grantAccess(
             final @NotNull AcsSubjectResolvable accessor,
             final @NotNull AcsSubjectResolvable resource, @NotNull Set<AcsNodeResolvable> nodes) {
         Set<String> values = nodes
@@ -73,8 +78,15 @@ public class AcsClientV1 extends AbstractAcsClient {
                 .body(serializer.apply(new GrantAccessRequestV1(accessor, resource, values))));
     }
 
-    @Override
-    public @NotNull RevokeAccessResponse revokeAccess(
+    /**
+     * Revokes access for the accessor to the specified resource on given nodes.
+     *
+     * @param accessor the subject whose access is revoked
+     * @param resource the target resource or subject
+     * @param nodes    a set of nodes representing permissions to revoke
+     * @return the result of the revoke operation
+     */
+    public @NotNull RevokeAccessResponseV1 revokeAccess(
             final @NotNull AcsSubjectResolvable accessor,
             final @NotNull AcsSubjectResolvable resource, @NotNull Set<AcsNodeResolvable> nodes) {
         Set<String> values = nodes
@@ -87,31 +99,33 @@ public class AcsClientV1 extends AbstractAcsClient {
                 .body(serializer.apply(new RevokeAccessRequestV1(accessor, resource, values))));
     }
 
-    @Override
-    public @NotNull ListNodesResponse listNodes(@NotNull ListNodesQuery query) throws InvalidListNodesQueryException {
-        if (query instanceof PathQuery pathQuery) {
-            Map<String, Object> queryAttributes = pathQuery.getQueryAttributes();
+    /**
+     * Queries available nodes based on the specified query parameters.
+     *
+     * @param query the parameters for the nodes query
+     * @return a response containing the list of nodes
+     */
+    public @NotNull ListNodesResponseV1 listNodes(@NotNull PathQuery query) {
+        Map<String, Object> queryAttributes = query.getQueryAttributes();
 
-            return executeRequest(ListNodesResponseV1.class, (builder, serializer) -> builder
-                    .method(HttpMethod.GET)
-                    .path(LIST_NODES_URL)
-                    .queryAttributes(Maps.transformValues(queryAttributes, String::valueOf)));
-        } else {
-            throw new InvalidListNodesQueryException(query);
-        }
+        return executeRequest(ListNodesResponseV1.class, (builder, serializer) -> builder
+                .method(HttpMethod.GET)
+                .path(LIST_NODES_URL)
+                .queryAttributes(Maps.transformValues(queryAttributes, String::valueOf)));
     }
 
-    @Override
-    public @NotNull GrantedNodesResponse listNodesWithGrantState(
+    /**
+     * Returns a list of nodes along with their grant state for a given accessor and resource.
+     *
+     * @param accessor the subject whose access is checked
+     * @param resource the target resource or subject
+     * @return a response with nodes and their grant states
+     */
+    public @NotNull GrantedNodesResponseV1 listNodesWithGrantState(
             final @NotNull AcsSubjectResolvable accessor, @NotNull AcsSubjectResolvable resource) {
         return executeRequest(GrantedNodesResponseV1.class, (builder, serializer) -> builder
                 .method(HttpMethod.POST)
                 .path(LIST_NODES_GRANTED_URL)
                 .body(serializer.apply(new GrantedNodesRequestV1(accessor, resource))));
-    }
-
-    @Override
-    public @NotNull ListNodesQueryBuilder listNodesQueryBuilder() {
-        return new ListNodesQueryBuilderV1();
     }
 }
