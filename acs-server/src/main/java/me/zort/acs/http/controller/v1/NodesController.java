@@ -1,5 +1,9 @@
 package me.zort.acs.http.controller.v1;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessControlService;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Nodes", description = "API for listing nodes and checking granted nodes")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RestController
 @RequestMapping("/v1/nodes")
@@ -29,6 +34,11 @@ public class NodesController {
     private final HttpExceptionFactory exceptionProvider;
 
     @GetMapping
+    @Operation(summary = "Lists nodes (filtered)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of nodes"),
+            @ApiResponse(responseCode = "400", description = "Missing or invalid subjectType query parameter")
+    })
     public ListNodesResponseDto listNodes(@RequestParam(required = false) String subjectType) {
         List<NodeDto> nodes;
         if (subjectType != null) {
@@ -42,6 +52,11 @@ public class NodesController {
     }
 
     @PostMapping("/granted")
+    @Operation(summary = "Gets nodes granted between accessor and resource")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Granted nodes returned"),
+            @ApiResponse(responseCode = "400", description = "Invalid request body")
+    })
     public GrantedNodesResponseDto grantedNodes(@Valid @RequestBody GrantedNodesRequestDto body) {
         SubjectLike accessor = subjectMapper.toDomainOrNull(body.getAccessor());
         SubjectLike accessed = subjectMapper.toDomainOrNull(body.getResource());

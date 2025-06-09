@@ -1,5 +1,9 @@
 package me.zort.acs.http.controller.v1;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.zort.acs.api.domain.access.AccessControlService;
 import me.zort.acs.api.domain.access.RightsHolder;
 import me.zort.acs.api.domain.access.request.AccessRequest;
@@ -31,6 +35,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Tag(name = "Access Control", description = "API for checking, granting, and revoking access")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RestController
 @RequestMapping("/v1/access")
@@ -42,8 +47,14 @@ public class AccessController {
     private final AccessControlService accessControlService;
     private final GrantService grantService;
     private final HttpExceptionFactory exceptionProvider;
-    
+
     @PostMapping("/check")
+    @Operation(summary = "Checks access permissions for user on given resources")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Access check results"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "Node or subject not found")
+    })
     public AccessCheckResponseDto checkAccess(@Valid @RequestBody AccessCheckRequestDto body) {
         SubjectLike from = subjectMapper.toDomainOrNull(body.getAccessor());
         SubjectLike to = subjectMapper.toDomainOrNull(body.getResource());
@@ -69,6 +80,11 @@ public class AccessController {
     }
 
     @PostMapping("/grant")
+    @Operation(summary = "Grants access rights")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Grant operation results"),
+            @ApiResponse(responseCode = "400", description = "Invalid request")
+    })
     public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
         Subject from = subjectMapper.toDomain(body.getAccessor(), true);
         Subject to = subjectMapper.toDomain(body.getResource(), true);
@@ -103,6 +119,11 @@ public class AccessController {
     }
 
     @PostMapping("/revoke")
+    @Operation(summary = "Revokes access rights")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Revoke operation results"),
+            @ApiResponse(responseCode = "400", description = "Invalid request")
+    })
     public RevokeNodesResponseDto revokeAccess(@Valid @RequestBody RevokeNodesRequestDto body) {
         SubjectLike from = subjectMapper.toDomainOrNull(body.getAccessor());
         SubjectLike to = subjectMapper.toDomainOrNull(body.getResource());

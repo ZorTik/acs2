@@ -12,6 +12,10 @@ spring:
     resources:
       add-mappings: false
 
+springdoc:
+  swagger-ui:
+    path: /api-spec.html
+
 acs:
   delimiter: ${ACS_DELIMITER:.}
   definitions:
