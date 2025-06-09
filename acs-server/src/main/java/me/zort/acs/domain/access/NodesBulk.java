@@ -1,7 +1,7 @@
 package me.zort.acs.domain.access;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.domain.model.Node;
 import org.jetbrains.annotations.NotNull;
 

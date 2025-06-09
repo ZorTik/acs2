@@ -1,11 +1,11 @@
-package me.zort.acs.domain.provider;
+package me.zort.acs.domain.grant;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
-import me.zort.acs.api.domain.grant.RightsHolderAdapter;
+import me.zort.acs.api.domain.grant.GrantFactory;
 import me.zort.acs.api.domain.model.Grant;
-import me.zort.acs.api.domain.provider.GrantProvider;
+import me.zort.acs.api.domain.grant.GrantProvider;
 import me.zort.acs.domain.provider.options.GrantOptions;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import java.util.Set;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class GrantProviderImpl implements GrantProvider, CacheDisposable {
-    private final RightsHolderAdapter rightsHolderAdapter;
+    private final GrantFactory grantFactory;
 
     @Cacheable(value = "grants", key = "#options.id")
     @Override
     public Grant getGrant(@Valid @NotNull GrantOptions options) {
-        return rightsHolderAdapter.createGrant(options);
+        return grantFactory.createGrant(options);
     }
 
     @Override

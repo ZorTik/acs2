@@ -1,10 +1,10 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.model.Grant;
-import me.zort.acs.api.domain.provider.GrantProvider;
+import me.zort.acs.api.domain.grant.GrantProvider;
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.NodeEntity;

@@ -1,6 +1,6 @@
 package me.zort.acs.domain.access.validator;
 
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
 import org.jetbrains.annotations.Nullable;
 

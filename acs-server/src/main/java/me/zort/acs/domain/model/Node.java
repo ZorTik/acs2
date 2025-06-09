@@ -2,7 +2,7 @@ package me.zort.acs.domain.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 
 import java.util.Objects;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package me.zort.acs.domain.access.rule;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.RightsNegotiationService;
+import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
 import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.strategy.RightsStrategy;
 import me.zort.acs.domain.model.Node;

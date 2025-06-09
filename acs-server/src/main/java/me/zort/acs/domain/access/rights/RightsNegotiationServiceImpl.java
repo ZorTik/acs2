@@ -1,12 +1,13 @@
-package me.zort.acs.domain.access;
+package me.zort.acs.domain.access.rights;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.RightsNegotiationService;
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
+import me.zort.acs.domain.access.NodesBulk;
 import me.zort.acs.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

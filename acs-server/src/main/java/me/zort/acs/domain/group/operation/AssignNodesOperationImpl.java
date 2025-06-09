@@ -1,7 +1,7 @@
 package me.zort.acs.domain.group.operation;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.grant.RightsHolderAdapter;
+import me.zort.acs.api.domain.access.rights.RightsHolderPresenceVerifier;
 import me.zort.acs.api.domain.group.operation.AssignNodesOperation;
 import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
@@ -17,7 +17,7 @@ import java.util.List;
 @Scope("prototype")
 @Component
 public class AssignNodesOperationImpl implements AssignNodesOperation {
-    private final RightsHolderAdapter rightsHolderAdapter;
+    private final RightsHolderPresenceVerifier rightsHolderPresenceVerifier;
 
     private Collection<Node> nodes;
 
@@ -30,7 +30,7 @@ public class AssignNodesOperationImpl implements AssignNodesOperation {
     public void execute(Group group) throws RuntimeException {
         if (nodes
                 .stream()
-                .anyMatch(node -> !rightsHolderAdapter.isPresentInSubjectType(group.getSubjectType(), node))) {
+                .anyMatch(node -> !rightsHolderPresenceVerifier.isPresentInSubjectType(group.getSubjectType(), node))) {
             throw new IllegalArgumentException("One or more nodes are not present in the subject type of the group.");
         }
 

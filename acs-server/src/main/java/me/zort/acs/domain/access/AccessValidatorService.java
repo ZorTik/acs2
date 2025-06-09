@@ -1,7 +1,7 @@
 package me.zort.acs.domain.access;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.access.validator.AccessRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;

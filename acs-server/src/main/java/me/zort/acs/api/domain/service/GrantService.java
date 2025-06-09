@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.service;
 
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.domain.model.Subject;
 

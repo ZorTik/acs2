@@ -1,6 +1,6 @@
 package me.zort.acs.domain.model;
 
-import me.zort.acs.api.domain.access.RightsHolder;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 
 import java.util.UUID;
 

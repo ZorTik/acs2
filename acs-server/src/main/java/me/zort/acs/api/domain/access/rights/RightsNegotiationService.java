@@ -1,4 +1,4 @@
-package me.zort.acs.api.domain.access;
+package me.zort.acs.api.domain.access.rights;
 
 import me.zort.acs.domain.model.Subject;
 
