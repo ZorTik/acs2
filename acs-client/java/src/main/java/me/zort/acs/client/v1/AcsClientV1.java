@@ -26,6 +26,7 @@ public class AcsClientV1 extends AbstractAcsClient {
     private static final String PREFIX = "/v1";
     private static final String CHECK_ACCESS_URL = PREFIX + "/access/check";
     private static final String GRANT_ACCESS_URL = PREFIX + "/access/grant";
+    private static final String REVOKE_ACCESS_URL = PREFIX + "/access/revoke";
     private static final String LIST_NODES_URL = PREFIX + "/nodes";
     private static final String LIST_NODES_GRANTED_URL = PREFIX + "/nodes/granted";
 
@@ -100,7 +101,7 @@ public class AcsClientV1 extends AbstractAcsClient {
 
         return executeRequest(RevokeAccessResponseV1.class, (builder, serializer) -> builder
                 .method(HttpMethod.POST)
-                .path(GRANT_ACCESS_URL)
+                .path(REVOKE_ACCESS_URL)
                 .body(serializer.apply(new RevokeAccessRequestV1(accessor, resource, values, groupsValues))));
     }
 
