@@ -10,18 +10,18 @@ import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class AcsSubject implements AcsSubjectResolvable {
+public class Subject implements AcsSubjectResolvable {
     private final String group;
     private final Object id;
 
-    public static @NotNull AcsSubject of(String group, Object id) {
+    public static @NotNull Subject of(String group, Object id) {
         Objects.requireNonNull(group, "subject group can't be null");
         Objects.requireNonNull(id, "subject id can't be null");
 
-        return new AcsSubject(group, id);
+        return new Subject(group, id);
     }
 
-    public static @NotNull AcsSubject from(AcsSubjectResolvable resolvable) {
+    public static @NotNull Subject from(AcsSubjectResolvable resolvable) {
         return of(resolvable.getGroup(), resolvable.getId());
     }
 }

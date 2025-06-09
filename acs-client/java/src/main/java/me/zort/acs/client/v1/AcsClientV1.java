@@ -1,10 +1,7 @@
 package me.zort.acs.client.v1;
 
 import com.google.common.collect.Maps;
-import me.zort.acs.client.AbstractAcsClient;
-import me.zort.acs.client.AcsNodeResolvable;
-import me.zort.acs.client.AcsSubjectResolvable;
-import me.zort.acs.client.PathQuery;
+import me.zort.acs.client.*;
 import me.zort.acs.client.http.HttpMethod;
 import me.zort.acs.client.http.adapter.HttpAdapter;
 import me.zort.acs.client.http.serializer.HttpSerializer;
@@ -65,17 +62,21 @@ public class AcsClientV1 extends AbstractAcsClient {
      * @param nodes    a set of nodes representing permissions to grant
      * @return the result of the grant operation
      */
-    public @NotNull GrantAccessResponseV1 grantAccess( // TODO: Add groups support
+    public @NotNull GrantAccessResponseV1 grantAccess(
             final @NotNull AcsSubjectResolvable accessor,
-            final @NotNull AcsSubjectResolvable resource, @NotNull Set<AcsNodeResolvable> nodes) {
+            final @NotNull AcsSubjectResolvable resource,
+            final @NotNull Set<AcsNodeResolvable> nodes, final @NotNull Set<AcsGroupResolvable> groups) {
         Set<String> values = nodes
                 .stream()
                 .map(AcsNodeResolvable::getValue).collect(Collectors.toSet());
+        Set<String> groupsValues = groups
+                .stream()
+                .map(AcsGroupResolvable::getName).collect(Collectors.toSet());
 
         return executeRequest(GrantAccessResponseV1.class, (builder, serializer) -> builder
                 .method(HttpMethod.POST)
                 .path(GRANT_ACCESS_URL)
-                .body(serializer.apply(new GrantAccessRequestV1(accessor, resource, values))));
+                .body(serializer.apply(new GrantAccessRequestV1(accessor, resource, values, groupsValues))));
     }
 
     /**
@@ -86,17 +87,21 @@ public class AcsClientV1 extends AbstractAcsClient {
      * @param nodes    a set of nodes representing permissions to revoke
      * @return the result of the revoke operation
      */
-    public @NotNull RevokeAccessResponseV1 revokeAccess( // TODO: Add groups support
+    public @NotNull RevokeAccessResponseV1 revokeAccess(
             final @NotNull AcsSubjectResolvable accessor,
-            final @NotNull AcsSubjectResolvable resource, @NotNull Set<AcsNodeResolvable> nodes) {
+            final @NotNull AcsSubjectResolvable resource,
+            final @NotNull Set<AcsNodeResolvable> nodes, final @NotNull Set<AcsGroupResolvable> groups) {
         Set<String> values = nodes
                 .stream()
                 .map(AcsNodeResolvable::getValue).collect(Collectors.toSet());
+        Set<String> groupsValues = groups
+                .stream()
+                .map(AcsGroupResolvable::getName).collect(Collectors.toSet());
 
         return executeRequest(RevokeAccessResponseV1.class, (builder, serializer) -> builder
                 .method(HttpMethod.POST)
                 .path(GRANT_ACCESS_URL)
-                .body(serializer.apply(new RevokeAccessRequestV1(accessor, resource, values))));
+                .body(serializer.apply(new RevokeAccessRequestV1(accessor, resource, values, groupsValues))));
     }
 
     /**
