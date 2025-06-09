@@ -21,7 +21,7 @@ public class RightsHolderTypeRegistryImpl implements RightsHolderTypeRegistry {
     public <T extends RightsHolder, R> R castAndCallAdapter(
             RightsHolder holder, BiFunction<T, RightsHolderType<T>, R> callFunc) {
         for (RightsHolderType<?> type : holderTypes) {
-            if (!type.getHolderType().isInstance(holder)) {
+            if (!type.getHolderType().isAssignableFrom(holder.getClass())) {
                 continue;
             }
 
