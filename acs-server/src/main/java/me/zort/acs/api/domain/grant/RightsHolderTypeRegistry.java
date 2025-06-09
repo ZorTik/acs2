@@ -25,6 +25,13 @@ public interface RightsHolderTypeRegistry {
     <T extends RightsHolder, R> R castAndCallAdapter(
             RightsHolder holder, BiFunction<T, RightsHolderType<T>, R> callFunc);
 
+    /**
+     * Returns a set of all supported RightsHolder types, which means
+     * all supported class types that inherit from RightsHolder and are accepted
+     * as such by the system.
+     *
+     * @return A set of supported RightsHolder class types.
+     */
     Set<Class<?>> getSupportedHolderTypes();
 
     default void requireSupportedType(RightsHolder rightsHolder) {
