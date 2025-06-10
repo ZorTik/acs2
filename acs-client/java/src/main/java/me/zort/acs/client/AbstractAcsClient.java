@@ -48,7 +48,12 @@ public abstract class AbstractAcsClient implements AcsClient {
 
         HttpResponse response = executeAndInterceptRequest(request, responseType, interceptors);
         try {
-            return serializer.deserializeResponseBody(response, responseType);
+            T responseBody = serializer.deserializeResponseBody(response, responseType);
+
+            callInterceptors(
+                    interceptor -> interceptor.afterCall(request, response, responseBody), interceptors);
+
+            return responseBody;
         } catch (Exception e) {
             throw new AcsRequestException(request, responseType, e);
         }

@@ -7,4 +7,7 @@ public interface HttpInterceptor {
 
     default void afterCall(HttpRequest request, HttpResponse response) throws RuntimeException {
     }
+
+    default void afterCall(HttpRequest request, HttpResponse response, Object body) throws RuntimeException {
+    }
 }
