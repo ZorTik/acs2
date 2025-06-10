@@ -2,19 +2,21 @@ package me.zort.acs.domain.util;
 
 import lombok.experimental.UtilityClass;
 import me.zort.acs.domain.model.Group;
-import org.apache.commons.collections4.set.UnmodifiableSet;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 @UtilityClass
 public final class GroupUtils {
 
-    public static boolean detectCircularDependency(Group group, Set<Group> visited) {
-        if (visited instanceof UnmodifiableSet<Group>) {
-            visited = new HashSet<>(visited); // Ensure we can modify the set
-        }
+    public static boolean detectCircularDependency(Group group, Group... initial) {
+        Set<Group> initialSet = new HashSet<>(Arrays.asList(initial));
 
+        return detectCircularDependency(group, initialSet);
+    }
+
+    private static boolean detectCircularDependency(Group group, Set<Group> visited) {
         if (visited.contains(group)) {
             return true; // Circular dependency detected
         }

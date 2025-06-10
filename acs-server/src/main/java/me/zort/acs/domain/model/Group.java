@@ -28,7 +28,7 @@ public class Group implements RightsHolder {
                 throw new IllegalArgumentException("A group cannot be its own parent.");
             }
 
-            if (GroupUtils.detectCircularDependency(parent, Set.of(this))) {
+            if (GroupUtils.detectCircularDependency(parent, this)) {
                 throw new IllegalArgumentException("Setting this group as a parent would create a circular dependency.");
             }
         }
