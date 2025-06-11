@@ -1,4 +1,4 @@
-package me.zort.acs.spring.system;
+package me.zort.acs.spring;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

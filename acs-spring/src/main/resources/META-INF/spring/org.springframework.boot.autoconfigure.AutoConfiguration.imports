@@ -1,1 +1,1 @@
-me.zort.acs.spring.system.AcsSystemAutoConfig
+me.zort.acs.spring.config.client.AcsClientAutoConfig

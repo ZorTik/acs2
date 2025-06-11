@@ -1,4 +1,4 @@
-package me.zort.acs.spring.system;
+package me.zort.acs.spring;
 
 import me.zort.acs.client.http.model.Subject;
 import me.zort.acs.client.v1.AcsClientV1;
@@ -11,15 +11,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public abstract class AcsUserDetailsService implements UserDetailsService {
     private final AcsClientV1 client;
-    private final AcsSystemConfig config;
+    private final Supplier<Subject> systemSubjectSupplier;
+    private final String userSubjectType;
 
-    public AcsUserDetailsService(@NotNull AcsClientV1 client, @NotNull AcsSystemConfig config) {
+    public AcsUserDetailsService(
+            @NotNull AcsClientV1 client, @NotNull Supplier<Subject> systemSubjectSupplier, String userSubjectType) {
         this.client = Objects.requireNonNull(client, "Client cannot be null");
-        this.config = Objects.requireNonNull(config, "System config cannot be null");
+        this.systemSubjectSupplier = Objects.requireNonNull(
+                systemSubjectSupplier, "System subject supplier cannot be null");
+        this.userSubjectType = userSubjectType;
     }
 
     public abstract UserDetails loadUserByUsernameAndAuthorities(
@@ -27,10 +32,10 @@ public abstract class AcsUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Subject userSubject = Subject.of(config.getUserSubjectType(), username);
+        Subject userSubject = Subject.of(userSubjectType, username);
 
         Collection<? extends GrantedAuthority> authorities = client.listNodesWithGrantState(
-                userSubject, config.getSystemSubject()).getNodesByState(true)
+                userSubject, systemSubjectSupplier.get()).getNodesByState(true)
                 .stream()
                 .map(node -> new SimpleGrantedAuthority(node.getValue()))
                 .collect(Collectors.toSet());
