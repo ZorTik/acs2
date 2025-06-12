@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: acs
-          image: ghcr.io/zortik/acs2:master
+          image: ghcr.io/zortik/acs2:dev
           ports:
             - containerPort: 8080
           env:
@@ -29,6 +29,6 @@ spec:
             - name: DATASOURCE_DB
               value: "test"
             - name: ACS_DEFINITIONS_SOURCE
-              value: "https://github.com/ZorTik/acs2/blob/master/example_definitions.yml"
+              value: "https://acs-definitions/definitions.yml"
       imagePullSecrets:
         - name: ghcr-credentials
