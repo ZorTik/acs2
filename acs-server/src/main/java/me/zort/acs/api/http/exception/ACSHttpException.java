@@ -1,4 +1,4 @@
-package me.zort.acs.http.exception;
+package me.zort.acs.api.http.exception;
 
 import lombok.Getter;
 

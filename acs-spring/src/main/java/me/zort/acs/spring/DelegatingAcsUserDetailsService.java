@@ -17,9 +17,9 @@ public class DelegatingAcsUserDetailsService extends AcsUserDetailsService {
 
     public DelegatingAcsUserDetailsService(
             @NotNull AcsClientV1 client,
-            @NotNull Supplier<Subject> systemSubjectSupplier,
+            @NotNull Subject systemSubject,
             @NotNull String userSubjectType, @NotNull AcsUserDetailsProvider userDetailsProvider) {
-        super(client, systemSubjectSupplier, userSubjectType);
+        super(client, systemSubject, userSubjectType);
         this.userDetailsProvider = Objects.requireNonNull(
                 userDetailsProvider,  "userDetailsProvider cannot be null");
     }

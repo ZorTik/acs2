@@ -21,7 +21,7 @@ import me.zort.acs.http.dto.body.access.grant.GrantNodesRequestDto;
 import me.zort.acs.http.dto.body.access.grant.GrantNodesResponseDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesRequestDto;
 import me.zort.acs.http.dto.body.access.revoke.RevokeNodesResponseDto;
-import me.zort.acs.http.exception.HttpException;
+import me.zort.acs.api.http.exception.HttpException;
 import me.zort.acs.http.mapper.HttpGroupMapper;
 import me.zort.acs.http.mapper.HttpNodeMapper;
 import me.zort.acs.http.mapper.HttpSubjectMapper;

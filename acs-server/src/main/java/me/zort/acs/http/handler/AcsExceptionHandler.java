@@ -2,7 +2,7 @@ package me.zort.acs.http.handler;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.http.dto.body.BasicResponse;
-import me.zort.acs.http.exception.ACSHttpException;
+import me.zort.acs.api.http.exception.ACSHttpException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

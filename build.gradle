@@ -20,6 +20,10 @@ allprojects {
     }
 }
 
+project('acs-server').dependencies {
+    implementation project('acs-api')
+}
+
 project('acs-spring').dependencies {
     compileOnly project('acs-client:java')
 }

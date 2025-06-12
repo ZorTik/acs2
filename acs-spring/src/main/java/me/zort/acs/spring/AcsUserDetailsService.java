@@ -16,14 +16,13 @@ import java.util.stream.Collectors;
 
 public abstract class AcsUserDetailsService implements UserDetailsService {
     private final AcsClientV1 client;
-    private final Supplier<Subject> systemSubjectSupplier;
+    private final Subject systemSubject;
     private final String userSubjectType;
 
     public AcsUserDetailsService(
-            @NotNull AcsClientV1 client, @NotNull Supplier<Subject> systemSubjectSupplier, String userSubjectType) {
+            @NotNull AcsClientV1 client, @NotNull Subject systemSubject, String userSubjectType) {
         this.client = Objects.requireNonNull(client, "Client cannot be null");
-        this.systemSubjectSupplier = Objects.requireNonNull(
-                systemSubjectSupplier, "System subject supplier cannot be null");
+        this.systemSubject = Objects.requireNonNull(systemSubject, "System subject supplier cannot be null");
         this.userSubjectType = userSubjectType;
     }
 
@@ -34,8 +33,8 @@ public abstract class AcsUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Subject userSubject = Subject.of(userSubjectType, username);
 
-        Collection<? extends GrantedAuthority> authorities = client.listNodesWithGrantState(
-                userSubject, systemSubjectSupplier.get()).getNodesByState(true)
+        Collection<? extends GrantedAuthority> authorities = client.listNodesWithGrantState(userSubject, systemSubject)
+                .getNodesByState(true)
                 .stream()
                 .map(node -> new SimpleGrantedAuthority(node.getValue()))
                 .collect(Collectors.toSet());

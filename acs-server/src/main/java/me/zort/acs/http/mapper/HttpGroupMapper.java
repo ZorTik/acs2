@@ -7,7 +7,7 @@ import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.http.dto.model.group.GroupDto;
 import me.zort.acs.http.dto.model.node.NodeDto;
-import me.zort.acs.http.exception.HttpException;
+import me.zort.acs.api.http.exception.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

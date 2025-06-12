@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(AcsSecurityAutoConfig.class)
+@Import(AcsSecurityConfig.class)
 public @interface EnableAcsSecurity {
 }

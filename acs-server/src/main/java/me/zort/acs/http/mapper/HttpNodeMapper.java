@@ -6,7 +6,7 @@ import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.http.dto.model.node.NodeDto;
 import me.zort.acs.http.dto.model.node.NodeWithStateDto;
-import me.zort.acs.http.exception.HttpException;
+import me.zort.acs.api.http.exception.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

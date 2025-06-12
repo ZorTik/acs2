@@ -1,6 +1,8 @@
 package me.zort.acs.http.exception;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.http.exception.ACSHttpException;
+import me.zort.acs.api.http.exception.HttpException;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
