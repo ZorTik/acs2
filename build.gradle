@@ -24,6 +24,6 @@ project('acs-server').dependencies {
     implementation project('acs-api')
 }
 
-project('acs-spring').dependencies {
+project('acs-spring-boot-starter').dependencies {
     compileOnly project('acs-client:java')
 }
