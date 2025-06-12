@@ -14,6 +14,17 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+/**
+ * Abstract implementation of {@link UserDetailsService} for integrating with ACS (Access Control Service).
+ * <p>
+ * This service uses an {@link AcsClientV1} to retrieve user authorities based on the provided username,
+ * and delegates the creation of {@link UserDetails} to subclasses via the
+ * {@link #loadUserByUsernameAndAuthorities(String, Collection)} method.
+ * </p>
+ * <p>
+ * Subclasses must implement how to construct a {@link UserDetails} instance using the username and granted authorities.
+ * </p>
+ */
 public abstract class AcsUserDetailsService implements UserDetailsService {
     private final AcsClientV1 client;
     private final Subject systemSubject;
@@ -26,6 +37,17 @@ public abstract class AcsUserDetailsService implements UserDetailsService {
         this.userSubjectType = userSubjectType;
     }
 
+    /**
+     * Loads the user details for the given username and authorities.
+     * This method should be implemented to return a {@link UserDetails} instance
+     * using the provided username and granted authorities.
+     *
+     * @param username the username identifying the user whose data is required
+     * @param authorities the authorities granted to the user
+     * @return a fully populated user record (never {@code null})
+     *
+     * @throws UsernameNotFoundException if the user could not be found
+     */
     public abstract UserDetails loadUserByUsernameAndAuthorities(
             String username, Collection<? extends GrantedAuthority> authorities) throws UsernameNotFoundException;
 
