@@ -22,11 +22,11 @@ allprojects {
 
 ['acs-server', 'acs-spring-boot-starter'].each {
     project(it).dependencies {
-        implementation project('acs-api')
+        implementation project('acs-common')
     }
 }
 
-['acs-api', 'acs-spring-boot-starter'].each {
+['acs-common', 'acs-spring-boot-starter'].each {
     project(it).dependencies {
         compileOnly project('acs-client:java')
     }

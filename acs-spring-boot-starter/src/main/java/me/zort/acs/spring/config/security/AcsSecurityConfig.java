@@ -1,7 +1,7 @@
 package me.zort.acs.spring.config.security;
 
-import me.zort.acs.api.common.SubjectByTypeAndIdProvider;
-import me.zort.acs.api.common.SubjectProvider;
+import me.zort.acs.common.SubjectByTypeAndIdProvider;
+import me.zort.acs.common.SubjectProvider;
 import me.zort.acs.client.v1.AcsClientV1;
 import me.zort.acs.spring.*;
 import me.zort.acs.spring.config.client.AcsClientAutoConfig;

@@ -1,4 +1,4 @@
-package me.zort.acs.api.common;
+package me.zort.acs.common;
 
 import lombok.AllArgsConstructor;
 import me.zort.acs.client.http.model.Subject;

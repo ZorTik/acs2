@@ -1,4 +1,4 @@
-package me.zort.acs.api.common;
+package me.zort.acs.common;
 
 import me.zort.acs.client.http.model.Subject;
 import me.zort.acs.client.v1.AcsClientV1;
