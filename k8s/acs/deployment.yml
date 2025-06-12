@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: acs
+  template:
+    metadata:
+      labels:
+        app: acs
+    spec:
+      containers:
+        - name: acs
+          image: ghcr.io/zortik/acs2:master
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATASOURCE_USR
+              value: "test"
+            - name: DATASOURCE_PWD
+              value: "test"
+            - name: DATASOURCE_HOST
+              value: "mariadb"
+            - name: DATASOURCE_PORT
+              value: "3306"
+            - name: DATASOURCE_DB
+              value: "test"
+            - name: ACS_DEFINITIONS_SOURCE
+              value: "https://github.com/ZorTik/acs2/blob/master/example_definitions.yml"
+      imagePullSecrets:
+        - name: ghcr-credentials
