@@ -1,0 +1,18 @@
+resources:
+  - "../../server"
+  - "../../mariadb"
+
+configMapGenerator:
+  - name: acs-config
+    behavior: merge
+    literals:
+      - DATASOURCE_HOST=mariadb
+      - DATASOURCE_PORT=3306
+      - DATASOURCE_DB=test
+
+secretGenerator:
+  - name: acs-secret
+    behavior: merge
+    literals:
+      - DATASOURCE_USR=test
+      - DATASOURCE_PWD=test
