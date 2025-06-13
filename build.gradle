@@ -20,7 +20,7 @@ allprojects {
     }
 }
 
-['acs-server', 'acs-spring-boot-starter'].each {
+['acs-server', 'acs-spring-boot-starter', 'acs-plane'].each {
     project(it).dependencies {
         implementation project('acs-core')
     }

@@ -10,6 +10,8 @@ import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
+import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
+import me.zort.acs.domain.grant.exception.InvalidGrantException;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.api.domain.model.SubjectLike;
@@ -108,7 +110,15 @@ public class AccessController {
             grantees.forEach(grantee -> {
                 RightsHolder rightsHolder = mapper.apply(grantee);
 
-                results.put(grantee, grantService.addGrant(from, to, rightsHolder).isPresent());
+                boolean status;
+                try {
+                    grantService.addGrant(from, to, rightsHolder);
+
+                    status = true;
+                } catch (GrantAlreadyExistsException | InvalidGrantException e) {
+                    status = false;
+                }
+                results.put(grantee, status);
             });
             return results;
         };

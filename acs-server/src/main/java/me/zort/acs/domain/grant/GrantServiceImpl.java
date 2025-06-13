@@ -14,8 +14,11 @@ import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.access.AccessValidatorService;
 import me.zort.acs.domain.grant.event.GrantAddEvent;
 import me.zort.acs.domain.grant.event.GrantRemoveEvent;
+import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
+import me.zort.acs.domain.grant.exception.InvalidGrantException;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.provider.options.GrantOptions;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
@@ -38,29 +41,30 @@ public class GrantServiceImpl implements GrantService {
 
     @CacheEvict(value = "grants", key = "#accessor.subjectType.id + ':' + #accessor.id + '->' + #accessed.subjectType.id + ':' + #accessed.id + '@' + #node.value")
     @Override
-    public Optional<Grant> addGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
-        if (existsGrant(accessor, accessed, rightsHolder)) {
-            return Optional.empty();
-        } else {
-            try {
-                // Validate if this grant can be created for this
-                // combination.
-                accessValidatorService.validate(accessor, accessed, rightsHolder);
-            } catch (IllegalArgumentException e) {
-                // Invalid grant
-                return Optional.empty();
-            }
+    public @NotNull Grant addGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
+        getGrant(accessor, accessed, rightsHolder).ifPresent(grant -> {
+            throw new GrantAlreadyExistsException(grant);
+        });
 
-            Grant grant = grantProvider.getGrant(GrantOptions.builder()
-                    .id(UUID.randomUUID())
-                    .accessor(accessor)
-                    .accessed(accessed)
-                    .rightsHolder(rightsHolder).build());
-
-            grantRepository.save(grantMapper.toPersistence(grant));
-            eventPublisher.publishEvent(new GrantAddEvent(grant));
-            return Optional.of(grant);
+        try {
+            // Validate if this grant can be created for this
+            // combination.
+            accessValidatorService.validate(accessor, accessed, rightsHolder);
+        } catch (IllegalArgumentException e) {
+            // Invalid grant
+            throw new InvalidGrantException(accessor, accessed, rightsHolder, e);
         }
+
+        Grant grant = grantProvider.getGrant(GrantOptions.builder()
+                .id(UUID.randomUUID())
+                .accessor(accessor)
+                .accessed(accessed)
+                .rightsHolder(rightsHolder).build());
+
+        grantRepository.save(grantMapper.toPersistence(grant));
+        eventPublisher.publishEvent(new GrantAddEvent(grant));
+
+        return grant;
     }
 
     @CacheEvict(value = "grants", key = "#grant.accessor.subjectType.id + ':' + #grant.accessor.id + '->' + #grant.accessed.subjectType.id + ':' + #grant.accessed.id + '@' + #grant.node.value")
@@ -80,24 +84,16 @@ public class GrantServiceImpl implements GrantService {
     }
 
     @Override
-    public boolean existsGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
+    public Optional<Grant> getGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
         SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
         SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
 
         return rightsHolderTypeRegistry.castAndCallAdapter(
-                rightsHolder,
-                (holder, type) ->
-                        type.findGrantEntityForHolder(holder, accessorId, accessedId)).isPresent();
-    }
-
-    @Override
-    public Optional<Grant> getGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
-        Grant grant = grantProvider.getGrant(GrantOptions.builder()
-                .accessor(accessor)
-                .accessed(accessed)
-                .rightsHolder(rightsHolder).build());
-
-        return grant.isValid() ? Optional.of(grant) : Optional.empty();
+                        rightsHolder,
+                        (holder, type) ->
+                                type.findGrantEntityForHolder(holder, accessorId, accessedId))
+                .map(grantMapper::toDomain)
+                .filter(Grant::isValid);
     }
 
     @Override

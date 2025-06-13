@@ -2,18 +2,22 @@ package me.zort.acs.api.domain.service;
 
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
+import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
+import me.zort.acs.domain.grant.exception.InvalidGrantException;
 import me.zort.acs.domain.model.Subject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface GrantService {
 
-    Optional<Grant> addGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder);
+    @NotNull
+    Grant addGrant(
+            Subject accessor,
+            Subject accessed, RightsHolder rightsHolder) throws GrantAlreadyExistsException, InvalidGrantException;
 
     boolean removeGrant(Grant grant);
-
-    boolean existsGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder);
 
     Optional<Grant> getGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder);
 
