@@ -58,6 +58,13 @@ public abstract class AcsUserDetailsService implements UserDetailsService {
      */
     public abstract boolean existsByUsername(String username);
 
+    /**
+     * This is the default implementation of Spring Security's loadUserByUsername method.
+     * It hereby delegates logic to methods above to allow control of load steps before
+     * ACS is requested.
+     *
+     * @see UserDetailsService#loadUserByUsername(String)
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (!existsByUsername(username)) {
