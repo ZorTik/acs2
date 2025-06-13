@@ -46,14 +46,24 @@ public abstract class AcsUserDetailsService implements UserDetailsService {
      * @param username the username identifying the user whose data is required
      * @param authorities the authorities granted to the user
      * @return a fully populated user record (never {@code null})
-     *
-     * @throws UsernameNotFoundException if the user could not be found
      */
     public abstract UserDetails loadUserByUsernameAndAuthorities(
-            String username, Collection<? extends GrantedAuthority> authorities) throws UsernameNotFoundException;
+            String username, Collection<? extends GrantedAuthority> authorities);
+
+    /**
+     * Checks whether a user with the specified username exists.
+     *
+     * @param username the username to check for existence
+     * @return true if the user exists, false otherwise
+     */
+    public abstract boolean existsByUsername(String username);
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (!existsByUsername(username)) {
+            throw new UsernameNotFoundException(username);
+        }
+
         Subject userSubject = Subject.of(userSubjectType, username);
         Subject systemSubject = systemSubjectProvider.getSubject(client);
 
