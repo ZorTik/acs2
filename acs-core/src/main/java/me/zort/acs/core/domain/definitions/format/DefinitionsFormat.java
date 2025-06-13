@@ -1,14 +1,10 @@
 package me.zort.acs.core.domain.definitions.format;
 
+import me.zort.acs.core.domain.definitions.format.yaml.util.YamlFormatUtils;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
-import me.zort.acs.core.domain.definitions.format.yaml.YamlDefaultGrantModel;
-import me.zort.acs.core.domain.definitions.format.yaml.YamlDefinitionsModel;
-import me.zort.acs.core.domain.definitions.format.yaml.YamlPropertyUtils;
+import me.zort.acs.core.domain.definitions.format.yaml.model.YamlDefinitionsModel;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.InputStream;
 
@@ -16,25 +12,14 @@ public enum DefinitionsFormat {
     YAML {
         @Override
         public @NotNull DefinitionsModel parseModel(InputStream in) {
-            return YAML_LOADER.loadAs(in, YamlDefinitionsModel.class);
+            return YAML_LIB.loadAs(in, YamlDefinitionsModel.class);
         }
     };
 
-    private static final Yaml YAML_LOADER;
+    private static final Yaml YAML_LIB;
 
     static {
-        YAML_LOADER = createYamlLoader();
-    }
-
-    private static Yaml createYamlLoader() {
-        Constructor constructor = new Constructor(YamlDefinitionsModel.class, new LoaderOptions());
-        constructor.setPropertyUtils(new YamlPropertyUtils());
-
-        TypeDescription description = new TypeDescription(YamlDefinitionsModel.class);
-        description.putListPropertyType("default-grants", YamlDefaultGrantModel.class);
-        constructor.addTypeDescription(description);
-
-        return new Yaml(constructor);
+        YAML_LIB = YamlFormatUtils.createYaml();
     }
 
     public @NotNull DefinitionsModel parseModel(InputStream in) {

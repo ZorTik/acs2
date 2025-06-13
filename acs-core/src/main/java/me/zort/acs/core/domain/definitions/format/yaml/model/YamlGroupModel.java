@@ -1,4 +1,4 @@
-package me.zort.acs.core.domain.definitions.format.yaml;
+package me.zort.acs.core.domain.definitions.format.yaml.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

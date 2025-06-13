@@ -1,4 +1,4 @@
-package me.zort.acs.core.domain.definitions.format.yaml;
+package me.zort.acs.core.domain.definitions.format.yaml.util;
 
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;

@@ -1,4 +1,4 @@
-package me.zort.acs.core.domain.definitions.format.yaml;
+package me.zort.acs.core.domain.definitions.format.yaml.model;
 
 import lombok.Getter;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
