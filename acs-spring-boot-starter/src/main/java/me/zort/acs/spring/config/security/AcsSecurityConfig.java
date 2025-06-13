@@ -1,7 +1,7 @@
 package me.zort.acs.spring.config.security;
 
-import me.zort.acs.common.SubjectByTypeAndIdProvider;
-import me.zort.acs.common.SubjectProvider;
+import me.zort.acs.core.domain.SubjectByTypeAndIdProvider;
+import me.zort.acs.core.domain.SubjectProvider;
 import me.zort.acs.client.v1.AcsClientV1;
 import me.zort.acs.spring.*;
 import me.zort.acs.spring.config.client.AcsClientAutoConfig;
@@ -26,10 +26,9 @@ public class AcsSecurityConfig {
             AcsClientV1 client,
             AcsSecuritySystemMatcherConfig systemMatcherConfig,
             AcsSecurityUserConfig userConfig, AcsUserDetailsProvider userDetailsProvider) {
-        SubjectProvider systemSubjectProvider = pickSubjectProviderForConfig(systemMatcherConfig);
-
         return new DelegatingAcsUserDetailsService(
-                client, systemSubjectProvider.getSubject(client), userConfig.getSubjectType(), userDetailsProvider);
+                client,
+                pickSubjectProviderForConfig(systemMatcherConfig), userConfig.getSubjectType(), userDetailsProvider);
     }
 
     private static @NotNull SubjectProvider pickSubjectProviderForConfig(SubjectConfig config) {

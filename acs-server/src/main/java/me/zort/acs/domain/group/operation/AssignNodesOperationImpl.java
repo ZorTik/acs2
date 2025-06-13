@@ -3,7 +3,7 @@ package me.zort.acs.domain.group.operation;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.rights.RightsHolderPresenceVerifier;
 import me.zort.acs.api.domain.group.operation.AssignNodesOperation;
-import me.zort.acs.domain.model.Group;
+import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

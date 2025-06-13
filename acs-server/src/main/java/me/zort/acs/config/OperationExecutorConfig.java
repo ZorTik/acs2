@@ -4,7 +4,7 @@ import me.zort.acs.api.data.repository.GroupRepository;
 import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.operation.OperationExecutor;
 import me.zort.acs.data.entity.GroupEntity;
-import me.zort.acs.domain.model.Group;
+import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.operation.OperationExecutorBase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

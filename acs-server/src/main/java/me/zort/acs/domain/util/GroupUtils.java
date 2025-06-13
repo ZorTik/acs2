@@ -1,7 +1,7 @@
 package me.zort.acs.domain.util;
 
 import lombok.experimental.UtilityClass;
-import me.zort.acs.domain.model.Group;
+import me.zort.acs.domain.group.Group;
 
 import java.util.Arrays;
 import java.util.HashSet;

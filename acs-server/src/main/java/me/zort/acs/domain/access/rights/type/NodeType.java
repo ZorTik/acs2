@@ -6,7 +6,7 @@ import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.NodeGrant;
+import me.zort.acs.domain.grant.type.NodeGrant;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.provider.options.GrantOptions;
 import org.springframework.beans.factory.annotation.Autowired;

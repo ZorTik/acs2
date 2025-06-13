@@ -1,0 +1,10 @@
+package me.zort.acs.core.domain.definitions.source;
+
+import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
+
+import java.io.IOException;
+
+public interface DefinitionsSource {
+
+    DefinitionsModel getModel() throws IOException;
+}
