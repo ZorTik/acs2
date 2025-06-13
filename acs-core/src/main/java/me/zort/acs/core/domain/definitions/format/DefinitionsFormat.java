@@ -1,28 +1,25 @@
 package me.zort.acs.core.domain.definitions.format;
 
-import me.zort.acs.core.domain.definitions.format.yaml.util.YamlFormatUtils;
+import lombok.AllArgsConstructor;
+import me.zort.acs.core.domain.definitions.format.yaml.YamlFormatAdapter;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
-import me.zort.acs.core.domain.definitions.format.yaml.model.YamlDefinitionsModel;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 
-public enum DefinitionsFormat {
-    YAML {
-        @Override
-        public @NotNull DefinitionsModel parseModel(InputStream in) {
-            return YAML_LIB.loadAs(in, YamlDefinitionsModel.class);
-        }
-    };
+@AllArgsConstructor
+public enum DefinitionsFormat implements DefinitionsFormatAdapter {
+    YAML(new YamlFormatAdapter());
 
-    private static final Yaml YAML_LIB;
+    private final DefinitionsFormatAdapter adapter;
 
-    static {
-        YAML_LIB = YamlFormatUtils.createYaml();
+    @Override
+    public @NotNull DefinitionsModel parseModel(InputStream in) {
+        return adapter.parseModel(in);
     }
 
-    public @NotNull DefinitionsModel parseModel(InputStream in) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public @NotNull String toStringModel(@NotNull DefinitionsModel model) {
+        return adapter.toStringModel(model);
     }
 }
