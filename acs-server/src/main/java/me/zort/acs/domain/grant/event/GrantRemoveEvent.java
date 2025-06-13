@@ -1,4 +1,4 @@
-package me.zort.acs.domain.event;
+package me.zort.acs.domain.grant.event;
 
 import me.zort.acs.api.domain.model.Grant;
 
