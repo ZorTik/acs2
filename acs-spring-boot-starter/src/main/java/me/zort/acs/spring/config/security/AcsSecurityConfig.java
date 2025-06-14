@@ -18,7 +18,7 @@ public class AcsSecurityConfig {
 
     @Bean
     @ConditionalOnBean(AcsSecurityConfigurer.class)
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(AcsUserDetailsService.class)
     public AcsUserDetailsService userDetailsService(
             AcsClientV1 client,
             AcsSecuritySystemMatcherConfig systemMatcherConfig,
