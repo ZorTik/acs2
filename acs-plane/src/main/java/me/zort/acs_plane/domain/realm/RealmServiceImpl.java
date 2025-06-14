@@ -1,6 +1,7 @@
 package me.zort.acs_plane.domain.realm;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs_plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs_plane.api.domain.realm.Realm;
 import me.zort.acs_plane.api.domain.realm.RealmService;
 import me.zort.acs_plane.api.domain.realm.exception.RealmAlreadyExistsException;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class RealmServiceImpl implements RealmService {
+    private final DefinitionsService definitionsService;
     private final ApplicationEventPublisher eventPublisher;
 
     @CacheEvict(value = "realms", key = "#realm")
@@ -26,17 +28,23 @@ public class RealmServiceImpl implements RealmService {
         return null;
     }
 
-    @CacheEvict(value = "realms", key = "#realm")
+    @CacheEvict(value = "realms", key = "#realm.name")
     @Override
-    public void deleteRealm(String realm) throws RealmNotExistsException {
-        Realm realmObj = getRealm(realm).orElseThrow(() -> new RealmNotExistsException(realm));
-        // Ensure, even tho it is possibly unnecessary
-        realmObj.requireExists();
+    public void deleteRealm(Realm realm) throws RealmNotExistsException {
+        if (realm instanceof RealmImpl internal) {
+            realm.requireExists();
 
-        // TODO: Delete realm
+            // Remove linked definitions
+            definitionsService.setDefinitions(realm, null);
 
-        ((RealmImpl) realmObj).setExists(false);
-        eventPublisher.publishEvent(new RealmDeletedEvent(realmObj));
+            // TODO: Delete realm
+
+            internal.setExists(false);
+
+            eventPublisher.publishEvent(new RealmDeletedEvent(realm));
+        } else {
+            throw new IllegalArgumentException("RealmService cannot accept this implementation!");
+        }
     }
 
     @Cacheable(value = "realms", key = "#realm", condition = "#result.present")
