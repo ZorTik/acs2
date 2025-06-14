@@ -11,7 +11,6 @@ import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
 import me.zort.acs.data.entity.GroupEntity;
-import me.zort.acs.domain.model.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;

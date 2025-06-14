@@ -9,14 +9,12 @@ import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.domain.model.Group;
+import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.provider.options.SubjectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component

@@ -1,0 +1,14 @@
+resources:
+  - "../../server"
+
+configMapGenerator:
+  - name: acs-config
+    behavior: merge
+    envs:
+      - .env.prod.config
+
+secretGenerator:
+  - name: acs-secret
+    behavior: merge
+    envs:
+      - .env.prod.secret

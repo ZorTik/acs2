@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: acs
+  template:
+    metadata:
+      labels:
+        app: acs
+    spec:
+      containers:
+        - name: acs
+          image: ghcr.io/zortik/acs2:dev
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATASOURCE_USR
+              valueFrom:
+                secretKeyRef:
+                  name: acs-secret
+                  key: DATASOURCE_USR
+            - name: DATASOURCE_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: acs-secret
+                  key: DATASOURCE_PWD
+            - name: DATASOURCE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: acs-config
+                  key: DATASOURCE_HOST
+            - name: DATASOURCE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: acs-config
+                  key: DATASOURCE_PORT
+            - name: DATASOURCE_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: acs-config
+                  key: DATASOURCE_DB
+            - name: ACS_DEFINITIONS_SOURCE
+              valueFrom:
+                configMapKeyRef:
+                  name: acs-config
+                  key: DEFINITIONS_SOURCE
+      imagePullSecrets:
+        - name: ghcr-credentials

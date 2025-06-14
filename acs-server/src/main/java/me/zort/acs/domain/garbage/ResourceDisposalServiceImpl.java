@@ -15,16 +15,17 @@ public class ResourceDisposalServiceImpl implements ResourceDisposalService {
     private final ResourceDisposalRegistry registry;
     private final ApplicationContext context;
 
-    public void dispose(DisposablesHolder disposablesHolder) {
-        disposablesHolder.getDisposables().forEach(this::dispose);
-    }
-
-    public void dispose(Disposable disposable) {
+    private void disposeThat(Disposable disposable) {
         registry.getDisposalFor(disposable).disposeIfNecessary(disposable);
     }
 
     @Override
+    public void dispose(DisposablesHolder disposablesHolder) {
+        disposablesHolder.getDisposables().forEach(this::disposeThat);
+    }
+
+    @Override
     public <T extends Disposable> void disposeBeans(Class<T> beanClass) {
-        context.getBeansOfType(beanClass).forEach((key, bean) -> dispose(bean));
+        context.getBeansOfType(beanClass).forEach((key, bean) -> disposeThat(bean));
     }
 }

@@ -2,7 +2,7 @@ package me.zort.acs.domain.mapper;
 
 import me.zort.acs.api.domain.mapper.DomainGroupIdMapper;
 import me.zort.acs.data.id.GroupId;
-import me.zort.acs.domain.model.Group;
+import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.stereotype.Component;
 

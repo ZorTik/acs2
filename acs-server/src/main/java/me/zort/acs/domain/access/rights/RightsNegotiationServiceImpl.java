@@ -8,6 +8,7 @@ import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
 import me.zort.acs.domain.access.NodesBulk;
+import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

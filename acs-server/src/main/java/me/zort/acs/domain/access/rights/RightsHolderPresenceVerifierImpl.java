@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class RightsHolderPresenceVerifierImpl implements RightsHolderPresenceVerifier {
     private final RightsHolderTypeRegistry rightsHolderTypeRegistry;
 
+    // TODO: Vymyslet jak by to šlo jinak zjednodušit, aby nemusela být tato třída, která je navíc
     @Override
     public boolean isPresentInSubjectType(SubjectType subjectType, RightsHolder rightsHolder) {
         return rightsHolderTypeRegistry.castAndCallAdapter(
