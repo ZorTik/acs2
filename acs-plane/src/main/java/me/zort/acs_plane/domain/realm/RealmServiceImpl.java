@@ -18,8 +18,6 @@ import java.util.Optional;
 @Service
 public class RealmServiceImpl implements RealmService {
     private final ApplicationEventPublisher eventPublisher;
-    // TODO: link realmů objektů který nastaví existing na false pokud přijde delete event
-    // TODO: info v realmu se bude aktualizovat externě pomocí eventů
 
     @CacheEvict(value = "realms", key = "#realm")
     @Override
