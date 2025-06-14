@@ -44,9 +44,25 @@ public class ProtoAdapter {
      * @return the serialized protocol message as a string
      * @throws MessageTypeNotDefinedException if the object's type is not registered in the adapter
      */
-    public String serialize(Object data) throws MessageTypeNotDefinedException {
-        MessageTypeEntry typeEntry = typeEntryForClass(data.getClass())
-                .orElseThrow(() -> new MessageTypeNotDefinedException(data.getClass()));
+    public <T> String serialize(T data) throws MessageTypeNotDefinedException {
+        @SuppressWarnings("unchecked") // Same type
+        Class<T> aClass = (Class<T>) data.getClass();
+
+        return serialize(aClass, data);
+    }
+
+    /**
+     * Serializes the given data object using the specified identifier class into a protocol message string.
+     *
+     * @param identifierClass the class used to identify the message type
+     * @param data the object to serialize
+     * @param <T> the type of the object to serialize
+     * @return the serialized protocol message as a string
+     * @throws MessageTypeNotDefinedException if the identifier class is not registered in the adapter
+     */
+    public <T> String serialize(Class<T> identifierClass, T data) throws MessageTypeNotDefinedException {
+        MessageTypeEntry typeEntry = typeEntryForClass(identifierClass)
+                .orElseThrow(() -> new MessageTypeNotDefinedException(identifierClass));
 
         WrappedMessage<?> wrappedMessage = new WrappedMessage<>(typeEntry.getKey(), data);
 

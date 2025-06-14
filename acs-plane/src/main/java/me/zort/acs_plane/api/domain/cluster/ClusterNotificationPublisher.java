@@ -4,5 +4,5 @@ import me.zort.acs_plane.api.domain.realm.Realm;
 
 public interface ClusterNotificationPublisher {
 
-    <T> void notifyNodes(Realm realm, Class<T> typeOfMessage, T message);
+    <T> void notifyNodes(Realm realm, Class<T> typeIdentifier, T message);
 }
