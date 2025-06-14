@@ -104,8 +104,7 @@ public class GrantServiceImpl implements GrantService {
         return grantRepository.findByAccessor_IdAndAccessed_Id(accessorId, accessedId)
                 .stream()
                 .map(grantMapper::toDomain)
-                .filter(Grant::isValid)
-                .toList();
+                .filter(Grant::isValid).toList();
     }
 
     @Override

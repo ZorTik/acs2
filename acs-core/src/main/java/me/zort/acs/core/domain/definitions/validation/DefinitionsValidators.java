@@ -9,11 +9,16 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.ObjectFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @UtilityClass
 public final class DefinitionsValidators {
+
+    public static @NotNull DefinitionsValidator simple() {
+        return simple(Collections.emptyList());
+    }
 
     public static @NotNull DefinitionsValidator simple(List<DefinitionsVisitor> additionalVisitors) {
         return simple(ValidationContext::new, additionalVisitors);
