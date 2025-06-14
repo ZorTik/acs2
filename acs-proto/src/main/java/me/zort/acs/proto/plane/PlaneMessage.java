@@ -8,7 +8,7 @@ import me.zort.acs.proto.MessageTypeEntry;
 @Getter
 public enum PlaneMessage implements MessageTypeEntry {
 
-    ; // TODO
+    ; // TODO: Plane messages
 
     private final String key;
     private final Class<?> messageClass;
