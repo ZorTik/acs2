@@ -9,7 +9,7 @@ public interface RealmService {
 
     Realm createRealm(String realm) throws RealmAlreadyExistsException;
 
-    void deleteRealm(Realm realm) throws RealmNotExistsException;
+    void deleteRealm(String realm) throws RealmNotExistsException;
 
     Optional<Realm> getRealm(String realm);
 }
