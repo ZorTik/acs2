@@ -5,6 +5,8 @@ import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs_plane.api.domain.realm.Realm;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+
 /**
  * Service interface for managing definitions within a specific realm.
  * <p>
@@ -12,7 +14,9 @@ import org.jetbrains.annotations.Nullable;
  * </p>
  */
 public interface DefinitionsService {
-    // TODO: Metody na modifikování definic
+
+    void modifyDefinitions(
+            Realm realm, Consumer<DefinitionsModification> modificationAction) throws InvalidDefinitionsException;
 
     /**
      * Sets the definitions model for the specified realm.

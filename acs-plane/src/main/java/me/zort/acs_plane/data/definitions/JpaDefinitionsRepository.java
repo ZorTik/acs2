@@ -1,4 +1,4 @@
-package me.zort.acs_plane.data;
+package me.zort.acs_plane.data.definitions;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
