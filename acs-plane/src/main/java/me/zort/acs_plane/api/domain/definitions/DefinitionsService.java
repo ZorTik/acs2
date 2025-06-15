@@ -5,10 +5,29 @@ import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs_plane.api.domain.realm.Realm;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Service interface for managing definitions within a specific realm.
+ * <p>
+ * Provides methods to set and retrieve definitions models for a given realm.
+ * </p>
+ */
 public interface DefinitionsService {
+    // TODO: Metody na modifikování definic
 
-    // TODO: Modify logic with validation
+    /**
+     * Sets the definitions model for the specified realm.
+     *
+     * @param realm the {@link Realm} for which the definitions are to be set
+     * @param model the {@link DefinitionsModel} to set, or {@code null} to remove definitions
+     * @throws InvalidDefinitionsException if the provided model is invalid
+     */
     void setDefinitions(Realm realm, @Nullable DefinitionsModel model) throws InvalidDefinitionsException;
 
+    /**
+     * Retrieves the definitions model for the specified realm.
+     *
+     * @param realm the {@link Realm} for which to retrieve the definitions
+     * @return the {@link DefinitionsModel} associated with the given realm
+     */
     DefinitionsModel getDefinitions(Realm realm);
 }

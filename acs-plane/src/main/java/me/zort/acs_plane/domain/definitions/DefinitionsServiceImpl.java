@@ -1,6 +1,7 @@
 package me.zort.acs_plane.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.core.domain.definitions.exception.InvalidDefinitionsException;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.core.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs_plane.api.domain.definitions.DefinitionsObjectFactory;
@@ -26,7 +27,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
     @CacheEvict(value = "definitions-by-realm", key = "#realm.name")
     @Override
-    public void setDefinitions(Realm realm, @Nullable DefinitionsModel model) {
+    public void setDefinitions(Realm realm, @Nullable DefinitionsModel model) throws InvalidDefinitionsException {
         if (model != null) {
             definitionsValidator.validateDefinitions(model);
         }
