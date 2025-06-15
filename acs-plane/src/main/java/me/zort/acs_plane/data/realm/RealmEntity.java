@@ -1,4 +1,4 @@
-package me.zort.acs_plane.api.data.realm;
+package me.zort.acs_plane.data.realm;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

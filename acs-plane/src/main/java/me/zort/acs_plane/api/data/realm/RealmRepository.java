@@ -1,5 +1,7 @@
 package me.zort.acs_plane.api.data.realm;
 
+import me.zort.acs_plane.data.realm.RealmEntity;
+
 import java.util.Optional;
 
 public interface RealmRepository {

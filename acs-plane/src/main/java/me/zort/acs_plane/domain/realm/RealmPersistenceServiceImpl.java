@@ -2,7 +2,7 @@ package me.zort.acs_plane.domain.realm;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
-import me.zort.acs_plane.api.data.realm.RealmEntity;
+import me.zort.acs_plane.data.realm.RealmEntity;
 import me.zort.acs_plane.api.data.realm.RealmRepository;
 import me.zort.acs_plane.api.domain.realm.Realm;
 import me.zort.acs_plane.api.domain.realm.RealmPersistenceService;
