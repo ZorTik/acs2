@@ -5,7 +5,7 @@
 
 ACS2 (Access Control Service) is a microservice designed to handle access management and group-based authorization for distributed systems. It provides an API for managing permissions, roles, and user access across multiple services. ACS2 allows for flexible integration with various backends, including Spring Boot applications.
 
-![image](https://github.com/user-attachments/assets/b074a1fa-8a28-40e0-8441-145a8550d049)
+![image](https://github.com/user-attachments/assets/062c3aaf-8d3b-464c-b1ec-01717c9d56be)
 
 ## Modules
 
