@@ -1,7 +1,10 @@
 package me.zort.acs_plane.data.node;
 
 import jakarta.persistence.*;
+import me.zort.acs_plane.data.group.GroupEntity;
 import me.zort.acs_plane.data.subjecttype.SubjectTypeEntity;
+
+import java.util.List;
 
 @Entity
 public class NodeEntity {
@@ -18,5 +21,8 @@ public class NodeEntity {
     @MapsId("value")
     @Column(name = "value", insertable = false, updatable = false)
     private String value;
+
+    @ManyToMany(mappedBy = "nodes")
+    private List<GroupEntity> groups;
 
 }

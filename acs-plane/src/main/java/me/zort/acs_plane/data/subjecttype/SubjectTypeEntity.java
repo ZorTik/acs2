@@ -13,4 +13,8 @@ public class SubjectTypeEntity {
     @JoinColumn(name = "realm_id", referencedColumnName = "id")
     private RealmEntity realm;
 
+    @MapsId("name")
+    @Column(name = "name")
+    private String name;
+
 }
