@@ -3,6 +3,7 @@ package me.zort.acs_plane.domain.definitions;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.exception.InvalidDefinitionsException;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
+import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
 import me.zort.acs_plane.api.domain.definitions.DefinitionsObjectFactory;
 import me.zort.acs_plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs_plane.api.domain.definitions.DefinitionsModification;
@@ -20,7 +21,20 @@ public class DefinitionsModificationServiceImpl implements DefinitionsModificati
     private final DefinitionsService definitionsService;
 
     private DefinitionsModel cloneModel(DefinitionsModel model) {
-        // TODO
+        DefinitionsModel cloned = objectFactory.createModel();
+
+        model.getSubjectTypes().forEach(subjectTypeModel -> {
+            SubjectTypeDefinitionModel clonedSubjectTypeModel = objectFactory
+                    .createSubjectTypeModel(subjectTypeModel.getId());
+
+            // TODO: Populate clonedSubjectTypeModel with other properties from subjectTypeModel
+
+            cloned.getSubjectTypes().add(clonedSubjectTypeModel);
+        });
+        model.getDefaultGrants().forEach(grantModel -> {
+            // TODO
+        });
+        return cloned;
     }
 
     @Override
