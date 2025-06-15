@@ -2,9 +2,9 @@ package me.zort.acs_plane.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
-import me.zort.acs_plane.api.data.definitions.DefinitionsRepository;
+import me.zort.acs_plane.api.data.definitions.DefinitionsPersistenceService;
 import me.zort.acs_plane.api.domain.definitions.DefinitionsObjectFactory;
-import me.zort.acs_plane.api.domain.definitions.DefinitionsPersistenceService;
+import me.zort.acs_plane.api.domain.definitions.DefinitionsRepository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
-public class DefinitionsPersistenceServiceImpl implements DefinitionsPersistenceService {
-    private final DefinitionsRepository definitionsRepository;
+public class DefinitionsPersistenceRepositoryImpl implements DefinitionsRepository {
+    private final DefinitionsPersistenceService definitionsRepository;
     private final DefinitionsObjectFactory modelFactory;
 
     @CacheEvict(value = "definitions-by-realm", key = "#realmName")

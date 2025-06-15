@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class DefinitionsServiceImpl implements DefinitionsService {
-    private final DefinitionsPersistenceService persistenceService;
+    private final DefinitionsRepository persistenceService;
     private final DefinitionsValidator definitionsValidator;
     private final DefinitionsModificationService modificationService;
     private final ApplicationEventPublisher eventPublisher;
