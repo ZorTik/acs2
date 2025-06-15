@@ -6,7 +6,7 @@ import me.zort.acs.api.domain.mapper.DomainGroupIdMapper;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.operation.OperationExecutor;
 import me.zort.acs.api.domain.group.GroupOperationsFactory;
-import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.api.domain.service.GrantService;
 import me.zort.acs.api.domain.service.GroupService;

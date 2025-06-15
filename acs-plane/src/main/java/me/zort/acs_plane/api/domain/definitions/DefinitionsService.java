@@ -15,6 +15,17 @@ import java.util.function.Consumer;
  */
 public interface DefinitionsService {
 
+    /**
+     * Modifies the definitions model for the specified realm using the provided modification action.
+     * <p>
+     * The {@code modificationAction} is applied to a {@link DefinitionsModification} instance,
+     * allowing changes to the definitions model within the given {@link Realm}.
+     * </p>
+     *
+     * @param realm the {@link Realm} in which the definitions are to be modified
+     * @param modificationAction the action to perform modifications on the definitions model
+     * @throws InvalidDefinitionsException if the modification results in an invalid model
+     */
     void modifyDefinitions(
             Realm realm, Consumer<DefinitionsModification> modificationAction) throws InvalidDefinitionsException;
 

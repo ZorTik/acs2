@@ -7,11 +7,11 @@ import me.zort.acs_plane.api.domain.realm.event.AbstractRealmEvent;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
-public class DefinitionsChangedEvent extends AbstractRealmEvent {
+public class DefinitionsSavedEvent extends AbstractRealmEvent {
     @Nullable
     private final DefinitionsModel definitions;
 
-    public DefinitionsChangedEvent(Realm realm, @Nullable DefinitionsModel definitions) {
+    public DefinitionsSavedEvent(Realm realm, @Nullable DefinitionsModel definitions) {
         super(realm);
         this.definitions = definitions;
     }

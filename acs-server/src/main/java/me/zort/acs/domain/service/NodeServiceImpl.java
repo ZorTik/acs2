@@ -2,7 +2,7 @@ package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.NodeRepository;
-import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.NodeProvider;
 import me.zort.acs.api.domain.service.NodeService;
 import me.zort.acs.data.entity.NodeEntity;

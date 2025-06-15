@@ -20,8 +20,8 @@ public class DefinitionsObjectFactoryImpl implements DefinitionsObjectFactory {
     }
 
     @Override
-    public DefaultGrantsDefinitionModel createDefaultGrantsModel(String accessorTypeId, String accessedTypeId) {
-        // TODO
+    public DefaultGrantsDefinitionModel createDefaultGrantsModel(
+            SubjectTypeDefinitionModel accessorType, SubjectTypeDefinitionModel accessedType) {
         return null;
     }
 

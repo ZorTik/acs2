@@ -1,6 +1,7 @@
 package me.zort.acs_plane.data.definitions;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs_plane.api.data.definitions.DefinitionsRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Repository
 public class JpaDefinitionsRepository implements DefinitionsRepository {
+    @PersistenceContext
     private final EntityManager entityManager;
 
     @Override

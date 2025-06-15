@@ -1,5 +1,8 @@
 package me.zort.acs_plane.domain.realm;
 
+import me.zort.acs_plane.domain.realm.event.RealmCreatedEvent;
+import me.zort.acs_plane.domain.realm.event.RealmDeletedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,5 +13,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChangesOnRealmListener {
 
-    // Event listeners
+    @EventListener
+    public void onRealmCreated(RealmCreatedEvent event) {
+        if (event.getRealm() instanceof RealmImpl realm) {
+            realm.setExists(true);
+        }
+    }
+
+    @EventListener
+    public void onRealmDeleted(RealmDeletedEvent event) {
+        if (event.getRealm() instanceof RealmImpl realm) {
+            realm.setExists(false);
+        }
+    }
 }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
 import me.zort.acs.proto.plane.message.DefinitionsChangedMessage;
 import me.zort.acs_plane.api.domain.cluster.ClusterNotificationPublisher;
-import me.zort.acs_plane.domain.definitions.event.DefinitionsChangedEvent;
+import me.zort.acs_plane.domain.definitions.event.DefinitionsSavedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class ClusterEventGatherer {
     private final ClusterNotificationPublisher clusterNotificationPublisher;
 
     @EventListener
-    public void onDefinitionsChanged(DefinitionsChangedEvent event) {
+    public void onDefinitionsChanged(DefinitionsSavedEvent event) {
         String definitions = event.getDefinitions() != null
                 // TODO: Propagate format to DefinitionsChangedMessage
                 ? DefinitionsFormat.YAML.toStringModel(event.getDefinitions())

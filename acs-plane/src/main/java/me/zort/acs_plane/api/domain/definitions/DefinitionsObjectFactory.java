@@ -29,11 +29,12 @@ public interface DefinitionsObjectFactory {
     /**
      * Creates a new instance of {@link DefaultGrantsDefinitionModel} for the given accessor and accessed type IDs.
      *
-     * @param accessorTypeId the ID of the accessor type
-     * @param accessedTypeId the ID of the accessed type
+     * @param accessorType the type of the accessor
+     * @param accessedType the type of the accessed subject
      * @return a new default grants definition model
      */
-    DefaultGrantsDefinitionModel createDefaultGrantsModel(String accessorTypeId, String accessedTypeId);
+    DefaultGrantsDefinitionModel createDefaultGrantsModel(
+            SubjectTypeDefinitionModel accessorType, SubjectTypeDefinitionModel accessedType);
 
     /**
      * Creates a new instance of {@link NodeDefinitionModel} with the specified value.
