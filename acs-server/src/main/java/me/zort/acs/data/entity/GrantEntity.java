@@ -3,12 +3,14 @@ package me.zort.acs.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity(name = "acs_grants")
 public class GrantEntity {
     @Id
     @Column(columnDefinition = "binary(16)")
-    private byte[] id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumns({
