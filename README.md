@@ -117,7 +117,13 @@ public class MyApplication {
 
 Next, create implementation of `AcsUserDetailsService` and register it using `AcsSecurityConfigurer`:
 ```java
-public class MyCustomAcsUserDetailsService implements AcsUserDetailsService {
+public class MyCustomAcsUserDetailsService extends AcsUserDetailsService {
+    
+    public AcsUserDetailsService(
+            @NotNull AcsClientV1 client, @NotNull SubjectProvider systemSubjectProvider, String userSubjectType) {
+        super(client, systemSubjectProvider, userSubjectType);
+    }
+    
     @Override
     public UserDetails loadUserByUsernameAndAuthorities(
             String username, Collection<? extends GrantedAuthority> authorities) {
