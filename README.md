@@ -141,7 +141,7 @@ public class MyCustomAcsUserDetailsService extends AcsUserDetailsService {
     @Override
     public boolean existsByUsername(String username) {
         // Check if a user exists by username.
-        // If returned false, this prevents from calling ACS22 for authorities.
+        // If returned false, this prevents from calling ACS2 for authorities.
     }
 }
 
