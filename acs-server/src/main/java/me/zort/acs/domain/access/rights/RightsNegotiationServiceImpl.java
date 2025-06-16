@@ -5,7 +5,7 @@ import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.service.DefinitionsService;
-import me.zort.acs.api.domain.service.GrantService;
+import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
 import me.zort.acs.domain.access.NodesBulk;
 import me.zort.acs.domain.group.Group;

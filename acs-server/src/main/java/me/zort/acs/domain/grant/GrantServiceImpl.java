@@ -8,7 +8,7 @@ import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.grant.GrantProvider;
-import me.zort.acs.api.domain.service.GrantService;
+import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.access.AccessValidatorService;
@@ -39,7 +39,7 @@ public class GrantServiceImpl implements GrantService {
     private final AccessValidatorService accessValidatorService;
     private final ApplicationEventPublisher eventPublisher;
 
-    @CacheEvict(value = "grants", key = "#accessor.subjectType.id + ':' + #accessor.id + '->' + #accessed.subjectType.id + ':' + #accessed.id + '@' + #node.value")
+    @CacheEvict(value = "grants", key = "#result.id")
     @Override
     public @NotNull Grant addGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
         getGrant(accessor, accessed, rightsHolder).ifPresent(grant -> {
@@ -67,7 +67,7 @@ public class GrantServiceImpl implements GrantService {
         return grant;
     }
 
-    @CacheEvict(value = "grants", key = "#grant.accessor.subjectType.id + ':' + #grant.accessor.id + '->' + #grant.accessed.subjectType.id + ':' + #grant.accessed.id + '@' + #grant.node.value")
+    @CacheEvict(value = "grants", key = "#grant.id")
     @Override
     public boolean removeGrant(Grant grant) {
         UUID id = grant.getId();
