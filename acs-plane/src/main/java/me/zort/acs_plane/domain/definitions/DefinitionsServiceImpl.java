@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class DefinitionsServiceImpl implements DefinitionsService {
-    private final DefinitionsRepository persistenceService;
+    private final DefinitionsPersistenceService persistenceService;
     private final DefinitionsValidator definitionsValidator;
     private final DefinitionsModificationService modificationService;
     private final ApplicationEventPublisher eventPublisher;
@@ -28,14 +28,13 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     public void modifyDefinitions(
             Realm realm, Consumer<DefinitionsModification> modificationAction) throws InvalidDefinitionsException {
         DefinitionsModel modelBeforeModification = getDefinitions(realm);
-        Consumer<DefinitionsModel> modificationCallback = modified -> {
+
+        modificationService.modifyDefinitions(modelBeforeModification, modificationAction, modified -> {
             setDefinitions(realm, modified);
 
             // TODO: Přidat seznam změn, viz DefinitionsModificationServiceImpl
             eventPublisher.publishEvent(new DefinitionsModifiedEvent(realm, modelBeforeModification, modified));
-        };
-
-        modificationService.modifyDefinitions(modelBeforeModification, modificationAction, modificationCallback);
+        });
     }
 
     @Override

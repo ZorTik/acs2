@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
-public interface DefinitionsRepository {
+public interface DefinitionsPersistenceService {
 
     void saveDefinitions(String realmName, @Nullable DefinitionsModel model);
 
