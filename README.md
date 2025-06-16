@@ -178,6 +178,9 @@ AcsClientV1 client = AcsClient.v1()
 ```java
 // Example of making a permission check
 CheckAccessResponseV1 response = client.checkAccess(accessor, accessed, nodes);
+
+boolean allGranted = response.all();
+boolean anyGranted = response.anyOf("node1.subnode1", "node2");
 ```
 
 ## Testing
