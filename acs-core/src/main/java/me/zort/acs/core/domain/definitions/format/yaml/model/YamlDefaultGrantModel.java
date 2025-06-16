@@ -13,6 +13,7 @@ public class YamlDefaultGrantModel implements DefaultGrantsDefinitionModel {
     private String from;
     private String to;
     private List<String> nodes;
+    private List<String> groups;
 
     private YamlDefinitionsModel definitionsModel = null;
 
@@ -33,5 +34,10 @@ public class YamlDefaultGrantModel implements DefaultGrantsDefinitionModel {
     @Override
     public List<String> getGrantedNodes() {
         return List.copyOf(nodes);
+    }
+
+    @Override
+    public List<String> getGrantedGroups() {
+        return List.copyOf(groups);
     }
 }

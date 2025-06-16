@@ -37,6 +37,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private final DefinitionsValidator definitionsValidator;
 
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
+    private Map<Pair<SubjectType, SubjectType>, Set<Group>> defaultGrantedGroups;
 
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     @Override
@@ -71,6 +72,11 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     @Override
     public Set<Node> getDefaultGrantedNodes(SubjectType accessorType, SubjectType accessedType) {
         return defaultGrants.get(Pair.of(accessorType, accessedType));
+    }
+
+    @Override
+    public Set<Group> getDefaultGrantedGroups(SubjectType accessorType, SubjectType accessedType) {
+        return defaultGrantedGroups.get(Pair.of(accessorType, accessedType));
     }
 
     private void refreshSubjectTypes(DefinitionsModel model) {
@@ -122,6 +128,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
     private void refreshDefaultGrants(DefinitionsModel model) {
         defaultGrants = new HashMap<>();
+        defaultGrantedGroups = new HashMap<>();
         model.getDefaultGrants().forEach(def -> {
             SubjectType accessor = subjectTypeService.getSubjectType(def.getAccessorType().getId()).orElseThrow();
             SubjectType accessed = subjectTypeService.getSubjectType(def.getAccessedType().getId()).orElseThrow();
@@ -130,12 +137,19 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                     .stream()
                     .map(value -> nodeService.getNode(value).orElseThrow())
                     .toList();
+            List<Group> groups = def.getGrantedGroups()
+                    .stream()
+                    .map(name -> groupService.getGroup(accessed, name).orElseThrow())
+                    .toList();
 
             Pair<SubjectType, SubjectType> key = Pair.of(accessor, accessed);
 
             defaultGrants
                     .computeIfAbsent(key, k -> new HashSet<>())
                     .addAll(nodes);
+            defaultGrantedGroups
+                    .computeIfAbsent(key, k -> new HashSet<>())
+                    .addAll(groups);
         });
     }
 }
