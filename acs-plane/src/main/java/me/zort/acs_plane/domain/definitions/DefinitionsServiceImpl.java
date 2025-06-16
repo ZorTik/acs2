@@ -29,12 +29,13 @@ public class DefinitionsServiceImpl implements DefinitionsService {
             Realm realm, Consumer<DefinitionsModification> modificationAction) throws InvalidDefinitionsException {
         DefinitionsModel modelBeforeModification = getDefinitions(realm);
 
-        modificationService.modifyDefinitions(modelBeforeModification, modificationAction, modified -> {
-            setDefinitions(realm, modified);
+        modificationService.modifyDefinitions(modelBeforeModification, modificationAction,
+                modified -> {
+                    setDefinitions(realm, modified);
 
-            // TODO: Přidat seznam změn, viz DefinitionsModificationServiceImpl
-            eventPublisher.publishEvent(new DefinitionsModifiedEvent(realm, modelBeforeModification, modified));
-        });
+                    // TODO: Přidat seznam změn, viz DefinitionsModificationServiceImpl
+                    eventPublisher.publishEvent(new DefinitionsModifiedEvent(realm, modelBeforeModification, modified));
+                });
     }
 
     @Override
