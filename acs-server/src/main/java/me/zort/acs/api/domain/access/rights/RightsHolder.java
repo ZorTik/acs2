@@ -1,6 +1,7 @@
 package me.zort.acs.api.domain.access.rights;
 
 import me.zort.acs.domain.model.Node;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 

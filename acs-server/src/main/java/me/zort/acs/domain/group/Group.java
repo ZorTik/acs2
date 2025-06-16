@@ -6,6 +6,7 @@ import lombok.Setter;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -23,6 +24,10 @@ public class Group implements RightsHolder {
 
     public void addNode(Node node) {
         nodes.add(node);
+    }
+
+    public boolean containsNode(Node node) {
+        return nodes.contains(node);
     }
 
     @Override

@@ -127,6 +127,7 @@ public class AcsClientV1 extends AbstractAcsClient {
      * @param resource the target resource or subject
      * @return a response with nodes and their grant states
      */
+    // TODO: přizpůsobit změnám v serveru (body přesunuto do query a změněno na GET)
     public @NotNull GrantedNodesResponseV1 listNodesWithGrantState(
             final @NotNull AcsSubjectResolvable accessor, @NotNull AcsSubjectResolvable resource) {
         return executeRequest(GrantedNodesResponseV1.class, (builder, serializer) -> builder

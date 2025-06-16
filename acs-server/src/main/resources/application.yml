@@ -11,6 +11,16 @@ spring:
   web:
     resources:
       add-mappings: false
+  jpa:
+    show-sql: false
+    properties:
+      hibernate.format_sql: false
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.orm.jdbc.bind: INFO
 
 springdoc:
   swagger-ui:
