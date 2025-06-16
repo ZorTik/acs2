@@ -2,8 +2,8 @@ package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.SubjectRepository;
-import me.zort.acs.api.domain.mapper.DomainModelMapper;
-import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.core.domain.mapper.DomainModelMapper;
+import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.provider.SubjectProvider;
 import me.zort.acs.api.domain.service.SubjectService;
 import me.zort.acs.data.entity.SubjectEntity;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})

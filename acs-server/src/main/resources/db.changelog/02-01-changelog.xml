@@ -25,20 +25,6 @@
     <changeSet id="1748863482868-17" author="PC">
         <dropTable cascadeConstraints="true" tableName="acs_groups_subjects"/>
     </changeSet>
-    <changeSet id="1748863482868-1" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessed_id" tableName="acs_grants"/>
-    </changeSet>
-    <changeSet id="1748863482868-2" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessed_subject_type_id"
-                               tableName="acs_grants"/>
-    </changeSet>
-    <changeSet id="1748863482868-3" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessor_id" tableName="acs_grants"/>
-    </changeSet>
-    <changeSet id="1748863482868-4" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessor_subject_type_id"
-                               tableName="acs_grants"/>
-    </changeSet>
     <changeSet id="1748863482868-5" author="PC">
         <dropNotNullConstraint columnDataType="varchar(255)" columnName="node_value" tableName="acs_grants"/>
     </changeSet>

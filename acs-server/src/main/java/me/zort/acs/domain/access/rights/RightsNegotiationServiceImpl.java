@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
+import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.api.domain.service.DefinitionsService;
-import me.zort.acs.api.domain.service.GrantService;
+import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
 import me.zort.acs.domain.access.NodesBulk;
 import me.zort.acs.domain.group.Group;
@@ -25,26 +26,30 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
     private final GroupService groupService;
 
     @Override
-    public List<RightsHolder> getRightsHolders(Subject accessor, Subject accessed) {
-        SubjectType accessorType = accessor.getSubjectType();
-        SubjectType accessedType = accessed.getSubjectType();
-
-        // Nodes granted by definitions source
-        Set<Node> defaultGrantedNodes = definitionsService
-                .getDefaultGrantedNodes(accessorType, accessedType);
-
-        // Nodes granted by external requests
-        List<RightsHolder> holdersOfGrants = grantService.getGrants(accessor, accessed)
-                .stream()
-                .map(Grant::getRightsHolder).toList();
-
-        // Groups the subject is member of
-        List<Group> groups = groupService.getGroupMemberships(accessor, accessed);
+    public List<RightsHolder> getRightsHolders(SubjectLike accessorLike, SubjectLike accessedLike) {
+        SubjectType accessorType = accessorLike.getSubjectType();
+        SubjectType accessedType = accessedLike.getSubjectType();
 
         List<RightsHolder> holders = new ArrayList<>();
+
+        // Default nodes granted by definition source
+        Set<Node> defaultGrantedNodes = definitionsService
+                .getDefaultGrantedNodes(accessorType, accessedType);
         holders.add(NodesBulk.of(defaultGrantedNodes));
-        holders.addAll(holdersOfGrants);
-        holders.addAll(groups);
+
+        // Holders applicable only between existing subjects
+        if (accessorLike instanceof Subject accessor && accessedLike instanceof Subject accessed) {
+            // Nodes granted by external requests
+            List<RightsHolder> holdersOfGrants = grantService.getGrants(accessor, accessed)
+                    .stream()
+                    .map(Grant::getRightsHolder).toList();
+
+            // Groups the subject is member of
+            List<Group> groups = groupService.getGroupMemberships(accessor, accessed);
+
+            holders.addAll(holdersOfGrants);
+            holders.addAll(groups);
+        }
 
         return holders;
     }

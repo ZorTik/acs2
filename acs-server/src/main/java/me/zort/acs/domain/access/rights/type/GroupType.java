@@ -2,7 +2,7 @@ package me.zort.acs.domain.access.rights.type;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GrantRepository;
-import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.GroupId;
