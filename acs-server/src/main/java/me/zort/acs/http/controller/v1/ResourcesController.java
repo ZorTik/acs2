@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ResourcesController {
 
     // TODO: Pro toto budu muset asi default granty uložit do databáze
+    // TODO: Nejprve synchjronizovat logiku ukládání a načítání definicí z/do databáze
     @GetMapping("/resources/granted")
     public ListSubjectsResponseDto grantedByHolders(
             @SubjectRequestParam("accessor") Subject accessor,

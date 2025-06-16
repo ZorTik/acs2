@@ -10,7 +10,6 @@ import me.zort.acs.client.v1.model.check.CheckAccessRequestV1;
 import me.zort.acs.client.v1.model.check.CheckAccessResponseV1;
 import me.zort.acs.client.v1.model.grant.GrantAccessRequestV1;
 import me.zort.acs.client.v1.model.grant.GrantAccessResponseV1;
-import me.zort.acs.client.v1.model.nodes.granted.GrantedNodesRequestV1;
 import me.zort.acs.client.v1.model.nodes.granted.GrantedNodesResponseV1;
 import me.zort.acs.client.v1.model.nodes.list.ListNodesResponseV1;
 import me.zort.acs.client.v1.model.revoke.RevokeAccessRequestV1;
@@ -32,6 +31,11 @@ public class AcsClientV1 extends AbstractAcsClient {
 
     public AcsClientV1(String baseUrl, HttpAdapter httpAdapter, HttpSerializer httpSerializer) {
         super(baseUrl, httpAdapter, httpSerializer, List.of(new CommonFailuresInterceptor(httpSerializer)));
+    }
+
+    // v1 API uses a specific serialization format for subjects in queries.
+    private String serializeSubjectToQuery(@NotNull AcsSubjectResolvable subject) {
+        return subject.getGroup() + ":" + subject.getId();
     }
 
     /**
@@ -127,12 +131,13 @@ public class AcsClientV1 extends AbstractAcsClient {
      * @param resource the target resource or subject
      * @return a response with nodes and their grant states
      */
-    // TODO: přizpůsobit změnám v serveru (body přesunuto do query a změněno na GET)
     public @NotNull GrantedNodesResponseV1 listNodesWithGrantState(
             final @NotNull AcsSubjectResolvable accessor, @NotNull AcsSubjectResolvable resource) {
         return executeRequest(GrantedNodesResponseV1.class, (builder, serializer) -> builder
-                .method(HttpMethod.POST)
+                .method(HttpMethod.GET)
                 .path(LIST_NODES_GRANTED_URL)
-                .body(serializer.apply(new GrantedNodesRequestV1(accessor, resource))));
+                .queryAttributes(Map.of(
+                        "accessor", serializeSubjectToQuery(accessor),
+                        "resource", serializeSubjectToQuery(resource))));
     }
 }
