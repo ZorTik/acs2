@@ -41,12 +41,6 @@ public class RuleAwareAccessControlService implements AccessControlService {
         return accessed.getSubjectType().getNodes()
                 .stream()
                 .collect(Collectors.toMap(Function.identity(), node -> {
-                    // There is no connection between them since either of them is not present
-                    // in the system.
-                    if (accessed.isNull() || accessor.isNull()) {
-                        return false;
-                    }
-
                     AccessRequest request = accessRequestFactory.createAccessRequest(accessor, accessed, node);
                     checkAccess(request);
 
