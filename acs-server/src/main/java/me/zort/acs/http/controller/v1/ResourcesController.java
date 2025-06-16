@@ -19,7 +19,8 @@ public class ResourcesController {
     public ListSubjectsResponseDto grantedByHolders(
             @SubjectRequestParam("accessor") Subject accessor,
             @RequestParam String subjectType, @RequestParam String[] groups, @RequestParam String[] nodes) {
-        // TODO
+        // TODO: Pagination and implementation
+        // TODO: Implement Pageable parser for query parameters
         return null;
     }
 }
