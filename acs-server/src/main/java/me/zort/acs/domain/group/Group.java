@@ -26,6 +26,10 @@ public class Group implements RightsHolder {
         nodes.add(node);
     }
 
+    public boolean containsNode(Node node) {
+        return nodes.contains(node);
+    }
+
     @Override
     public Set<Node> getGrantedNodes() {
         Set<Node> grantedNodes = new HashSet<>(nodes);

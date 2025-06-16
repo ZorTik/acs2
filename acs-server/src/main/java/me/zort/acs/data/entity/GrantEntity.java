@@ -9,7 +9,7 @@ import java.util.UUID;
 @Entity(name = "acs_grants")
 public class GrantEntity {
     @Id
-    @Column(columnDefinition = "binary(16)")
+    @Column(columnDefinition = "char(36)")
     private UUID id;
 
     @ManyToOne
@@ -18,12 +18,12 @@ public class GrantEntity {
                     name = "accessor_id",
                     referencedColumnName = "id",
                     columnDefinition = "varchar(128)",
-                    insertable = false, updatable = false),
+                    nullable = false),
             @JoinColumn(
                     name = "accessor_subject_type_id",
                     referencedColumnName = "subject_type_id",
                     columnDefinition = "varchar(128)",
-                    insertable = false, updatable = false)
+                    nullable = false)
     })
     private SubjectEntity accessor;
 
@@ -33,12 +33,12 @@ public class GrantEntity {
                     name = "accessed_id",
                     referencedColumnName = "id",
                     columnDefinition = "varchar(128)",
-                    insertable = false, updatable = false),
+                    nullable = false),
             @JoinColumn(
                     name = "accessed_subject_type_id",
                     referencedColumnName = "subject_type_id",
                     columnDefinition = "varchar(128)",
-                    insertable = false, updatable = false)
+                    nullable = false)
     })
     private SubjectEntity accessed;
 
@@ -51,11 +51,13 @@ public class GrantEntity {
             @JoinColumn(
                     name = "group_name",
                     referencedColumnName = "group_name",
-                    insertable = false, updatable = false),
+                    insertable = false,
+                    updatable = false),
             @JoinColumn(
                     name = "group_subject_type_id",
                     referencedColumnName = "subject_type_id",
-                    insertable = false, updatable = false)
+                    insertable = false,
+                    updatable = false)
     })
     private GroupEntity group = null;
 
