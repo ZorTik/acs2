@@ -39,11 +39,6 @@ public class Node implements RightsHolder {
     }
 
     @Override
-    public @Nullable String getIdentifier() {
-        return value;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Node node)) return false;
         return Objects.equals(getValue(), node.getValue());

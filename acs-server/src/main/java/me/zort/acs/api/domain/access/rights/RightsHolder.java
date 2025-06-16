@@ -8,9 +8,4 @@ import java.util.Set;
 public interface RightsHolder {
 
     Set<Node> getGrantedNodes();
-
-    @Nullable
-    default String getIdentifier() {
-        return null;
-    }
 }

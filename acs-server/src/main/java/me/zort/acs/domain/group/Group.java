@@ -38,11 +38,6 @@ public class Group implements RightsHolder {
     }
 
     @Override
-    public @Nullable String getIdentifier() {
-        return subjectType.getId() + ":" + name;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Group group)) return false;
         return Objects.equals(getSubjectType(), group.getSubjectType()) && Objects.equals(name, group.name);
