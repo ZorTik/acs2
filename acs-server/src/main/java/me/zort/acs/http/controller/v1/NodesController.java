@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.AccessControlService;
+import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesResponseDto;
@@ -27,7 +27,7 @@ import java.util.List;
 public class NodesController {
     private final HttpNodeMapper nodeMapper;
     private final HttpSubjectTypeMapper subjectTypeMapper;
-    private final AccessControlService accessControlService;
+    private final GrantService grantService;
     private final HttpExceptionFactory exceptionProvider;
 
     @GetMapping
@@ -57,7 +57,7 @@ public class NodesController {
     public GrantedNodesResponseDto grantedNodes(
             @SubjectRequestParam("accessor") SubjectLike accessor,
             @SubjectRequestParam("resource") SubjectLike accessed) {
-        List<NodeWithStateDto> nodes = accessControlService.getGrantStatesFor(accessor, accessed).entrySet()
+        List<NodeWithStateDto> nodes = grantService.getGrantStatesFor(accessor, accessed).entrySet()
                 .stream()
                 .map(entry -> nodeMapper.toHttpWithState(entry.getKey(), entry.getValue()))
                 .toList();
