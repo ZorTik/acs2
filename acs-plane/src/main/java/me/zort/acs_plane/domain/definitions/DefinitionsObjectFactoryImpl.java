@@ -23,7 +23,7 @@ public class DefinitionsObjectFactoryImpl implements DefinitionsObjectFactory {
     @Override
     public DefaultGrantsDefinitionModel createDefaultGrantsModel(
             SubjectTypeDefinitionModel accessorType, SubjectTypeDefinitionModel accessedType) {
-        return new PlaneDefaultGrantsDefinitionModel(accessorType, accessedType, new ArrayList<>());
+        return new PlaneDefaultGrantsDefinitionModel(accessorType, accessedType, new ArrayList<>(), new ArrayList<>());
     }
 
     @Override
