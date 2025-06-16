@@ -11,7 +11,7 @@ public class RealmImpl implements Realm {
     @Setter
     private boolean exists;
 
-    public RealmImpl(String name) {
+    protected RealmImpl(String name) {
         this.name = name;
     }
 

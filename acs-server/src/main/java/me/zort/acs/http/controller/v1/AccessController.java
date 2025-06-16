@@ -8,7 +8,7 @@ import me.zort.acs.api.domain.access.AccessControlService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;
-import me.zort.acs.api.domain.service.GrantService;
+import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
 import me.zort.acs.domain.grant.exception.InvalidGrantException;

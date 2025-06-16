@@ -2,7 +2,7 @@ package me.zort.acs.domain.operation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zort.acs.api.domain.mapper.DomainToPersistenceMapper;
+import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.operation.Operation;
 import me.zort.acs.api.domain.operation.OperationExecutor;
 import org.springframework.data.repository.CrudRepository;

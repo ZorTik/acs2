@@ -20,6 +20,12 @@ allprojects {
     }
 }
 
+['acs-server', 'acs-plane'].each {
+    project(it).dependencies {
+        implementation project('acs-proto')
+    }
+}
+
 ['acs-server', 'acs-spring-boot-starter', 'acs-plane'].each {
     project(it).dependencies {
         implementation project('acs-core')
@@ -29,5 +35,12 @@ allprojects {
 ['acs-core', 'acs-spring-boot-starter'].each {
     project(it).dependencies {
         compileOnly project('acs-client:java')
+    }
+}
+
+['examples:spring-user-system-relation'].each {
+    project(it).dependencies {
+        implementation project('acs-client:java')
+        implementation project('acs-spring-boot-starter')
     }
 }

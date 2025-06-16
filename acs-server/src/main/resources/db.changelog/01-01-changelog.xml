@@ -7,34 +7,28 @@
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
     <changeSet id="1748779081236-0" author="PC">
         <addColumn tableName="acs_grants">
-            <column name="id" type="binary(16)"/>
+            <column name="id" type="char(36)"/>
         </addColumn>
     </changeSet>
     <changeSet id="1748779081236-1" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessed_id" tableName="acs_grants"/>
-    </changeSet>
-    <changeSet id="1748779081236-2" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessed_subject_type_id"
-                               tableName="acs_grants"/>
-    </changeSet>
-    <changeSet id="1748779081236-3" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessor_id" tableName="acs_grants"/>
-    </changeSet>
-    <changeSet id="1748779081236-4" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(128)" columnName="accessor_subject_type_id"
-                               tableName="acs_grants"/>
-    </changeSet>
-    <changeSet id="1748779081236-5" author="PC">
-        <addNotNullConstraint columnDataType="binary(16)" columnName="id" tableName="acs_grants" validate="true"/>
-    </changeSet>
-    <changeSet id="1748779081236-6" author="PC">
         <dropNotNullConstraint columnDataType="varchar(255)" columnName="node_value" tableName="acs_grants"/>
     </changeSet>
-    <changeSet id="1748779081236-7" author="PC">
+    <changeSet id="1748779081236-2" author="PC">
         <dropPrimaryKey tableName="acs_grants" constraintName="PRIMARY"/>
     </changeSet>
-    <changeSet id="1748779081236-8" author="PC">
+    <changeSet id="1748779081236-3" author="PC">
         <addPrimaryKey columnNames="id" constraintName="pk_acs_grants" tableName="acs_grants"/>
     </changeSet>
-
+    <changeSet id="1750068624911-1" author="PC (generated)">
+        <addNotNullConstraint tableName="acs_grants" columnName="accessor_subject_type_id" columnDataType="varchar(128)" />
+    </changeSet>
+    <changeSet id="1750068634139-1" author="PC (generated)">
+        <addNotNullConstraint tableName="acs_grants" columnName="accessor_id" columnDataType="varchar(128)" />
+    </changeSet>
+    <changeSet id="1750068657224-1" author="PC (generated)">
+        <addNotNullConstraint tableName="acs_grants" columnName="accessed_subject_type_id" columnDataType="varchar(128)" />
+    </changeSet>
+    <changeSet id="1750068674914-1" author="PC (generated)">
+        <addNotNullConstraint tableName="acs_grants" columnName="accessed_id" columnDataType="varchar(128)" />
+    </changeSet>
 </databaseChangeLog>

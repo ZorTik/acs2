@@ -1,9 +1,11 @@
-package me.zort.acs_plane.data;
+package me.zort.acs_plane.data.definitions;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs_plane.api.data.definitions.DefinitionsRepository;
+import me.zort.acs_plane.api.domain.definitions.DefinitionsObjectFactory;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,7 +15,9 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Repository
 public class JpaDefinitionsRepository implements DefinitionsRepository {
+    @PersistenceContext
     private final EntityManager entityManager;
+    private final DefinitionsObjectFactory definitionsObjectFactory;
 
     @Override
     public void saveDefinitions(String realm, @Nullable DefinitionsModel model) {
