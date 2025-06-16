@@ -60,6 +60,12 @@ ACS2 relies on several environment variables for configuration. Below are the ke
 | `ACS_DEFINITIONS_SOURCE` | Definitions source address          | —             | ✅        |
 | `ACS_DEFINITIONS_FORMAT` | Definitions string format           | YAML          | ❌        |
 
+Definitions source URL example:
+```
+http://definitions-server/api/realm/<realm>/definitions/v1
+```
+*Realm is your custom realm that you configured in the definitions server*
+
 ## API Reference
 
 ### Endpoints
