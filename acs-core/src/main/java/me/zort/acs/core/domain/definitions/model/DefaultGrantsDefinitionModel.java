@@ -9,4 +9,6 @@ public interface DefaultGrantsDefinitionModel {
     SubjectTypeDefinitionModel getAccessedType();
 
     List<String> getGrantedNodes();
+
+    List<String> getGrantedGroups();
 }

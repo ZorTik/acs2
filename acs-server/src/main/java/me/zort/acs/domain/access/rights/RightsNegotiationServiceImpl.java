@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -32,10 +31,11 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
 
         List<RightsHolder> holders = new ArrayList<>();
 
-        // Default nodes granted by definition source
-        Set<Node> defaultGrantedNodes = definitionsService
-                .getDefaultGrantedNodes(accessorType, accessedType);
-        holders.add(NodesBulk.of(defaultGrantedNodes));
+        // Default nodes and groups granted by definition source
+        holders.add(NodesBulk.of(definitionsService
+                .getDefaultGrantedNodes(accessorType, accessedType)));
+        holders.addAll(definitionsService
+                .getDefaultGrantedGroups(accessorType, accessedType));
 
         // Holders applicable only between existing subjects
         if (accessorLike instanceof Subject accessor && accessedLike instanceof Subject accessed) {

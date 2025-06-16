@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ResourcesController {
 
+    // TODO: Pro toto budu muset asi default granty uložit do databáze
     @GetMapping("/resources/granted")
     public ListSubjectsResponseDto grantedByHolders(
             @SubjectRequestParam("accessor") Subject accessor,

@@ -12,13 +12,17 @@ public class ValidationContext {
     private DefinitionsModel model;
     private SubjectTypeDefinitionModel subjectType = null;
 
-    public Optional<GroupDefinitionModel> getGroup(String name) {
-        requireSubjectType();
-
+    public Optional<GroupDefinitionModel> getGroup(String name, SubjectTypeDefinitionModel subjectType) {
         return subjectType.getGroups()
                 .stream()
                 .filter(def -> def.getName().equals(name))
                 .findFirst();
+    }
+
+    public Optional<GroupDefinitionModel> getGroup(String name) {
+        requireSubjectType();
+
+        return getGroup(name, subjectType);
     }
 
     private void requireSubjectType() {
