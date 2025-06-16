@@ -14,6 +14,18 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation of {@link AccessControlService} that evaluates access requests
+ * using a list of {@link AccessRule} instances.
+ * <p>
+ * This service processes access requests by applying each configured access rule in order.
+ * The evaluation stops as soon as any rule grants access.
+ * </p>
+ * <p>
+ * It also provides a method to retrieve the grant states for all nodes associated with
+ * a given subject type, based on the provided accessor and accessed subjects.
+ * </p>
+ */
 @Service
 public class RuleAwareAccessControlService implements AccessControlService {
     private final AccessRequestFactory accessRequestFactory;

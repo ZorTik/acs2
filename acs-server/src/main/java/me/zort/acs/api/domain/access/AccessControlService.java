@@ -6,6 +6,14 @@ import me.zort.acs.domain.model.Node;
 
 import java.util.Map;
 
+/**
+ * Service interface for evaluating access control requests and retrieving grant states.
+ * <p>
+ * Implementations of this interface are responsible for checking access permissions
+ * based on the provided {@link AccessRequest} and for returning the grant states
+ * of all nodes assignable to the accessed subject type in relation to the accessor.
+ * </p>
+ */
 public interface AccessControlService {
 
     /**
