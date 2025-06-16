@@ -120,7 +120,8 @@ Next, create implementation of `AcsUserDetailsService` and register it using `Ac
 public class MyCustomAcsUserDetailsService extends AcsUserDetailsService {
     
     public AcsUserDetailsService(
-            @NotNull AcsClientV1 client, @NotNull SubjectProvider systemSubjectProvider, String userSubjectType) {
+            @NotNull AcsClientV1 client,
+            @NotNull SubjectProvider systemSubjectProvider, String userSubjectType) {
         super(client, systemSubjectProvider, userSubjectType);
     }
     
