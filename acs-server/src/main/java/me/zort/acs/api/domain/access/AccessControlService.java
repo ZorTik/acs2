@@ -22,14 +22,4 @@ public interface AccessControlService {
      * @param request The AccessRequest object to check
      */
     void checkAccess(AccessRequest request);
-
-    /**
-     * Returns ALL nodes that are assignable to accessed's subject type and their
-     * grant states in relation with accessor.
-     *
-     * @param accessor The accessor subject
-     * @param accessed The accessed subject
-     * @return The nodes and their states
-     */
-    Map<Node, Boolean> getGrantStatesFor(SubjectLike accessor, SubjectLike accessed);
 }

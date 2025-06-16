@@ -83,8 +83,14 @@ public class SubjectArgumentResolver implements HandlerMethodArgumentResolver {
                     serializedValue, String.class, annot.value(), parameter, cause);
         }
 
-        return subjectMapper.toDomainOrNull(SubjectDto.builder()
+        SubjectDto options = SubjectDto.builder()
                 .group(values[0])
-                .id(values[1]).build());
+                .id(values[1]).build();
+
+        if (parameter.getParameterType().equals(Subject.class)) {
+            return subjectMapper.toDomain(options, false);
+        } else {
+            return subjectMapper.toDomainOrNull(options);
+        }
     }
 }
