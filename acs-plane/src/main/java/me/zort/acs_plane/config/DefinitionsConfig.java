@@ -1,5 +1,6 @@
 package me.zort.acs_plane.config;
 
+import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
 import me.zort.acs.core.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.core.domain.definitions.validation.DefinitionsValidators;
 import org.springframework.context.annotation.Bean;
@@ -11,5 +12,10 @@ public class DefinitionsConfig {
     @Bean
     public DefinitionsValidator definitionsValidator() {
         return DefinitionsValidators.simple();
+    }
+
+    @Bean(name = "default")
+    public DefinitionsFormat defaultFormat() {
+        return DefinitionsFormat.YAML;
     }
 }

@@ -1,4 +1,4 @@
-package me.zort.acs.api.domain.mapper;
+package me.zort.acs.core.domain.mapper;
 
 public interface DomainToPersistenceMapper<D, P> {
 

@@ -2,11 +2,14 @@ package me.zort.acs.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.NodeRepository;
-import me.zort.acs.api.domain.mapper.DomainModelMapper;
+import me.zort.acs.api.domain.access.rights.RightsHolderPresenceVerifier;
+import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.NodeProvider;
 import me.zort.acs.api.domain.service.NodeService;
+import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
+import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.provider.options.NodeOptions;
@@ -23,6 +26,8 @@ public class NodeServiceImpl implements NodeService {
     private final DomainModelMapper<Node, NodeEntity> nodeMapper;
     private final NodeProvider nodeProvider;
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
+    private final DomainModelMapper<Group, GroupEntity> groupMapper;
+    private final RightsHolderPresenceVerifier rightsHolderPresenceVerifier;
 
     @CacheEvict(value = "nodes", key = "#value")
     @Override
@@ -51,6 +56,27 @@ public class NodeServiceImpl implements NodeService {
         nodeRepository.save(nodeEntity);
 
         subjectType.addNode(node);
+    }
+
+    @CacheEvict(value = "nodes", key = "#node.value")
+    @Override
+    public void assignNode(Node node, Group group) {
+        if (group.containsNode(node)) {
+            return;
+        }
+
+        if (!rightsHolderPresenceVerifier.isPresentInSubjectType(group.getSubjectType(), node)) {
+            throw new IllegalArgumentException(String.format(
+                    "Node %s is not present in the subject type %s of the group %s.",
+                    node.getValue(), group.getSubjectType().getId(), group.getName()));
+        }
+
+        NodeEntity nodeEntity = nodeMapper.toPersistence(node);
+        nodeEntity.getGroups().add(groupMapper.toPersistence(group));
+
+        nodeRepository.save(nodeEntity);
+
+        group.addNode(node);
     }
 
     @Override

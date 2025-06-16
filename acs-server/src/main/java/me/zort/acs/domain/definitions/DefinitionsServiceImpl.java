@@ -67,6 +67,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
         }
     }
 
+    // TODO: nefunguje pro default definitions example2.node
     @Override
     public Set<Node> getDefaultGrantedNodes(SubjectType accessorType, SubjectType accessedType) {
         return defaultGrants.get(Pair.of(accessorType, accessedType));

@@ -7,8 +7,8 @@ import me.zort.acs_plane.api.domain.realm.Realm;
 public class RealmAlreadyExistsException extends RuntimeException {
     private final Realm existingRealm;
 
-    public RealmAlreadyExistsException(String message, Realm existingRealm) {
-        super(message);
+    public RealmAlreadyExistsException(Realm existingRealm) {
+        super(String.format("Realm %s already exists.", existingRealm.getName()));
         this.existingRealm = existingRealm;
     }
 }

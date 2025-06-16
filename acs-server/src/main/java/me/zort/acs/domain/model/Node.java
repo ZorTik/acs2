@@ -3,6 +3,7 @@ package me.zort.acs.domain.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Set;

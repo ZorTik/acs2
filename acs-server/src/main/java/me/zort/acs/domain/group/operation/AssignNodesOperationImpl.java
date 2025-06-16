@@ -1,14 +1,15 @@
 package me.zort.acs.domain.group.operation;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.rights.RightsHolderPresenceVerifier;
 import me.zort.acs.api.domain.group.operation.AssignNodesOperation;
+import me.zort.acs.api.domain.service.NodeService;
 import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @Scope("prototype")
 @Component
 public class AssignNodesOperationImpl implements AssignNodesOperation {
-    private final RightsHolderPresenceVerifier rightsHolderPresenceVerifier;
+    private final NodeService nodeService;
 
     private Collection<Node> nodes;
 
@@ -26,15 +27,10 @@ public class AssignNodesOperationImpl implements AssignNodesOperation {
         return this;
     }
 
+    @Transactional
     @Override
     public void execute(Group group) throws RuntimeException {
-        if (nodes
-                .stream()
-                .anyMatch(node -> !rightsHolderPresenceVerifier.isPresentInSubjectType(group.getSubjectType(), node))) {
-            throw new IllegalArgumentException("One or more nodes are not present in the subject type of the group.");
-        }
-
-        nodes.forEach(group::addNode);
+        nodes.forEach(node -> nodeService.assignNode(node, group));
     }
 
     public Collection<Node> getNodes() {
@@ -43,6 +39,6 @@ public class AssignNodesOperationImpl implements AssignNodesOperation {
 
     @Override
     public boolean isAutoCommit() {
-        return true;
+        return false;
     }
 }

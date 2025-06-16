@@ -1,4 +1,4 @@
-package me.zort.acs.api.domain.service;
+package me.zort.acs.api.domain.grant;
 
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
