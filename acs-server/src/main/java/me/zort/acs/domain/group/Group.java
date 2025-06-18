@@ -26,6 +26,10 @@ public class Group implements RightsHolder {
         nodes.add(node);
     }
 
+    public void removeNode(Node node) {
+        nodes.remove(node);
+    }
+
     public boolean containsNode(Node node) {
         return nodes.contains(node);
     }

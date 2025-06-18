@@ -13,7 +13,12 @@ public class SubjectTypeEntity {
     @Column(length = 128)
     private String id;
 
-    @ManyToMany(mappedBy = "subjectTypes", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "acs_subject_types_nodes",
+            joinColumns = @JoinColumn(name = "subject_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "node_value")
+    )
     private Set<NodeEntity> nodes = new HashSet<>();
 
     @OneToMany(mappedBy = "subjectType", cascade = CascadeType.ALL, orphanRemoval = true)

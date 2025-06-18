@@ -2,14 +2,15 @@ package me.zort.acs.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.api.domain.subjecttype.CreateSubjectTypeOptions;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.core.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
 import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
 import me.zort.acs.api.domain.service.DefinitionsService;
-import me.zort.acs.api.domain.service.GroupService;
+import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.domain.service.NodeService;
-import me.zort.acs.api.domain.service.SubjectTypeService;
+import me.zort.acs.api.domain.subjecttype.SubjectTypeService;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.core.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
@@ -92,13 +93,14 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     }
 
     private void refreshSubjectType(SubjectTypeDefinitionModel def) {
-        SubjectType subjectType = subjectTypeService.createSubjectType(def.getId());
-        def.getNodes()
-                .forEach(model -> {
-                    Node node = nodeService.createNode(model.getValue());
+        List<Node> nodesToAssign = def.getNodes()
+                .stream()
+                .map(model -> nodeService.createNode(model.getValue())).toList();
 
-                    nodeService.assignNode(node, subjectType);
-                });
+        CreateSubjectTypeOptions options = CreateSubjectTypeOptions.builder()
+                .nodes(nodesToAssign).build();
+        SubjectType subjectType = subjectTypeService.createSubjectType(def.getId(), options);
+
         def.getGroups()
                 .forEach(model -> refreshGroup(model, def, subjectType));
     }

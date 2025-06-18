@@ -9,7 +9,7 @@ import me.zort.acs.api.domain.group.GroupOperationsFactory;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.api.domain.grant.GrantService;
-import me.zort.acs.api.domain.service.GroupService;
+import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;

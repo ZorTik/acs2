@@ -1,4 +1,4 @@
-package me.zort.acs.api.domain.service;
+package me.zort.acs.api.domain.group;
 
 import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
