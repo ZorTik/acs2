@@ -11,6 +11,7 @@ import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.domain.service.GroupService;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
+import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.group.Group;
@@ -36,6 +37,7 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
     private final GroupService groupService;
     private final SubjectRepository subjectRepository;
     private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
+    private final DomainModelMapper<Grant, GrantEntity> grantMapper;
     private final RightsHolderTypeRegistry rightsHolderTypeRegistry;
 
     /**
@@ -130,7 +132,8 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
                 .flatMap(rightsHolders -> rightsHolderTypeRegistry.castAndCallAdapter(
                         rightsHolders.get(0),
                         (holder, type) ->
-                                type.getGrantsForHolders(rightsHolders, accessorSubjectId, accessedType).stream()))
+                                type.getGrantEntitiesForHolders(rightsHolders, accessorSubjectId, accessedType).stream()))
+                .map(grantMapper::toDomain)
                 .filter(Grant::isValid)
                 .map(Grant::getAccessed).toList();
 

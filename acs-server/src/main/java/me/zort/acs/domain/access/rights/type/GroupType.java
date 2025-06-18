@@ -2,7 +2,6 @@ package me.zort.acs.domain.access.rights.type;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GrantRepository;
-import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.data.entity.GrantEntity;
@@ -22,7 +21,6 @@ import java.util.Optional;
 @Component
 public class GroupType implements RightsHolderType<Group> {
     private final GrantRepository grantRepository;
-    private final DomainModelMapper<Grant, GrantEntity> grantMapper;
     private final DomainToPersistenceMapper<Group, GroupId> groupIdMapper;
 
     @Override
@@ -31,14 +29,13 @@ public class GroupType implements RightsHolderType<Group> {
     }
 
     @Override
-    public Optional<Grant> getGrantForHolder(Group holder, SubjectId accessorId, SubjectId accessedId) {
+    public Optional<GrantEntity> getGrantEntitiesForHolder(Group holder, SubjectId accessorId, SubjectId accessedId) {
         return grantRepository
-                .findByAccessor_IdAndAccessed_IdAndGroup_Id(accessorId, accessedId, groupIdMapper.toPersistence(holder))
-                .map(grantMapper::toDomain);
+                .findByAccessor_IdAndAccessed_IdAndGroup_Id(accessorId, accessedId, groupIdMapper.toPersistence(holder));
     }
 
     @Override
-    public List<Grant> getGrantsForHolders(List<Group> holders, SubjectId accessorId, SubjectType accessedType) {
+    public List<GrantEntity> getGrantEntitiesForHolders(List<Group> holders, SubjectId accessorId, SubjectType accessedType) {
         // TODO: Získat všechny granty, které mají group v seznamu holders
 
         return List.of();
