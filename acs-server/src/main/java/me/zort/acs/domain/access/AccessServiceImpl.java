@@ -8,6 +8,7 @@ import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -29,6 +33,18 @@ public class AccessServiceImpl implements AccessService {
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {
         return accessQueryService.performAggregatedQuery((source, req) -> source
                 .queryForAccessibleSubjects(accessor, targetSubjectType, rightsHolders, req), pageable);
+    }
+
+    @Override
+    public Map<Node, Boolean> getGrantStatesBetween(SubjectLike accessor, SubjectLike accessed) {
+        return accessed.getSubjectType().getNodes()
+                .stream()
+                .collect(Collectors.toMap(Function.identity(), node -> {
+                    AccessRequest request = accessRequestFactory.createAccessRequest(accessor, accessed, node);
+                    accessControlService.checkAccess(request);
+
+                    return request.isGranted();
+                }));
     }
 
     @Override

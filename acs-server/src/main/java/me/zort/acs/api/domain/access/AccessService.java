@@ -2,12 +2,14 @@ package me.zort.acs.api.domain.access;
 
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * A general access service.
@@ -38,4 +40,14 @@ public interface AccessService {
      * @throws IllegalArgumentException if the request is invalid
      */
     boolean hasAccess(SubjectLike accessor, SubjectLike accessed, RightsHolder rightsHolder) throws IllegalArgumentException;
+
+    /**
+     * Returns ALL nodes that are assignable to accessed's subject type and their
+     * grant states in relation with accessor.
+     *
+     * @param accessor The accessor subject
+     * @param accessed The accessed subject
+     * @return The nodes and their states
+     */
+    Map<Node, Boolean> getGrantStatesBetween(SubjectLike accessor, SubjectLike accessed);
 }
