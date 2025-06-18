@@ -67,7 +67,7 @@ public class AccessController {
                         return accessService.hasAccess(from, to, node);
                     } catch (IllegalArgumentException e) {
                         throw exceptionProvider.createException(
-                                HttpException.NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE, null, node, to.getSubjectType());
+                                HttpException.NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE, e, node, to.getSubjectType());
                     }
                 }));
 
