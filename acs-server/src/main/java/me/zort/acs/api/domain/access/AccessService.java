@@ -26,7 +26,7 @@ public interface AccessService {
      * @param pageable the pagination information
      * @return a list of accessible subjects for the accessor
      */
-    Page<Subject> getAccessibleSubjects(
+    Page<? extends SubjectLike> getAccessibleSubjects(
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable);
 
     /**

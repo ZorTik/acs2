@@ -21,7 +21,7 @@ public interface AccessQueryable {
      * @param pageable the pagination information
      * @return a {@link Page} containing accessible subjects for the accessor
      */
-    default Page<Subject> queryForAccessibleSubjects(
+    default Page<? extends SubjectLike> queryForAccessibleSubjects(
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {
         return Page.empty();
     }

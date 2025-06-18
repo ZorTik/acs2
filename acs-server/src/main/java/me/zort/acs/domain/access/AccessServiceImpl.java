@@ -9,7 +9,6 @@ import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +28,7 @@ public class AccessServiceImpl implements AccessService {
     private final AccessQueryService accessQueryService;
 
     @Override
-    public Page<Subject> getAccessibleSubjects(
+    public Page<? extends SubjectLike> getAccessibleSubjects(
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {
         return accessQueryService.performAggregatedQuery((source, req) -> source
                 .queryForAccessibleSubjects(accessor, targetSubjectType, rightsHolders, req), pageable);

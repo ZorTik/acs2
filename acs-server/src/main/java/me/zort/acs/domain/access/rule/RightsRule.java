@@ -6,7 +6,6 @@ import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.strategy.RightsStrategy;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,7 +50,7 @@ public class RightsRule extends SubjectToSubjectAccessRule {
     }
 
     @Override
-    public Page<Subject> queryForAccessibleSubjects(
+    public Page<? extends SubjectLike> queryForAccessibleSubjects(
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {
         return rightsNegotiationService.getCandidateSubjects(accessor, targetSubjectType, rightsHolders, pageable);
     }
