@@ -104,7 +104,6 @@ public class AccessQueryServiceImpl implements AccessQueryService {
                     && requestedOffset < aggregatedQueryableOffset + totalElementsInSource
                     && requestedOffset + pageable.getPageSize() >= aggregatedQueryableOffset + totalElementsInSource) {
                 // Page is larger than the source, so we need to fetch the partial page.
-
                 return queryPartially(queryFunction, pageable, aggregatedQueryableOffset, cache, queryable, lookupPage);
             }
 
