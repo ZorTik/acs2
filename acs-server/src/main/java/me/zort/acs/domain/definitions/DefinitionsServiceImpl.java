@@ -2,7 +2,10 @@ package me.zort.acs.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.api.domain.group.CreateGroupOptions;
+import me.zort.acs.api.domain.group.exception.GroupAlreadyExistsException;
 import me.zort.acs.api.domain.subjecttype.CreateSubjectTypeOptions;
+import me.zort.acs.api.domain.subjecttype.exception.SubjectTypeAlreadyExistsException;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.core.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
@@ -18,6 +21,7 @@ import me.zort.acs.core.domain.definitions.exception.InvalidDefinitionsException
 import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.service.SubjectTypeServiceImpl;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +33,7 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class DefinitionsServiceImpl implements DefinitionsService {
-    private final SubjectTypeService subjectTypeService;
+    private final SubjectTypeServiceImpl subjectTypeService;
     private final NodeService nodeService;
     private final GroupService groupService;
     private final ResourceDisposalService disposalService;
@@ -40,7 +44,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
     private Map<Pair<SubjectType, SubjectType>, Set<Group>> defaultGrantedGroups;
 
-    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional(rollbackFor = {RuntimeException.class})
     @Override
     public void refreshDefinitions() {
         try {
@@ -66,6 +70,8 @@ public class DefinitionsServiceImpl implements DefinitionsService {
             log.info("Definitions refreshed successfully.");
         } catch (Exception e) {
             log.error("Failed to refresh definitions.", e);
+
+            throw new RuntimeException(e);
         }
     }
 
@@ -89,6 +95,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
             refreshSubjectType(def);
         });
+
         localTypes.forEach(subjectTypeService::deleteSubjectType);
     }
 
@@ -97,18 +104,29 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                 .stream()
                 .map(model -> nodeService.createNode(model.getValue())).toList();
 
-        CreateSubjectTypeOptions options = CreateSubjectTypeOptions.builder()
-                .nodes(nodesToAssign).build();
-        SubjectType subjectType = subjectTypeService.createSubjectType(def.getId(), options);
+        SubjectType subjectType;
+        try {
+            subjectType = subjectTypeService.createSubjectType(def.getId(), CreateSubjectTypeOptions.builder()
+                    .nodes(nodesToAssign).build());
+        } catch (SubjectTypeAlreadyExistsException e) {
+            subjectType = subjectTypeService.getSubjectType(e.getExistingId()).orElseThrow();
 
-        def.getGroups()
-                .forEach(model -> refreshGroup(model, def, subjectType));
+            subjectTypeService.assignSubjectTypeNodes(subjectType, nodesToAssign);
+        }
+
+        for (GroupDefinitionModel model : def.getGroups()) {
+            refreshGroup(model, def, subjectType);
+        }
     }
 
-    private void refreshGroup(
+    private Group refreshGroup(
             GroupDefinitionModel def, SubjectTypeDefinitionModel subjectTypeDef, SubjectType subjectType) {
-        Group group = groupService.createGroup(subjectType, def.getName());
+        List<Node> nodesToAssign = def.getNodes()
+                .stream()
+                .map(value -> subjectType.getNodeByValue(value).orElseThrow())
+                .toList();
 
+        Group parentGroup = null;
         String parentName = def.getParentName();
         if (parentName != null) {
             GroupDefinitionModel parentGroupDef = subjectTypeDef.getGroups()
@@ -116,16 +134,25 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                     .filter(groupDef -> groupDef.getName().equals(parentName))
                     .findFirst().orElseThrow();
 
-            refreshGroup(parentGroupDef, subjectTypeDef, subjectType);
-
-            Group parentGroup = groupService.getGroup(subjectType, parentName).orElseThrow();
-            groupService.assignGroupParent(group, parentGroup);
+            parentGroup = refreshGroup(parentGroupDef, subjectTypeDef, subjectType);
         }
 
-        groupService.assignGroupNodes(group, def.getNodes()
-                .stream()
-                .map(value -> subjectType.getNodeByValue(value).orElseThrow())
-                .toList());
+        Group group;
+        try {
+            group = groupService.createGroup(subjectType, def.getName(), CreateGroupOptions.builder()
+                    .parentGroup(parentGroup)
+                    .nodes(nodesToAssign).build());
+        } catch (GroupAlreadyExistsException e) {
+            group = e.getExisting();
+
+            groupService.assignGroupNodes(group, nodesToAssign);
+
+            if (parentGroup != null) {
+                groupService.assignGroupParent(group, parentGroup);
+            }
+        }
+
+        return group;
     }
 
     private void refreshDefaultGrants(DefinitionsModel model) {

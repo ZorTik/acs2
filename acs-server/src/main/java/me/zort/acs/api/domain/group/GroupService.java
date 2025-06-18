@@ -1,5 +1,6 @@
 package me.zort.acs.api.domain.group;
 
+import me.zort.acs.api.domain.group.exception.GroupAlreadyExistsException;
 import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public interface GroupService {
 
-    Group createGroup(SubjectType subjectType, String name);
+    Group createGroup(SubjectType subjectType, String name, CreateGroupOptions options) throws GroupAlreadyExistsException;
 
     boolean assignGroupParent(Group group, Group parent);
 

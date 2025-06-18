@@ -1,6 +1,7 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.data.service.PersistenceEntityProvider;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.NodeProvider;
 import me.zort.acs.data.entity.NodeEntity;
@@ -13,10 +14,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DomainNodeMapper implements DomainModelMapper<Node, NodeEntity> {
     private final NodeProvider nodeProvider;
+    private final PersistenceEntityProvider persistenceEntityProvider;
 
     @Override
     public NodeEntity toPersistence(Node domain) {
-        NodeEntity entity = new NodeEntity();
+        NodeEntity entity = persistenceEntityProvider.getCachedOrCreate(NodeEntity.class, domain.getValue());
 
         entity.setValue(domain.getValue());
 

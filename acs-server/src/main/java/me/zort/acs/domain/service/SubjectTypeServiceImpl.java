@@ -3,6 +3,7 @@ package me.zort.acs.domain.service;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.SubjectTypeRepository;
 import me.zort.acs.api.domain.subjecttype.CreateSubjectTypeOptions;
+import me.zort.acs.api.domain.subjecttype.exception.SubjectTypeAlreadyExistsException;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.SubjectTypeProvider;
 import me.zort.acs.api.domain.subjecttype.SubjectTypeService;
@@ -31,16 +32,18 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
     public SubjectType createSubjectType(String id, CreateSubjectTypeOptions options) {
         Objects.requireNonNull(options, "options cannot be null");
 
-        return getSubjectType(id).orElseGet(() -> {
-            SubjectType subjectType = subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
-                    .id(id)
-                    .nodes(List.of()).build());
-            options.getNodes().forEach(subjectType::addNode);
+        if (subjectTypeRepository.existsById(id)) {
+            throw new SubjectTypeAlreadyExistsException(id);
+        }
 
-            subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
+        SubjectType subjectType = subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
+                .id(id)
+                .nodes(List.of()).build());
+        options.getNodes().forEach(subjectType::addNode);
 
-            return subjectType;
-        });
+        subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
+
+        return subjectType;
     }
 
     @Override
