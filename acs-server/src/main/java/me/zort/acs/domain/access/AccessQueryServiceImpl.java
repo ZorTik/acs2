@@ -11,8 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -27,16 +26,15 @@ public class AccessQueryServiceImpl implements AccessQueryService {
      * @param aggregatedQueryableOffset Cumulative offset of all previous queryables.
      * @param cache A cache to store the results as they are fetched.
      * @param queryable The current queryable (source) being processed.
-     * @param lookupPage The page fetched from the current queryable to determine the total elements and offset.
+     * @param totalElementsInSource The total number of elements in the source queryable.
      * @return A page containing the results from the queryables.
      * @param <T> The type of the elements in the page.
      */
     private <T> @NotNull Page<T> queryPartially(
             AggregatedAccessQuery<T> query,
             Pageable pageable,
-            long aggregatedQueryableOffset, List<T> cache, AccessQueryable queryable, Page<T> lookupPage) {
+            long aggregatedQueryableOffset, List<T> cache, AccessQueryable queryable, long totalElementsInSource) {
         final long requestedOffset = pageable.getOffset();
-        final long totalElementsInSource = lookupPage.getTotalElements();
 
         long localOffset = requestedOffset - aggregatedQueryableOffset;
         int remaining = pageable.getPageSize();
@@ -55,7 +53,7 @@ public class AccessQueryServiceImpl implements AccessQueryService {
             remaining -= nextPage.getContent().size();
         }
 
-        return new PageImpl<>(cache, pageable, totalElementsInSource + lookupPage.getTotalElements());
+        return new PageImpl<>(cache, pageable, totalElementsInSource + totalElementsInSource);
     }
 
     /**
@@ -81,30 +79,77 @@ public class AccessQueryServiceImpl implements AccessQueryService {
     }
 
     /**
+     * Retrieves the total number of elements in the source queryable.
+     *
+     * @param source the source queryable to check
+     * @param query the aggregated access query to perform
+     * @return the total number of elements in the source queryable
+     */
+    private long getTotalElementsInSource(AccessQueryable source, AggregatedAccessQuery<?> query) {
+        Page<?> lookupPage = query.perform(source, PageRequest.of(0, 1));
+
+        return lookupPage.getTotalElements();
+    }
+
+    /**
+     * Checks if the requested page is within the range of the source queryable.
+     *
+     * @param pageable the requested pageable object
+     * @param aggregatedQueryableOffset cumulative offset of all previous queryables
+     * @param totalElementsInSource the total number of elements in the source queryable
+     * @return true if the requested page is within the range of the source queryable, false otherwise
+     */
+    private static boolean isWithinRange(
+            Pageable pageable, long aggregatedQueryableOffset, long totalElementsInSource) {
+        final long requestedOffset = pageable.getOffset();
+
+        return requestedOffset >= aggregatedQueryableOffset
+                && requestedOffset + pageable.getPageSize() < aggregatedQueryableOffset + totalElementsInSource;
+    }
+
+    /**
+     * Checks if the requested page exceeds the size of the source queryable.
+     *
+     * @param pageable the requested pageable object
+     * @param aggregatedQueryableOffset cumulative offset of all previous queryables
+     * @param totalElementsInSource the total number of elements in the source queryable
+     * @return true if the requested page exceeds the size of the source queryable, false otherwise
+     */
+    private static boolean exceedsSourceSize(
+            Pageable pageable, long aggregatedQueryableOffset, long totalElementsInSource) {
+        final long requestedOffset = pageable.getOffset();
+
+        return requestedOffset >= aggregatedQueryableOffset
+                // The page starts in this queryable
+                && requestedOffset < aggregatedQueryableOffset + totalElementsInSource
+                && requestedOffset + pageable.getPageSize() >= aggregatedQueryableOffset + totalElementsInSource;
+    }
+
+    /**
      * @see AccessQueryService#performAggregatedQuery(AggregatedAccessQuery, Pageable)
      */
     @Override
     public <T> Page<T> performAggregatedQuery(
             AggregatedAccessQuery<T> query, Pageable pageable) {
-        final long requestedOffset = pageable.getOffset();
+        // Sort the sources to start with the smallest ones.
+        List<AccessQueryable> sortedSources = sources
+                .stream()
+                .sorted(Comparator.comparingLong(source -> getTotalElementsInSource(source, query)))
+                .toList();
 
         List<T> cache = new ArrayList<>(pageable.getPageSize());
         long aggregatedQueryableOffset = 0;
-        for (AccessQueryable queryable : sources) {
-            Page<T> lookupPage = query.perform(queryable, PageRequest.of(0, 1));
+        for (AccessQueryable queryable : sortedSources) {
 
-            final long totalElementsInSource = lookupPage.getTotalElements();
-            if (requestedOffset >= aggregatedQueryableOffset
-                    && requestedOffset + pageable.getPageSize() < aggregatedQueryableOffset + totalElementsInSource) {
+            final long totalElementsInSource = getTotalElementsInSource(queryable, query);
+            if (isWithinRange(pageable, aggregatedQueryableOffset, totalElementsInSource)) {
                 // If the current offset is within the range of this queryable and the page is fully in the source,
                 // we can fetch the page from it.
                 return queryFully(query, pageable, queryable, aggregatedQueryableOffset);
-            } else if (requestedOffset >= aggregatedQueryableOffset
-                    // The page starts in this queryable
-                    && requestedOffset < aggregatedQueryableOffset + totalElementsInSource
-                    && requestedOffset + pageable.getPageSize() >= aggregatedQueryableOffset + totalElementsInSource) {
+            } else if (exceedsSourceSize(pageable, aggregatedQueryableOffset, totalElementsInSource)) {
                 // The page is larger than the source, so we need to fetch the partial page.
-                return queryPartially(query, pageable, aggregatedQueryableOffset, cache, queryable, lookupPage);
+                return queryPartially(
+                        query, pageable, aggregatedQueryableOffset, cache, queryable, totalElementsInSource);
             }
 
             aggregatedQueryableOffset += totalElementsInSource;
