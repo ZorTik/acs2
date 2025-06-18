@@ -1,10 +1,7 @@
 package me.zort.acs.domain.access;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.AccessControlService;
-import me.zort.acs.api.domain.access.AccessQueryService;
-import me.zort.acs.api.domain.access.AccessRequestFactory;
-import me.zort.acs.api.domain.access.AccessService;
+import me.zort.acs.api.domain.access.*;
 import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
@@ -30,8 +27,8 @@ public class AccessServiceImpl implements AccessService {
     @Override
     public Page<? extends SubjectLike> getAccessibleSubjects(
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {
-        return accessQueryService.performAggregatedQuery((source, req) -> source
-                .queryForAccessibleSubjects(accessor, targetSubjectType, rightsHolders, req), pageable);
+        return accessQueryService.performAggregatedQuery((source, req) ->
+                source.queryForAccessibleSubjects(accessor, targetSubjectType, rightsHolders, req), pageable);
     }
 
     @Override
