@@ -1,4 +1,4 @@
-package me.zort.acs.domain.access;
+package me.zort.acs.domain.access.rights;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.rights.RightsHolder;

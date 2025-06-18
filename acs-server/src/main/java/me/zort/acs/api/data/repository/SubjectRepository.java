@@ -2,6 +2,8 @@ package me.zort.acs.api.data.repository;
 
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.id.SubjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.Optional;
@@ -46,4 +48,6 @@ public interface SubjectRepository {
      * @param id the unique identifier of the subject to delete
      */
     void deleteById(SubjectId id);
+
+    Page<SubjectEntity> findAll(Pageable pageable);
 }

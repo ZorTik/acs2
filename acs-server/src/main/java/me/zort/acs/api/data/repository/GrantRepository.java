@@ -11,7 +11,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @NoRepositoryBean
-public interface GrantRepository extends CrudRepository<GrantEntity, UUID> {
+public interface GrantRepository {
+
+    GrantEntity save(GrantEntity entity);
+
+    void deleteById(UUID id);
+
+    boolean existsById(UUID id);
 
     List<GrantEntity> findByAccessor_IdAndAccessed_Id(SubjectId accessorId, SubjectId accessedId);
 

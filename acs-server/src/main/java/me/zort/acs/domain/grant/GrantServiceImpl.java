@@ -101,8 +101,7 @@ public class GrantServiceImpl implements GrantService {
         return rightsHolderTypeRegistry.castAndCallAdapter(
                         rightsHolder,
                         (holder, type) ->
-                                type.findGrantEntityForHolder(holder, accessorId, accessedId))
-                .map(grantMapper::toDomain)
+                                type.getGrantForHolder(holder, accessorId, accessedId))
                 .filter(Grant::isValid);
     }
 

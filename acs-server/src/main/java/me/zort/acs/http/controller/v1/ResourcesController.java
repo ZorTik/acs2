@@ -1,6 +1,9 @@
 package me.zort.acs.http.controller.v1;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.access.AccessControlService;
+import me.zort.acs.api.domain.access.AccessService;
+import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.http.dto.body.subjects.list.ListSubjectsResponseDto;
 import me.zort.acs.http.internal.annotation.SubjectRequestParam;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1")
 @RestController
 public class ResourcesController {
+    private final AccessService accessService;
 
     // TODO: Pro toto budu muset asi default granty uložit do databáze
     // TODO: Nejprve synchjronizovat logiku ukládání a načítání definicí z/do databáze
