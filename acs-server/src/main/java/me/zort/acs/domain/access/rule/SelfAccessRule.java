@@ -28,7 +28,7 @@ public class SelfAccessRule extends SubjectToSubjectAccessRule {
     @Override
     public Page<? extends SubjectLike> queryForAccessibleSubjects(
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {
-        if (accessor.getSubjectType() != targetSubjectType) {
+        if (!accessor.getSubjectType().equals(targetSubjectType)) {
             return Page.empty(pageable);
         } else {
             return new PageImpl<>(List.of(accessor), pageable, 1);
