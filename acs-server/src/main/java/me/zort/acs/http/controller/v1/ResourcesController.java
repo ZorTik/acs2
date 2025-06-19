@@ -33,6 +33,7 @@ public class ResourcesController {
     private final HttpNodeMapper nodeMapper;
     private final HttpSubjectMapper subjectMapper;
 
+    // TODO: Otestovat
     @GetMapping("/resources/granted")
     public ListSubjectsResponseDto grantedByHolders(
             @SubjectRequestParam("accessor") SubjectLike accessor,
