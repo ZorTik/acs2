@@ -20,9 +20,13 @@ public interface GrantRepository {
 
     List<GrantEntity> findAllBetween(SubjectId accessorId, SubjectId accessedId);
 
+    List<GrantEntity> findAllBetween(SubjectId accessorId, String accessedTypeId);
+
     Optional<GrantEntity> findNodeGrant(SubjectId accessorId, SubjectId accessedId, String value);
 
     Optional<GrantEntity> findGroupGrant(SubjectId accessorId, SubjectId accessedId, GroupId groupId);
+
+    List<GrantEntity> findAllByGroupIn(SubjectId accessorId, String accessedTypeId, List<GroupId> groupIds);
 
     int countByAccessorId(SubjectId accessorId);
 }

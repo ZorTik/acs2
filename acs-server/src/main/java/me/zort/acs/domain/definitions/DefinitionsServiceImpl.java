@@ -13,7 +13,6 @@ import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
 import me.zort.acs.api.domain.service.DefinitionsService;
 import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.domain.service.NodeService;
-import me.zort.acs.api.domain.subjecttype.SubjectTypeService;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.core.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
@@ -75,15 +74,14 @@ public class DefinitionsServiceImpl implements DefinitionsService {
         }
     }
 
-    // TODO: nefunguje pro default definitions example2.node
     @Override
     public Set<Node> getDefaultGrantedNodes(SubjectType accessorType, SubjectType accessedType) {
-        return defaultGrants.get(Pair.of(accessorType, accessedType));
+        return defaultGrants.getOrDefault(Pair.of(accessorType, accessedType), new HashSet<>());
     }
 
     @Override
     public Set<Group> getDefaultGrantedGroups(SubjectType accessorType, SubjectType accessedType) {
-        return defaultGrantedGroups.get(Pair.of(accessorType, accessedType));
+        return defaultGrantedGroups.getOrDefault(Pair.of(accessorType, accessedType), new HashSet<>());
     }
 
     private void refreshSubjectTypes(DefinitionsModel model) {

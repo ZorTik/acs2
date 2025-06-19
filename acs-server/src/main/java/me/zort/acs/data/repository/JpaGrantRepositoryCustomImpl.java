@@ -25,6 +25,15 @@ public class JpaGrantRepositoryCustomImpl implements JpaGrantRepositoryCustom {
     }
 
     @Override
+    public List<GrantEntity> findAllBetween(SubjectId accessorId, String accessedTypeId) {
+        return entityManager.createQuery(
+                "SELECT g FROM acs_grants g WHERE g.accessor.id = :accessorId AND g.accessed.subjectType.id = :accessedTypeId", GrantEntity.class)
+                .setParameter("accessorId", accessorId)
+                .setParameter("accessedTypeId", accessedTypeId)
+                .getResultList();
+    }
+
+    @Override
     public Optional<GrantEntity> findNodeGrant(SubjectId accessorId, SubjectId accessedId, String value) {
         return entityManager.createQuery(
                 "SELECT g FROM acs_grants g WHERE g.accessor.id = :accessorId AND g.accessed.id = :accessedId AND g.node.value = :value", GrantEntity.class)
@@ -44,6 +53,16 @@ public class JpaGrantRepositoryCustomImpl implements JpaGrantRepositoryCustom {
                 .setParameter("groupId", groupId)
                 .getResultStream()
                 .findFirst();
+    }
+
+    @Override
+    public List<GrantEntity> findAllByGroupIn(SubjectId accessorId, String accessedTypeId, List<GroupId> groupIds) {
+        return entityManager.createQuery(
+                "SELECT g FROM acs_grants g WHERE g.accessor.id = :accessorId AND g.accessed.subjectType.id = :accessedTypeId AND g.group.id IN :groupIds", GrantEntity.class)
+                .setParameter("accessorId", accessorId)
+                .setParameter("accessedTypeId", accessedTypeId)
+                .setParameter("groupIds", groupIds)
+                .getResultList();
     }
 
     @Override
