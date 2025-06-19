@@ -48,7 +48,7 @@ public class NodesController {
         return new ListNodesResponseDto(nodes);
     }
 
-    @GetMapping("/granted") // TODO: Zjistit proč je true nejen u example2.node ale i u example2.node.subnode
+    @GetMapping("/granted")
     @Operation(summary = "Gets nodes granted between accessor and resource")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Granted nodes returned"),

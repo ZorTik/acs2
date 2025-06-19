@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import me.zort.acs.client.*;
 import me.zort.acs.client.http.HttpMethod;
 import me.zort.acs.client.http.adapter.HttpAdapter;
+import me.zort.acs.client.http.model.Page;
 import me.zort.acs.client.http.serializer.HttpSerializer;
 import me.zort.acs.client.v1.interceptor.CommonFailuresInterceptor;
 import me.zort.acs.client.v1.model.check.CheckAccessRequestV1;
@@ -14,6 +15,7 @@ import me.zort.acs.client.v1.model.nodes.granted.GrantedNodesResponseV1;
 import me.zort.acs.client.v1.model.nodes.list.ListNodesResponseV1;
 import me.zort.acs.client.v1.model.revoke.RevokeAccessRequestV1;
 import me.zort.acs.client.v1.model.revoke.RevokeAccessResponseV1;
+import me.zort.acs.client.v1.model.subjects.list.ListSubjectsResponseV1;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -28,6 +30,7 @@ public class AcsClientV1 extends AbstractAcsClient {
     private static final String REVOKE_ACCESS_URL = PREFIX + "/access/revoke";
     private static final String LIST_NODES_URL = PREFIX + "/nodes";
     private static final String LIST_NODES_GRANTED_URL = PREFIX + "/nodes/granted";
+    private static final String LIST_RESOURCES_GRANTED_URL = PREFIX + "/resources/granted";
 
     public AcsClientV1(String baseUrl, HttpAdapter httpAdapter, HttpSerializer httpSerializer) {
         super(baseUrl, httpAdapter, httpSerializer, List.of(new CommonFailuresInterceptor(httpSerializer)));
@@ -139,5 +142,37 @@ public class AcsClientV1 extends AbstractAcsClient {
                 .queryAttributes(Map.of(
                         "accessor", serializeSubjectToQuery(accessor),
                         "resource", serializeSubjectToQuery(resource))));
+    }
+
+    /**
+     * Returns a paginated list of resources (subjects) granted to the specified accessor,
+     * filtered by subject type, groups, and nodes.
+     *
+     * @param accessor the subject for whom granted resources are queried
+     * @param subjectType the type of the target subjects
+     * @param groups the set of groups to filter by (can be empty)
+     * @param nodes the set of nodes to filter by (can be empty)
+     * @param page the pagination information
+     * @return a response containing the list of granted resources
+     */
+    public @NotNull ListSubjectsResponseV1 listResourcesGranted(
+            final @NotNull AcsSubjectResolvable accessor,
+            String subjectType, Set<AcsGroupResolvable> groups, Set<AcsNodeResolvable> nodes, Page page) {
+        String groupsQuery = groups.isEmpty() ? "" :
+                groups.stream().map(AcsGroupResolvable::getName).collect(Collectors.joining(","));
+        String nodesQuery = nodes.isEmpty() ? "" :
+                nodes.stream().map(AcsNodeResolvable::getValue).collect(Collectors.joining(","));
+
+        Map<String, String> queryAttributes = Map.of(
+                "accessor", serializeSubjectToQuery(accessor),
+                "subjectType", subjectType,
+                "groups", groupsQuery,
+                "nodes", nodesQuery);
+        page.applyToQuery(queryAttributes);
+
+        return executeRequest(ListSubjectsResponseV1.class, (builder, serializer) -> builder
+                .method(HttpMethod.GET)
+                .path(LIST_RESOURCES_GRANTED_URL)
+                .queryAttributes(queryAttributes));
     }
 }
