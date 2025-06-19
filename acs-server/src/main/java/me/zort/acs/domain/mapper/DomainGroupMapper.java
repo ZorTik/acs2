@@ -1,12 +1,14 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.data.service.PersistenceEntityProvider;
 import me.zort.acs.api.domain.mapper.DomainGroupIdMapper;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
+import me.zort.acs.data.id.GroupId;
 import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
@@ -24,6 +26,25 @@ public class DomainGroupMapper implements DomainModelMapper<Group, GroupEntity> 
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
     private final DomainModelMapper<Node, NodeEntity> nodeMapper;
     private final DomainGroupIdMapper groupIdMapper;
+    private final PersistenceEntityProvider persistenceEntityProvider;
+
+    @Override
+    public GroupEntity toPersistence(Group domain) {
+        GroupId id = groupIdMapper.toPersistence(domain.getSubjectType(), domain.getName());
+        GroupEntity entity = persistenceEntityProvider.getCachedOrCreate(GroupEntity.class, id);
+        entity.setId(id);
+        entity.setName(domain.getName());
+        entity.setSubjectType(subjectTypeMapper.toPersistence(domain.getSubjectType()));
+        entity.setNodes(domain.getNodes()
+                .stream()
+                .map(nodeMapper::toPersistence).collect(Collectors.toSet()));
+
+        if (domain.getParent() != null) {
+            entity.setParent(toPersistence(domain.getParent()));
+        }
+
+        return entity;
+    }
 
     @Override
     public Group toDomain(GroupEntity persistence) {
@@ -43,22 +64,5 @@ public class DomainGroupMapper implements DomainModelMapper<Group, GroupEntity> 
                 .name(persistence.getName())
                 .parentGroup(parentGroup)
                 .nodes(nodes).build());
-    }
-
-    @Override
-    public GroupEntity toPersistence(Group domain) {
-        GroupEntity entity = new GroupEntity();
-        entity.setId(groupIdMapper.toPersistence(domain.getSubjectType(), domain.getName()));
-        entity.setName(domain.getName());
-        entity.setSubjectType(subjectTypeMapper.toPersistence(domain.getSubjectType()));
-        entity.setNodes(domain.getNodes()
-                .stream()
-                .map(nodeMapper::toPersistence).collect(Collectors.toSet()));
-
-        if (domain.getParent() != null) {
-            entity.setParent(toPersistence(domain.getParent()));
-        }
-
-        return entity;
     }
 }

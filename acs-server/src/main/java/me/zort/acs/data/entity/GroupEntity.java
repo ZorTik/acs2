@@ -2,6 +2,7 @@ package me.zort.acs.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.zort.acs.api.data.entity.AcsEntity;
 import me.zort.acs.data.id.GroupId;
 
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity(name = "acs_groups")
-public class GroupEntity {
+public class GroupEntity implements AcsEntity<GroupId> {
     @EmbeddedId
     private GroupId id;
 
@@ -28,7 +29,15 @@ public class GroupEntity {
     })
     private GroupEntity parent;
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "acs_groups_nodes",
+            joinColumns = {
+                    @JoinColumn(name = "group_name", referencedColumnName = "group_name"),
+                    @JoinColumn(name = "group_subject_type_id", referencedColumnName = "subject_type_id")
+            },
+            inverseJoinColumns = @JoinColumn(name = "node_value")
+    )
     private Set<NodeEntity> nodes = new HashSet<>();
 
 }

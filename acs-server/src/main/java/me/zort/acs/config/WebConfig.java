@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -19,11 +20,6 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     private final SubjectArgumentResolver subjectArgumentResolver;
 
-    @Bean
-    public GsonHttpMessageConverter messageConverter() {
-        return new GsonHttpMessageConverter();
-    }
-
     @Override
     public void addArgumentResolvers(@NotNull List<HandlerMethodArgumentResolver> resolvers) {
         // @Subject
@@ -36,5 +32,18 @@ public class WebConfig implements WebMvcConfigurer {
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .favorPathExtension(false)
                 .favorParameter(false);
+    }
+
+    @Bean
+    public GsonHttpMessageConverter messageConverter() {
+        return new GsonHttpMessageConverter();
+    }
+
+    @Bean
+    public PageableHandlerMethodArgumentResolverCustomizer pageableCustomizer() {
+        return resolver -> {
+            resolver.setSizeParameterName("pageSize");
+            resolver.setPageParameterName("page");
+        };
     }
 }

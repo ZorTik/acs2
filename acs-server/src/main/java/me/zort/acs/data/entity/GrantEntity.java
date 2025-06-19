@@ -2,12 +2,13 @@ package me.zort.acs.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.zort.acs.api.data.entity.AcsEntity;
 
 import java.util.UUID;
 
 @Data
 @Entity(name = "acs_grants")
-public class GrantEntity {
+public class GrantEntity implements AcsEntity<UUID> {
     @Id
     @Column(columnDefinition = "char(36)")
     private UUID id;
@@ -60,5 +61,4 @@ public class GrantEntity {
                     updatable = false)
     })
     private GroupEntity group = null;
-
 }

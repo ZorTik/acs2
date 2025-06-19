@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
@@ -30,9 +29,14 @@ public class GroupType implements RightsHolderType<Group> {
     }
 
     @Override
-    public Optional<GrantEntity> findGrantEntityForHolder(Group holder, SubjectId accessorId, SubjectId accessedId) {
-        return grantRepository
-                .findByAccessor_IdAndAccessed_IdAndGroup_Id(accessorId, accessedId, groupIdMapper.toPersistence(holder));
+    public Optional<GrantEntity> getGrantEntitiesForHolder(Group holder, SubjectId accessorId, SubjectId accessedId) {
+        return grantRepository.findGroupGrant(accessorId, accessedId, groupIdMapper.toPersistence(holder));
+    }
+
+    @Override
+    public List<GrantEntity> getGrantEntitiesForHolders(List<Group> holders, SubjectId accessorId, SubjectType accessedType) {
+        List<GroupId> groupIds = holders.stream().map(groupIdMapper::toPersistence).toList();
+        return grantRepository.findAllByGroupIn(accessorId, accessedType.getId(), groupIds);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package me.zort.acs.api.domain.access;
 
 import me.zort.acs.api.domain.access.request.AccessRequest;
-import me.zort.acs.domain.model.Node;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,8 +12,8 @@ public interface AccessRequestFactory {
      *
      * @param from The accessing object
      * @param to The accessed object
-     * @param node The node to check applicability for
+     * @param rightsHolder The rights holder check applicability for
      * @return An AccessRequest object with the given parameters
      */
-    @NotNull AccessRequest createAccessRequest(SubjectLike from, SubjectLike to, Node node);
+    @NotNull AccessRequest createAccessRequest(SubjectLike from, SubjectLike to, RightsHolder rightsHolder);
 }

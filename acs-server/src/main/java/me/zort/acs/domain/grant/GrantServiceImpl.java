@@ -2,12 +2,8 @@ package me.zort.acs.domain.grant;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GrantRepository;
-import me.zort.acs.api.domain.access.AccessControlService;
-import me.zort.acs.api.domain.access.AccessRequestFactory;
-import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
-import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.api.domain.model.Grant;
@@ -20,7 +16,6 @@ import me.zort.acs.domain.grant.event.GrantAddEvent;
 import me.zort.acs.domain.grant.event.GrantRemoveEvent;
 import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
 import me.zort.acs.domain.grant.exception.InvalidGrantException;
-import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.provider.options.GrantOptions;
 import org.jetbrains.annotations.NotNull;
@@ -30,11 +25,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -45,8 +37,6 @@ public class GrantServiceImpl implements GrantService {
     private final DomainModelMapper<Grant, GrantEntity> grantMapper;
     private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
     private final AccessValidatorService accessValidatorService;
-    private final AccessRequestFactory accessRequestFactory;
-    private final AccessControlService accessControlService;
     private final ApplicationEventPublisher eventPublisher;
 
     @CacheEvict(value = "grants", key = "#result.id")
@@ -101,7 +91,7 @@ public class GrantServiceImpl implements GrantService {
         return rightsHolderTypeRegistry.castAndCallAdapter(
                         rightsHolder,
                         (holder, type) ->
-                                type.findGrantEntityForHolder(holder, accessorId, accessedId))
+                                type.getGrantEntitiesForHolder(holder, accessorId, accessedId))
                 .map(grantMapper::toDomain)
                 .filter(Grant::isValid);
     }
@@ -111,7 +101,7 @@ public class GrantServiceImpl implements GrantService {
         SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
         SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
 
-        return grantRepository.findByAccessor_IdAndAccessed_Id(accessorId, accessedId)
+        return grantRepository.findAllBetween(accessorId, accessedId)
                 .stream()
                 .map(grantMapper::toDomain)
                 .filter(Grant::isValid).toList();
@@ -119,18 +109,6 @@ public class GrantServiceImpl implements GrantService {
 
     @Override
     public int getGrantsCount(Subject accessor) {
-        return grantRepository.countByAccessor_Id(subjectIdMapper.toPersistence(accessor));
-    }
-
-    @Override
-    public Map<Node, Boolean> getGrantStatesFor(SubjectLike accessor, SubjectLike accessed) {
-        return accessed.getSubjectType().getNodes()
-                .stream()
-                .collect(Collectors.toMap(Function.identity(), node -> {
-                    AccessRequest request = accessRequestFactory.createAccessRequest(accessor, accessed, node);
-                    accessControlService.checkAccess(request);
-
-                    return request.isGranted();
-                }));
+        return grantRepository.countByAccessorId(subjectIdMapper.toPersistence(accessor));
     }
 }
