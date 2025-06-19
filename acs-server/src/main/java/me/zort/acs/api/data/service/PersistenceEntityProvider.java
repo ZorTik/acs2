@@ -1,5 +1,7 @@
 package me.zort.acs.api.data.service;
 
+import me.zort.acs.api.data.entity.AcsEntity;
+
 /**
  * Interface for providing persistence entities, supporting caching.
  * <p>
@@ -17,5 +19,5 @@ public interface PersistenceEntityProvider {
      * @param <T> the type of the entity
      * @return the cached or newly created entity
      */
-    <T> T getCachedOrCreate(Class<T> entityClass, Object id);
+    <ID, T extends AcsEntity<ID>> T getCachedOrCreate(Class<T> entityClass, Object id);
 }

@@ -129,8 +129,7 @@ public class AccessQueryServiceImpl implements AccessQueryService {
      * @see AccessQueryService#performAggregatedQuery(AggregatedAccessQuery, Pageable)
      */
     @Override
-    public <T> Page<T> performAggregatedQuery(
-            AggregatedAccessQuery<T> query, Pageable pageable) {
+    public <T> Page<T> performAggregatedQuery(AggregatedAccessQuery<T> query, Pageable pageable) {
         // Sort the sources to start with the smallest ones.
         List<AccessQueryable> sortedSources = sources
                 .stream()

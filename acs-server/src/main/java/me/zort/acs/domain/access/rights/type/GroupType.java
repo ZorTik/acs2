@@ -30,8 +30,7 @@ public class GroupType implements RightsHolderType<Group> {
 
     @Override
     public Optional<GrantEntity> getGrantEntitiesForHolder(Group holder, SubjectId accessorId, SubjectId accessedId) {
-        return grantRepository
-                .findByAccessor_IdAndAccessed_IdAndGroup_Id(accessorId, accessedId, groupIdMapper.toPersistence(holder));
+        return grantRepository.findGroupGrant(accessorId, accessedId, groupIdMapper.toPersistence(holder));
     }
 
     @Override

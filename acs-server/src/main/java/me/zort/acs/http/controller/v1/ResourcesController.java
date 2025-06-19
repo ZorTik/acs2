@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.http.exception.HttpException;
+import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.http.dto.body.subjects.list.ListSubjectsResponseDto;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
@@ -32,13 +34,18 @@ public class ResourcesController {
     private final HttpGroupMapper groupMapper;
     private final HttpNodeMapper nodeMapper;
     private final HttpSubjectMapper subjectMapper;
+    private final HttpExceptionFactory exceptionFactory;
 
-    // TODO: Otestovat
     @GetMapping("/resources/granted")
     public ListSubjectsResponseDto grantedByHolders(
             @SubjectRequestParam("accessor") SubjectLike accessor,
             @RequestParam String subjectType,
-            @RequestParam String[] groups, @RequestParam String[] nodes, Pageable pageable) {
+            @RequestParam(required = false, defaultValue = "") String[] groups,
+            @RequestParam(required = false, defaultValue = "") String[] nodes, Pageable pageable) {
+        if (groups.length == 0 && nodes.length == 0) {
+            throw exceptionFactory.createException(HttpException.NODES_GROUPS_NOT_EMPTY, null);
+        }
+
         SubjectType subjectTypeObj = subjectTypeMapper.toDomain(subjectType);
         // Concatenated list of groups and nodes
         List<RightsHolder> rightsHolders = Stream.concat(

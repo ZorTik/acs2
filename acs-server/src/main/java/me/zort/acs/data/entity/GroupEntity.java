@@ -2,6 +2,7 @@ package me.zort.acs.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.zort.acs.api.data.entity.AcsEntity;
 import me.zort.acs.data.id.GroupId;
 
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity(name = "acs_groups")
-public class GroupEntity {
+public class GroupEntity implements AcsEntity<GroupId> {
     @EmbeddedId
     private GroupId id;
 

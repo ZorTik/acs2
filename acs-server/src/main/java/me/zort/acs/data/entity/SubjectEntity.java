@@ -2,11 +2,12 @@ package me.zort.acs.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.zort.acs.api.data.entity.AcsEntity;
 import me.zort.acs.data.id.SubjectId;
 
 @Data
 @Entity(name = "acs_subjects")
-public class SubjectEntity {
+public class SubjectEntity implements AcsEntity<SubjectId> {
     @EmbeddedId
     private SubjectId id;
 

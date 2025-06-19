@@ -27,8 +27,7 @@ public class NodeType implements RightsHolderType<Node> {
 
     @Override
     public Optional<GrantEntity> getGrantEntitiesForHolder(Node holder, SubjectId accessorId, SubjectId accessedId) {
-        return grantRepository
-                .findByAccessor_IdAndAccessed_IdAndNode_Value(accessorId, accessedId, holder.getValue());
+        return grantRepository.findNodeGrant(accessorId, accessedId, holder.getValue());
     }
 
     @Override

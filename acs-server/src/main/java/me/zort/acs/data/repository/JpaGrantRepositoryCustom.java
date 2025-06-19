@@ -1,22 +1,13 @@
-package me.zort.acs.api.data.repository;
+package me.zort.acs.data.repository;
 
 import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.id.GroupId;
 import me.zort.acs.data.id.SubjectId;
-import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-@NoRepositoryBean
-public interface GrantRepository {
-
-    GrantEntity save(GrantEntity entity);
-
-    void deleteById(UUID id);
-
-    boolean existsById(UUID id);
+public interface JpaGrantRepositoryCustom {
 
     List<GrantEntity> findAllBetween(SubjectId accessorId, SubjectId accessedId);
 
