@@ -3,7 +3,7 @@ package me.zort.acs.http.controller.v1;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.http.dto.body.subjects.list.ListSubjectsResponseDto;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
@@ -35,7 +35,7 @@ public class ResourcesController {
 
     @GetMapping("/resources/granted")
     public ListSubjectsResponseDto grantedByHolders(
-            @SubjectRequestParam("accessor") Subject accessor,
+            @SubjectRequestParam("accessor") SubjectLike accessor,
             @RequestParam String subjectType,
             @RequestParam String[] groups, @RequestParam String[] nodes, Pageable pageable) {
         SubjectType subjectTypeObj = subjectTypeMapper.toDomain(subjectType);
