@@ -26,7 +26,7 @@ public class AcsPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
         if (!(permission instanceof String)) {
-            // TODO: Log
+            log.error("Permission object is not of type String");
             return false;
         }
 
@@ -34,7 +34,7 @@ public class AcsPermissionEvaluator implements PermissionEvaluator {
         AcsSubjectResolvable targetSubject = subjectDetailsResolver.resolveSubjectDetails(targetDomainObject);
         if (callerSubject == null) {
             // Caller is null, wtf??? This should be handled by AcsUserDetailsService
-            // TODO: Log
+            log.warn("Authenticated user subject is null");
             return false;
         }
         if (targetSubject == null) {

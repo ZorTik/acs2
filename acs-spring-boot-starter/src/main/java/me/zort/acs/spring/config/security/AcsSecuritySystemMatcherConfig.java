@@ -10,5 +10,5 @@ public class AcsSecuritySystemMatcherConfig implements SubjectConfig {
     private String subjectType;
     private Object subjectId;
 
-    // TODO: More options to match system subject
+    // More options to match system subject
 }

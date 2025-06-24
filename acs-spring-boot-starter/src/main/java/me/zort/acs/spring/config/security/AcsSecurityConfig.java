@@ -32,10 +32,10 @@ public class AcsSecurityConfig {
     @ConditionalOnBean(AcsSecurityConfigurer.class)
     @ConditionalOnMissingBean(AcsUserDetailsService.class)
     public AcsUserDetailsService userDetailsService(
-            AcsClientV1 client,
-            AcsSecurityUserConfig userConfig,
             AcsSecurityConfigurer securityConfigurer,
             SystemSubjectProviderFactory systemSubjectProviderFactory,
+            AcsClientV1 client,
+            AcsSecurityUserConfig userConfig,
             AcsSecuritySystemMatcherConfig systemMatcherConfig) {
         SubjectProvider systemSubjectProvider = systemSubjectProviderFactory
                 .createSystemSubjectProvider(systemMatcherConfig);

@@ -1,4 +1,8 @@
 services:
+  # ──────────────────────────────
+  # MariaDB
+  # Persistent Data Source
+  # ──────────────────────────────
   db:
     image: mariadb:latest
     container_name: db
@@ -11,6 +15,10 @@ services:
       - db:/var/lib/mysql
     ports:
       - "3306:3306"
+
+  # ──────────────────────────────
+  # The App
+  # ──────────────────────────────
   app:
     image: gradle:8.5-jdk17-alpine
     container_name: app
