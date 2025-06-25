@@ -23,12 +23,11 @@ public class ClusterEventGatherer {
 
     @EventListener
     public void onDefinitionsChanged(DefinitionsSavedEvent event) {
+        DefinitionsFormat format = DefinitionsFormat.YAML;
         String definitions = event.getDefinitions() != null
-                // TODO: Propagate format to DefinitionsChangedMessage
-                ? DefinitionsFormat.YAML.toStringModel(event.getDefinitions())
-                : null;
+                ? format.toStringModel(event.getDefinitions()) : null;
 
-        DefinitionsChangedMessage message = new DefinitionsChangedMessage(definitions);
+        DefinitionsChangedMessage message = new DefinitionsChangedMessage(definitions, format);
 
         clusterNotificationPublisher.notifyNodes(event.getRealm(), DefinitionsChangedMessage.class, message);
     }
