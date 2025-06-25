@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -43,12 +44,25 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
     private Map<Pair<SubjectType, SubjectType>, Set<Group>> defaultGrantedGroups;
 
-    @Transactional(rollbackFor = {RuntimeException.class})
+    @Transactional
     @Override
     public void refreshDefinitions() {
+        DefinitionsModel model;
         try {
-            DefinitionsModel model = definitionsSource.getModel();
+            model = definitionsSource.getModel();
+        } catch (IOException e) {
+            log.error("Failed to fetch definitions from source.", e);
 
+            return;
+        }
+
+        refreshDefinitions(model);
+    }
+
+    @Transactional(rollbackFor = {RuntimeException.class})
+    @Override
+    public void refreshDefinitions(DefinitionsModel model) {
+        try {
             log.info("Refreshing definitions...");
 
             try {

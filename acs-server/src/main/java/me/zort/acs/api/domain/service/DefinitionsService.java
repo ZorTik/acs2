@@ -1,5 +1,6 @@
 package me.zort.acs.api.domain.service;
 
+import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
@@ -19,6 +20,13 @@ public interface DefinitionsService {
      * Refreshes the access control definitions, reloading any cached or stored data.
      */
     void refreshDefinitions();
+
+    /**
+     * Refreshes the access control definitions based on the provided model.
+     *
+     * @param model the definitions model to refresh from
+     */
+    void refreshDefinitions(DefinitionsModel model);
 
     /**
      * Returns the set of default granted nodes for the given accessor and accessed subject types.

@@ -11,6 +11,12 @@ services:
       - db:/var/lib/mysql
     ports:
       - "3306:3306"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
   app:
     image: gradle:8.5-jdk17-alpine
     container_name: app
@@ -24,6 +30,7 @@ services:
       DATASOURCE_HOST: db
       DATASOURCE_PORT: 3306
       DATASOURCE_DB: test
+      REDIS_HOST: redis
       ACS_DEFINITIONS_SOURCE: file:../example_definitions.yml
     volumes:
       - .:/home/gradle/project
