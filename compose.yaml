@@ -1,5 +1,18 @@
 services:
-  db:
+  db-app:
+    image: mariadb:latest
+    container_name: db-app
+    environment:
+      - MARIADB_DATABASE=test
+      - MARIADB_USER=test
+      - MARIADB_PASSWORD=test
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  db-plane:
     image: mariadb:latest
     container_name: db
     environment:
@@ -14,6 +27,7 @@ services:
 
   redis:
     image: redis:latest
+    container_name: redis
     ports:
       - "6379:6379"
 
@@ -27,7 +41,7 @@ services:
     environment:
       DATASOURCE_USR: test
       DATASOURCE_PWD: test
-      DATASOURCE_HOST: db
+      DATASOURCE_HOST: db-app
       DATASOURCE_PORT: 3306
       DATASOURCE_DB: test
       REDIS_HOST: redis
@@ -40,6 +54,32 @@ services:
       - "8080:8080"
       - "5005:5005"
     depends_on:
-      - db
+      - db-app
+
+  plane:
+    image: gradle:8.5-jdk17-alpine
+    container_name: plane
+    user: root
+    working_dir: /home/gradle/project
+    command: >
+      sh -c "gradle :acs-plane:bootRun --no-daemon --debug-jvm"
+    environment:
+      DATASOURCE_USR: test
+      DATASOURCE_PWD: test
+      DATASOURCE_HOST: db-plane
+      DATASOURCE_PORT: 3306
+      DATASOURCE_DB: test
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    volumes:
+      - .:/home/gradle/project
+      - /home/gradle/project/.gradle
+      - /home/gradle/project/build
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    depends_on:
+      - db-plane
+      - redis
 volumes:
   db:
