@@ -1,6 +1,11 @@
 spring:
   application:
     name: acs-plane
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${DATASOURCE_HOST}:${DATASOURCE_PORT:3306}/${DATASOURCE_DB}
+    username: ${DATASOURCE_USR}
+    password: ${DATASOURCE_PWD}
   data:
     redis:
       host: ${REDIS_HOST:localhost}
