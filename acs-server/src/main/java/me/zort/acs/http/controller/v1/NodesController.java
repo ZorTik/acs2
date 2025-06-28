@@ -4,18 +4,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.AccessControlService;
+import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
-import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesRequestDto;
 import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesResponseDto;
 import me.zort.acs.http.dto.body.nodes.list.ListNodesResponseDto;
 import me.zort.acs.http.dto.model.node.NodeDto;
 import me.zort.acs.http.dto.model.node.NodeWithStateDto;
+import me.zort.acs.http.internal.annotation.SubjectRequestParam;
 import me.zort.acs.http.mapper.HttpNodeMapper;
-import me.zort.acs.http.mapper.HttpSubjectMapper;
 import me.zort.acs.http.mapper.HttpSubjectTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +27,7 @@ import java.util.List;
 public class NodesController {
     private final HttpNodeMapper nodeMapper;
     private final HttpSubjectTypeMapper subjectTypeMapper;
-    private final HttpSubjectMapper subjectMapper;
-    private final AccessControlService accessControlService;
+    private final AccessService accessService;
     private final HttpExceptionFactory exceptionProvider;
 
     @GetMapping
@@ -51,17 +48,16 @@ public class NodesController {
         return new ListNodesResponseDto(nodes);
     }
 
-    @PostMapping("/granted")
+    @GetMapping("/granted")
     @Operation(summary = "Gets nodes granted between accessor and resource")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Granted nodes returned"),
             @ApiResponse(responseCode = "400", description = "Invalid request body")
     })
-    public GrantedNodesResponseDto grantedNodes(@Valid @RequestBody GrantedNodesRequestDto body) {
-        SubjectLike accessor = subjectMapper.toDomainOrNull(body.getAccessor());
-        SubjectLike accessed = subjectMapper.toDomainOrNull(body.getResource());
-
-        List<NodeWithStateDto> nodes = accessControlService.getGrantStatesFor(accessor, accessed).entrySet()
+    public GrantedNodesResponseDto grantedNodes(
+            @SubjectRequestParam("accessor") SubjectLike accessor,
+            @SubjectRequestParam("resource") SubjectLike accessed) {
+        List<NodeWithStateDto> nodes = accessService.getGrantStatesBetween(accessor, accessed).entrySet()
                 .stream()
                 .map(entry -> nodeMapper.toHttpWithState(entry.getKey(), entry.getValue()))
                 .toList();

@@ -13,5 +13,6 @@ public class PlaneDefaultGrantsDefinitionModel implements DefaultGrantsDefinitio
     private final SubjectTypeDefinitionModel accessorType;
     private final SubjectTypeDefinitionModel accessedType;
     private final List<String> grantedNodes;
+    private final List<String> grantedGroups;
 
 }

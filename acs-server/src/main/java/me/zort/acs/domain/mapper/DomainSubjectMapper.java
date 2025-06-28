@@ -1,6 +1,7 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.data.service.PersistenceEntityProvider;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.core.domain.mapper.PersistenceToDomainMapper;
@@ -23,12 +24,13 @@ public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEn
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
     private final PersistenceToDomainMapper<GroupEntity, Group> groupMapper;
     private final SubjectProvider subjectProvider;
+    private final PersistenceEntityProvider persistenceEntityProvider;
 
     @Override
     public SubjectEntity toPersistence(Subject domain) {
-        SubjectEntity entity = new SubjectEntity();
-
         SubjectId id = subjectIdMapper.toPersistence(domain);
+        SubjectEntity entity = persistenceEntityProvider.getCachedOrCreate(SubjectEntity.class, id);
+
         entity.setId(id);
 
         SubjectTypeEntity subjectType = subjectTypeMapper.toPersistence(domain.getSubjectType());

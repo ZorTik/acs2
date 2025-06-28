@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.service.GroupService;
+import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.http.dto.body.groups.ListGroupsResponseDto;
 import me.zort.acs.http.dto.model.group.GroupDto;

@@ -2,6 +2,8 @@ package me.zort.acs.domain.group;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GroupRepository;
+import me.zort.acs.api.domain.group.CreateGroupOptions;
+import me.zort.acs.api.domain.group.exception.GroupAlreadyExistsException;
 import me.zort.acs.api.domain.mapper.DomainGroupIdMapper;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.operation.OperationExecutor;
@@ -9,7 +11,7 @@ import me.zort.acs.api.domain.group.GroupOperationsFactory;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.api.domain.grant.GrantService;
-import me.zort.acs.api.domain.service.GroupService;
+import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
@@ -18,10 +20,7 @@ import me.zort.acs.domain.provider.options.GroupOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -35,18 +34,22 @@ public class GroupServiceImpl implements GroupService {
     private final OperationExecutor<Group> operationExecutor;
 
     @Override
-    public Group createGroup(SubjectType subjectType, String name) {
-        return getGroup(subjectType, name).orElseGet(() -> {
-            Group group = groupProvider.getGroup(GroupOptions.builder()
-                    .subjectType(subjectType)
-                    .name(name)
-                    .parentGroup(null)
-                    .nodes(new HashSet<>()).build());
+    public Group createGroup(SubjectType subjectType, String name, CreateGroupOptions options) {
+        Objects.requireNonNull(options, "options cannot be null");
 
-            group = groupMapper.toDomain(groupRepository.save(groupMapper.toPersistence(group)));
-
-            return group;
+        getGroup(subjectType, name).ifPresent(existing -> {
+            throw new GroupAlreadyExistsException(existing);
         });
+
+        Group group = groupProvider.getGroup(GroupOptions.builder()
+                .subjectType(subjectType)
+                .name(name)
+                .parentGroup(options.getParentGroup())
+                .nodes(new HashSet<>(options.getNodes())).build());
+
+        group = groupMapper.toDomain(groupRepository.save(groupMapper.toPersistence(group)));
+
+        return group;
     }
 
     @Override

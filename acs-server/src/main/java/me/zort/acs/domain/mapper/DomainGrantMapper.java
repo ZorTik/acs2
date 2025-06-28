@@ -1,6 +1,7 @@
 package me.zort.acs.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.data.service.PersistenceEntityProvider;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.model.Grant;
@@ -24,12 +25,13 @@ public class DomainGrantMapper implements DomainModelMapper<Grant, GrantEntity> 
     private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
     private final DomainModelMapper<Node, NodeEntity> nodeMapper;
     private final DomainModelMapper<Group, GroupEntity> groupMapper;
+    private final PersistenceEntityProvider persistenceEntityProvider;
 
     private final GrantProvider grantProvider;
 
     @Override
     public GrantEntity toPersistence(Grant domain) {
-        GrantEntity entity = new GrantEntity();
+        GrantEntity entity = persistenceEntityProvider.getCachedOrCreate(GrantEntity.class, domain.getId());
 
         UUID id = domain.getId();
         entity.setId(id);

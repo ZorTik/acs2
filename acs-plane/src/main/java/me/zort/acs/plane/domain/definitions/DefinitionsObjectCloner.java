@@ -73,6 +73,7 @@ public class DefinitionsObjectCloner implements ObjectCloner<DefinitionsModel> {
             DefaultGrantsDefinitionModel clonedGrantModel = objectFactory.createDefaultGrantsModel(
                     clonedAccessorTypeModel, clonedAccessedTypeModel);
             clonedGrantModel.getGrantedNodes().addAll(grantModel.getGrantedNodes());
+            clonedGrantModel.getGrantedGroups().addAll(grantModel.getGrantedGroups());
 
             cloned.getDefaultGrants().add(clonedGrantModel);
         });

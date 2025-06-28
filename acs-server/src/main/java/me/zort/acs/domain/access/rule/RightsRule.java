@@ -1,12 +1,18 @@
 package me.zort.acs.domain.access.rule;
 
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
 import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.strategy.RightsStrategy;
 import me.zort.acs.api.domain.model.SubjectLike;
 import me.zort.acs.domain.model.Node;
+import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class RightsRule extends SubjectToSubjectAccessRule {
@@ -22,17 +28,39 @@ public class RightsRule extends SubjectToSubjectAccessRule {
 
     @Override
     public void onRequest(SubjectToSubjectAccessRequest request) {
-        if (hasRights(request.getAccessor(), request.getAccessed(), request.getNode())) {
+        if (hasRights(request.getAccessor(), request.getAccessed(), request.getRightsHolder())) {
             request.grant();
         }
     }
 
-    private boolean hasRights(SubjectLike accessor, SubjectLike accessed, Node requestedNode) {
+    private boolean hasRights(SubjectLike accessor, SubjectLike accessed, RightsHolder rightsHolder) {
         // Check if the accessor has rights on the accessed subject by
-        // applying the owned nodes to the requested node.
+        // applying the owned holders to the requested holder.
         return rightsNegotiationService.getRightsHolders(accessor, accessed)
                 .stream()
-                .flatMap(holder -> holder.getGrantedNodes().stream())
-                .anyMatch(node -> rightsStrategy.isNodeApplicableOn(node, requestedNode));
+                .anyMatch(holder -> {
+                    if (rightsHolder instanceof Node requestedNode) {
+                        return holder.getGrantedNodes()
+                                .stream()
+                                .anyMatch(node -> rightsStrategy.isNodeApplicableOn(node, requestedNode));
+                    } else {
+                        return holder.equals(rightsHolder);
+                    }
+                });
+    }
+
+    /**
+     * Queries for subjects that the accessor can access based on the rights holders.
+     *
+     * @param accessor the subject-like entity requesting access
+     * @param targetSubjectType the type of subjects to be accessed
+     * @param rightsHolders the list of rights holders to check access against
+     * @param pageable the pagination information
+     * @return a page of subjects that the accessor can access
+     */
+    @Override
+    public Page<? extends SubjectLike> queryForAccessibleSubjects(
+            SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {
+        return rightsNegotiationService.getCandidateSubjects(accessor, targetSubjectType, rightsHolders, pageable);
     }
 }

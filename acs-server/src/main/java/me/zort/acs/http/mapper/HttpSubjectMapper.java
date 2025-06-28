@@ -21,6 +21,10 @@ public class HttpSubjectMapper {
     private final SubjectService service;
     private final HttpExceptionFactory exceptionProvider;
 
+    public SubjectDto toHttp(SubjectLike subject) {
+        return new SubjectDto(subject.getSubjectTypeId(), subject.getId());
+    }
+
     public Subject toDomain(SubjectDto dto) {
         return toDomain(dto, false);
     }

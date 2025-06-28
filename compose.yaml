@@ -14,7 +14,7 @@ services:
 
   db-plane:
     image: mariadb:latest
-    container_name: db-plane
+    container_name: db
     environment:
       - MARIADB_DATABASE=test
       - MARIADB_USER=test
@@ -44,6 +44,7 @@ services:
       DATASOURCE_HOST: db-app
       DATASOURCE_PORT: 3306
       DATASOURCE_DB: test
+      REDIS_HOST: redis
       ACS_DEFINITIONS_SOURCE: file:../example_definitions.yml
     volumes:
       - .:/home/gradle/project

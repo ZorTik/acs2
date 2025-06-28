@@ -2,14 +2,17 @@ package me.zort.acs.domain.definitions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.api.domain.group.CreateGroupOptions;
+import me.zort.acs.api.domain.group.exception.GroupAlreadyExistsException;
+import me.zort.acs.api.domain.subjecttype.CreateSubjectTypeOptions;
+import me.zort.acs.api.domain.subjecttype.exception.SubjectTypeAlreadyExistsException;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.core.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;
 import me.zort.acs.api.domain.garbage.disposable.CacheDisposable;
 import me.zort.acs.api.domain.service.DefinitionsService;
-import me.zort.acs.api.domain.service.GroupService;
+import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.domain.service.NodeService;
-import me.zort.acs.api.domain.service.SubjectTypeService;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.core.domain.definitions.source.DefinitionsSource;
 import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
@@ -17,18 +20,20 @@ import me.zort.acs.core.domain.definitions.exception.InvalidDefinitionsException
 import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.domain.service.SubjectTypeServiceImpl;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class DefinitionsServiceImpl implements DefinitionsService {
-    private final SubjectTypeService subjectTypeService;
+    private final SubjectTypeServiceImpl subjectTypeService;
     private final NodeService nodeService;
     private final GroupService groupService;
     private final ResourceDisposalService disposalService;
@@ -37,13 +42,27 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private final DefinitionsValidator definitionsValidator;
 
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
+    private Map<Pair<SubjectType, SubjectType>, Set<Group>> defaultGrantedGroups;
 
-    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
+    @Transactional
     @Override
     public void refreshDefinitions() {
+        DefinitionsModel model;
         try {
-            DefinitionsModel model = definitionsSource.getModel();
+            model = definitionsSource.getModel();
+        } catch (IOException e) {
+            log.error("Failed to fetch definitions from source.", e);
 
+            return;
+        }
+
+        refreshDefinitions(model);
+    }
+
+    @Transactional(rollbackFor = {RuntimeException.class})
+    @Override
+    public void refreshDefinitions(DefinitionsModel model) {
+        try {
             log.info("Refreshing definitions...");
 
             try {
@@ -64,13 +83,19 @@ public class DefinitionsServiceImpl implements DefinitionsService {
             log.info("Definitions refreshed successfully.");
         } catch (Exception e) {
             log.error("Failed to refresh definitions.", e);
+
+            throw new RuntimeException(e);
         }
     }
 
-    // TODO: nefunguje pro default definitions example2.node
     @Override
     public Set<Node> getDefaultGrantedNodes(SubjectType accessorType, SubjectType accessedType) {
-        return defaultGrants.get(Pair.of(accessorType, accessedType));
+        return defaultGrants.getOrDefault(Pair.of(accessorType, accessedType), new HashSet<>());
+    }
+
+    @Override
+    public Set<Group> getDefaultGrantedGroups(SubjectType accessorType, SubjectType accessedType) {
+        return defaultGrantedGroups.getOrDefault(Pair.of(accessorType, accessedType), new HashSet<>());
     }
 
     private void refreshSubjectTypes(DefinitionsModel model) {
@@ -82,25 +107,38 @@ public class DefinitionsServiceImpl implements DefinitionsService {
 
             refreshSubjectType(def);
         });
+
         localTypes.forEach(subjectTypeService::deleteSubjectType);
     }
 
     private void refreshSubjectType(SubjectTypeDefinitionModel def) {
-        SubjectType subjectType = subjectTypeService.createSubjectType(def.getId());
-        def.getNodes()
-                .forEach(model -> {
-                    Node node = nodeService.createNode(model.getValue());
+        List<Node> nodesToAssign = def.getNodes()
+                .stream()
+                .map(model -> nodeService.createNode(model.getValue())).toList();
 
-                    nodeService.assignNode(node, subjectType);
-                });
-        def.getGroups()
-                .forEach(model -> refreshGroup(model, def, subjectType));
+        SubjectType subjectType;
+        try {
+            subjectType = subjectTypeService.createSubjectType(def.getId(), CreateSubjectTypeOptions.builder()
+                    .nodes(nodesToAssign).build());
+        } catch (SubjectTypeAlreadyExistsException e) {
+            subjectType = subjectTypeService.getSubjectType(e.getExistingId()).orElseThrow();
+
+            subjectTypeService.assignSubjectTypeNodes(subjectType, nodesToAssign);
+        }
+
+        for (GroupDefinitionModel model : def.getGroups()) {
+            refreshGroup(model, def, subjectType);
+        }
     }
 
-    private void refreshGroup(
+    private Group refreshGroup(
             GroupDefinitionModel def, SubjectTypeDefinitionModel subjectTypeDef, SubjectType subjectType) {
-        Group group = groupService.createGroup(subjectType, def.getName());
+        List<Node> nodesToAssign = def.getNodes()
+                .stream()
+                .map(value -> subjectType.getNodeByValue(value).orElseThrow())
+                .toList();
 
+        Group parentGroup = null;
         String parentName = def.getParentName();
         if (parentName != null) {
             GroupDefinitionModel parentGroupDef = subjectTypeDef.getGroups()
@@ -108,20 +146,30 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                     .filter(groupDef -> groupDef.getName().equals(parentName))
                     .findFirst().orElseThrow();
 
-            refreshGroup(parentGroupDef, subjectTypeDef, subjectType);
-
-            Group parentGroup = groupService.getGroup(subjectType, parentName).orElseThrow();
-            groupService.assignGroupParent(group, parentGroup);
+            parentGroup = refreshGroup(parentGroupDef, subjectTypeDef, subjectType);
         }
 
-        groupService.assignGroupNodes(group, def.getNodes()
-                .stream()
-                .map(value -> subjectType.getNodeByValue(value).orElseThrow())
-                .toList());
+        Group group;
+        try {
+            group = groupService.createGroup(subjectType, def.getName(), CreateGroupOptions.builder()
+                    .parentGroup(parentGroup)
+                    .nodes(nodesToAssign).build());
+        } catch (GroupAlreadyExistsException e) {
+            group = e.getExisting();
+
+            groupService.assignGroupNodes(group, nodesToAssign);
+
+            if (parentGroup != null) {
+                groupService.assignGroupParent(group, parentGroup);
+            }
+        }
+
+        return group;
     }
 
     private void refreshDefaultGrants(DefinitionsModel model) {
         defaultGrants = new HashMap<>();
+        defaultGrantedGroups = new HashMap<>();
         model.getDefaultGrants().forEach(def -> {
             SubjectType accessor = subjectTypeService.getSubjectType(def.getAccessorType().getId()).orElseThrow();
             SubjectType accessed = subjectTypeService.getSubjectType(def.getAccessedType().getId()).orElseThrow();
@@ -130,12 +178,19 @@ public class DefinitionsServiceImpl implements DefinitionsService {
                     .stream()
                     .map(value -> nodeService.getNode(value).orElseThrow())
                     .toList();
+            List<Group> groups = def.getGrantedGroups()
+                    .stream()
+                    .map(name -> groupService.getGroup(accessed, name).orElseThrow())
+                    .toList();
 
             Pair<SubjectType, SubjectType> key = Pair.of(accessor, accessed);
 
             defaultGrants
                     .computeIfAbsent(key, k -> new HashSet<>())
                     .addAll(nodes);
+            defaultGrantedGroups
+                    .computeIfAbsent(key, k -> new HashSet<>())
+                    .addAll(groups);
         });
     }
 }

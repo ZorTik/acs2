@@ -91,7 +91,7 @@ public class GrantServiceImpl implements GrantService {
         return rightsHolderTypeRegistry.castAndCallAdapter(
                         rightsHolder,
                         (holder, type) ->
-                                type.findGrantEntityForHolder(holder, accessorId, accessedId))
+                                type.getGrantEntitiesForHolder(holder, accessorId, accessedId))
                 .map(grantMapper::toDomain)
                 .filter(Grant::isValid);
     }
@@ -101,7 +101,7 @@ public class GrantServiceImpl implements GrantService {
         SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
         SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
 
-        return grantRepository.findByAccessor_IdAndAccessed_Id(accessorId, accessedId)
+        return grantRepository.findAllBetween(accessorId, accessedId)
                 .stream()
                 .map(grantMapper::toDomain)
                 .filter(Grant::isValid).toList();
@@ -109,6 +109,6 @@ public class GrantServiceImpl implements GrantService {
 
     @Override
     public int getGrantsCount(Subject accessor) {
-        return grantRepository.countByAccessor_Id(subjectIdMapper.toPersistence(accessor));
+        return grantRepository.countByAccessorId(subjectIdMapper.toPersistence(accessor));
     }
 }
