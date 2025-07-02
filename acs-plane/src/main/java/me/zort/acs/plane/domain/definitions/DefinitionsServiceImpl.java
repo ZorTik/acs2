@@ -22,6 +22,9 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private final RealmPersistenceService realmPersistenceService;
     private final ApplicationEventPublisher eventPublisher;
 
+    /**
+     * @see DefinitionsService#setDefinitions(Realm, DefinitionsModel)
+     */
     @Override
     public void setDefinitions(Realm realm, @Nullable DefinitionsModel model) throws InvalidDefinitionsException {
         realm.requireExists();

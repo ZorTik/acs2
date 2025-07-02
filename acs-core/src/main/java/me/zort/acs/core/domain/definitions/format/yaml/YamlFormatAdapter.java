@@ -12,7 +12,6 @@ import java.io.InputStream;
 public class YamlFormatAdapter implements DefinitionsFormatAdapter {
     private static final Yaml YAML_LIB = YamlFormatUtils.createYaml();
 
-
     @Override
     public @NotNull DefinitionsModel parseModel(InputStream in) {
         return YAML_LIB.loadAs(in, YamlDefinitionsModel.class);

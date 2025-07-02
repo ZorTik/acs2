@@ -1,6 +1,7 @@
 package me.zort.acs.core.domain.definitions.format;
 
 import lombok.AllArgsConstructor;
+import me.zort.acs.core.domain.definitions.exception.DefinitionsParseException;
 import me.zort.acs.core.domain.definitions.format.yaml.YamlFormatAdapter;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +41,7 @@ public enum DefinitionsFormat implements DefinitionsFormatAdapter {
     }
 
     @Override
-    public @NotNull DefinitionsModel parseModel(InputStream in) {
+    public @NotNull DefinitionsModel parseModel(InputStream in) throws DefinitionsParseException {
         return adapter.parseModel(in);
     }
 

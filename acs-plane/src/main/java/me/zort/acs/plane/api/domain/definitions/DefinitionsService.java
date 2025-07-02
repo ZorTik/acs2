@@ -5,8 +5,6 @@ import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
 /**
  * Service interface for managing definitions within a specific realm.
  * <p>

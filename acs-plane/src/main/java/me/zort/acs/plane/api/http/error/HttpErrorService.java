@@ -1,0 +1,22 @@
+package me.zort.acs.plane.api.http.error;
+
+import org.jetbrains.annotations.Nullable;
+import org.springframework.ui.Model;
+
+public interface HttpErrorService {
+
+    /**
+     * Propagates the given error using exception handler.
+     *
+     * @param error the error to propagate
+     */
+    void propagate(@Nullable HttpError error);
+
+    /**
+     * Propagates the given error to the model.
+     *
+     * @param error the error to propagate
+     * @param model the model to propagate the error to
+     */
+    void propagate(@Nullable HttpError error, Model model);
+}
