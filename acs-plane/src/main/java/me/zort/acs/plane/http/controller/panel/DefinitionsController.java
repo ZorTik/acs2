@@ -5,8 +5,7 @@ import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
-import me.zort.acs.plane.api.http.error.HttpError;
-import me.zort.acs.plane.api.http.error.HttpErrorService;
+import me.zort.acs.plane.api.facade.FacadeOperationsExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/panel/definitions")
 @Controller
 public class DefinitionsController {
+    private final FacadeOperationsExecutor operationsExecutor;
     private final DefinitionsFacade definitionsFacade;
-    private final HttpErrorService httpErrorService;
 
     @PostMapping("/raw")
     public String rawDefinitionsPost(@RequestParam String definitions, Realm realm, Model model) {
-        HttpError error = definitionsFacade.setDefinitions(realm, definitions, DefinitionsFormat.YAML);
-        httpErrorService.propagate(error, model);
+        operationsExecutor.execute(() -> definitionsFacade.setDefinitions(realm, definitions, DefinitionsFormat.YAML), model);
 
         return rawDefinitionsGet(realm, model);
     }

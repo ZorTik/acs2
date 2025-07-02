@@ -4,8 +4,16 @@
     <title>Detail</title>
 </head>
     <body>
-        <h1>Detail definice</h1>
-        <p>Název: <span th:text="${name}"></span></p>
-        <p>Popis: <span th:text="${description}"></span></p>
+        <h1>Detail</h1>
+        <div th:if="${raw}">
+            <p th:text="'ID: ' + ${raw.id}"></p>
+            <p th:text="'Název: ' + ${raw.name}"></p>
+            <p th:text="'Popis: ' + ${raw.description}"></p>
+            <p th:text="'Cena: ' + ${raw.price}"></p>
+            <p th:text="'Množství: ' + ${raw.quantity}"></p>
+        </div>
+        <div th:unless="${raw}">
+            <p>Žádné údaje k zobrazení.</p>
+        </div>
     </body>
 </html>

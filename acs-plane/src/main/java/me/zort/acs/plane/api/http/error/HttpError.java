@@ -1,24 +1,20 @@
 package me.zort.acs.plane.api.http.error;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-public interface HttpError {
+@Getter
+public class HttpError extends RuntimeException {
+    private final int statusCode;
+    private final String message;
 
-    int getStatusCode();
-
-    String getMessage();
-
-    static @NotNull HttpError of(int statusCode, String message) {
-        return new HttpErrorImpl(statusCode, message);
+    public HttpError(int statusCode, String message) {
+        super(message);
+        this.statusCode = statusCode;
+        this.message = message;
     }
 
-    @Getter
-    @AllArgsConstructor
-    class HttpErrorImpl implements HttpError {
-        private final int statusCode;
-        private final String message;
-
+    public static @NotNull HttpError of(int statusCode, String message) {
+        return new HttpError(statusCode, message);
     }
 }
