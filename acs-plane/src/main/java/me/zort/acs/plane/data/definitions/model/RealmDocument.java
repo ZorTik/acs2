@@ -9,12 +9,12 @@ import java.util.List;
 
 @Data
 @Document(collection = "acs_realms")
-public class RealmModel {
+public class RealmDocument {
     @Id
     private String id;
 
-    private List<SubjectTypeModel> subjectTypes = new ArrayList<>();
+    private List<SubjectTypeDocument> subjectTypes = new ArrayList<>();
 
-    private List<DefaultGrantModel> defaultGrants = new ArrayList<>();
+    private List<DefaultGrantDocument> defaultGrants = new ArrayList<>();
 
 }

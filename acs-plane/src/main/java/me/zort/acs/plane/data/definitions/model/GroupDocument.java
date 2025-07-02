@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class GroupModel {
+public class GroupDocument {
     private String id;
     private String parent;
     private List<String> nodes = new ArrayList<>();

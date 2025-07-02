@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class DefaultGrantModel {
+public class DefaultGrantDocument {
     private String from;
     private String to;
     private List<String> nodes = new ArrayList<>();

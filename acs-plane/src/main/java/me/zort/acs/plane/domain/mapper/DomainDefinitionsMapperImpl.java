@@ -19,7 +19,7 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
     private final DefinitionsObjectFactory definitionsObjectFactory;
 
     @Override
-    public DefinitionsModel toDomain(RealmModel entity) {
+    public DefinitionsModel toDomain(RealmDocument entity) {
         Map<String, SubjectTypeDefinitionModel> subjectTypeDefs = new HashMap<>();
         entity.getSubjectTypes().forEach(subjectTypeEntity -> {
             SubjectTypeDefinitionModel model = definitionsObjectFactory
@@ -57,7 +57,7 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
     }
 
     @Override
-    public void toPersistence(DefinitionsModel model, RealmModel entity) {
+    public void toPersistence(DefinitionsModel model, RealmDocument entity) {
         entity.getSubjectTypes().clear();
         entity.getDefaultGrants().clear();
 
@@ -68,8 +68,8 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
     }
 
     @NotNull
-    private DefaultGrantModel toPersistenceDefaultGrant(DefaultGrantsDefinitionModel grant) {
-        DefaultGrantModel grantModel = new DefaultGrantModel();
+    private DefaultGrantDocument toPersistenceDefaultGrant(DefaultGrantsDefinitionModel grant) {
+        DefaultGrantDocument grantModel = new DefaultGrantDocument();
         grantModel.setFrom(grant.getAccessorType().getId());
         grantModel.setTo(grant.getAccessedType().getId());
         grantModel.setNodes(grant.getGrantedNodes());
@@ -78,33 +78,33 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
     }
 
     @NotNull
-    private SubjectTypeModel toPersistenceSubjectType(SubjectTypeDefinitionModel subjectType) {
-        SubjectTypeModel subjectTypeModel = new SubjectTypeModel();
-        subjectTypeModel.setName(subjectType.getId());
-        subjectTypeModel.setNodes(subjectType.getNodes()
+    private SubjectTypeDocument toPersistenceSubjectType(SubjectTypeDefinitionModel subjectType) {
+        SubjectTypeDocument subjectTypeDocument = new SubjectTypeDocument();
+        subjectTypeDocument.setName(subjectType.getId());
+        subjectTypeDocument.setNodes(subjectType.getNodes()
                 .stream()
                 .map(this::toPersistenceNode).toList());
-        subjectTypeModel.setGroups(subjectType.getGroups()
+        subjectTypeDocument.setGroups(subjectType.getGroups()
                 .stream()
                 .map(this::toPersistenceGroup).toList());
-        return subjectTypeModel;
+        return subjectTypeDocument;
     }
 
     @NotNull
-    private NodeModel toPersistenceNode(NodeDefinitionModel node) {
-        NodeModel nodeModel = new NodeModel();
-        nodeModel.setValue(node.getValue());
+    private NodeDocument toPersistenceNode(NodeDefinitionModel node) {
+        NodeDocument nodeDocument = new NodeDocument();
+        nodeDocument.setValue(node.getValue());
 
-        return nodeModel;
+        return nodeDocument;
     }
 
     @NotNull
-    private GroupModel toPersistenceGroup(GroupDefinitionModel group) {
-        GroupModel groupModel = new GroupModel();
-        groupModel.setId(group.getName());
-        groupModel.setParent(group.getParentName());
-        groupModel.setNodes(new ArrayList<>(group.getNodes()));
+    private GroupDocument toPersistenceGroup(GroupDefinitionModel group) {
+        GroupDocument groupDocument = new GroupDocument();
+        groupDocument.setId(group.getName());
+        groupDocument.setParent(group.getParentName());
+        groupDocument.setNodes(new ArrayList<>(group.getNodes()));
 
-        return groupModel;
+        return groupDocument;
     }
 }

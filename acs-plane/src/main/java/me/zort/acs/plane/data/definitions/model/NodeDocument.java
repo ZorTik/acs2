@@ -3,7 +3,7 @@ package me.zort.acs.plane.data.definitions.model;
 import lombok.Data;
 
 @Data
-public class NodeModel {
+public class NodeDocument {
     private String value;
 
 }

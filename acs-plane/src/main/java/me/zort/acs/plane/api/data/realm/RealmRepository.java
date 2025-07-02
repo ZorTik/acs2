@@ -1,14 +1,14 @@
 package me.zort.acs.plane.api.data.realm;
 
-import me.zort.acs.plane.data.definitions.model.RealmModel;
+import me.zort.acs.plane.data.definitions.model.RealmDocument;
 
 import java.util.Optional;
 
 public interface RealmRepository {
 
-    RealmModel save(RealmModel entity);
+    RealmDocument save(RealmDocument entity);
 
-    Optional<RealmModel> findById(String id);
+    Optional<RealmDocument> findById(String id);
 
     void deleteById(String id);
 

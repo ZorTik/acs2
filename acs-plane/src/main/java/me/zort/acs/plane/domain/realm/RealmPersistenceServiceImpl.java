@@ -2,7 +2,7 @@ package me.zort.acs.plane.domain.realm;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
-import me.zort.acs.plane.data.definitions.model.RealmModel;
+import me.zort.acs.plane.data.definitions.model.RealmDocument;
 import me.zort.acs.plane.api.data.realm.RealmRepository;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmPersistenceService;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class RealmPersistenceServiceImpl implements RealmPersistenceService {
     private final RealmRepository realmRepository;
-    private final DomainModelMapper<Realm, RealmModel> realmMapper;
+    private final DomainModelMapper<Realm, RealmDocument> realmMapper;
 
     @CachePut(value = "realms", key = "#realm.name", condition = "#realm != null")
     @Override

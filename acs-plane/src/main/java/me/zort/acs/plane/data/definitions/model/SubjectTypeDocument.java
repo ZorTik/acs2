@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class SubjectTypeModel {
+public class SubjectTypeDocument {
     private String name;
-    private List<NodeModel> nodes = new ArrayList<>();
-    private List<GroupModel> groups = new ArrayList<>();
+    private List<NodeDocument> nodes = new ArrayList<>();
+    private List<GroupDocument> groups = new ArrayList<>();
 
 }
