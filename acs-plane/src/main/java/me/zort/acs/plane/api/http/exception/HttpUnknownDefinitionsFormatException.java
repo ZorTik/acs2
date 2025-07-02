@@ -1,9 +1,10 @@
 package me.zort.acs.plane.api.http.exception;
 
-public class HttpUnknownDefinitionsFormatException extends RuntimeException {
-    // TODO: API exception
+import me.zort.acs.plane.api.http.error.HttpError;
+
+public class HttpUnknownDefinitionsFormatException extends HttpError {
 
     public HttpUnknownDefinitionsFormatException(String mimeType) {
-        super(String.format("Unknown definitions format for mime type %s", mimeType));
+        super(400, String.format("Unknown definitions format for mime type %s", mimeType));
     }
 }

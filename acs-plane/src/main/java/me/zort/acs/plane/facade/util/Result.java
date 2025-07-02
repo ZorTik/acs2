@@ -34,6 +34,10 @@ public class Result<T> {
         return error != null;
     }
 
+    public String getErrorMessage() {
+        return isError() ? error.getMessage() : null;
+    }
+
     public T orApiError() {
         if (isError()) {
             throw error;

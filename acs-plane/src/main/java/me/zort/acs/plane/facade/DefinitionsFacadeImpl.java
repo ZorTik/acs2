@@ -8,10 +8,10 @@ import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
-import me.zort.acs.plane.api.http.error.HttpError;
 import me.zort.acs.plane.api.http.exception.HttpUnknownDefinitionsFormatException;
 import me.zort.acs.plane.api.http.mapper.HttpFormatMapper;
 import me.zort.acs.plane.api.http.mapper.HttpToDomainMapper;
+import me.zort.acs.plane.facade.util.CommonResults;
 import me.zort.acs.plane.facade.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -54,17 +55,15 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
         try {
             format = formatMapper.fromMimeType(formatMimeType);
         } catch (HttpUnknownDefinitionsFormatException e) {
-            return Result.error(400, e.getMessage());
-        }
-
-        Realm realmObj;
-        try {
-            realmObj = realmMapper.toDomain(realmName);
-        } catch (HttpError e) {
             return Result.error(e);
         }
 
-        DefinitionsModel model = realmObj.getDefinitionsModel();
+        Optional<Realm> realmOptional = realmMapper.toDomain(realmName);
+        if (realmOptional.isEmpty()) {
+            return CommonResults.realmNotFound(realmName);
+        }
+
+        DefinitionsModel model = realmOptional.get().getDefinitionsModel();
         String value = format.toStringModel(model);
 
         return Result.ok(value);
