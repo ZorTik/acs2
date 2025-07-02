@@ -1,7 +1,6 @@
 package me.zort.acs.plane.domain.realm;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmFactory;
 import me.zort.acs.plane.api.domain.realm.RealmPersistenceService;
@@ -22,15 +21,14 @@ import java.util.Optional;
 public class RealmServiceImpl implements RealmService {
     private final RealmPersistenceService persistenceService;
     private final RealmFactory realmFactory;
-    private final DefinitionsService definitionsService;
     private final ApplicationEventPublisher eventPublisher;
 
     @CacheEvict(value = "realms", key = "#realm")
     @Override
     public Realm createRealm(String realm) throws RealmAlreadyExistsException {
-        getRealm(realm).ifPresent(existingRealm -> {
-            throw new RealmAlreadyExistsException(existingRealm);
-        });
+        if (persistenceService.existsRealm(realm)) {
+            throw new RealmAlreadyExistsException();
+        }
 
         Realm newRealm = realmFactory.createRealm(realm);
         persistenceService.saveRealm(newRealm);
@@ -43,8 +41,6 @@ public class RealmServiceImpl implements RealmService {
     public void deleteRealm(Realm realm) throws RealmNotExistsException {
         realm.requireExists();
 
-        // Remove linked definitions
-        definitionsService.setDefinitions(realm, null);
         persistenceService.deleteRealm(realm.getName());
 
         eventPublisher.publishEvent(new RealmDeletedEvent(realm));

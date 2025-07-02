@@ -3,7 +3,6 @@ package me.zort.acs.plane.http.controller.api;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
-import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.http.mapper.HttpFormatMapper;
 import me.zort.acs.plane.api.http.mapper.HttpToDomainMapper;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api")
 @Controller
 public class ApiDefinitionsController {
-    private final DefinitionsService definitionsService;
     private final HttpFormatMapper formatMapper;
     private final HttpToDomainMapper<String, Realm> realmMapper;
 
@@ -27,7 +25,7 @@ public class ApiDefinitionsController {
         DefinitionsFormat format = formatMapper.fromMimeType(acceptHeader);
         Realm realmObj = realmMapper.toDomain(realm);
 
-        DefinitionsModel model = definitionsService.getDefinitions(realmObj);
+        DefinitionsModel model = realmObj.getDefinitionsModel();
 
         return format.toStringModel(model);
     }

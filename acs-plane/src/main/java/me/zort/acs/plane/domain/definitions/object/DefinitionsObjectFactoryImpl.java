@@ -1,8 +1,9 @@
-package me.zort.acs.plane.domain.definitions;
+package me.zort.acs.plane.domain.definitions.object;
 
 import me.zort.acs.core.domain.definitions.model.*;
 import me.zort.acs.plane.api.domain.definitions.DefinitionsObjectFactory;
-import me.zort.acs.plane.domain.definitions.model.*;
+import me.zort.acs.plane.domain.definitions.object.model.*;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class DefinitionsObjectFactoryImpl implements DefinitionsObjectFactory {
         return new PlaneDefaultGrantsDefinitionModel(accessorType, accessedType, new ArrayList<>(), new ArrayList<>());
     }
 
+    @Cacheable(value = "definitionsObjectFactory-nodeModels", key = "#value")
     @Override
     public NodeDefinitionModel createNodeModel(String value) {
         return new PlaneNodeDefinitionModel(value);

@@ -9,4 +9,6 @@ public interface RealmPersistenceService {
     void deleteRealm(String id);
 
     Optional<Realm> getRealm(String id);
+
+    boolean existsRealm(String id);
 }

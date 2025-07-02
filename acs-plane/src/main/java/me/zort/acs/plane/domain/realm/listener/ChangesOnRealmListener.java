@@ -1,5 +1,6 @@
-package me.zort.acs.plane.domain.realm;
+package me.zort.acs.plane.domain.realm.listener;
 
+import me.zort.acs.plane.domain.realm.RealmImpl;
 import me.zort.acs.plane.domain.realm.event.RealmCreatedEvent;
 import me.zort.acs.plane.domain.realm.event.RealmDeletedEvent;
 import org.springframework.context.event.EventListener;

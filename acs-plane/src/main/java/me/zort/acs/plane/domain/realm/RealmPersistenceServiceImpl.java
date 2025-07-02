@@ -2,7 +2,7 @@ package me.zort.acs.plane.domain.realm;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
-import me.zort.acs.plane.data.realm.RealmEntity;
+import me.zort.acs.plane.data.definitions.model.RealmModel;
 import me.zort.acs.plane.api.data.realm.RealmRepository;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmPersistenceService;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class RealmPersistenceServiceImpl implements RealmPersistenceService {
     private final RealmRepository realmRepository;
-    private final DomainModelMapper<Realm, RealmEntity> realmMapper;
+    private final DomainModelMapper<Realm, RealmModel> realmMapper;
 
     @CachePut(value = "realms", key = "#realm.name", condition = "#realm != null")
     @Override
@@ -40,5 +40,10 @@ public class RealmPersistenceServiceImpl implements RealmPersistenceService {
     @Override
     public Optional<Realm> getRealm(String id) {
         return realmRepository.findById(id).map(realmMapper::toDomain);
+    }
+
+    @Override
+    public boolean existsRealm(String id) {
+        return realmRepository.existsById(id);
     }
 }

@@ -1,4 +1,4 @@
-package me.zort.acs.plane.domain.definitions.model;
+package me.zort.acs.plane.domain.definitions.object.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

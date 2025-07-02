@@ -1,4 +1,4 @@
-package me.zort.acs.plane.domain.definitions;
+package me.zort.acs.plane.domain.definitions.object;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.ObjectCloner;
@@ -6,6 +6,7 @@ import me.zort.acs.core.domain.definitions.model.DefaultGrantsDefinitionModel;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
+import me.zort.acs.plane.api.domain.definitions.DefinitionsObjectCloner;
 import me.zort.acs.plane.api.domain.definitions.DefinitionsObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
-public class DefinitionsObjectCloner implements ObjectCloner<DefinitionsModel> {
+public class DefinitionsObjectClonerImpl implements DefinitionsObjectCloner {
     private final DefinitionsObjectFactory objectFactory;
 
     @Override
@@ -27,6 +28,17 @@ public class DefinitionsObjectCloner implements ObjectCloner<DefinitionsModel> {
         cloneAndPopulateWithSubjectTypes(model, cloned, subjectTypesRegistry);
         cloneAndPopulateWithDefaultGrants(model, cloned, subjectTypesRegistry);
         return cloned;
+    }
+
+    @Override
+    public void copyInto(DefinitionsModel source, DefinitionsModel target) {
+        source = cloneObject(source);
+
+        target.getSubjectTypes().clear();
+        target.getDefaultGrants().clear();
+
+        target.getSubjectTypes().addAll(source.getSubjectTypes());
+        target.getDefaultGrants().addAll(source.getDefaultGrants());
     }
 
     private void cloneAndPopulateWithSubjectTypes(
