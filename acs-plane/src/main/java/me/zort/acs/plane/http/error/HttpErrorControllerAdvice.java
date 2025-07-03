@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.http.error.HttpError;
 import me.zort.acs.plane.http.dto.error.ErrorModel;
+import me.zort.acs.plane.http.error.exception.PanelNoDefaultRealmException;
 import me.zort.acs.plane.http.util.PathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -46,5 +47,11 @@ public class HttpErrorControllerAdvice {
         }
 
         return null;
+    }
+
+    @ExceptionHandler(PanelNoDefaultRealmException.class)
+    public ModelAndView handlePanelNoDefaultRealmException(
+            PanelNoDefaultRealmException e, HttpServletRequest request, HttpServletResponse response) {
+        // TODO: Redirectovat na vytvoření realmu
     }
 }
