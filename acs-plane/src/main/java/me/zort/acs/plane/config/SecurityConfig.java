@@ -1,5 +1,6 @@
 package me.zort.acs.plane.config;
 
+import me.zort.acs.plane.http.util.PathUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +18,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // Authentication
                 .authorizeHttpRequests(reg -> reg
-                        .requestMatchers("/panel/**", "/api/**").permitAll()
+                        .requestMatchers(PathUtils.PANEL_PATH_PATTERN, PathUtils.API_PATH_PATTERN, "/error").permitAll()
                         .anyRequest().authenticated())
                 .build();
     }

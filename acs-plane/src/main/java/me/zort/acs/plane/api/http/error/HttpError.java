@@ -8,6 +8,10 @@ public class HttpError extends RuntimeException {
     private final int statusCode;
     private final String message;
 
+    public HttpError(HttpError error) {
+        this(error.getStatusCode(), error.getMessage());
+    }
+
     public HttpError(int statusCode, String message) {
         super(message);
         this.statusCode = statusCode;

@@ -1,9 +1,11 @@
 package me.zort.acs.plane.http.dto.error;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.zort.acs.plane.api.http.error.HttpError;
 
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorModel {
@@ -14,5 +16,4 @@ public class ErrorModel {
         this.status = error.getStatusCode();
         this.message = error.getMessage();
     }
-
 }

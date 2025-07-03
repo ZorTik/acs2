@@ -71,4 +71,12 @@ public class Result<T> {
 
         return value;
     }
+
+    public T orApiError(Function<HttpError, ? extends HttpError> errorMapper) {
+        if (isError()) {
+            throw errorMapper.apply(error);
+        }
+
+        return value;
+    }
 }

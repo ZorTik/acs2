@@ -2,11 +2,11 @@ package me.zort.acs.plane.http.internal.resolver;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.realm.Realm;
+import me.zort.acs.plane.http.internal.WebRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -16,6 +16,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class RealmArgumentResolver implements HandlerMethodArgumentResolver {
     private final Converter<String, Realm> realmConverter;
+    private final WebRequestService webRequestService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -25,13 +26,10 @@ public class RealmArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(
             MethodParameter parameter,
-            ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest,
-            WebDataBinderFactory binderFactory) throws MissingServletRequestParameterException {
-        String realmName = webRequest.getParameter("realm");
-        if (realmName == null) {
-            throw new MissingServletRequestParameterException("realm", "String");
-        }
+            ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+        String realmName = webRequestService.getRequiredParameter(webRequest, "realm");
+
+        // TODO: Pokud chyba, tak redirectnout na správný realm
 
         return realmConverter.convert(realmName);
     }
