@@ -24,7 +24,7 @@ public class DefinitionsController {
 
     @PostMapping("/raw")
     public String rawDefinitionsPost(@RequestParam String definitions, Realm realm, Model model) {
-        Result<Void> result = definitionsFacade.setDefinitions(realm, definitions, DefinitionsFormat.YAML);
+        Result<Void> result = definitionsFacade.setDefinitions(realm, definitions, "application/x-yaml");
         errorPropagator.propagateErrorToModel(result.getError(), model);
 
         return rawDefinitionsGet(realm, model);

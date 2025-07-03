@@ -1,6 +1,7 @@
 package me.zort.acs.plane.http.controller.api;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ public class ApiDefinitionsController {
     private final DefinitionsFacade definitionsFacade;
 
     @GetMapping("/realm/{realm}/definitions/v1")
-    public String definitionsGet(@RequestHeader("Accept") String acceptHeader, @PathVariable String realm) {
+    public String definitionsGet(@RequestHeader("Accept") String acceptHeader, @PathVariable Realm realm) {
         return definitionsFacade.getDefinitions(realm, acceptHeader).orApiError();
     }
 }

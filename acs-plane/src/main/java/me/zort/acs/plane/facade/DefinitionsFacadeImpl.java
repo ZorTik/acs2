@@ -9,7 +9,6 @@ import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
 import me.zort.acs.plane.api.http.mapper.HttpFormatMapper;
-import me.zort.acs.plane.api.http.mapper.HttpToDomainMapper;
 import me.zort.acs.plane.facade.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,35 +23,39 @@ import java.nio.charset.StandardCharsets;
 public class DefinitionsFacadeImpl implements DefinitionsFacade {
     private final DefinitionsService definitionsService;
     private final HttpFormatMapper formatMapper;
-    private final HttpToDomainMapper<String, Realm> realmMapper;
 
     @Override
-    public Result<Void> setDefinitions(Realm realm, String definitions, DefinitionsFormat format) {
-        DefinitionsModel model;
-        try (InputStream in = new ByteArrayInputStream(definitions.getBytes(StandardCharsets.UTF_8))) {
-            model = format.parseModel(in);
-        } catch (DefinitionsParseException e) {
-            return Result.error(400, e.getMessage());
-        } catch (IOException e) {
-            return Result.error(500, "Failed to read definitions: " + e.getMessage());
-        }
+    public Result<Void> setDefinitions(Realm realm, String definitions, String formatMimeType) {
+        return formatMapper
+                .fromMimeType(formatMimeType).or(DefinitionsFormat.YAML)
+                .flatMap(format -> {
+                    DefinitionsModel model;
+                    try (InputStream in = new ByteArrayInputStream(definitions.getBytes(StandardCharsets.UTF_8))) {
+                        model = format.parseModel(in);
+                    } catch (DefinitionsParseException e) {
+                        return Result.error(400, e.getMessage());
+                    } catch (IOException e) {
+                        return Result.error(500, "Failed to read definitions: " + e.getMessage());
+                    }
 
-        try {
-            definitionsService.setDefinitions(realm, model);
-        } catch (InvalidDefinitionsException e) {
-            return Result.error(400, "Invalid definitions. " + e.getMessage());
-        }
+                    try {
+                        definitionsService.setDefinitions(realm, model);
+                    } catch (InvalidDefinitionsException e) {
+                        return Result.error(400, "Invalid definitions. " + e.getMessage());
+                    }
 
-        return Result.ok();
+                    return Result.ok();
+                });
     }
 
     @Override
-    public Result<String> getDefinitions(String realmName, String formatMimeType) {
-        return formatMapper.fromMimeType(formatMimeType).or(DefinitionsFormat.YAML)
-                .flatMap(format -> realmMapper.toDomain(realmName).map(realm -> {
+    public Result<String> getDefinitions(Realm realm, String formatMimeType) {
+        return formatMapper
+                .fromMimeType(formatMimeType).or(DefinitionsFormat.YAML)
+                .map(format -> {
                     DefinitionsModel model = realm.getDefinitionsModel();
 
                     return format.toStringModel(model);
-                }));
+                });
     }
 }
