@@ -6,12 +6,11 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.http.error.HttpError;
 import me.zort.acs.plane.http.dto.error.ErrorModel;
 import me.zort.acs.plane.http.error.exception.PanelNoDefaultRealmException;
-import me.zort.acs.plane.http.util.PathUtils;
+import me.zort.acs.plane.http.internal.service.PathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,26 +18,35 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @ControllerAdvice
 public class HttpErrorControllerAdvice {
-    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
-
     private final HttpMessageConverter<Object> messageConverter;
+    private final PathService pathService;
 
+    /**
+     * Handles HttpError exceptions and returns an appropriate response based on the request path group.
+     *
+     * @param error the HttpError to handle
+     * @param request the request
+     * @param response the response
+     * @return a ModelAndView for panel errors, or null for API errors
+     */
     @ExceptionHandler(HttpError.class)
     public ModelAndView handleHttpError(HttpError error, HttpServletRequest request, HttpServletResponse response) {
         try {
             ErrorModel errorModel = new ErrorModel(error);
 
             // Panel or API error handling
-            if (PATH_MATCHER.match(PathUtils.PANEL_PATH_PATTERN, request.getRequestURI())) {
-                ModelAndView maw = new ModelAndView();
-                maw.setViewName("error");
-                maw.addObject("error", errorModel);
+            switch (pathService.getPathGroup(request.getRequestURI())) {
+                case PANEL:
+                    ModelAndView maw = new ModelAndView();
+                    maw.setViewName("error");
+                    maw.addObject("error", errorModel);
 
-                return maw;
-            } else {
-                response.setStatus(error.getStatusCode());
-                response.setContentType("application/json");
-                messageConverter.write(errorModel, MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
+                    return maw;
+                case API:
+                    response.setStatus(error.getStatusCode());
+                    response.setContentType("application/json");
+                    messageConverter.write(
+                            errorModel, MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -49,9 +57,14 @@ public class HttpErrorControllerAdvice {
         return null;
     }
 
+    /**
+     * Handles PanelNoDefaultRealmException and redirects to the realm creation page.
+     * This should occur only in the panel endpoints.
+     *
+     * @return a redirect to the realm creation page
+     */
     @ExceptionHandler(PanelNoDefaultRealmException.class)
-    public ModelAndView handlePanelNoDefaultRealmException(
-            PanelNoDefaultRealmException e, HttpServletRequest request, HttpServletResponse response) {
-        // TODO: Redirectovat na vytvoření realmu
+    public String handlePanelNoDefaultRealmException() {
+        return "redirect:/realms/create";
     }
 }

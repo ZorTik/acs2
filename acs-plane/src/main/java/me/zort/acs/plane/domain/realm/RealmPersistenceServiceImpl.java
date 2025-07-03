@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -45,5 +46,13 @@ public class RealmPersistenceServiceImpl implements RealmPersistenceService {
     @Override
     public boolean existsRealm(String id) {
         return realmRepository.existsById(id);
+    }
+
+    // TODO: Předělat cachování pouze na definice a odstranit caching realmů
+    @Override
+    public List<Realm> getAllRealms() {
+        return realmRepository.findAll()
+                .stream()
+                .map(realmMapper::toDomain).toList();
     }
 }

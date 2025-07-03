@@ -18,6 +18,6 @@ public class ApiDefinitionsController {
 
     @GetMapping("/realm/{realm}/definitions/v1")
     public String definitionsGet(@RequestHeader("Accept") String acceptHeader, @PathVariable Realm realm) {
-        return definitionsFacade.getDefinitions(realm, acceptHeader).orApiError();
+        return definitionsFacade.getDefinitions(realm, acceptHeader).orError();
     }
 }

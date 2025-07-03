@@ -15,6 +15,6 @@ public class RealmConverter implements Converter<String, Realm> {
 
     @Override
     public Realm convert(@NotNull String realmName) {
-        return httpRealmMapper.toDomain(realmName).orApiError();
+        return httpRealmMapper.toDomain(realmName).orError();
     }
 }

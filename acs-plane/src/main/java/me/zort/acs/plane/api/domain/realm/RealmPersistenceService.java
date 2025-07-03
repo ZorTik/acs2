@@ -1,5 +1,6 @@
 package me.zort.acs.plane.api.domain.realm;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -37,4 +38,6 @@ public interface RealmPersistenceService {
      * @return {@code true} if the realm exists, {@code false} otherwise
      */
     boolean existsRealm(String id);
+
+    List<Realm> getAllRealms();
 }

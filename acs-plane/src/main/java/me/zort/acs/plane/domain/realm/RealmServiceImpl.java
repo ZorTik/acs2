@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -47,5 +48,10 @@ public class RealmServiceImpl implements RealmService {
     @Override
     public Optional<Realm> getRealm(String realm) {
         return persistenceService.getRealm(realm);
+    }
+
+    @Override
+    public List<Realm> getAllRealms() {
+        return persistenceService.getAllRealms();
     }
 }
