@@ -1,5 +1,6 @@
 package me.zort.acs.plane.http.controller.panel;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.facade.RealmsFacade;
 import me.zort.acs.plane.api.http.error.HttpErrorPropagator;
@@ -21,7 +22,7 @@ public class RealmsController {
     private final HttpErrorPropagator errorPropagator;
 
     @PostMapping("/create")
-    public String createRealmPost(@ModelAttribute RealmsCreateForm form, Model model) {
+    public String createRealmPost(@ModelAttribute @Valid RealmsCreateForm form, Model model) {
         String name = form.getName();
         Result<Void> result = realmsFacade.createRealm(name);
         if (result.isError()) {

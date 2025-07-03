@@ -3,6 +3,7 @@ package me.zort.acs.plane.http.error;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.zort.acs.plane.api.http.error.HttpError;
 import me.zort.acs.plane.http.dto.error.ErrorModel;
 import me.zort.acs.plane.http.error.exception.PanelNoDefaultRealmException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @ControllerAdvice
 public class HttpErrorControllerAdvice {
@@ -24,13 +26,22 @@ public class HttpErrorControllerAdvice {
     /**
      * Handles HttpError exceptions and returns an appropriate response based on the request path group.
      *
-     * @param error the HttpError to handle
+     * @param e the Exception to handle (possibly an HttpError)
      * @param request the request
      * @param response the response
      * @return a ModelAndView for panel errors, or null for API errors
      */
-    @ExceptionHandler(HttpError.class)
-    public ModelAndView handleHttpError(HttpError error, HttpServletRequest request, HttpServletResponse response) {
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleHttpError(Exception e, HttpServletRequest request, HttpServletResponse response) {
+        HttpError error;
+        if (e instanceof HttpError httpError) {
+            error = httpError;
+        } else {
+            error = new HttpError(500, "Internal Server Error");
+
+            log.error("Unhandled exception occurred", e);
+        }
+
         try {
             ErrorModel errorModel = new ErrorModel(error);
 
@@ -48,7 +59,7 @@ public class HttpErrorControllerAdvice {
                     messageConverter.write(
                             errorModel, MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
             }
-        } catch (Exception e) {
+        } catch (Exception e1) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
             response.setContentLength(0);
