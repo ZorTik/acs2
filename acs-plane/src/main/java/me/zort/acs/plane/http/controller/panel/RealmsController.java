@@ -11,14 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequestMapping("/panel/realms")
 @Controller
 public class RealmsController {
     private final RealmsFacade realmsFacade;
     private final HttpErrorPropagator errorPropagator;
 
-    @PostMapping("/realms/create")
+    @PostMapping("/create")
     public String createRealmPost(@ModelAttribute RealmsCreateForm form, Model model) {
         String name = form.getName();
         Result<Void> result = realmsFacade.createRealm(name);
@@ -31,7 +33,7 @@ public class RealmsController {
         return "redirect:/panel/definitions/raw?realm=" + name;
     }
 
-    @GetMapping("/realms/create")
+    @GetMapping("/create")
     public String createRealmGet() {
         return "realms/create";
     }

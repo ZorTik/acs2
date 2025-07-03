@@ -65,6 +65,6 @@ public class HttpErrorControllerAdvice {
      */
     @ExceptionHandler(PanelNoDefaultRealmException.class)
     public String handlePanelNoDefaultRealmException() {
-        return "redirect:/realms/create";
+        return "redirect:/panel/realms/create";
     }
 }
