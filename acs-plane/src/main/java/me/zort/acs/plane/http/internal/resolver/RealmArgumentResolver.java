@@ -50,9 +50,7 @@ public class RealmArgumentResolver implements HandlerMethodArgumentResolver {
             return null;
         }
 
-        /*
-            Panel realm resolving logic.
-         */
+        // A panel resolving logic is only applied to panel paths
         if (pathService.getPathGroup(request.getRequestURI()) == PathService.PathGroup.PANEL) {
             String realmName = webRequest.getParameter("realm");
 
