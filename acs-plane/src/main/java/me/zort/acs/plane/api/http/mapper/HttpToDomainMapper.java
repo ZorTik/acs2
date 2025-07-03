@@ -1,6 +1,6 @@
 package me.zort.acs.plane.api.http.mapper;
 
-import java.util.Optional;
+import me.zort.acs.plane.facade.util.Result;
 
 public interface HttpToDomainMapper<H, D> {
 
@@ -10,5 +10,5 @@ public interface HttpToDomainMapper<H, D> {
      * @param http the HTTP dto object to convert
      * @return the converted domain object or an empty Optional if the conversion failed
      */
-    Optional<D> toDomain(H http);
+    Result<D> toDomain(H http);
 }

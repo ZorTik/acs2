@@ -8,10 +8,8 @@ import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
-import me.zort.acs.plane.api.http.exception.HttpUnknownDefinitionsFormatException;
 import me.zort.acs.plane.api.http.mapper.HttpFormatMapper;
 import me.zort.acs.plane.api.http.mapper.HttpToDomainMapper;
-import me.zort.acs.plane.facade.util.CommonResults;
 import me.zort.acs.plane.facade.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -35,7 +32,7 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
         try (InputStream in = new ByteArrayInputStream(definitions.getBytes(StandardCharsets.UTF_8))) {
             model = format.parseModel(in);
         } catch (DefinitionsParseException e) {
-            return Result.error(400, "Invalid definitions format: " + e.getMessage());
+            return Result.error(400, e.getMessage());
         } catch (IOException e) {
             return Result.error(500, "Failed to read definitions: " + e.getMessage());
         }
@@ -43,7 +40,7 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
         try {
             definitionsService.setDefinitions(realm, model);
         } catch (InvalidDefinitionsException e) {
-            return Result.error(400, "Invalid definitions: " + e.getMessage());
+            return Result.error(400, "Invalid definitions. " + e.getMessage());
         }
 
         return Result.ok();
@@ -51,21 +48,11 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
 
     @Override
     public Result<String> getDefinitions(String realmName, String formatMimeType) {
-        DefinitionsFormat format;
-        try {
-            format = formatMapper.fromMimeType(formatMimeType);
-        } catch (HttpUnknownDefinitionsFormatException e) {
-            return Result.error(e);
-        }
+        return formatMapper.fromMimeType(formatMimeType).or(DefinitionsFormat.YAML)
+                .flatMap(format -> realmMapper.toDomain(realmName).map(realm -> {
+                    DefinitionsModel model = realm.getDefinitionsModel();
 
-        Optional<Realm> realmOptional = realmMapper.toDomain(realmName);
-        if (realmOptional.isEmpty()) {
-            return CommonResults.realmNotFound(realmName);
-        }
-
-        DefinitionsModel model = realmOptional.get().getDefinitionsModel();
-        String value = format.toStringModel(model);
-
-        return Result.ok(value);
+                    return format.toStringModel(model);
+                }));
     }
 }

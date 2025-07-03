@@ -65,6 +65,7 @@ services:
       - /home/gradle/project/build
     ports:
       - "8081:8080"
+      - "5006:5005"
     depends_on:
       - db-plane
       - redis

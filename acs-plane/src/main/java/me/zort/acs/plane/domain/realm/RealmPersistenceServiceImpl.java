@@ -36,7 +36,7 @@ public class RealmPersistenceServiceImpl implements RealmPersistenceService {
         realmRepository.deleteById(id);
     }
 
-    @Cacheable(value = "realms", key = "#id", condition = "#result.present")
+    @Cacheable(value = "realms", key = "#id", unless = "#result == null")
     @Override
     public Optional<Realm> getRealm(String id) {
         return realmRepository.findById(id).map(realmMapper::toDomain);

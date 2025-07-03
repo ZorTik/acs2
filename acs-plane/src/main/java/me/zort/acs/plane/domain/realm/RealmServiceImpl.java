@@ -10,7 +10,6 @@ import me.zort.acs.plane.api.domain.realm.exception.RealmNotExistsException;
 import me.zort.acs.plane.domain.realm.event.RealmCreatedEvent;
 import me.zort.acs.plane.domain.realm.event.RealmDeletedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,6 @@ public class RealmServiceImpl implements RealmService {
     private final RealmFactory realmFactory;
     private final ApplicationEventPublisher eventPublisher;
 
-    @CacheEvict(value = "realms", key = "#realm")
     @Override
     public Realm createRealm(String realm) throws RealmAlreadyExistsException {
         if (persistenceService.existsRealm(realm)) {
