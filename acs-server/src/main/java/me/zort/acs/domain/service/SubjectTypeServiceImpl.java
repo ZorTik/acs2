@@ -76,7 +76,6 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
     public List<SubjectType> getSubjectTypes() {
         return subjectTypeRepository.findAll()
                 .stream()
-                .map(subjectTypeMapper::toDomain)
-                .toList();
+                .map(subjectTypeMapper::toDomain).toList();
     }
 }
