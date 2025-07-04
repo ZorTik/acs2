@@ -1,12 +1,20 @@
 spring:
   application:
     name: acs-plane
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${DATASOURCE_HOST}:${DATASOURCE_PORT:3306}/${DATASOURCE_DB}
-    username: ${DATASOURCE_USR}
-    password: ${DATASOURCE_PWD}
   data:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
+    mongodb:
+      uri: mongodb://${MONGODB_HOST:localhost}:${MONGODB_PORT:27017}/${MONGODB_DB:acs-plane}
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    cache: false
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /error

@@ -1,22 +1,20 @@
 package me.zort.acs.plane.domain.realm;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.plane.api.domain.realm.Realm;
 
+@EqualsAndHashCode
+@ToString
 public class RealmImpl implements Realm {
     @Getter
     private final String name;
-
     @Setter
-    private boolean exists;
+    @Getter
+    private DefinitionsModel definitionsModel;
 
-    protected RealmImpl(String name) {
+    protected RealmImpl(String name, DefinitionsModel definitionsModel) {
         this.name = name;
-    }
-
-    @Override
-    public boolean exists() {
-        return exists;
+        this.definitionsModel = definitionsModel;
     }
 }

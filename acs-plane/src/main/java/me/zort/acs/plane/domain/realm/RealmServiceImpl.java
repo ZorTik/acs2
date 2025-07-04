@@ -1,7 +1,6 @@
 package me.zort.acs.plane.domain.realm;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmFactory;
 import me.zort.acs.plane.api.domain.realm.RealmPersistenceService;
@@ -11,10 +10,10 @@ import me.zort.acs.plane.api.domain.realm.exception.RealmNotExistsException;
 import me.zort.acs.plane.domain.realm.event.RealmCreatedEvent;
 import me.zort.acs.plane.domain.realm.event.RealmDeletedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -22,15 +21,13 @@ import java.util.Optional;
 public class RealmServiceImpl implements RealmService {
     private final RealmPersistenceService persistenceService;
     private final RealmFactory realmFactory;
-    private final DefinitionsService definitionsService;
     private final ApplicationEventPublisher eventPublisher;
 
-    @CacheEvict(value = "realms", key = "#realm")
     @Override
     public Realm createRealm(String realm) throws RealmAlreadyExistsException {
-        getRealm(realm).ifPresent(existingRealm -> {
-            throw new RealmAlreadyExistsException(existingRealm);
-        });
+        if (persistenceService.existsRealm(realm)) {
+            throw new RealmAlreadyExistsException();
+        }
 
         Realm newRealm = realmFactory.createRealm(realm);
         persistenceService.saveRealm(newRealm);
@@ -41,10 +38,10 @@ public class RealmServiceImpl implements RealmService {
 
     @Override
     public void deleteRealm(Realm realm) throws RealmNotExistsException {
-        realm.requireExists();
+        if (!persistenceService.existsRealm(realm.getName())) {
+            throw new RealmNotExistsException(realm.getName());
+        }
 
-        // Remove linked definitions
-        definitionsService.setDefinitions(realm, null);
         persistenceService.deleteRealm(realm.getName());
 
         eventPublisher.publishEvent(new RealmDeletedEvent(realm));
@@ -53,5 +50,10 @@ public class RealmServiceImpl implements RealmService {
     @Override
     public Optional<Realm> getRealm(String realm) {
         return persistenceService.getRealm(realm);
+    }
+
+    @Override
+    public List<Realm> getAllRealms() {
+        return persistenceService.getAllRealms();
     }
 }

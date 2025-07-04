@@ -1,8 +1,11 @@
 package me.zort.acs.plane.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
-import me.zort.acs.plane.data.realm.RealmEntity;
+import me.zort.acs.plane.api.domain.definitions.DefinitionsObjectCloner;
+import me.zort.acs.plane.api.domain.mapper.DefinitionsMapper;
+import me.zort.acs.plane.data.definitions.model.RealmDocument;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +13,27 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
-public class DomainRealmMapper implements DomainModelMapper<Realm, RealmEntity> {
+public class DomainRealmMapper implements DomainModelMapper<Realm, RealmDocument> {
     private final RealmFactory realmFactory;
+    private final DefinitionsObjectCloner definitionsObjectCloner;
+    private final DefinitionsMapper definitionsMapper;
 
     @Override
-    public Realm toDomain(RealmEntity persistence) {
-        return realmFactory.createRealm(persistence.getId());
+    public Realm toDomain(RealmDocument entity) {
+        Realm realm = realmFactory.createRealm(entity.getId());
+
+        DefinitionsModel definitions = definitionsMapper.toDomain(entity);
+        definitionsObjectCloner.copyInto(definitions, realm.getDefinitionsModel());
+
+        return realm;
     }
 
     @Override
-    public RealmEntity toPersistence(Realm domain) {
-        RealmEntity entity = new RealmEntity();
+    public RealmDocument toPersistence(Realm domain) {
+        RealmDocument entity = new RealmDocument();
         entity.setId(domain.getName());
+
+        definitionsMapper.toPersistence(domain.getDefinitionsModel(), entity);
 
         return entity;
     }

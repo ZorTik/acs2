@@ -1,12 +1,8 @@
 package me.zort.acs.plane.http.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
-import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
-import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
-import me.zort.acs.plane.api.http.mapper.HttpFormatMapper;
-import me.zort.acs.plane.api.http.mapper.HttpToDomainMapper;
+import me.zort.acs.plane.api.facade.DefinitionsFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api")
 @Controller
 public class ApiDefinitionsController {
-    private final DefinitionsService definitionsService;
-    private final HttpFormatMapper formatMapper;
-    private final HttpToDomainMapper<String, Realm> realmMapper;
+    private final DefinitionsFacade definitionsFacade;
 
     @GetMapping("/realm/{realm}/definitions/v1")
-    public String definitions(@RequestHeader("Accept") String acceptHeader, @PathVariable String realm) {
-        DefinitionsFormat format = formatMapper.fromMimeType(acceptHeader);
-        Realm realmObj = realmMapper.toDomain(realm);
-
-        DefinitionsModel model = definitionsService.getDefinitions(realmObj);
-
-        return format.toStringModel(model);
+    public String definitionsGet(@RequestHeader("Accept") String acceptHeader, @PathVariable Realm realm) {
+        return definitionsFacade.getDefinitions(realm, acceptHeader).orError();
     }
 }
