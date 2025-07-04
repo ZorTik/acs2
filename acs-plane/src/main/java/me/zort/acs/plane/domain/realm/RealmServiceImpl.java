@@ -38,7 +38,9 @@ public class RealmServiceImpl implements RealmService {
 
     @Override
     public void deleteRealm(Realm realm) throws RealmNotExistsException {
-        realm.requireExists();
+        if (!persistenceService.existsRealm(realm.getName())) {
+            throw new RealmNotExistsException(realm.getName());
+        }
 
         persistenceService.deleteRealm(realm.getName());
 

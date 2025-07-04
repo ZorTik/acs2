@@ -7,6 +7,7 @@ import me.zort.acs.core.domain.definitions.validation.DefinitionsValidator;
 import me.zort.acs.plane.api.domain.definitions.*;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmPersistenceService;
+import me.zort.acs.plane.api.domain.realm.exception.RealmNotExistsException;
 import me.zort.acs.plane.domain.definitions.event.DefinitionsSavedEvent;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private final RealmPersistenceService realmPersistenceService;
     private final ApplicationEventPublisher eventPublisher;
 
-    // TODO: Předělat na String realmName
     /**
-     * @see DefinitionsService#setDefinitions(Realm, DefinitionsModel)
+     * @see DefinitionsService#setDefinitions(String, DefinitionsModel)
      */
     @Override
-    public void setDefinitions(Realm realm, @Nullable DefinitionsModel model) throws InvalidDefinitionsException {
-        realm.requireExists();
+    public void setDefinitions(String realmName, @Nullable DefinitionsModel model) throws InvalidDefinitionsException {
+        Realm realm = realmPersistenceService.getRealm(realmName)
+                .orElseThrow(() -> new RealmNotExistsException(realmName));
 
         DefinitionsModel modelToSet;
         if (model == null) {

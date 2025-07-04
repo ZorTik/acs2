@@ -5,7 +5,7 @@ import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.plane.api.domain.realm.Realm;
 
 @EqualsAndHashCode
-@ToString(exclude = "exists")
+@ToString
 public class RealmImpl implements Realm {
     @Getter
     private final String name;
@@ -13,16 +13,8 @@ public class RealmImpl implements Realm {
     @Getter
     private DefinitionsModel definitionsModel;
 
-    @Setter
-    private boolean exists;
-
     protected RealmImpl(String name, DefinitionsModel definitionsModel) {
         this.name = name;
         this.definitionsModel = definitionsModel;
-    }
-
-    @Override
-    public boolean exists() {
-        return exists;
     }
 }

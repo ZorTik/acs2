@@ -21,7 +21,6 @@ public class RealmPersistenceServiceImpl implements RealmPersistenceService {
     private final RealmRepository realmRepository;
     private final DomainModelMapper<Realm, RealmDocument> realmMapper;
 
-    @CachePut(value = "realms", key = "#realm.name", condition = "#realm != null")
     @Override
     public void saveRealm(Realm realm) {
         if (realm == null) {
@@ -31,13 +30,11 @@ public class RealmPersistenceServiceImpl implements RealmPersistenceService {
         realmRepository.save(realmMapper.toPersistence(realm));
     }
 
-    @CacheEvict(value = "realms", key = "#id")
     @Override
     public void deleteRealm(String id) {
         realmRepository.deleteById(id);
     }
 
-    @Cacheable(value = "realms", key = "#id", unless = "#result == null")
     @Override
     public Optional<Realm> getRealm(String id) {
         return realmRepository.findById(id).map(realmMapper::toDomain);
@@ -48,7 +45,6 @@ public class RealmPersistenceServiceImpl implements RealmPersistenceService {
         return realmRepository.existsById(id);
     }
 
-    // TODO: Předělat cachování pouze na definice a odstranit caching realmů
     @Override
     public List<Realm> getAllRealms() {
         return realmRepository.findAll()

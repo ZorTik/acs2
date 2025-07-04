@@ -33,13 +33,6 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
                 .flatMap(model -> setDefinitionsModel(realm, model));
     }
 
-    @Override
-    public Result<String> getDefinitions(Realm realm, String formatMimeType) {
-        return formatMapper
-                .fromMimeType(formatMimeType).or(DefinitionsFormat.YAML)
-                .map(format -> format.toStringModel(realm.getDefinitionsModel()));
-    }
-
     private static @NotNull Result<DefinitionsModel> parseDefinitionsModel(
             String definitions, DefinitionsFormat format) {
         try (InputStream in = new ByteArrayInputStream(definitions.getBytes(StandardCharsets.UTF_8))) {
@@ -53,11 +46,18 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
 
     private @NotNull Result<Void> setDefinitionsModel(Realm realm, DefinitionsModel model) {
         try {
-            definitionsService.setDefinitions(realm, model);
+            definitionsService.setDefinitions(realm.getName(), model);
 
             return Result.ok();
         } catch (InvalidDefinitionsException e) {
             return Result.error(400, "Invalid definitions. " + e.getMessage());
         }
+    }
+
+    @Override
+    public Result<String> getDefinitions(Realm realm, String formatMimeType) {
+        return formatMapper
+                .fromMimeType(formatMimeType).or(DefinitionsFormat.YAML)
+                .map(format -> format.toStringModel(realm.getDefinitionsModel()));
     }
 }
