@@ -5,9 +5,9 @@
 </head>
     <body>
         <h1>Detail</h1>
-        <form>
+        <form method="post">
             <label>
-                <textarea th:text="${definitions}" />
+                <textarea th:text="${definitions}" name="definitions" />
             </label>
 
             <button type="submit">Save</button>
