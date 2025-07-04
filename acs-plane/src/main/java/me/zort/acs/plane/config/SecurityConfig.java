@@ -18,7 +18,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // Authentication
                 .authorizeHttpRequests(reg -> reg
-                        .requestMatchers(PathUtils.PANEL_PATH_PATTERN, PathUtils.API_PATH_PATTERN, "/error").permitAll()
+                        .requestMatchers(
+                                PathUtils.PANEL_PATH_PATTERN,
+                                PathUtils.API_PATH_PATTERN, "/error", "/actuator/**").permitAll()
                         .anyRequest().authenticated())
                 .build();
     }

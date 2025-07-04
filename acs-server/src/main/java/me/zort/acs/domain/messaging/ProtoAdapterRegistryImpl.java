@@ -1,4 +1,4 @@
-package me.zort.acs.messaging;
+package me.zort.acs.domain.messaging;
 
 import me.zort.acs.api.messaging.ProtoAdapterRegistry;
 import me.zort.acs.proto.ProtoAdapter;
