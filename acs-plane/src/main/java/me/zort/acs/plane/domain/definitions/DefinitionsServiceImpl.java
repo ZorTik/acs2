@@ -22,6 +22,7 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private final RealmPersistenceService realmPersistenceService;
     private final ApplicationEventPublisher eventPublisher;
 
+    // TODO: Předělat na String realmName
     /**
      * @see DefinitionsService#setDefinitions(Realm, DefinitionsModel)
      */

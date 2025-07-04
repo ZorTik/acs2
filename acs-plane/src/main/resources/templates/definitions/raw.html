@@ -5,15 +5,12 @@
 </head>
     <body>
         <h1>Detail</h1>
-        <div th:if="${raw}">
-            <p th:text="'ID: ' + ${raw.id}"></p>
-            <p th:text="'Název: ' + ${raw.name}"></p>
-            <p th:text="'Popis: ' + ${raw.description}"></p>
-            <p th:text="'Cena: ' + ${raw.price}"></p>
-            <p th:text="'Množství: ' + ${raw.quantity}"></p>
-        </div>
-        <div th:unless="${raw}">
-            <p>Žádné údaje k zobrazení.</p>
-        </div>
+        <form>
+            <label>
+                <textarea th:text="${definitions}" />
+            </label>
+
+            <button type="submit">Save</button>
+        </form>
     </body>
 </html>

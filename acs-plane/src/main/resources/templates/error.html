@@ -6,6 +6,8 @@
 <body>
 <h1>Error Occured</h1>
 <!--/*@thymesVar id="error" type="me.zort.acs.plane.http.dto.error.ErrorModel"*/-->
-<p th:text="'Error Message: ' + ${error.message}"></p>
+<p th:if="${error instanceof T(me.zort.acs.plane.http.dto.error.ErrorModel)}"
+   th:text="'Error Message: ' + ${error.message}">
+</p>
 </body>
 </html>

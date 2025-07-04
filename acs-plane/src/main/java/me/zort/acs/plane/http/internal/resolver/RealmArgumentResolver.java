@@ -68,6 +68,8 @@ public class RealmArgumentResolver implements HandlerMethodArgumentResolver {
                 // No default realm
                 throw new PanelNoDefaultRealmException();
             }
+
+            return realm;
         }
 
         // The group this path falls into does not have a realm resolving logic defined.
