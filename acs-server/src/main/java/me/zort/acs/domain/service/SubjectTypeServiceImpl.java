@@ -64,7 +64,7 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
 
     @Override
     public void deleteSubjectType(SubjectType subjectType) {
-        subjectTypeRepository.delete(subjectTypeMapper.toPersistence(subjectType));
+        subjectTypeRepository.deleteById(subjectType.getId());
     }
 
     @Override
