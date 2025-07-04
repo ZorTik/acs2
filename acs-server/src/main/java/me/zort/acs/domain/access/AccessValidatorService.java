@@ -18,6 +18,14 @@ public class AccessValidatorService {
     private final List<AccessRequestValidator> accessRequestValidators;
     private final MessageSource messageSource;
 
+    /**
+     * Validates if this access request is valid.
+     *
+     * @param from The subject checking access
+     * @param to The subject to which access is requested
+     * @param rightsHolder The rights holder for the access request
+     * @throws IllegalArgumentException if the access request is invalid
+     */
     public void validate(SubjectLike from, SubjectLike to, RightsHolder rightsHolder) throws IllegalArgumentException {
         for (AccessRequestValidator validator : accessRequestValidators) {
             String error = validator.validate(from, to, rightsHolder);

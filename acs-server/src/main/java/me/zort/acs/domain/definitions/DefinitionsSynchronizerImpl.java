@@ -44,16 +44,15 @@ public class DefinitionsSynchronizerImpl implements DefinitionsSynchronizer {
     }
 
     private void refreshSubjectTypes(DefinitionsModel model) {
+        List<SubjectTypeDefinitionModel> remoteTypes = model.getSubjectTypes();
         List<SubjectType> localTypes = subjectTypeService.getSubjectTypes();
-        model.getSubjectTypes().forEach(def -> {
-            String id = def.getId();
-
-            localTypes.removeIf(st -> st.getId().equals(id));
-
-            refreshSubjectType(def);
-        });
-
-        localTypes.forEach(subjectTypeService::deleteSubjectType);
+        localTypes
+                .stream()
+                .filter(subjectType -> remoteTypes
+                        .stream()
+                        .noneMatch(def -> def.getId().equals(subjectType.getId())))
+                .forEach(subjectTypeService::deleteSubjectType);
+        remoteTypes.forEach(this::refreshSubjectType);
     }
 
     private void refreshSubjectType(SubjectTypeDefinitionModel def) {
