@@ -29,7 +29,8 @@ public class NodeServiceImpl implements NodeService {
                     .value(value)
                     .build());
 
-            nodeRepository.save(nodeMapper.toPersistence(node));
+            NodeEntity saved = nodeRepository.save(nodeMapper.toPersistence(node));
+            node = nodeMapper.toDomain(saved);
 
             return node;
         });
