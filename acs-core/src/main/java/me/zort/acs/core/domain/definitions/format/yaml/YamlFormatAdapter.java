@@ -46,10 +46,14 @@ public class YamlFormatAdapter implements DefinitionsFormatAdapter {
         List<Object> nodes = new ArrayList<>();
         Map<String, Object> groups = new HashMap<>();
 
-        model.getNodes().forEach(node -> nodes.add(node.getValue()));
+        model.getNodes().forEach(node -> nodes.add(toStringNodeModel(node.getValue())));
         model.getGroups().forEach(group -> groups.put(group.getName(), toStringGroupModel(group)));
 
         return Map.of("nodes", nodes, "groups", groups);
+    }
+
+    private Map<String, Object> toStringNodeModel(String value) {
+        return Map.of("value", value);
     }
 
     private Map<String, Object> toStringGroupModel(GroupDefinitionModel model) {
