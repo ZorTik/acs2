@@ -21,9 +21,9 @@ import java.util.Optional;
 @Service
 public class SubjectServiceImpl implements SubjectService {
     private final SubjectRepository subjectRepository;
+    private final SubjectProvider subjectProvider;
     private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
     private final DomainToPersistenceMapper<Subject.Id, SubjectId> subjectIdMapper;
-    private final SubjectProvider subjectProvider;
 
     @Override
     public Subject createSubject(CreateSubjectArgs createArgs) {
