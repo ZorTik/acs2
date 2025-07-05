@@ -1,7 +1,7 @@
 package me.zort.acs.api.domain.access;
 
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;

@@ -1,7 +1,7 @@
-package me.zort.acs.messaging.listener;
+package me.zort.acs.domain.messaging.listener;
 
 import lombok.SneakyThrows;
-import me.zort.acs.api.domain.service.DefinitionsService;
+import me.zort.acs.api.domain.definitions.DefinitionsService;
 import me.zort.acs.config.properties.AcsRealmConfigurationProperties;
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.proto.plane.message.DefinitionsChangedMessage;

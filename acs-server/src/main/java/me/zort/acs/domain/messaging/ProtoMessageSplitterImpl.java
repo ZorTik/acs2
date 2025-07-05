@@ -1,4 +1,4 @@
-package me.zort.acs.messaging;
+package me.zort.acs.domain.messaging;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

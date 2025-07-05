@@ -6,10 +6,10 @@ import me.zort.acs.domain.model.Subject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DomainSubjectIdMapper implements DomainModelMapper<Subject, SubjectId> {
+public class DomainSubjectIdMapper implements DomainModelMapper<Subject.Id, SubjectId> {
 
     @Override
-    public SubjectId toPersistence(Subject domain) {
+    public SubjectId toPersistence(Subject.Id domain) {
         return new SubjectId(domain.getId(), domain.getSubjectTypeId());
     }
 }

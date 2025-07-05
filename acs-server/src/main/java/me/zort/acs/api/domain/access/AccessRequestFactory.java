@@ -2,7 +2,7 @@ package me.zort.acs.api.domain.access;
 
 import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import org.jetbrains.annotations.NotNull;
 
 public interface AccessRequestFactory {

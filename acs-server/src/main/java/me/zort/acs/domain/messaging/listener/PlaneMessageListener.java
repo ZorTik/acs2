@@ -1,4 +1,4 @@
-package me.zort.acs.messaging.listener;
+package me.zort.acs.domain.messaging.listener;
 
 import lombok.AllArgsConstructor;
 import me.zort.acs.api.messaging.listener.ConvertedMessageListener;

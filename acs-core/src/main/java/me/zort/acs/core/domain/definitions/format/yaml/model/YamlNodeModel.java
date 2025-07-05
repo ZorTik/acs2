@@ -1,9 +1,11 @@
 package me.zort.acs.core.domain.definitions.format.yaml.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.zort.acs.core.domain.definitions.model.NodeDefinitionModel;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class YamlNodeModel implements NodeDefinitionModel {

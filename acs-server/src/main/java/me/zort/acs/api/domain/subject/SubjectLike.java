@@ -1,4 +1,4 @@
-package me.zort.acs.api.domain.model;
+package me.zort.acs.api.domain.subject;
 
 import me.zort.acs.domain.model.SubjectType;
 

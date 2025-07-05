@@ -36,7 +36,8 @@ services:
       DATASOURCE_PORT: 3306
       DATASOURCE_DB: test
       REDIS_HOST: redis
-      ACS_DEFINITIONS_SOURCE: file:../example_definitions.yml
+      ACS_DEFINITIONS_SOURCE: "http://plane:8080/api/realm/test/definitions/v1"
+      ACS_REALM_NAME: test
     volumes:
       - .:/home/gradle/project
       - /home/gradle/project/.gradle
@@ -45,7 +46,10 @@ services:
       - "8080:8080"
       - "5005:5005"
     depends_on:
-      - db-app
+      plane:
+        condition: service_healthy
+      db-app:
+        condition: service_started
 
   plane:
     image: gradle:8.5-jdk17-alpine
@@ -66,6 +70,12 @@ services:
     ports:
       - "8081:8080"
       - "5006:5005"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
     depends_on:
       - db-plane
       - redis

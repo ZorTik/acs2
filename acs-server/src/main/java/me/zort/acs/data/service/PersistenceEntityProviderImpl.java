@@ -3,7 +3,7 @@ package me.zort.acs.data.service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.data.entity.AcsEntity;
+import me.zort.acs.core.data.entity.AcsEntity;
 import me.zort.acs.api.data.service.PersistenceEntityProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

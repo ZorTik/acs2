@@ -33,7 +33,7 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
                 .flatMap(model -> setDefinitionsModel(realm, model));
     }
 
-    private static @NotNull Result<DefinitionsModel> parseDefinitionsModel(
+    private static Result<DefinitionsModel> parseDefinitionsModel(
             String definitions, DefinitionsFormat format) {
         try (InputStream in = new ByteArrayInputStream(definitions.getBytes(StandardCharsets.UTF_8))) {
             return Result.ok(format.parseModel(in));
@@ -44,7 +44,7 @@ public class DefinitionsFacadeImpl implements DefinitionsFacade {
         }
     }
 
-    private @NotNull Result<Void> setDefinitionsModel(Realm realm, DefinitionsModel model) {
+    private Result<Void> setDefinitionsModel(Realm realm, DefinitionsModel model) {
         try {
             definitionsService.setDefinitions(realm.getName(), model);
 

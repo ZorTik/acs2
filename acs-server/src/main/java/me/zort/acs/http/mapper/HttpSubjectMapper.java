@@ -1,11 +1,12 @@
 package me.zort.acs.http.mapper;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.service.SubjectService;
+import me.zort.acs.api.domain.subject.CreateSubjectArgs;
+import me.zort.acs.api.domain.subject.SubjectService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.NullSubject;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
 import me.zort.acs.api.http.exception.ACSHttpException;
@@ -32,10 +33,13 @@ public class HttpSubjectMapper {
     public Subject toDomain(SubjectDto dto, boolean createIfAbsent) {
         SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
 
-        if (createIfAbsent && !service.existsSubject(type, dto.getId())) {
-            return service.createSubject(type, dto.getId());
+        Subject.Id id = Subject.id(dto.getId(), type);
+        if (createIfAbsent && !service.existsSubject(id)) {
+            return service.createSubject(CreateSubjectArgs.builder()
+                    .id(dto.getId())
+                    .subjectType(type).build());
         } else {
-            return service.getSubject(type, dto.getId())
+            return service.getSubject(id)
                     .orElseThrow(() -> exceptionProvider.createException(HttpException.SUBJECT_NOT_FOUND, null, dto.getId()));
         }
     }

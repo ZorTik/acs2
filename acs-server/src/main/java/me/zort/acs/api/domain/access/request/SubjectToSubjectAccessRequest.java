@@ -2,7 +2,7 @@ package me.zort.acs.api.domain.access.request;
 
 import lombok.Getter;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 
 @Getter
 public final class SubjectToSubjectAccessRequest implements AccessRequest {

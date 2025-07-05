@@ -3,7 +3,7 @@ package me.zort.acs.http.controller.v1;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.api.http.exception.HttpException;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.SubjectType;

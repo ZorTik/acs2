@@ -35,7 +35,7 @@ public class GrantServiceImpl implements GrantService {
     private final GrantProvider grantProvider;
     private final RightsHolderTypeRegistry rightsHolderTypeRegistry;
     private final DomainModelMapper<Grant, GrantEntity> grantMapper;
-    private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
+    private final DomainToPersistenceMapper<Subject.Id, SubjectId> subjectIdMapper;
     private final AccessValidatorService accessValidatorService;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -85,8 +85,8 @@ public class GrantServiceImpl implements GrantService {
 
     @Override
     public Optional<Grant> getGrant(Subject accessor, Subject accessed, RightsHolder rightsHolder) {
-        SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
-        SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
+        SubjectId accessorId = subjectIdMapper.toPersistence(Subject.id(accessor));
+        SubjectId accessedId = subjectIdMapper.toPersistence(Subject.id(accessed));
 
         return rightsHolderTypeRegistry.castAndCallAdapter(
                         rightsHolder,
@@ -98,8 +98,8 @@ public class GrantServiceImpl implements GrantService {
 
     @Override
     public List<Grant> getGrants(Subject accessor, Subject accessed) {
-        SubjectId accessorId = subjectIdMapper.toPersistence(accessor);
-        SubjectId accessedId = subjectIdMapper.toPersistence(accessed);
+        SubjectId accessorId = subjectIdMapper.toPersistence(Subject.id(accessor));
+        SubjectId accessedId = subjectIdMapper.toPersistence(Subject.id(accessed));
 
         return grantRepository.findAllBetween(accessorId, accessedId)
                 .stream()
@@ -109,6 +109,6 @@ public class GrantServiceImpl implements GrantService {
 
     @Override
     public int getGrantsCount(Subject accessor) {
-        return grantRepository.countByAccessorId(subjectIdMapper.toPersistence(accessor));
+        return grantRepository.countByAccessorId(subjectIdMapper.toPersistence(Subject.id(accessor)));
     }
 }
