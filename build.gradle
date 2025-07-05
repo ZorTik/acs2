@@ -37,3 +37,10 @@ allprojects {
         compileOnly project('acs-client:java')
     }
 }
+
+['examples:spring-user-system-relation'].each {
+    project(it).dependencies {
+        implementation project('acs-client:java')
+        implementation project('acs-spring-boot-starter')
+    }
+}
