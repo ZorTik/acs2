@@ -1,6 +1,6 @@
 package me.zort.acs.api.data.service;
 
-import me.zort.acs.api.data.entity.AcsEntity;
+import me.zort.acs.core.data.entity.AcsEntity;
 
 /**
  * Interface for providing persistence entities, supporting caching.

@@ -12,9 +12,11 @@ public interface SubjectTypeService {
 
     SubjectType createSubjectType(String id, CreateSubjectTypeOptions options) throws SubjectTypeAlreadyExistsException;
 
-    void assignSubjectTypeNodes(SubjectType subjectType, Collection<Node> nodes);
+    void assignNodes(String id, Collection<Node> nodes);
 
-    void deleteSubjectType(SubjectType subjectType);
+    void assignNodes(SubjectType subjectType, Collection<Node> nodes);
+
+    void deleteSubjectType(String id);
 
     Optional<SubjectType> getSubjectType(String id);
 

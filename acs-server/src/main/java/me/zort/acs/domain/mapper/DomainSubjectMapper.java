@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.service.PersistenceEntityProvider;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
-import me.zort.acs.core.domain.mapper.PersistenceToDomainMapper;
 import me.zort.acs.api.domain.provider.SubjectProvider;
-import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.domain.group.Group;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.provider.options.SubjectOptions;
@@ -20,15 +17,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
 public class DomainSubjectMapper implements DomainModelMapper<Subject, SubjectEntity> {
-    private final DomainToPersistenceMapper<Subject, SubjectId> subjectIdMapper;
+    private final DomainToPersistenceMapper<Subject.Id, SubjectId> subjectIdMapper;
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
-    private final PersistenceToDomainMapper<GroupEntity, Group> groupMapper;
     private final SubjectProvider subjectProvider;
     private final PersistenceEntityProvider persistenceEntityProvider;
 
     @Override
     public SubjectEntity toPersistence(Subject domain) {
-        SubjectId id = subjectIdMapper.toPersistence(domain);
+        SubjectId id = subjectIdMapper.toPersistence(Subject.id(domain));
         SubjectEntity entity = persistenceEntityProvider.getCachedOrCreate(SubjectEntity.class, id);
 
         entity.setId(id);

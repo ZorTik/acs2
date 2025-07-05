@@ -11,7 +11,7 @@ public interface SubjectTypeRepository {
 
     SubjectTypeEntity save(SubjectTypeEntity entity);
 
-    void delete(SubjectTypeEntity entity);
+    void deleteById(String id);
 
     boolean existsById(String id);
 

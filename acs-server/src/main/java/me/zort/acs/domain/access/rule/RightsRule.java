@@ -4,7 +4,7 @@ import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
 import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.strategy.RightsStrategy;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +49,15 @@ public class RightsRule extends SubjectToSubjectAccessRule {
                 });
     }
 
+    /**
+     * Queries for subjects that the accessor can access based on the rights holders.
+     *
+     * @param accessor the subject-like entity requesting access
+     * @param targetSubjectType the type of subjects to be accessed
+     * @param rightsHolders the list of rights holders to check access against
+     * @param pageable the pagination information
+     * @return a page of subjects that the accessor can access
+     */
     @Override
     public Page<? extends SubjectLike> queryForAccessibleSubjects(
             SubjectLike accessor, SubjectType targetSubjectType, List<RightsHolder> rightsHolders, Pageable pageable) {

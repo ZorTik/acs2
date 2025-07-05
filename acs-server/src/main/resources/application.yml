@@ -15,6 +15,14 @@ spring:
     show-sql: false
     properties:
       hibernate.format_sql: false
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DB:0}
+  cache:
+    type: simple
 
 logging:
   level:
@@ -33,3 +41,5 @@ acs:
     # Example: file://path
     source: ${ACS_DEFINITIONS_SOURCE}
     format: ${ACS_DEFINITIONS_FORMAT:YAML}
+  realm:
+    name: ${ACS_REALM_NAME:default}

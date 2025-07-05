@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.access.rights;
 
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.data.domain.Page;

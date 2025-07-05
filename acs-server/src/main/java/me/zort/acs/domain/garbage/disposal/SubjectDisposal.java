@@ -2,7 +2,7 @@ package me.zort.acs.domain.garbage.disposal;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.grant.GrantService;
-import me.zort.acs.api.domain.service.SubjectService;
+import me.zort.acs.api.domain.subject.SubjectService;
 import me.zort.acs.domain.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ public class SubjectDisposal implements ResourceDisposal<Subject> {
 
     @Override
     public void dispose(Subject resource) {
-        subjectService.deleteSubject(resource);
+        subjectService.deleteSubject(Subject.id(resource));
     }
 
     @Override

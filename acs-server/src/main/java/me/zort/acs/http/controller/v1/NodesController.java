@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessService;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.http.dto.body.nodes.granted.GrantedNodesResponseDto;
 import me.zort.acs.http.dto.body.nodes.list.ListNodesResponseDto;

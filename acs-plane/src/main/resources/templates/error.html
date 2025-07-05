@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head>
+    <title>Error</title>
+</head>
+<body>
+<h1>Error Occured</h1>
+<!--/*@thymesVar id="error" type="me.zort.acs.plane.http.dto.error.ErrorModel"*/-->
+<p th:if="${error instanceof T(me.zort.acs.plane.http.dto.error.ErrorModel)}"
+   th:text="'Error Message: ' + ${error.message}">
+</p>
+</body>
+</html>

@@ -2,7 +2,7 @@ package me.zort.acs.domain.access.rule;
 
 import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
