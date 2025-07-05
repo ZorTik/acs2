@@ -1,6 +1,8 @@
-package me.zort.acs.api.data.entity;
+package me.zort.acs.core.data.entity;
 
 public interface AcsEntity<ID> {
 
     void setId(ID id);
+
+    ID getId();
 }

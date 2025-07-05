@@ -5,7 +5,7 @@ import me.zort.acs.api.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

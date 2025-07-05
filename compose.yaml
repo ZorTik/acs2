@@ -37,6 +37,7 @@ services:
       DATASOURCE_DB: test
       REDIS_HOST: redis
       ACS_DEFINITIONS_SOURCE: "http://plane:8080/api/realm/test/definitions/v1"
+      ACS_REALM_NAME: test
     volumes:
       - .:/home/gradle/project
       - /home/gradle/project/.gradle

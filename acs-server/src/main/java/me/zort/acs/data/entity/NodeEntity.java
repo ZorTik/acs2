@@ -3,10 +3,8 @@ package me.zort.acs.data.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
-import me.zort.acs.api.data.entity.AcsEntity;
-import org.hibernate.proxy.HibernateProxy;
-
-import java.util.Objects;
+import me.zort.acs.core.data.entity.AcsEntity;
+import me.zort.acs.core.data.util.HibernateUtil;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,29 +22,18 @@ public class NodeEntity implements AcsEntity<String> {
     }
 
     @Override
-    public final boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        Class<?> oEffectiveClass = o instanceof HibernateProxy
-                ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) {
-            return false;
-        }
+    public String getId() {
+        return value;
+    }
 
-        NodeEntity that = (NodeEntity) o;
-        return getValue() != null && Objects.equals(getValue(), that.getValue());
+    @SuppressWarnings("all")
+    @Override
+    public final boolean equals(Object o) {
+        return HibernateUtil.equals(this, o);
     }
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
-                : getClass().hashCode();
+        return HibernateUtil.hashCode(this, false);
     }
 }

@@ -6,7 +6,7 @@ import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
 import me.zort.acs.api.domain.model.Grant;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.api.domain.definitions.DefinitionsService;
 import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.domain.group.GroupService;

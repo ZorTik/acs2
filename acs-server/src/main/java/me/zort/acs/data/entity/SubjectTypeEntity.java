@@ -2,11 +2,10 @@ package me.zort.acs.data.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import me.zort.acs.api.data.entity.AcsEntity;
-import org.hibernate.proxy.HibernateProxy;
+import me.zort.acs.core.data.entity.AcsEntity;
+import me.zort.acs.core.data.util.HibernateUtil;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -35,23 +34,14 @@ public class SubjectTypeEntity implements AcsEntity<String> {
     @ToString.Exclude
     private Set<GroupEntity> groups = new HashSet<>();
 
+    @SuppressWarnings("all")
     @Override
     public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy
-                ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
-        SubjectTypeEntity that = (SubjectTypeEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        return HibernateUtil.equals(this, o);
     }
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
-                : getClass().hashCode();
+        return HibernateUtil.hashCode(this, false);
     }
 }
