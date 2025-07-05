@@ -41,13 +41,19 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
                 .nodes(List.of()).build());
         options.getNodes().forEach(subjectType::addNode);
 
-        subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
+        SubjectTypeEntity saved = subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
+        subjectType = subjectTypeMapper.toDomain(saved);
 
         return subjectType;
     }
 
     @Override
-    public void assignSubjectTypeNodes(SubjectType subjectType, Collection<Node> nodes) {
+    public void assignNodes(String id, Collection<Node> nodes) {
+        getSubjectType(id).ifPresent(subjectType -> assignNodes(subjectType, nodes));
+    }
+
+    @Override
+    public void assignNodes(SubjectType subjectType, Collection<Node> nodes) {
         nodes = nodes
                 .stream()
                 .filter(node -> !subjectType.containsNode(node))
@@ -58,13 +64,12 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
 
         nodes.forEach(subjectType::addNode);
 
-        SubjectTypeEntity subjectTypeEntity = subjectTypeMapper.toPersistence(subjectType);
-        subjectTypeRepository.save(subjectTypeEntity);
+        subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
     }
 
     @Override
-    public void deleteSubjectType(SubjectType subjectType) {
-        subjectTypeRepository.deleteById(subjectType.getId());
+    public void deleteSubjectType(String id) {
+        subjectTypeRepository.deleteById(id);
     }
 
     @Override

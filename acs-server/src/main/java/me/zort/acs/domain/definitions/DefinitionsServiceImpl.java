@@ -18,7 +18,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,7 +35,6 @@ public class DefinitionsServiceImpl implements DefinitionsService {
     private Map<Pair<SubjectType, SubjectType>, Set<Node>> defaultGrants;
     private Map<Pair<SubjectType, SubjectType>, Set<Group>> defaultGrantedGroups;
 
-    @Transactional
     @Override
     public void refreshDefinitions() {
         DefinitionsModel model;

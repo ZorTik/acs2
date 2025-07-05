@@ -48,9 +48,10 @@ public class DefinitionsSynchronizerImpl implements DefinitionsSynchronizer {
         List<SubjectType> localTypes = subjectTypeService.getSubjectTypes();
         localTypes
                 .stream()
-                .filter(subjectType -> remoteTypes
+                .map(SubjectType::getId)
+                .filter(id -> remoteTypes
                         .stream()
-                        .noneMatch(def -> def.getId().equals(subjectType.getId())))
+                        .noneMatch(def -> def.getId().equals(id)))
                 .forEach(subjectTypeService::deleteSubjectType);
         remoteTypes.forEach(this::refreshSubjectType);
     }
@@ -67,7 +68,7 @@ public class DefinitionsSynchronizerImpl implements DefinitionsSynchronizer {
         } catch (SubjectTypeAlreadyExistsException e) {
             subjectType = subjectTypeService.getSubjectType(e.getExistingId()).orElseThrow();
 
-            subjectTypeService.assignSubjectTypeNodes(subjectType, nodesToAssign);
+            subjectTypeService.assignNodes(subjectType, nodesToAssign);
         }
 
         for (GroupDefinitionModel model : def.getGroups()) {
