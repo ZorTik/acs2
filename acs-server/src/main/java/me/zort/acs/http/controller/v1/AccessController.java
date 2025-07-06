@@ -4,17 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.zort.acs.api.domain.access.AccessControlService;
+import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.access.request.AccessRequest;
-import me.zort.acs.api.domain.access.AccessRequestFactory;
 import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
 import me.zort.acs.domain.grant.exception.InvalidGrantException;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.http.dto.body.access.check.AccessCheckRequestDto;
@@ -45,8 +43,7 @@ public class AccessController {
     private final HttpSubjectMapper subjectMapper;
     private final HttpNodeMapper nodeMapper;
     private final HttpGroupMapper groupMapper;
-    private final AccessRequestFactory accessRequestFactory;
-    private final AccessControlService accessControlService;
+    private final AccessService accessService;
     private final GrantService grantService;
     private final HttpExceptionFactory exceptionProvider;
 
@@ -67,14 +64,10 @@ public class AccessController {
                     Node node = nodeMapper.toDomain(value);
 
                     try {
-                        AccessRequest accessRequest = accessRequestFactory.createAccessRequest(from, to, node);
-
-                        accessControlService.checkAccess(accessRequest);
-
-                        return accessRequest.isGranted();
+                        return accessService.hasAccess(from, to, node);
                     } catch (IllegalArgumentException e) {
                         throw exceptionProvider.createException(
-                                HttpException.NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE, null, node, to.getSubjectType());
+                                HttpException.NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE, e, node, to.getSubjectType());
                     }
                 }));
 

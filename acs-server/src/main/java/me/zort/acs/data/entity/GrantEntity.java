@@ -1,13 +1,18 @@
 package me.zort.acs.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import me.zort.acs.core.data.entity.AcsEntity;
+import me.zort.acs.core.data.util.HibernateUtil;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity(name = "acs_grants")
-public class GrantEntity {
+public class GrantEntity implements AcsEntity<UUID> {
     @Id
     @Column(columnDefinition = "char(36)")
     private UUID id;
@@ -61,4 +66,14 @@ public class GrantEntity {
     })
     private GroupEntity group = null;
 
+    @SuppressWarnings("all")
+    @Override
+    public final boolean equals(Object o) {
+        return HibernateUtil.equals(this, o);
+    }
+
+    @Override
+    public final int hashCode() {
+        return HibernateUtil.hashCode(this, false);
+    }
 }

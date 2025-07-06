@@ -21,6 +21,10 @@ types:
       - value: "example2.node"
       - value: "example2.node2"
       - value: "example2.node.subnode"
+    groups:
+      group1:
+        nodes:
+          - "example2.node"
 
 # Default access grants between subject types
 # These define default permissions from one subject group (e.g., users)
@@ -30,3 +34,5 @@ default-grants:
     to: example2         # Target subject group (e.g., resources)
     nodes:
       - "example2.node"  # Resource node that is accessible by default
+    groups:
+      - group1           # Group within the target subject group the "from" has granted

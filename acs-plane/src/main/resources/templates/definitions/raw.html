@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head>
+    <title>Detail</title>
+</head>
+    <body>
+        <h1>Detail</h1>
+        <form method="post">
+            <label>
+                <textarea th:text="${definitions}" name="definitions" />
+            </label>
+
+            <button type="submit">Save</button>
+        </form>
+    </body>
+</html>

@@ -1,37 +1,39 @@
 package me.zort.acs.data.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.*;
+import me.zort.acs.core.data.entity.AcsEntity;
+import me.zort.acs.core.data.util.HibernateUtil;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 @Entity(name = "acs_nodes")
-public class NodeEntity {
+public class NodeEntity implements AcsEntity<String> {
     @Id
     private String value;
 
-    @ManyToMany
-    @JoinTable(
-            name = "acs_subject_types_nodes",
-            joinColumns = @JoinColumn(name = "node_value"),
-            inverseJoinColumns = @JoinColumn(name = "subject_type_id")
-    )
-    private List<SubjectTypeEntity> subjectTypes = new ArrayList<>();
+    @Override
+    public void setId(String s) {
+        this.value = s;
+    }
 
-    @ManyToMany
-    @JoinTable(
-            name = "acs_groups_nodes",
-            joinColumns = @JoinColumn(name = "node_value"),
-            inverseJoinColumns = {
-                    @JoinColumn(name = "group_name", referencedColumnName = "group_name"),
-                    @JoinColumn(name = "group_subject_type_id", referencedColumnName = "subject_type_id")
-            }
-    )
-    private List<GroupEntity> groups = new ArrayList<>();
+    @Override
+    public String getId() {
+        return value;
+    }
+
+    @SuppressWarnings("all")
+    @Override
+    public final boolean equals(Object o) {
+        return HibernateUtil.equals(this, o);
+    }
+
+    @Override
+    public final int hashCode() {
+        return HibernateUtil.hashCode(this, false);
+    }
 }

@@ -15,7 +15,7 @@ public class AcsClientAutoConfig {
     // Auto config
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(AcsClientV1.class)
     public AcsClientV1 acsClient(AcsClientConfig clientConfig, AbstractJsonHttpMessageConverter messageConverter) {
         return AcsClient.v1()
                 .withBaseUrl(clientConfig.getBaseUrl())

@@ -27,6 +27,10 @@ public class SimpleDefinitionsValidator implements DefinitionsValidator {
             subjectType.getNodes().forEach(node ->
                     callVisitors(visitor -> visitor.visitNode(context, node)));
         });
+        context.setSubjectType(null);
+
+        model.getDefaultGrants().forEach(defaultGrant ->
+                callVisitors(visitor -> visitor.visitDefaultGrant(context, defaultGrant)));
     }
 
     private void callVisitors(Consumer<DefinitionsVisitor> action) {

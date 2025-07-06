@@ -1,12 +1,15 @@
 package me.zort.acs.api.domain.access.rights;
 
-import me.zort.acs.api.domain.model.SubjectLike;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.domain.model.Subject;
+import me.zort.acs.domain.model.SubjectType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 /**
- * Service interface for negotiating rights between two subjects
+ * Service interface for negotiating rights between two parties
  * in the access control system.
  *
  * <p>This service is responsible for determining which entities (rights holders)
@@ -27,4 +30,7 @@ public interface RightsNegotiationService {
      *         that grant access rights in this context
      */
     List<RightsHolder> getRightsHolders(SubjectLike accessor, SubjectLike accessed);
+
+    Page<Subject> getCandidateSubjects(
+            SubjectLike accessor, SubjectType accessedType, List<RightsHolder> anyOf, Pageable pageable);
 }

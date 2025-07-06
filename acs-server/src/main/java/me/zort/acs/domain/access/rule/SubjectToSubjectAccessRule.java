@@ -8,10 +8,6 @@ import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
 public abstract class SubjectToSubjectAccessRule implements AccessRule {
     private final boolean acceptsNullableSubjects;
 
-    public SubjectToSubjectAccessRule() {
-        this(false);
-    }
-
     public abstract void onRequest(SubjectToSubjectAccessRequest request);
 
     @Override

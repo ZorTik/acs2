@@ -1,12 +1,14 @@
 package me.zort.acs.domain.model;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@ToString(exclude = {"nodes"})
 @Getter
 public class SubjectType {
     private final String id;
