@@ -20,6 +20,31 @@ allprojects {
     }
 }
 
+project('acs-client:java') { proj ->
+    apply plugin: 'maven-publish'
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                groupId = 'com.github.ZorTik'
+                artifactId = 'acs-client'
+                version = proj.version
+
+                from components.java
+                pom {
+                    name = 'ACS Client'
+                    description = 'A client library for interacting with the ACS (Access Control System) API.'
+                    developer {
+                        id = 'zort'
+                        name = 'ZorTik'
+                        email = 'zortlegit@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
 ['acs-server', 'acs-plane'].each {
     project(it).dependencies {
         implementation project('acs-proto')

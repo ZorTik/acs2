@@ -1,9 +1,12 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'me.zort.acs'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0'
+
+compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
