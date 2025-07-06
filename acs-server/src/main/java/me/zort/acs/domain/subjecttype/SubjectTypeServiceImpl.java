@@ -1,4 +1,4 @@
-package me.zort.acs.domain.service;
+package me.zort.acs.domain.subjecttype;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.SubjectTypeRepository;
