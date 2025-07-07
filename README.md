@@ -59,6 +59,7 @@ ACS2 relies on several environment variables for configuration. Below are the ke
 | `ACS_DELIMITER`          | Permission nodes delimiter          | .             | ❌        |
 | `ACS_DEFINITIONS_SOURCE` | Definitions source address          | —             | ✅        |
 | `ACS_DEFINITIONS_FORMAT` | Definitions string format           | YAML          | ❌        |
+| `ACS_REALM_NAME`         | Realm name (only when using plane)  | default       | ❌        |
 
 Definitions source URL example:
 ```

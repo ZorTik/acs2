@@ -1,4 +1,4 @@
-package me.zort.examples.user_system;
+package me.zort.examples.systemrelation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
