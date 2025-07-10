@@ -36,6 +36,6 @@ public class RealmsController {
 
     @GetMapping("/create")
     public String createRealmGet() {
-        return "realms/create";
+        return "panel/realms/create";
     }
 }

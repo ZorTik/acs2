@@ -35,6 +35,6 @@ public class DefinitionsController {
         DefinitionsModel definitions = realm.getDefinitionsModel();
         model.addAttribute("definitions", DefinitionsFormat.YAML.toStringModel(definitions));
 
-        return "definitions/raw";
+        return "panel/definitions/raw";
     }
 }
