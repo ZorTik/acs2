@@ -36,6 +36,7 @@ public class GroupType implements RightsHolderType<Group> {
     @Override
     public List<GrantEntity> getGrantEntitiesForHolders(List<Group> holders, SubjectId accessorId, SubjectType accessedType) {
         List<GroupId> groupIds = holders.stream().map(groupIdMapper::toPersistence).toList();
+
         return grantRepository.findAllByGroupIn(accessorId, accessedType.getId(), groupIds);
     }
 

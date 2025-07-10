@@ -20,10 +20,12 @@ public enum HttpException {
     GROUP_NOT_FOUND(400, 1004, 2,
             "error.group-not-found"),
     NODE_NOT_APPLICABLE_ON_SUBJECT_TYPE(
-            400, 1004, 2,
+            400, 1005, 2,
             "error.node-not-applicable-on-subject-type"),
-    NODES_GROUPS_NOT_EMPTY(400, 1005, 0,
+    NODES_GROUPS_NOT_EMPTY(400, 1006, 0,
             "validation.nodes-groups.notempty"),
+    SUBJECT_ALREADY_EXISTS(409, 1007, 0,
+            "error.subject-already-exists"),
 
     // Controller errors
     CONTROLLER_QUERY_NOT_APPLICABLE(
