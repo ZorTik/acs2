@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.api.domain.subject.SubjectService;
 import me.zort.acs.api.http.exception.HttpException;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
@@ -39,8 +40,8 @@ public class ResourcesController {
 
     @PostMapping("/resource/register")
     public SubjectDto register(@RequestBody @Valid SubjectDto dto) {
-        Subject subject = subjectMapper.toDomain(dto, false);
-        if (subject != null) {
+        SubjectLike subject = subjectMapper.toDomainOrNull(dto);
+        if (!subject.isNull()) {
             throw exceptionFactory.createException(HttpException.SUBJECT_ALREADY_EXISTS, null);
         }
 
@@ -50,7 +51,9 @@ public class ResourcesController {
     }
 
     @PostMapping("/resource/unregister")
-    public BasicResponse unregister(@RequestBody Subject subject) {
+    public BasicResponse unregister(@RequestBody @Valid SubjectDto dto) {
+        Subject subject = subjectMapper.toDomain(dto, false);
+
         subjectService.deleteSubject(Subject.id(subject));
 
         return new BasicResponse("Resource deleted successfully");
