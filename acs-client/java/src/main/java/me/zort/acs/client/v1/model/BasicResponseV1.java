@@ -3,7 +3,7 @@ package me.zort.acs.client.v1.model;
 import lombok.Getter;
 
 @Getter
-public class BasicErrorModel {
+public class BasicResponseV1 {
     private int code;
     private int errorCode;
     private String message;

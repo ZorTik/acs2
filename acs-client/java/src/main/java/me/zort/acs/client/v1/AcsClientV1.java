@@ -7,6 +7,8 @@ import me.zort.acs.client.http.adapter.HttpAdapter;
 import me.zort.acs.client.http.model.Page;
 import me.zort.acs.client.http.serializer.HttpSerializer;
 import me.zort.acs.client.v1.interceptor.CommonFailuresInterceptor;
+import me.zort.acs.client.v1.model.BasicResponseV1;
+import me.zort.acs.client.v1.model.SubjectV1;
 import me.zort.acs.client.v1.model.check.CheckAccessRequestV1;
 import me.zort.acs.client.v1.model.check.CheckAccessResponseV1;
 import me.zort.acs.client.v1.model.grant.GrantAccessRequestV1;
@@ -23,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AcsClientV1 extends AbstractAcsClient { // TODO: Přidat metody na /v1/resource/register a /v1/resource/unregister
+public class AcsClientV1 extends AbstractAcsClient {
     private static final String PREFIX = "/v1";
     private static final String CHECK_ACCESS_URL = PREFIX + "/access/check";
     private static final String GRANT_ACCESS_URL = PREFIX + "/access/grant";
@@ -31,6 +33,8 @@ public class AcsClientV1 extends AbstractAcsClient { // TODO: Přidat metody na 
     private static final String LIST_NODES_URL = PREFIX + "/nodes";
     private static final String LIST_NODES_GRANTED_URL = PREFIX + "/nodes/granted";
     private static final String LIST_RESOURCES_GRANTED_URL = PREFIX + "/resources/granted";
+    private static final String REGISTER_RESOURCE_URL = PREFIX + "/resource/register";
+    private static final String UNREGISTER_RESOURCE_URL = PREFIX + "/resource/unregister";
 
     public AcsClientV1(String baseUrl, HttpAdapter httpAdapter, HttpSerializer httpSerializer) {
         super(baseUrl, httpAdapter, httpSerializer, List.of(new CommonFailuresInterceptor(httpSerializer)));
@@ -142,6 +146,32 @@ public class AcsClientV1 extends AbstractAcsClient { // TODO: Přidat metody na 
                 .queryAttributes(Map.of(
                         "accessor", serializeSubjectToQuery(accessor),
                         "resource", serializeSubjectToQuery(resource))));
+    }
+
+    /**
+     * Registers a new resource (subject) in the ACS system.
+     *
+     * @param subject the subject to register as a resource
+     * @return a response indicating the result of the registration
+     */
+    public @NotNull BasicResponseV1 registerResource(final @NotNull AcsSubjectResolvable subject) {
+        return executeRequest(BasicResponseV1.class, (builder, serializer) -> builder
+                .method(HttpMethod.POST)
+                .path(REGISTER_RESOURCE_URL)
+                .body(serializer.apply(new SubjectV1(subject.getGroup(), String.valueOf(subject.getId())))));
+    }
+
+    /**
+     * Unregisters a resource (subject) from the ACS system.
+     *
+     * @param subject the subject to unregister as a resource
+     * @return a response indicating the result of the unregistration
+     */
+    public @NotNull BasicResponseV1 unregisterResource(final @NotNull AcsSubjectResolvable subject) {
+        return executeRequest(BasicResponseV1.class, (builder, serializer) ->  builder
+                .method(HttpMethod.POST)
+                .path(UNREGISTER_RESOURCE_URL)
+                .body(serializer.apply(new SubjectV1(subject.getGroup(), String.valueOf(subject.getId())))));
     }
 
     /**

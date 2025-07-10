@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessService;
 import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.api.domain.subject.CreateSubjectArgs;
 import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.api.domain.subject.SubjectService;
 import me.zort.acs.api.http.exception.HttpException;
@@ -39,15 +40,17 @@ public class ResourcesController {
     private final HttpExceptionFactory exceptionFactory;
 
     @PostMapping("/resource/register")
-    public SubjectDto register(@RequestBody @Valid SubjectDto dto) {
-        SubjectLike subject = subjectMapper.toDomainOrNull(dto);
-        if (!subject.isNull()) {
+    public BasicResponse register(@RequestBody @Valid SubjectDto dto) {
+        SubjectType subjectType = subjectTypeMapper.toDomain(dto.getGroup());
+        if (subjectService.existsSubject(Subject.id(dto.getId(), subjectType.getId()))) {
             throw exceptionFactory.createException(HttpException.SUBJECT_ALREADY_EXISTS, null);
         }
 
-        subject = subjectMapper.toDomain(dto, true);
+        subjectService.createSubject(CreateSubjectArgs.builder()
+                .subjectType(subjectType)
+                .id(dto.getId()).build());
 
-        return subjectMapper.toHttp(subject);
+        return new BasicResponse("Resource registered successfully");
     }
 
     @PostMapping("/resource/unregister")
