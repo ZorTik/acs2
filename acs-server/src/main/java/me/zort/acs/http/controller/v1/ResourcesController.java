@@ -37,8 +37,8 @@ public class ResourcesController {
     private final HttpSubjectMapper subjectMapper;
     private final HttpExceptionFactory exceptionFactory;
 
-    @PostMapping("/resource/create")
-    public SubjectDto create(@RequestBody @Valid SubjectDto dto) {
+    @PostMapping("/resource/register")
+    public SubjectDto register(@RequestBody @Valid SubjectDto dto) {
         Subject subject = subjectMapper.toDomain(dto, false);
         if (subject != null) {
             throw exceptionFactory.createException(HttpException.SUBJECT_ALREADY_EXISTS, null);
@@ -49,13 +49,12 @@ public class ResourcesController {
         return subjectMapper.toHttp(subject);
     }
 
-    @PostMapping("/resource/delete")
-    public BasicResponse delete(@RequestBody Subject subject) {
+    @PostMapping("/resource/unregister")
+    public BasicResponse unregister(@RequestBody Subject subject) {
         subjectService.deleteSubject(Subject.id(subject));
 
         return new BasicResponse("Resource deleted successfully");
     }
-
 
     @GetMapping("/resources/granted")
     public ListSubjectsResponseDto grantedByHolders(
