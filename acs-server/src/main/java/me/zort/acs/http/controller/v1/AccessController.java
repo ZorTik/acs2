@@ -55,8 +55,8 @@ public class AccessController {
             @ApiResponse(responseCode = "404", description = "Node or subject not found")
     })
     public AccessCheckResponseDto checkAccess(@Valid @RequestBody AccessCheckRequestDto body) {
-        SubjectLike from = subjectMapper.toDomainOrNull(body.getAccessor());
-        SubjectLike to = subjectMapper.toDomainOrNull(body.getResource());
+        SubjectLike from = subjectMapper.toDomain(body.getAccessor());
+        SubjectLike to = subjectMapper.toDomain(body.getResource());
 
         Map<String, Boolean> states = body.getNodes()
                 .stream()
@@ -128,8 +128,8 @@ public class AccessController {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     public RevokeNodesResponseDto revokeAccess(@Valid @RequestBody RevokeNodesRequestDto body) {
-        SubjectLike from = subjectMapper.toDomainOrNull(body.getAccessor());
-        SubjectLike to = subjectMapper.toDomainOrNull(body.getResource());
+        SubjectLike from = subjectMapper.toDomain(body.getAccessor());
+        SubjectLike to = subjectMapper.toDomain(body.getResource());
 
         Map<String, Boolean> results = body.getNodes()
                 .stream()

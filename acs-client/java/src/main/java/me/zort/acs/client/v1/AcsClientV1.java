@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AcsClientV1 extends AbstractAcsClient {
+public class AcsClientV1 extends AbstractAcsClient { // TODO: Přidat metody na /v1/resource/register a /v1/resource/unregister
     private static final String PREFIX = "/v1";
     private static final String CHECK_ACCESS_URL = PREFIX + "/access/check";
     private static final String GRANT_ACCESS_URL = PREFIX + "/access/grant";

@@ -1,10 +1,11 @@
-package me.zort.acs.domain.service;
+package me.zort.acs.domain.node;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.NodeRepository;
+import me.zort.acs.api.domain.node.exception.NodeAlreadyExistsException;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.NodeProvider;
-import me.zort.acs.api.domain.service.NodeService;
+import me.zort.acs.api.domain.node.NodeService;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.provider.options.NodeOptions;
@@ -24,15 +25,18 @@ public class NodeServiceImpl implements NodeService {
     @CacheEvict(value = "nodes", key = "#value")
     @Override
     public Node createNode(String value) {
-        return getNode(value).orElseGet(() -> {
-            Node node = nodeProvider.getNode(NodeOptions.builder()
-                    .value(value)
-                    .build());
+        if (existsNode(value)) {
+            throw new NodeAlreadyExistsException(value);
+        }
 
-            nodeRepository.save(nodeMapper.toPersistence(node));
+        Node node = nodeProvider.getNode(NodeOptions.builder()
+                .value(value)
+                .build());
 
-            return node;
-        });
+        NodeEntity saved = nodeRepository.save(nodeMapper.toPersistence(node));
+        node = nodeMapper.toDomain(saved);
+
+        return node;
     }
 
     @Override
