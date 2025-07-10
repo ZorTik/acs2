@@ -30,7 +30,8 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/panel/login").permitAll())
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers(PathUtils.API_PATH_PATTERN, "/error", "/actuator/**").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(PathUtils.PANEL_PATH_PATTERN).authenticated()
+                        .anyRequest().permitAll())
                 .build();
     }
 }

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
 <head>
     <title>Detail</title>
 </head>
 <body>
-<h1>Create Realm</h1>
-<form method="post">
-    <label for="name">Realm Name</label>
-    <input type="text" name="name" id="name" placeholder="Enter realm name" />
+    <div layout:fragment="content">
+        <h1>Create Realm</h1>
+        <form method="post">
+            <label for="name">Realm Name</label>
+            <input type="text" name="name" id="name" placeholder="Enter realm name" />
 
-    <button type="submit">Create</button>
-</form>
+            <button type="submit">Create</button>
+        </form>
+    </div>
 </body>
 </html>

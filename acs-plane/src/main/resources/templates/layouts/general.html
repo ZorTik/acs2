@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--/*@thymesVar id="CONTENT_TITLE" type="String"*/-->
+    <title layout:title-pattern="${CONTENT_TITLE} - ACS2"></title>
+</head>
+<body>
+    <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+    <th:block th:if="${error != null}" th:replace="fragments/alert :: alert(${error})" />
+
+    <div layout:fragment="content">
+        <!-- page content -->
+    </div>
+
+    <footer>
+        <p>Powered by ACS2</p>
+    </footer>
+</body>
+</html>

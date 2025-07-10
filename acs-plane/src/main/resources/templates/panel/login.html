@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
-<head>
-    <title>Login</title>
-</head>
-<body>
-<h1>Login</h1>
-<form method="post">
-    <label for="username">API Key</label>
-    <input type="text" id="username" name="username" placeholder="Insert API key" required />
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/highlighted}">"
+      lang="en">
+    <head>
+        <title>Login</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <h1>Login</h1>
+            <form method="post">
+                <label for="username">API Key</label>
+                <input type="text" id="username" name="username" placeholder="Insert API key" required />
 
-    <button type="submit">Login</button>
-</form>
-</body>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </body>
 </html>

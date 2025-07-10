@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
 <head>
     <title>Detail</title>
 </head>
     <body>
-        <h1>Detail</h1>
-        <form method="post">
-            <label>
-                <textarea th:text="${definitions}" name="definitions" />
-            </label>
+        <div layout:fragment="content">
+            <h1>Detail</h1>
+            <form method="post">
+                <label>
+                    <textarea th:text="${definitions}" name="definitions" />
+                </label>
 
-            <button type="submit">Save</button>
-        </form>
+                <button type="submit">Save</button>
+            </form>
+        </div>
     </body>
 </html>
