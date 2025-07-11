@@ -1,6 +1,8 @@
 package me.zort.acs.config;
 
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.http.internal.adapters.AcsHttpDeserializer;
 import me.zort.acs.http.internal.resolvers.SubjectArgumentResolver;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +37,14 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public GsonHttpMessageConverter messageConverter() {
-        return new GsonHttpMessageConverter();
+    public GsonHttpMessageConverter messageConverter(List<AcsHttpDeserializer<?>> deserializers) {
+        GsonBuilder builder = new GsonBuilder();
+        // Register all deserializers
+        for (AcsHttpDeserializer<?> deserializer : deserializers) {
+            builder.registerTypeAdapter(deserializer.getType(), deserializer);
+        }
+
+        return new GsonHttpMessageConverter(builder.create());
     }
 
     @Bean

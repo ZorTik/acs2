@@ -6,7 +6,7 @@ import me.zort.acs.api.domain.definitions.SynchronizationContext;
 import me.zort.acs.api.domain.group.CreateGroupOptions;
 import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.domain.group.exception.GroupAlreadyExistsException;
-import me.zort.acs.api.domain.service.NodeService;
+import me.zort.acs.api.domain.node.NodeService;
 import me.zort.acs.api.domain.subjecttype.CreateSubjectTypeOptions;
 import me.zort.acs.api.domain.subjecttype.SubjectTypeService;
 import me.zort.acs.api.domain.subjecttype.exception.SubjectTypeAlreadyExistsException;
@@ -59,7 +59,7 @@ public class DefinitionsSynchronizerImpl implements DefinitionsSynchronizer {
     private void refreshSubjectType(SubjectTypeDefinitionModel def) {
         List<Node> nodesToAssign = def.getNodes()
                 .stream()
-                .map(model -> nodeService.createNode(model.getValue())).toList();
+                .map(model -> nodeService.getOrCreateNode(model.getValue())).toList();
 
         SubjectType subjectType;
         try {
