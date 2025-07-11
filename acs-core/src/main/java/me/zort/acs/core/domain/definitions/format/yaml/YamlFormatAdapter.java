@@ -1,5 +1,7 @@
 package me.zort.acs.core.domain.definitions.format.yaml;
 
+import me.zort.acs.core.domain.definitions.exception.DefinitionsParseException;
+import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
 import me.zort.acs.core.domain.definitions.format.DefinitionsFormatAdapter;
 import me.zort.acs.core.domain.definitions.format.yaml.model.YamlDefinitionsModel;
 import me.zort.acs.core.domain.definitions.format.yaml.util.YamlFormatUtils;
@@ -23,8 +25,12 @@ public class YamlFormatAdapter implements DefinitionsFormatAdapter {
     private static final Yaml YAML_LIB = YamlFormatUtils.createYaml();
 
     @Override
-    public @NotNull DefinitionsModel parseModel(InputStream in) {
-        return YAML_LIB.loadAs(in, YamlDefinitionsModel.class);
+    public @NotNull DefinitionsModel parseModel(InputStream in) throws DefinitionsParseException {
+        try {
+            return YAML_LIB.loadAs(in, YamlDefinitionsModel.class);
+        } catch (Exception e) {
+            throw new DefinitionsParseException(DefinitionsFormat.YAML, e);
+        }
     }
 
     @Override
