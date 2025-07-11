@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-@RequestMapping("/panel/definitions")
+@RequestMapping("/panel/realms/definitions")
 @Controller
 public class DefinitionsController {
     private final DefinitionsFacade definitionsFacade;
@@ -26,8 +26,9 @@ public class DefinitionsController {
     public String rawDefinitionsPost(@RequestParam String definitions, Realm realm, Model model) {
         Result<Void> result = definitionsFacade.setDefinitions(realm, definitions, "application/x-yaml");
         errorPropagator.propagateErrorToModel(result.getError(), model);
+        model.addAttribute("definitions", definitions);
 
-        return rawDefinitionsGet(realm, model);
+        return "panel/realms/definitions/raw";
     }
 
     @GetMapping("/raw")
@@ -35,6 +36,6 @@ public class DefinitionsController {
         DefinitionsModel definitions = realm.getDefinitionsModel();
         model.addAttribute("definitions", DefinitionsFormat.YAML.toStringModel(definitions));
 
-        return "panel/definitions/raw";
+        return "panel/realms/definitions/raw";
     }
 }

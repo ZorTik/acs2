@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.facade.RealmsFacade;
 import me.zort.acs.plane.api.http.error.HttpErrorPropagator;
 import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.dto.model.ListedRealm;
 import me.zort.acs.plane.http.dto.realms.RealmsCreateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RequestMapping("/panel/realms")
 @Controller
 public class RealmsController {
     private final RealmsFacade realmsFacade;
     private final HttpErrorPropagator errorPropagator;
+
+    @GetMapping
+    public String listRealmsGet(Model model) {
+        List<ListedRealm> realms = realmsFacade.listRealms().orError();
+
+        model.addAttribute("realms", realms);
+
+        return "panel/realms/index";
+    }
 
     @PostMapping("/create")
     public String createRealmPost(@ModelAttribute @Valid RealmsCreateForm form, Model model) {
@@ -31,7 +43,7 @@ public class RealmsController {
             return createRealmGet();
         }
 
-        return "redirect:/panel/definitions/raw?realm=" + name;
+        return "redirect:/panel/realms/definitions/raw?realm=" + name;
     }
 
     @GetMapping("/create")

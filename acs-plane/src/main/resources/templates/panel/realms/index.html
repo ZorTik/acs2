@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
+<head>
+    <title>Realms - ACS2</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Realms</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Realm Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="realm : ${realms}">
+            <td th:text="${realm.name}">Realm Name</td>
+            <td>
+                <a th:href="@{/panel/realms/definitions/raw(realm=${realm.name})}">Edit</a>
+                <!-- TODO: Delete -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

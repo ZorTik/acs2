@@ -11,12 +11,21 @@
     <!--/*@thymesVar id="error" type="java.lang.String"*/-->
     <th:block th:if="${error != null}" th:replace="fragments/alert :: alert(${error})" />
 
+    <div>
+        <nav>
+            <ul>
+                <li><a href="/panel/realms">Realms</a></li>
+            </ul>
+        </nav>
+    </div>
+
     <div layout:fragment="content">
         <!-- page content -->
     </div>
 
     <footer>
         <p>Powered by ACS2</p>
+        <a href="/panel/logout">Logout</a>
     </footer>
 </body>
 </html>

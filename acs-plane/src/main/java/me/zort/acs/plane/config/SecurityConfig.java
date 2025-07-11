@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .authenticationProvider(planeAuthenticationProvider)
                 .formLogin(form -> form
                         .loginPage("/panel/login")
-                        .defaultSuccessUrl("/panel/definitions/raw").permitAll())
+                        .defaultSuccessUrl("/panel/realms").permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/panel/logout")
                         .logoutSuccessUrl("/panel/login").permitAll())

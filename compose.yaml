@@ -52,7 +52,7 @@ services:
         condition: service_started
 
   plane:
-    image: gradle:8.5-jdk17-alpine
+    image: gradle:8.5-jdk17
     user: root
     working_dir: /home/gradle/project
     command: >
@@ -65,8 +65,9 @@ services:
       REDIS_PORT: 6379
     volumes:
       - .:/home/gradle/project
-      - /home/gradle/project/.gradle
-      - /home/gradle/project/build
+      #- /home/gradle/project/.gradle
+      #- /home/gradle/project/build
+      - plane-gradle-cache:/home/gradle/.gradle
     ports:
       - "8081:8080"
       - "5006:5005"
@@ -82,3 +83,4 @@ services:
 volumes:
   db:
   db-plane:
+  plane-gradle-cache:

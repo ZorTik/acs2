@@ -75,6 +75,12 @@ public class HttpErrorControllerAdvice {
         return null;
     }
 
+    /**
+     * Maps known exceptions to HttpError objects.
+     *
+     * @param e the exception to map
+     * @return an HttpError if the exception is known, or null if it is not
+     */
     private @Nullable HttpError mapKnownHttpError(Exception e) {
         Class<? extends Exception> type = e.getClass();
         if (type.equals(NoResourceFoundException.class)) {
