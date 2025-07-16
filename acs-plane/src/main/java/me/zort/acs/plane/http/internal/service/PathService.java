@@ -13,16 +13,34 @@ public class PathService {
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
 
     public enum PathGroup {
-        PANEL, API, UNKNOWN
+        PANEL(true), API(false), UNKNOWN(true);
+
+        private final boolean supportsViewModel;
+
+        PathGroup(boolean supportsViewModel) {
+            this.supportsViewModel = supportsViewModel;
+        }
+
+        public boolean supportsViewModel() {
+            return supportsViewModel;
+        }
     }
 
     public @NotNull PathGroup getPathGroup(@NotNull String path) {
-        if (PATH_MATCHER.match(PathUtils.PANEL_PATH_PATTERN, path)) {
+        if (PATH_MATCHER.match(PathUtils.panelPathPattern(), path)) {
             return PathGroup.PANEL;
-        } else if (PATH_MATCHER.match(PathUtils.API_PATH_PATTERN, path)) {
+        } else if (PATH_MATCHER.match(PathUtils.apiPathPattern(), path)) {
             return PathGroup.API;
         } else {
             return PathGroup.UNKNOWN;
         }
+    }
+
+    public String getLoginPage() {
+        return "/panel/login";
+    }
+
+    public String getSetupPage() {
+        return "/panel/setup";
     }
 }

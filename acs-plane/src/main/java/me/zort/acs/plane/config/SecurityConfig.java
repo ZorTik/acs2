@@ -1,6 +1,9 @@
 package me.zort.acs.plane.config;
 
-import me.zort.acs.plane.http.security.PlaneAuthenticationProvider;
+import me.zort.acs.plane.api.domain.user.UserService;
+import me.zort.acs.plane.domain.security.PlaneUserDetailsService;
+import me.zort.acs.plane.http.internal.service.PathService;
+import me.zort.acs.plane.http.security.PlaneAuthenticationEntryPoint;
 import me.zort.acs.plane.http.util.PathUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,23 +18,48 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(
-            HttpSecurity http, PlaneAuthenticationProvider planeAuthenticationProvider) throws Exception {
+            HttpSecurity http, UserService userService, PathService pathService) throws Exception {
         return http
                 // Meta
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(reg -> reg
+                        .requestMatchers("/error", "/actuator/**")
+                        .permitAll())
+                .exceptionHandling(handlingCustomizer -> handlingCustomizer
+                        .authenticationEntryPoint(new PlaneAuthenticationEntryPoint(userService, pathService)))
+                .build();
+    }
+
+    @Bean
+    public SecurityFilterChain panelSecurityFilterChain(
+            HttpSecurity http, PlaneUserDetailsService userDetailsService) throws Exception {
+        String loginPage = "/panel/login";
+
+        return http
+                .securityMatcher(PathUtils.panelPathPattern())
                 // Authentication
-                .authenticationProvider(planeAuthenticationProvider)
+                .userDetailsService(userDetailsService)
                 .formLogin(form -> form
-                        .loginPage("/panel/login")
+                        .loginPage(loginPage)
                         .defaultSuccessUrl("/panel/realms").permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/panel/logout")
-                        .logoutSuccessUrl("/panel/login").permitAll())
+                        .logoutSuccessUrl(loginPage).permitAll())
                 .authorizeHttpRequests(reg -> reg
-                        .requestMatchers(PathUtils.API_PATH_PATTERN, "/error", "/actuator/**").permitAll()
-                        .requestMatchers(PathUtils.PANEL_PATH_PATTERN).authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/panel/setup")
+                        .permitAll())
+                .build();
+    }
+
+    @Bean
+    public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher(PathUtils.apiPathPattern())
+                // Authentication
+                .authorizeHttpRequests(reg -> reg
+                        .requestMatchers(PathUtils.apiPathPattern()).permitAll()
+                        .anyRequest().authenticated())
                 .build();
     }
 }

@@ -51,20 +51,17 @@ public class HttpErrorControllerAdvice {
         try {
             ErrorModel errorModel = new ErrorModel(error);
 
-            // Panel or API error handling
-            switch (pathService.getPathGroup(request.getRequestURI())) {
-                case API:
-                    response.setStatus(error.getStatusCode());
-                    response.setContentType("application/json");
-                    messageConverter.write(
-                            errorModel, MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
-                case PANEL:
-                default:
-                    ModelAndView maw = new ModelAndView();
-                    maw.setViewName("error");
-                    maw.addObject("error", errorModel);
+            if (pathService.getPathGroup(request.getRequestURI()).supportsViewModel()) {
+                ModelAndView maw = new ModelAndView();
+                maw.setViewName("error");
+                maw.addObject("error", errorModel);
 
-                    return maw;
+                return maw;
+            } else {
+                response.setStatus(error.getStatusCode());
+                response.setContentType("application/json");
+                messageConverter.write(
+                        errorModel, MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
             }
         } catch (Exception e1) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
