@@ -1,4 +1,4 @@
-package me.zort.acs.plane.api.domain.credentials;
+package me.zort.acs.plane.api.domain.security;
 
 import java.util.UUID;
 

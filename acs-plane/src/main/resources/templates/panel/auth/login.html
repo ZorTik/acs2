@@ -17,6 +17,8 @@
                 <input type="password" id="password" name="password" placeholder="Insert password" required />
 
                 <button type="submit">Login</button>
+
+                <a href="#" th:href="@{/panel/auth/register}" th:if="${registrationsAllowed}">Register instead</a>
             </form>
         </div>
     </body>

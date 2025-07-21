@@ -1,10 +1,10 @@
 package me.zort.acs.plane.http.controller.panel;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.zort.acs.plane.api.domain.security.AuthService;
 import me.zort.acs.plane.api.facade.AuthFacade;
 import me.zort.acs.plane.api.http.error.HttpErrorPropagator;
 import me.zort.acs.plane.facade.util.Result;
@@ -24,29 +24,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
     private final AuthFacade authFacade;
     private final PathService pathService;
+    private final AuthService authService;
     private final HttpErrorPropagator errorPropagator;
 
     @GetMapping("/login")
-    public String loginGet() {
+    public String loginGet(Model model) {
+        model.addAttribute("registrationsAllowed", authService.isRegistrationAllowed());
+
         return "panel/auth/login";
     }
 
     @GetMapping("/register")
     public String registerGet() {
-        return "panel/auth/register";
+        if (authService.isRegistrationAllowed()) {
+            return "panel/auth/register";
+        } else {
+            log.warn("User attempted to access registration page, but registrations are not allowed.");
+
+            return "redirect:" + pathService.getLoginPage();
+        }
     }
 
     @PostMapping("/register")
     public String registerPost(@ModelAttribute @Valid RegisterForm form, Model model, HttpServletRequest request) {
         Result<Void> result = authFacade.register(form);
         if (result.isOk()) {
-            try {
-                request.login(form.getUsername(), form.getPassword());
-            } catch (ServletException e) {
-                log.error("Failed to login user after registration.", e);
-
-                result = Result.error(403, "Failed to log in after registration.");
-            }
+            result = authFacade.forceLogin(form.getUsername(), form.getPassword(), request);
         }
 
         if (result.isOk()) {

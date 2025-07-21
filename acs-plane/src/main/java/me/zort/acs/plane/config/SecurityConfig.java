@@ -1,6 +1,5 @@
 package me.zort.acs.plane.config;
 
-import me.zort.acs.plane.http.security.PlaneAuthEntryPoint;
 import me.zort.acs.plane.http.security.PlaneUserDetailsService;
 import me.zort.acs.plane.http.internal.service.PathService;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +18,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            PathService pathService,
-            PlaneUserDetailsService userDetailsService, PlaneAuthEntryPoint aep) throws Exception {
+            PathService pathService, PlaneUserDetailsService userDetailsService) throws Exception {
         String loginPage = pathService.getLoginPage();
 
         return http
@@ -39,8 +37,6 @@ public class SecurityConfig {
                         .requestMatchers(pathService.getApiPathPattern()).permitAll()
                         .requestMatchers(pathService.getLoginPage(), pathService.getRegisterPage()).permitAll()
                         .anyRequest().authenticated())
-                .exceptionHandling(config -> config
-                        .authenticationEntryPoint(aep))
                 .build();
     }
 

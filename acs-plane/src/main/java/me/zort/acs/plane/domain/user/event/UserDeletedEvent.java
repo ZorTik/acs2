@@ -1,10 +1,10 @@
 package me.zort.acs.plane.domain.user.event;
 
-import java.util.UUID;
+import me.zort.acs.plane.api.domain.user.User;
 
-public class UserDeletedEvent extends UserIdEvent {
+public class UserDeletedEvent extends UserEvent {
 
-    public UserDeletedEvent(UUID userId) {
-        super(userId);
+    public UserDeletedEvent(User user) {
+        super(user);
     }
 }

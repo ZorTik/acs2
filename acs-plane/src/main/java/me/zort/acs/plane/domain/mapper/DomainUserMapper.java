@@ -2,6 +2,7 @@ package me.zort.acs.plane.domain.mapper;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.mapper.UserMapper;
+import me.zort.acs.plane.api.domain.security.Role;
 import me.zort.acs.plane.api.domain.user.CreateUserArgs;
 import me.zort.acs.plane.api.domain.user.User;
 import me.zort.acs.plane.data.user.model.UserDocument;
@@ -16,7 +17,7 @@ public class DomainUserMapper implements UserMapper {
 
     @Override
     public User toDomain(UserDocument document) {
-        return new UserImpl(document.getId(), document.getDisplayName());
+        return new UserImpl(document.getId(), document.getDisplayName(), document.getRole());
     }
 
     @Override
@@ -24,6 +25,7 @@ public class DomainUserMapper implements UserMapper {
         UserDocument document = new UserDocument();
         document.setId(domain.getId());
         document.setDisplayName(domain.getDisplayName());
+        document.setRole(domain.getRole());
 
         return document;
     }
@@ -33,6 +35,7 @@ public class DomainUserMapper implements UserMapper {
         UserDocument document = new UserDocument();
         document.setId(UUID.randomUUID());
         document.setDisplayName(args.getDisplayName());
+        document.setRole(Role.defaultRole());
 
         return document;
     }

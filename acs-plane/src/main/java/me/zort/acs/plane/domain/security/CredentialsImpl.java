@@ -1,8 +1,8 @@
-package me.zort.acs.plane.domain.credentials;
+package me.zort.acs.plane.domain.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import me.zort.acs.plane.api.domain.credentials.Credentials;
+import me.zort.acs.plane.api.domain.security.Credentials;
 
 import java.util.UUID;
 

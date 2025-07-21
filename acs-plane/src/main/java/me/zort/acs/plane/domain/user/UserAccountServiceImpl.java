@@ -3,8 +3,9 @@ package me.zort.acs.plane.domain.user;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.plane.api.domain.credentials.Credentials;
-import me.zort.acs.plane.api.domain.credentials.CredentialsService;
+import me.zort.acs.plane.api.domain.security.Credentials;
+import me.zort.acs.plane.api.domain.security.CredentialsService;
+import me.zort.acs.plane.api.domain.security.Role;
 import me.zort.acs.plane.api.domain.user.*;
 import me.zort.acs.plane.api.domain.user.exception.AccountCreateException;
 import me.zort.acs.plane.api.domain.user.exception.AccountCreateInvalidFormException;
@@ -30,8 +31,17 @@ public class UserAccountServiceImpl implements UserAccountService {
         User user = userService.createUser(CreateUserArgs.builder()
                 .displayName(args.getDisplayName())
                 .build());
-        credentialsService.assignCredentials(user.getId(), args.getUsername(), args.getPassword());
+        credentialsService.assignCredentials(user, args.getUsername(), args.getPassword());
+        afterUserCreate(user);
+
         return user;
+    }
+
+    private void afterUserCreate(User user) {
+        if (userService.getUserCount() == 1) {
+            // This is the first user, so we assign them the ADMIN role.
+            userService.setRole(user, Role.ADMIN);
+        }
     }
 
     private void validateCreateArgs(CreateWithSimpleLoginArgs args) throws AccountCreateException {
@@ -49,8 +59,10 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Transactional
     @Override
     public void deleteUserWithId(UUID id) {
-        credentialsService.deleteCredentialsByUserId(id);
+        userService.getUserById(id).ifPresent(user -> {
+            credentialsService.deleteCredentialsByUser(user);
 
-        userService.deleteUserById(id);
+            userService.deleteUser(user);
+        });
     }
 }

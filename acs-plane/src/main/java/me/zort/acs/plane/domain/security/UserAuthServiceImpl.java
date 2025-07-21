@@ -1,7 +1,7 @@
 package me.zort.acs.plane.domain.security;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.plane.api.domain.credentials.CredentialsService;
+import me.zort.acs.plane.api.domain.security.CredentialsService;
 import me.zort.acs.plane.api.domain.security.UserAuthService;
 import me.zort.acs.plane.api.domain.user.User;
 import me.zort.acs.plane.api.domain.user.UserService;

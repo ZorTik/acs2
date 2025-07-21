@@ -2,6 +2,7 @@ package me.zort.acs.plane.domain.user;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.mapper.UserMapper;
+import me.zort.acs.plane.api.domain.security.Role;
 import me.zort.acs.plane.api.domain.user.CreateUserArgs;
 import me.zort.acs.plane.api.domain.user.User;
 import me.zort.acs.plane.api.domain.user.UserService;
@@ -34,10 +35,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(UUID id) {
-        userRepository.deleteById(id);
+    public void deleteUser(User user) {
+        userRepository.deleteById(user.getId());
 
-        eventPublisher.publishEvent(new UserDeletedEvent(id));
+        eventPublisher.publishEvent(new UserDeletedEvent(user));
+    }
+
+    @Override
+    public void setRole(User user, Role role) {
+        user.setRole(role);
+
+        userRepository.save(userMapper.toPersistence(user));
     }
 
     @Override

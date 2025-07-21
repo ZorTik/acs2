@@ -1,9 +1,9 @@
 package me.zort.acs.plane.domain.mapper;
 
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
-import me.zort.acs.plane.api.domain.credentials.Credentials;
+import me.zort.acs.plane.api.domain.security.Credentials;
 import me.zort.acs.plane.data.credentials.CredentialsDocument;
-import me.zort.acs.plane.domain.credentials.CredentialsImpl;
+import me.zort.acs.plane.domain.security.CredentialsImpl;
 import org.springframework.stereotype.Component;
 
 @Component
