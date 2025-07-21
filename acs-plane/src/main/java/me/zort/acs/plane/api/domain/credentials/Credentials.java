@@ -1,16 +1,14 @@
 package me.zort.acs.plane.api.domain.credentials;
 
+import java.util.UUID;
+
 public interface Credentials {
 
-    long getId();
+    UUID getId();
 
-    long getUserId();
-
-    void setUsername(String username);
+    UUID getUserId();
 
     String getUsername();
-
-    void setHashedPassword(String hashedPassword);
 
     String getHashedPassword();
 }

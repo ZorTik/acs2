@@ -13,12 +13,4 @@ public interface UserAuthService {
      * @return the User object associated with the given principal, or null if not found
      */
     Optional<? extends User> getUserByPrincipal(String principal);
-
-    /**
-     * Get the hashed password of a user by their ID.
-     *
-     * @param userId the ID of the user whose password is to be retrieved
-     * @return the hashed password of the user, or null if the user does not exist
-     */
-    String getEncodedPassword(long userId);
 }

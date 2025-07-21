@@ -1,7 +1,6 @@
 package me.zort.acs.plane.domain.security;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.plane.api.domain.credentials.Credentials;
 import me.zort.acs.plane.api.domain.credentials.CredentialsService;
 import me.zort.acs.plane.api.domain.security.UserAuthService;
 import me.zort.acs.plane.api.domain.user.User;
@@ -19,14 +18,8 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public @Nullable Optional<? extends User> getUserByPrincipal(String principal) {
-        return credentialsService.getCredentialsByUsername(principal)
+        return credentialsService
+                .getCredentialsByUsername(principal)
                 .flatMap(credentials -> userService.getUserById(credentials.getUserId()));
-    }
-
-    @Override
-    public String getEncodedPassword(long userId) {
-        return credentialsService.getCredentialsByUserId(userId)
-                .map(Credentials::getHashedPassword)
-                .orElse(null);
     }
 }

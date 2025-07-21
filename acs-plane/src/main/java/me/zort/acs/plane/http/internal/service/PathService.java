@@ -37,10 +37,22 @@ public class PathService {
     }
 
     public String getLoginPage() {
-        return "/panel/login";
+        return "/panel/auth/login";
     }
 
-    public String getSetupPage() {
-        return "/panel/setup";
+    public String getRegisterPage() {
+        return "/panel/auth/register";
+    }
+
+    public String getPanelLandingPage() {
+        return "/panel";
+    }
+
+    public String getPanelPathPattern() {
+        return PathUtils.panelPathPattern();
+    }
+
+    public String getApiPathPattern() {
+        return PathUtils.apiPathPattern();
     }
 }

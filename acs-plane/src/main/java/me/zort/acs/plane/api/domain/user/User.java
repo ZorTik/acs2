@@ -1,8 +1,10 @@
 package me.zort.acs.plane.api.domain.user;
 
+import java.util.UUID;
+
 public interface User {
 
-    long getId();
+    UUID getId();
 
     String getDisplayName();
 }

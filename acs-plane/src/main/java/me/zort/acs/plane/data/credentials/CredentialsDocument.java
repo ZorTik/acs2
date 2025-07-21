@@ -5,14 +5,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Data
 @Document(collection = "acs_credentials")
 public class CredentialsDocument {
 
     @Id
-    private long id;
+    private UUID id;
     @Indexed(unique = true)
-    private long userId;
+    private UUID userId;
 
     @Indexed(unique = true)
     private String username;

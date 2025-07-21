@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import me.zort.acs.plane.api.domain.credentials.Credentials;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 public class CredentialsImpl implements Credentials {
-    private final long id;
-    private final long userId;
+    private final UUID id;
+    private final UUID userId;
 
     private String username;
     private String hashedPassword;
