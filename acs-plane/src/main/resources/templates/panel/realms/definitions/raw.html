@@ -3,9 +3,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/realm}"
       lang="en">
-<head>
-    <title>Detail</title>
-</head>
+    <head>
+        <title>Detail</title>
+
+        <layout:fragment name="extra-head">
+            <style>
+                .CodeMirror {
+                    height: 100%;
+                }
+            </style>
+        </layout:fragment>
+    </head>
     <body>
         <div layout:fragment="heading-wrapper">
             <h1 th:replace="~{layouts/general :: heading(title='Raw Definitions')}"></h1>
@@ -21,6 +29,10 @@
                     <button type="submit">Save</button>
                 </div>
             </form>
+
+            <script>
+                initCodeMirror("definitions");
+            </script>
         </div>
     </body>
 </html>

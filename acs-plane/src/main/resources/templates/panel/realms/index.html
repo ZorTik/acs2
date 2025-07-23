@@ -13,28 +13,43 @@
 </div>
 
 <div layout:fragment="content">
-    <a th:href="@{/panel/realms/create}">
-        <div th:replace="~{fragments/component :: button(~{::#create-realm-content}, 'primary', 'button')}">
-            <span id="create-realm-content">Create Realm</span>
+    <div class="flex gap-4">
+        <div class="w-4/5">
+            <div th:replace="~{fragments/component :: block(~{::listing-table}, 'Registered Realms')}">
+                <th:block th:fragment="listing-table">
+                    <table class="w-full">
+                        <thead class="text-left">
+                        <tr>
+                            <th>Realm Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="realm : ${realms}">
+                            <td th:text="${realm.name}">Realm Name</td>
+                            <td class="flex justify-end">
+                                <a th:href="@{/panel/realms/definitions/raw(realm=${realm.name})}">
+                                    <button th:replace="~{fragments/component :: button-primary(~{::edit-realm}, 'py-2', null)}">
+                                        <span th:fragment="edit-realm">Edit</span>
+                                    </button>
+                                </a>
+                                <!-- TODO: Delete -->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+            </div>
         </div>
-    </a>
-
-    <table class="w-full">
-        <thead class="text-left">
-        <tr>
-            <th>Realm Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="realm : ${realms}">
-            <td th:text="${realm.name}">Realm Name</td>
-            <td>
-                <a th:href="@{/panel/realms/definitions/raw(realm=${realm.name})}">Edit</a>
-                <!-- TODO: Delete -->
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <div class="w-1/5">
+            <div th:replace="~{fragments/component :: block(~{::create-button}, 'Operations')}">
+                <a th:href="@{/panel/realms/create}" th:fragment="create-button">
+                    <button th:replace="~{fragments/component :: button-primary(~{::#create-realm-content}, null, null)}">
+                        <span id="create-realm-content">New Realm</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

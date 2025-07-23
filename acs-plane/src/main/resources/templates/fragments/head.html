@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:fragment="head"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
@@ -10,4 +12,29 @@
 
     <!-- Common Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- CodeMirror YAML editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/yaml/yaml.min.js"></script>
+
+    <script>
+        const initCodeMirror = (textAreaId) => {
+            const textArea = document.getElementById(textAreaId);
+            if (!textArea) {
+                return;
+            }
+
+            CodeMirror.fromTextArea(textArea, {
+                mode: 'yaml',
+                lineNumbers: true,
+                theme: 'default',
+                tabSize: 2,
+                indentUnit: 2,
+                matchBrackets: true,
+                autoCloseBrackets: true
+            });
+        }
+    </script>
 </head>
+</html>

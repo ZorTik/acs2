@@ -14,11 +14,11 @@
     <div layout:fragment="content">
         <form method="post" class="flex flex-col">
             <label for="name">Realm Name</label>
-            <input type="text" name="name" id="name" placeholder="Enter realm name" />
+            <input type="text" name="name" id="name" placeholder="Enter realm name" required />
 
-            <div th:replace="~{fragments/component :: button(~{::#create-content}, 'primary', 'submit')}">
+            <button th:replace="~{fragments/component :: button-primary(~{::#create-content}, null, null)}">
                 <span id="create-content">Create</span>
-            </div>
+            </button>
         </form>
     </div>
 </body>

@@ -2,8 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       lang="en">
-<head th:replace="fragments/head :: head">
-    <title th:text="#{}">Panel</title>
+<head>
+    <title></title>
+    <th:block th:insert="~{fragments/head :: head}" />
+
+    <layout:insert name="extra-head" />
 </head>
 <body>
     <!--/*@thymesVar id="error" type="java.lang.String"*/-->
@@ -30,10 +33,8 @@
 
         <div class="flex-1 px-10">
             <div layout:fragment="heading-wrapper" class="py-5">
-                <h1 th:fragment="heading(title)" th:text="${title}" class="text-xl">Unnamed Page</h1>
+                <h1 th:fragment="heading(title)" th:text="${title}" class="text-2xl">Unnamed Page</h1>
             </div>
-
-            <hr />
 
             <div layout:fragment="content" class="flex flex-col space-y-5 py-5 h-full">
                 <!-- page content -->
