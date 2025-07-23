@@ -9,7 +9,7 @@
         <layout:fragment name="extra-head">
             <style>
                 .CodeMirror {
-                    height: 100%;
+                    height: 50%;
                 }
             </style>
         </layout:fragment>
@@ -19,15 +19,11 @@
             <h1 th:replace="~{layouts/general :: heading(title='Raw Definitions')}"></h1>
         </div>
         <div layout:fragment="content">
-            <form method="post" class="flex h-full">
-                <div class="h-full w-2/3">
-                    <label for="definitions"></label>
-                    <textarea th:text="${definitions}" id="definitions" name="definitions" class="h-full w-full" />
-                </div>
+            <form method="post" class="h-full">
+                <label for="definitions"></label>
+                <textarea th:text="${definitions}" id="definitions" name="definitions" class="w-full" />
 
-                <div class="h-full w-1/3">
-                    <button type="submit">Save</button>
-                </div>
+                <button type="submit">Save</button>
             </form>
 
             <script>

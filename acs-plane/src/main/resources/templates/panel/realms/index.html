@@ -21,14 +21,15 @@
                         <thead class="text-left">
                         <tr>
                             <th>Realm Name</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="realm : ${realms}">
                             <td th:text="${realm.name}">Realm Name</td>
-                            <td class="flex justify-end">
+                            <td class="flex">
                                 <a th:href="@{/panel/realms/definitions/raw(realm=${realm.name})}">
-                                    <button th:replace="~{fragments/component :: button-primary(~{::edit-realm}, 'py-2', null)}">
+                                    <button th:replace="~{fragments/component :: button-primary(~{::edit-realm}, '!py-1', null)}">
                                         <span th:fragment="edit-realm">Edit</span>
                                     </button>
                                 </a>
