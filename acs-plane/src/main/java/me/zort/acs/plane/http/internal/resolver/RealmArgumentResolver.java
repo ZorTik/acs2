@@ -7,6 +7,7 @@ import me.zort.acs.plane.api.domain.realm.RealmService;
 import me.zort.acs.plane.api.http.mapper.HttpRealmMapper;
 import me.zort.acs.plane.http.error.exception.PanelNoDefaultRealmException;
 import me.zort.acs.plane.http.internal.service.PathService;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -52,28 +53,44 @@ public class RealmArgumentResolver implements HandlerMethodArgumentResolver {
 
         // A panel resolving logic is only applied to panel paths
         if (pathService.getPathGroup(request.getRequestURI()) == PathService.PathGroup.PANEL) {
-            String realmName = webRequest.getParameter("realm");
-
-            Realm realm = null;
-            if (realmName != null) {
-                realm = realmMapper.toDomain(realmName).or(null).getValue();
-            }
-
-            // No realm in the request, try to get the default one
-            if (realm == null) {
-                realm = getDefaultRealmForLoggedInUser(request);
-            }
-
-            if (realm == null) {
-                // No default realm
-                throw new PanelNoDefaultRealmException();
-            }
-
-            return realm;
+            return resolveRealm(webRequest);
         }
 
         // The group this path falls into does not have a realm resolving logic defined.
         return null;
+    }
+
+    /**
+     * Resolves the realm from the web request.
+     *
+     * @param webRequest the web request to resolve the realm from
+     * @return the resolved realm
+     * @throws PanelNoDefaultRealmException if no realm is specified in the request and no default realm is found for the logged-in user
+     */
+    public @NotNull Realm resolveRealm(NativeWebRequest webRequest) throws PanelNoDefaultRealmException {
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        if (request == null) {
+            throw new IllegalStateException("No HttpServletRequest found in the web request.");
+        }
+
+        String realmName = webRequest.getParameter("realm");
+
+        Realm realm = null;
+        if (realmName != null) {
+            realm = realmMapper.toDomain(realmName).or(null).getValue();
+        }
+
+        // No realm in the request, try to get the default one
+        if (realm == null) {
+            realm = getDefaultRealmForLoggedInUser(request);
+        }
+
+        if (realm == null) {
+            // No default realm
+            throw new PanelNoDefaultRealmException();
+        }
+
+        return realm;
     }
 
     private @Nullable Realm getDefaultRealmForLoggedInUser(HttpServletRequest request) {

@@ -35,8 +35,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers("/error", "/actuator/**").permitAll()
                         .requestMatchers(pathService.getApiPathPattern()).permitAll()
+                        .requestMatchers(pathService.getPanelPathPattern()).authenticated()
                         .requestMatchers(pathService.getLoginPage(), pathService.getRegisterPage()).permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .build();
     }
 
