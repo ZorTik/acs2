@@ -14,7 +14,7 @@
 
 <div layout:fragment="content">
     <a th:href="@{/panel/realms/create}">
-        <div th:replace="~{fragments/component :: button(~{::#create-realm-content}, 'primary')}">
+        <div th:replace="~{fragments/component :: button(~{::#create-realm-content}, 'primary', 'button')}">
             <span id="create-realm-content">Create Realm</span>
         </div>
     </a>

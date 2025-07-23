@@ -3,9 +3,9 @@
 <body>
 
 <!-- Button fragment -->
-<div th:fragment="button(content, style)">
+<div th:fragment="button(content, style, type)">
     <!-- Primary button -->
-    <button th:if="${style == 'primary'}">
+    <button th:if="${style == 'primary'}" class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-2 px-4 rounded-md transition-all duration-300 hover:from-blue-800 hover:to-blue-600">
         <span th:insert="${content}">Button</span>
     </button>
     <!-- Success button -->
