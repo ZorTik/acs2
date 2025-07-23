@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/realm}"
+      layout:decorate="~{layouts/general}"
       lang="en">
 <head>
     <title>Detail</title>
@@ -10,13 +10,16 @@
         <div layout:fragment="heading-wrapper">
             <h1 th:replace="~{layouts/general :: heading(title='Raw Definitions')}"></h1>
         </div>
-        <div layout:fragment="realm-content">
-            <form method="post">
-                <label>
-                    <textarea th:text="${definitions}" name="definitions" />
-                </label>
+        <div layout:fragment="content">
+            <form method="post" class="flex h-full">
+                <div class="h-full w-2/3">
+                    <label for="definitions"></label>
+                    <textarea th:text="${definitions}" id="definitions" name="definitions" class="h-full w-full" />
+                </div>
 
-                <button type="submit">Save</button>
+                <div class="h-full w-1/3">
+                    <button type="submit">Save</button>
+                </div>
             </form>
         </div>
     </body>

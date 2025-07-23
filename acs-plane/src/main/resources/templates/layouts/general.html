@@ -18,6 +18,7 @@
             <ul>
                 <li><a th:href="@{/panel}">Info</a></li>
                 <li><a th:href="@{/panel/realms}">Realms</a></li>
+                <li><a th:href="@{/panel/users}">Users</a></li>
             </ul>
 
             <a th:href="@{/panel/logout}" class="mt-auto mb-5">Logout</a>
@@ -33,7 +34,7 @@
                 <h1 th:fragment="heading(title)" th:text="${title}" class="text-xl">Unnamed Page</h1>
             </div>
 
-            <div layout:fragment="content" class="flex flex-col space-y-5">
+            <div layout:fragment="content" class="flex flex-col space-y-5 h-full">
                 <!-- page content -->
             </div>
         </div>
