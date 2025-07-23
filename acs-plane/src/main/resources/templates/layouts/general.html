@@ -13,7 +13,7 @@
     <th:block th:if="${error != null}" th:replace="~{fragments/alert :: alert(${error})}" />
 
     <div class="flex w-full min-h-screen">
-        <nav class="flex flex-col max-w-xs px-12 bg-slate-900 text-slate-200">
+        <nav class="flex flex-col max-w-xs px-12 bg-slate-900 text-slate-200 border-r">
             <div class="py-5 text-center">
                 <h1 class="text-2xl">ACS2</h1>
             </div>
@@ -31,12 +31,14 @@
             <!-- Middle navbar content -->
         </div>
 
-        <div class="flex-1 px-10">
-            <div layout:fragment="heading-wrapper" class="pt-5">
+        <div class="flex-1">
+            <div layout:fragment="heading-wrapper" class="py-4 px-12">
                 <h1 th:fragment="heading(title)" th:text="${title}" class="text-2xl">Unnamed Page</h1>
             </div>
 
-            <div layout:fragment="content" class="flex flex-col space-y-5 py-5 h-full">
+            <hr />
+
+            <div layout:fragment="content" class="flex flex-col space-y-5 px-12 py-5 h-full">
                 <!-- page content -->
             </div>
         </div>

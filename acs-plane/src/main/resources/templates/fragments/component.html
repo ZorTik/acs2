@@ -3,17 +3,29 @@
     <body>
         <!-- Button fragments -->
         <button th:fragment="button-primary(content, className, type)"
-                th:class="${className ?: ''} + ' bg-gradient-to-r from-blue-700 to-blue-500 text-white py-2 px-4 rounded-md transition-all duration-300 hover:from-blue-800 hover:to-blue-600'"
+                th:class="${className ?: ''} + ' bg-blue-700 text-white py-1 px-4 rounded-md transition-all duration-300 hover:bg-blue-800'"
                 th:type="${type ?: 'button'}">
             <span th:insert="${content}">Button</span>
         </button>
 
+        <div th:fragment="badge-primary(content, className, type)"
+                th:class="${className ?: ''} + ' bg-blue-700 text-white px-4 py-0 my-0 rounded-xl transition-all duration-300 hover:bg-blue-800'"
+                th:type="${type ?: 'button'}">
+            <span th:insert="${content}">Badge</span>
+        </div>
+
         <!-- Layout fragments -->
-        <div th:fragment="block(content, title)" th:class="'p-4 rounded-md border border-gray-200'">
-            <th:block th:if="${title} != null">
-                <h2 th:text="${title}" class="text-xl m-0 p-0"></h2>
-                <hr class="my-4" />
+        <div th:fragment="block(content, title, subtitle)" th:class="'p-4 rounded-md border border-gray-200'">
+            <th:block th:if="${title} != null and ${subtitle} != null">
+                <div class="w-full mb-4">
+                    <h2 th:text="${title}" class="text-xl m-0 p-0"></h2>
+                    <h3 th:text="${subtitle}" class="text-md m-0 p-0"></h3>
+                </div>
             </th:block>
+            <th:block th:insert="${content}"></th:block>
+        </div>
+
+        <div th:fragment="info(content)" class="p-4 border-l-2 bg-blue-50 border-blue-500">
             <th:block th:insert="${content}"></th:block>
         </div>
     </body>

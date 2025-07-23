@@ -14,8 +14,8 @@
 
 <div layout:fragment="content">
     <div class="flex gap-4">
-        <div class="w-4/5">
-            <div th:replace="~{fragments/component :: block(~{::listing-table}, 'Registered Realms')}">
+        <div class="w-full">
+            <div th:replace="~{fragments/component :: block(~{::listing-table}, 'Registered Realms', 'Realms currently registered in the system.')}">
                 <th:block th:fragment="listing-table">
                     <table class="w-full">
                         <thead class="text-left">
@@ -29,7 +29,7 @@
                             <td th:text="${realm.name}">Realm Name</td>
                             <td class="flex">
                                 <a th:href="@{/panel/realms/definitions/raw(realm=${realm.name})}">
-                                    <button th:replace="~{fragments/component :: button-primary(~{::edit-realm}, '!py-1', null)}">
+                                    <button th:replace="~{fragments/component :: badge-primary(~{::edit-realm}, '!py-1', null)}">
                                         <span th:fragment="edit-realm">Edit</span>
                                     </button>
                                 </a>
@@ -38,16 +38,13 @@
                         </tr>
                         </tbody>
                     </table>
+
+                    <a th:href="@{/panel/realms/create}">
+                        <button th:replace="~{fragments/component :: button-primary(~{::#create-realm-content}, 'mt-4', null)}">
+                            <span id="create-realm-content">New Realm</span>
+                        </button>
+                    </a>
                 </th:block>
-            </div>
-        </div>
-        <div class="w-1/5">
-            <div th:replace="~{fragments/component :: block(~{::create-button}, 'Operations')}">
-                <a th:href="@{/panel/realms/create}" th:fragment="create-button">
-                    <button th:replace="~{fragments/component :: button-primary(~{::#create-realm-content}, null, null)}">
-                        <span id="create-realm-content">New Realm</span>
-                    </button>
-                </a>
             </div>
         </div>
     </div>
