@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Button fragment -->
+<div th:fragment="button(content, style)">
+    <!-- Primary button -->
+    <button th:if="${style == 'primary'}">
+        <span th:insert="${content}">Button</span>
+    </button>
+    <!-- Success button -->
+    <button th:if="${style == 'success'}">
+        <span th:insert="${content}">Button</span>
+    </button>
+</div>
+
+</body>
+</html>

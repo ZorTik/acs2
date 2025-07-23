@@ -7,13 +7,22 @@
     <title>Welcome</title>
 </head>
 <body>
-<div layout:fragment="content">
-    <h1>Info</h1>
-    <p>Welcome to ACS Plane!</p>
+<div layout:fragment="heading-wrapper">
+    <h1 th:replace="~{layouts/general :: heading(title='Info')}"></h1>
+</div>
 
-    <h2>Logged in.</h2>
-    <p>Username: <span th:text="${user.displayName}" /></p>
-    <p>Role: <span th:text="${user.role.name()}" /></p>
+<div layout:fragment="content">
+    <div class="flex flex-row w-full">
+        <div class="w-2/3">
+            <h2>Welcome to ACS Plane!</h2>
+            <p>Logged in.</p>
+        </div>
+
+        <div class="w-1/3">
+            <p>Username: <span th:text="${user.displayName}" /></p>
+            <p>Role: <span th:text="${user.role.name()}" /></p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

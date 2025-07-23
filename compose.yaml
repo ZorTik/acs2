@@ -58,6 +58,7 @@ services:
     command: >
       sh -c "gradle :acs-plane:bootRun --no-daemon --debug-jvm"
     environment:
+      SPRING_PROFILES_ACTIVE: dev
       MONGODB_HOST: db-plane
       MONGODB_PORT: 27017
       MONGODB_DB: test
@@ -65,6 +66,7 @@ services:
       REDIS_PORT: 6379
     volumes:
       - .:/home/gradle/project
+      - ./plane/src/main/resources/templates:/home/gradle/project/src/main/resources/templates
       #- /home/gradle/project/.gradle
       #- /home/gradle/project/build
       - plane-gradle-cache:/home/gradle/.gradle

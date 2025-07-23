@@ -2,32 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!--/*@thymesVar id="CONTENT_TITLE" type="String"*/-->
-    <title layout:title-pattern="${CONTENT_TITLE} - ACS2"></title>
+<head th:replace="fragments/head :: head">
+    <title th:text="#{}">Panel</title>
 </head>
 <body>
     <!--/*@thymesVar id="error" type="java.lang.String"*/-->
-    <th:block th:if="${error != null}" th:replace="fragments/alert :: alert(${error})" />
+    <th:block th:if="${error != null}" th:replace="~{fragments/alert :: alert(${error})}" />
 
-    <div>
-        <nav>
+    <div class="flex w-full min-h-screen">
+        <nav class="flex flex-col max-w-xs px-8">
+            <div class="py-5 text-center">
+                <h1 class="text-2xl">ACS2</h1>
+            </div>
+
             <ul>
                 <li><a th:href="@{/panel}">Info</a></li>
                 <li><a th:href="@{/panel/realms}">Realms</a></li>
-                <li><a th:href="@{/panel/settings}">Settings</a></li>
             </ul>
+
+            <a th:href="@{/panel/logout}" class="mt-auto mb-5">Logout</a>
         </nav>
-    </div>
 
-    <div layout:fragment="content">
-        <!-- page content -->
-    </div>
+        <!--/*@thymesVar id="showMiddleNav" type="java.lang.Boolean"*/-->
+        <div layout:fragment="middle-nav" th:if="${showMiddleNav}" class="flex-col">
+            <!-- Middle navbar content -->
+        </div>
 
-    <footer>
-        <p>Powered by ACS2</p>
-        <a href="/panel/logout">Logout</a>
-    </footer>
+        <div class="flex-1 px-10">
+            <div layout:fragment="heading-wrapper" class="py-5">
+                <h1 th:fragment="heading(title)" th:text="${title}" class="text-xl">Unnamed Page</h1>
+            </div>
+
+            <div layout:fragment="content" class="flex flex-col space-y-5">
+                <!-- page content -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>
