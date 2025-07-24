@@ -15,8 +15,10 @@
     </script>
 </head>
 <body>
-    <!--/*@thymesVar id="error" type="java.lang.String"*/-->
-    <th:block th:if="${error != null}" th:replace="~{fragments/alert :: alert(${error})}" />
+    <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
+    <th:block th:if="${alert != null and !alert.isEmpty()}">
+        <th:block th:replace="~{fragments/alert :: alert(${alert})}" />
+    </th:block>
 
     <div class="flex w-full min-h-screen">
         <nav th:replace="~{fragments/nav :: wrapper(~{::nav-title}, ~{::nav-content}, null)}">

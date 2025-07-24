@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/highlighted}">"
+      layout:decorate="~{layouts/highlighted}"
       lang="en">
     <head>
         <title>Login</title>
@@ -9,7 +9,7 @@
     <body>
         <div layout:fragment="content">
             <h1>Login</h1>
-            <form method="post">
+            <form method="post" class="flex flex-col">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Insert username" required />
 

@@ -39,8 +39,10 @@
         <div class="w-full">
             <div th:replace="~{fragments/component :: block(~{::upload-content}, 'Upload Definitions File', 'Edit the definitions using the editor below')}">
                 <th:block th:fragment="upload-content">
-                    <form method="post" class="h-full">
-                        <!-- TODO -->
+                    <form method="post" class="h-full flex flex-col" th:target="@{/panel/realms/upload-definitions(realm=${realm.getName()})}" enctype="multipart/form-data">
+                        <input type="file" name="definitions-file" id="definitions-file" accept=".json" placeholder="Select definitions file" required />
+
+                        <button th:replace="~{fragments/component :: button-primary('Save', 'mt-4 w-min', 'submit')}"></button>
                     </form>
                 </th:block>
             </div>

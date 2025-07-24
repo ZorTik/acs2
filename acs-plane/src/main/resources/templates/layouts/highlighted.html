@@ -3,16 +3,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       lang="en">
     <head>
-        <meta charset="UTF-8">
-        <!--/*@thymesVar id="CONTENT_TITLE" type="String"*/-->
-        <title layout:title-pattern="${CONTENT_TITLE} - ACS2"></title>
+        <th:block th:replace="~{fragments/head :: head}" />
+
+        <link rel="stylesheet" th:href="@{/css/general.css}" />
+        <link rel="stylesheet" th:href="@{/css/nav.css}" />
     </head>
 <body>
-    <!--/*@thymesVar id="error" type="java.lang.String"*/-->
-    <th:block th:if="${error != null}" th:replace="~{fragments/alert :: alert(${error})}" />
+    <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
+    <th:block th:if="${alert != null and !alert.isEmpty()}">
+        <th:block th:replace="~{fragments/alert :: alert(${alert})}" />
+    </th:block>
 
-    <!-- TODO: Centered layout -->
-    <div layout:fragment="content">
+    <div layout:fragment="content" class="flex flex-col min-h-screen w-full justify-center items-center">
         <!-- page content -->
     </div>
 </body>

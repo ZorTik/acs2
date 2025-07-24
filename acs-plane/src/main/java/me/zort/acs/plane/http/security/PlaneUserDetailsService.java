@@ -24,7 +24,7 @@ public class PlaneUserDetailsService implements UserDetailsService {
                     Credentials credentials = credentialsService.getCredentialsByUser(user)
                             .orElseThrow(() -> new UsernameNotFoundException("Credentials not found"));
 
-                    return new ContextUser(user, credentials, privilegesService.getGrantedPrivileges(user));
+                    return new LoggedInUserDetails(user, credentials, privilegesService.getGrantedPrivileges(user));
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("User not found by provided principal."));
     }
