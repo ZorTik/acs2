@@ -9,7 +9,7 @@
     </head>
 <body>
     <!--/*@thymesVar id="error" type="java.lang.String"*/-->
-    <th:block th:if="${error != null}" th:replace="fragments/alert :: alert(${error})" />
+    <th:block th:if="${error != null}" th:replace="~{fragments/alert :: alert(${error})}" />
 
     <!-- TODO: Centered layout -->
     <div layout:fragment="content">

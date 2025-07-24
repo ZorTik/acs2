@@ -8,7 +8,7 @@
 </head>
 <body>
     <div layout:fragment="heading-wrapper">
-        <h1 th:replace="~{layouts/general :: heading(title='Create Realm')}"></h1>
+        <h1 th:replace="~{layouts/general :: heading(title='Create Realm', addition=null)}"></h1>
     </div>
 
     <div layout:fragment="content">
@@ -16,9 +16,7 @@
             <label for="name">Realm Name</label>
             <input type="text" name="name" id="name" placeholder="Enter realm name" required />
 
-            <button th:replace="~{fragments/component :: button-primary(~{::#create-content}, null, 'submit')}">
-                <span id="create-content">Create</span>
-            </button>
+            <button th:replace="~{fragments/component :: button-primary('Create', null, 'submit')}"></button>
         </form>
     </div>
 </body>

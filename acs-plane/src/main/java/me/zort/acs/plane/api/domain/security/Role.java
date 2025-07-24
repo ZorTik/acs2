@@ -25,4 +25,8 @@ public enum Role {
     public List<Privilege> getPrivileges() {
         return Collections.unmodifiableList(Arrays.asList(privileges));
     }
+
+    public boolean isAdmin() {
+        return this == ADMIN;
+    }
 }

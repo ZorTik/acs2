@@ -2,18 +2,19 @@ package me.zort.acs.plane.http.controller.panel;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
+import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
+import me.zort.acs.plane.api.domain.realm.Realm;
+import me.zort.acs.plane.api.facade.DefinitionsFacade;
 import me.zort.acs.plane.api.facade.RealmsFacade;
-import me.zort.acs.plane.api.http.error.HttpErrorPropagator;
+import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
 import me.zort.acs.plane.facade.util.Result;
 import me.zort.acs.plane.http.dto.model.ListedRealm;
 import me.zort.acs.plane.http.dto.realms.RealmsCreateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +23,8 @@ import java.util.List;
 @Controller
 public class RealmsController {
     private final RealmsFacade realmsFacade;
-    private final HttpErrorPropagator errorPropagator;
+    private final DefinitionsFacade definitionsFacade;
+    private final HttpAlertPropagator alertPropagator;
 
     @GetMapping
     public String listRealmsGet(Model model) {
@@ -38,16 +40,50 @@ public class RealmsController {
         String name = form.getName();
         Result<Void> result = realmsFacade.createRealm(name);
         if (result.isError()) {
-            errorPropagator.propagateErrorToModel(result.getError(), model);
+            alertPropagator.propagateErrorToModel(result.getError(), model);
 
             return createRealmGet();
         }
 
-        return "redirect:/panel/realms/definitions/raw?realm=" + name;
+        return "redirect:/panel/realms/edit?realm=" + name;
     }
 
     @GetMapping("/create")
     public String createRealmGet() {
         return "panel/realms/create";
+    }
+
+    @PostMapping("/edit")
+    public String editRealmPost(@RequestParam String definitions, Realm realm, Model model) {
+        Result<Void> result = definitionsFacade.setDefinitions(realm, definitions, "application/x-yaml");
+        if (result.isOk()) {
+            alertPropagator.propagateAlertToModel("Definitions updated successfully.", model);
+        } else {
+            alertPropagator.propagateErrorToModel(result.getError(), model);
+        }
+
+        model.addAttribute("definitions", definitions);
+
+        return "panel/realms/edit";
+    }
+
+    @GetMapping("/edit")
+    public String editRealmGet(Realm realm, Model model) {
+        DefinitionsModel definitions = realm.getDefinitionsModel();
+        model.addAttribute("definitions", DefinitionsFormat.YAML.toStringModel(definitions));
+
+        return "panel/realms/edit";
+    }
+
+    @GetMapping("/delete")
+    public String deleteRealmPost(Realm realm, Model model) {
+        Result<Void> result = realmsFacade.deleteRealm(realm.getName());
+        if (result.isOk()) {
+            alertPropagator.propagateAlertToModel("Realm deleted successfully.", model);
+        } else {
+            alertPropagator.propagateErrorToModel(result.getError(), model);
+        }
+
+        return "redirect:/panel/realms";
     }
 }

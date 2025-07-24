@@ -1,6 +1,7 @@
 package me.zort.acs.plane.facade;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmService;
 import me.zort.acs.plane.api.domain.realm.exception.RealmAlreadyExistsException;
 import me.zort.acs.plane.api.facade.RealmsFacade;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
@@ -25,6 +27,18 @@ public class RealmsFacadeImpl implements RealmsFacade {
         } catch (RealmAlreadyExistsException e) {
             return Result.error(409, String.format("Realm '%s' already exists", name));
         }
+    }
+
+    @Override
+    public Result<Void> deleteRealm(String name) {
+        Optional<Realm> realmOptional = realmService.getRealm(name);
+
+        if (realmOptional.isEmpty()) {
+            return Result.error(404, String.format("Realm '%s' does not exist", name));
+        }
+
+        realmService.deleteRealm(realmOptional.get());
+        return Result.ok();
     }
 
     @Override

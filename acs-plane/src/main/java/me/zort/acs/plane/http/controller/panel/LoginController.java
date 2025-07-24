@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zort.acs.plane.api.domain.security.AuthService;
 import me.zort.acs.plane.api.facade.AuthFacade;
-import me.zort.acs.plane.api.http.error.HttpErrorPropagator;
+import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
 import me.zort.acs.plane.facade.util.Result;
 import me.zort.acs.plane.http.dto.auth.RegisterForm;
 import me.zort.acs.plane.http.internal.service.PathService;
@@ -25,7 +25,7 @@ public class LoginController {
     private final AuthFacade authFacade;
     private final PathService pathService;
     private final AuthService authService;
-    private final HttpErrorPropagator errorPropagator;
+    private final HttpAlertPropagator errorPropagator;
 
     @GetMapping("/login")
     public String loginGet(Model model) {

@@ -8,15 +8,33 @@
 </head>
 <body>
 <div layout:fragment="heading-wrapper">
-    <h1 th:replace="~{layouts/general :: heading(title='Info')}"></h1>
+    <h1 th:replace="~{layouts/general :: heading(title='Info', addition=null)}"></h1>
 </div>
 
 <div layout:fragment="content">
     <div th:replace="~{fragments/component :: info(~{::info})}">
         <th:block th:fragment="info">
             <h2>Welcome to ACS Plane!</h2>
-            <p>Logged in.</p>
         </th:block>
+    </div>
+
+    <div class="flex gap-4">
+        <div class="w-1/2">
+            <div th:replace="~{fragments/component :: block(~{::realm-count-content}, null, null)}">
+                <th:block th:fragment="realm-count-content">
+                    <h1 th:text="${realmCount}" class="text-4xl" />
+                    <h2>Registered Realms</h2>
+                </th:block>
+            </div>
+        </div>
+        <div class="w-1/2">
+            <div th:replace="~{fragments/component :: block(~{::user-count-content}, null, null)}">
+                <th:block th:fragment="user-count-content">
+                    <h1 th:text="${userCount}" class="text-4xl" />
+                    <h2>System Users</h2>
+                </th:block>
+            </div>
+        </div>
     </div>
 
     <!--

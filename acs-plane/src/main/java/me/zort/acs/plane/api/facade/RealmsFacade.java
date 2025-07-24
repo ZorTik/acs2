@@ -9,5 +9,7 @@ public interface RealmsFacade {
 
     Result<Void> createRealm(String name);
 
+    Result<Void> deleteRealm(String name);
+
     Result<List<ListedRealm>> listRealms();
 }

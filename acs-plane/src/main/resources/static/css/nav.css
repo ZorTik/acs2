@@ -1,0 +1,23 @@
+nav {
+    background-color: #232232;
+}
+
+nav h1 {
+    color: #f1f1fa;
+}
+
+nav h2 {
+    color: #eaeaff;
+}
+
+nav li a {
+    color: #f1f1fa;
+}
+
+nav li.link-active, nav li:hover {
+    background-color: #b9e2fb;
+}
+
+nav li.link-active a, nav li:hover a {
+    color: #232232 !important;
+}

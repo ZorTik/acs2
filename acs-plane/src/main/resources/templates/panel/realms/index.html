@@ -9,40 +9,38 @@
 <body>
 
 <div layout:fragment="heading-wrapper">
-    <h1 th:replace="~{layouts/general :: heading(title='Realms')}">Realms</h1>
+    <h1 th:replace="~{layouts/general :: heading('Realms', null)}">Realms</h1>
 </div>
 
 <div layout:fragment="content">
     <div class="flex gap-4">
         <div class="w-full">
-            <div th:replace="~{fragments/component :: block(~{::listing-table}, 'Registered Realms', 'Realms currently registered in the system.')}">
+            <div th:replace="~{fragments/component :: block(~{::listing-table}, null, null)}">
                 <th:block th:fragment="listing-table">
-                    <table class="w-full">
-                        <thead class="text-left">
+                    <table class="w-full border-separate border-spacing-y-4">
+                        <thead class="text-left pb-5">
                         <tr>
-                            <th>Realm Name</th>
-                            <th>Action</th>
+                            <th class="text-gray-500 font-normal">Name</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="realm : ${realms}">
-                            <td th:text="${realm.name}">Realm Name</td>
-                            <td class="flex">
-                                <a th:href="@{/panel/realms/definitions/raw(realm=${realm.name})}">
-                                    <button th:replace="~{fragments/component :: badge-primary(~{::edit-realm}, '!py-1', null)}">
-                                        <span th:fragment="edit-realm">Edit</span>
-                                    </button>
-                                </a>
-                                <!-- TODO: Delete -->
+                            <td>
+                                <i class="fa-solid fa-hashtag text-gray-600 text-sm"></i>
+                                <span th:text="${realm.name}">Realm Name</span>
+                            </td>
+                            <td class="flex space-x-2 justify-end">
+                                <a th:href="@{/panel/realms/edit(realm=${realm.name})}">Edit</a>
+
+                                <!-- TODO: Dropdown -->
                             </td>
                         </tr>
                         </tbody>
                     </table>
 
                     <a th:href="@{/panel/realms/create}">
-                        <button th:replace="~{fragments/component :: button-primary(~{::#create-realm-content}, 'mt-4', null)}">
-                            <span id="create-realm-content">New Realm</span>
-                        </button>
+                        <button th:replace="~{fragments/component :: button-primary('New Realm', 'mt-4', null)}"></button>
                     </a>
                 </th:block>
             </div>

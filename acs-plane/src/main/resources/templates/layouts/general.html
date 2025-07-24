@@ -3,43 +3,79 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       lang="en">
 <head>
-    <title></title>
-    <th:block th:insert="~{fragments/head :: head}" />
+    <th:block th:replace="~{fragments/head :: head}" />
 
-    <layout:insert name="extra-head" />
+    <link rel="stylesheet" th:href="@{/css/general.css}" />
+    <link rel="stylesheet" th:href="@{/css/nav.css}" />
+
+    <script>
+        const toggleAccountDropdown = () => {
+            $("#accountDropdown").toggleClass("hidden");
+        }
+    </script>
 </head>
 <body>
     <!--/*@thymesVar id="error" type="java.lang.String"*/-->
     <th:block th:if="${error != null}" th:replace="~{fragments/alert :: alert(${error})}" />
 
     <div class="flex w-full min-h-screen">
-        <nav class="flex flex-col max-w-xs px-12 bg-slate-900 text-slate-200 border-r">
-            <div class="py-5 text-center">
+        <nav th:replace="~{fragments/nav :: wrapper(~{::nav-title}, ~{::nav-content}, null)}">
+            <th:block th:fragment="nav-title">
                 <h1 class="text-2xl">ACS2</h1>
-            </div>
+                <h2>Control Plane</h2>
+            </th:block>
 
-            <ul class="space-y-2">
-                <li><a th:href="@{/panel}">Info</a></li>
-                <li><a th:href="@{/panel/realms}">Realms</a></li>
-                <li><a th:href="@{/panel/users}">Users</a></li>
-            </ul>
-
-            <!-- <a th:href="@{/panel/logout}" class="mt-auto mb-5">Logout</a> -->
+            <th:block th:fragment="nav-content">
+                <li th:replace="~{fragments/nav :: link(@{/panel}, ~{::#info-link}, 'home')}">
+                    <span id="info-link"><i class="fa-solid fa-house mr-1"></i> Home</span>
+                </li>
+                <li th:replace="~{fragments/nav :: link(@{/panel/realms}, ~{::#realms-link}, 'realms')}">
+                    <span id="realms-link"><i class="fa-solid fa-layer-group mr-1"></i> Realms</span>
+                </li>
+                <li th:replace="~{fragments/nav :: link(@{/panel/users}, ~{::#users-link}, 'users')}">
+                    <span id="users-link"><i class="fa-solid fa-users mr-1"></i> Users</span>
+                </li>
+            </th:block>
         </nav>
 
-        <div layout:fragment="middle-nav">
+        <nav layout:fragment="middle-nav">
             <!-- Middle navbar content -->
-        </div>
+        </nav>
 
-        <div class="flex-1">
-            <div layout:fragment="heading-wrapper" class="py-4 px-12">
-                <h1 th:fragment="heading(title)" th:text="${title}" class="text-2xl">Unnamed Page</h1>
+        <div class="flex-1 flex flex-col" id="page-content-wrapper">
+            <div class="flex py-4 px-12">
+                <div layout:fragment="heading-wrapper">
+                    <h1 th:fragment="heading(title, addition)" class="text-2xl flex items-center space-x-2">
+                        <span th:text="${title}">Unnamed Page</span>
+                        <th:block th:if="${addition != null}">
+                            <th:block th:replace="${addition}" />
+                        </th:block>
+                    </h1>
+                </div>
+
+                <div class="ml-auto flex items-center space-x-2 relative inline-block text-left">
+                    <button id="accountDropdownButton" class="transition-all duration-500 ease-in-out" onclick="toggleAccountDropdown()">
+                        <span class="pointer-events-none">Account</span> <i class="fa-solid fa-chevron-down text-sm"></i>
+                    </button>
+
+                    <div id="accountDropdown" class="hidden absolute right-0 top-8 mt-2 py-1 w-40 bg-white rounded-md shadow-lg z-10 transition-all duration-500">
+                        <div class="px-4 py-2">
+                            <span class="flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-user"></i> <p th:text="${user.getDisplayName()}"></p>
+                            </span>
+                        </div>
+
+                        <a th:href="@{/panel/logout}" class="block px-4 py-2 hover:bg-gray-100 bg-transparent">Logout</a>
+                    </div>
+                </div>
             </div>
 
-            <hr />
-
-            <div layout:fragment="content" class="flex flex-col space-y-5 px-12 py-5 h-full">
+            <div layout:fragment="content" class="flex flex-col flex-1 space-y-5 px-12 py-5">
                 <!-- page content -->
+            </div>
+
+            <div class="mt-auto w-full px-12 py-5 text-gray-400 text-right">
+                <p>v1.0.0</p>
             </div>
         </div>
     </div>
