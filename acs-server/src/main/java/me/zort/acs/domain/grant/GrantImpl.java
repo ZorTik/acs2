@@ -1,21 +1,25 @@
 package me.zort.acs.domain.grant;
 
 import lombok.Getter;
+import me.zort.acs.api.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.domain.model.Subject;
 
 import java.util.UUID;
 
-public abstract class GrantBase implements Grant {
+public class GrantImpl implements Grant {
     @Getter
     private final UUID id;
     private final Subject holder;
     private final Subject on;
+    @Getter
+    private final RightsHolder rightsHolder;
 
-    public GrantBase(UUID id, Subject holder, Subject on) {
+    public GrantImpl(UUID id, Subject holder, Subject on, RightsHolder rightsHolder) {
         this.id = id;
         this.holder = holder;
         this.on = on;
+        this.rightsHolder = rightsHolder;
     }
 
     public Subject getAccessor() {

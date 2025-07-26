@@ -13,7 +13,7 @@ import me.zort.acs.api.domain.subjecttype.exception.SubjectTypeAlreadyExistsExce
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
-import me.zort.acs.domain.group.Group;
+import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +74,8 @@ public class DefinitionsSynchronizerImpl implements DefinitionsSynchronizer {
         for (GroupDefinitionModel model : def.getGroups()) {
             refreshGroup(model, def, subjectType);
         }
+
+        subjectTypeService.setSupportsDynamicGroups(subjectType, def.getSettings().isDynamicGroupsAllowed());
     }
 
     private Group refreshGroup(
@@ -96,9 +98,13 @@ public class DefinitionsSynchronizerImpl implements DefinitionsSynchronizer {
 
         Group group;
         try {
-            group = groupService.createGroup(subjectType, def.getName(), CreateGroupOptions.builder()
+            CreateGroupOptions options = CreateGroupOptions.builder()
+                    .subjectType(subjectType)
+                    .name(def.getName())
                     .parentGroup(parentGroup)
-                    .nodes(nodesToAssign).build());
+                    .nodes(nodesToAssign).build();
+
+            group = groupService.createGroup(options);
         } catch (GroupAlreadyExistsException e) {
             group = e.getExisting();
 

@@ -46,7 +46,7 @@ public class DefinitionsObjectClonerImpl implements DefinitionsObjectCloner {
             DefinitionsModel cloned, Map<String, SubjectTypeDefinitionModel> subjectTypesRegistry) {
         model.getSubjectTypes().forEach(subjectTypeModel -> {
             SubjectTypeDefinitionModel clonedSubjectTypeModel = objectFactory
-                    .createSubjectTypeModel(subjectTypeModel.getId());
+                    .createSubjectTypeModel(subjectTypeModel.getId(), subjectTypeModel.getSettings());
 
             subjectTypeModel.getNodes()
                     .stream()

@@ -3,10 +3,7 @@ package me.zort.acs.core.domain.definitions.format.yaml;
 import me.zort.acs.core.domain.definitions.format.DefinitionsFormatAdapter;
 import me.zort.acs.core.domain.definitions.format.yaml.model.YamlDefinitionsModel;
 import me.zort.acs.core.domain.definitions.format.yaml.util.YamlFormatUtils;
-import me.zort.acs.core.domain.definitions.model.DefaultGrantsDefinitionModel;
-import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
-import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
-import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
+import me.zort.acs.core.domain.definitions.model.*;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 
@@ -49,7 +46,9 @@ public class YamlFormatAdapter implements DefinitionsFormatAdapter {
         model.getNodes().forEach(node -> nodes.add(toStringNodeModel(node.getValue())));
         model.getGroups().forEach(group -> groups.put(group.getName(), toStringGroupModel(group)));
 
-        return Map.of("nodes", nodes, "groups", groups);
+        Map<String, Object> settings = toStringSettingsModel(model.getSettings());
+
+        return Map.of("nodes", nodes, "groups", groups, "settings", settings);
     }
 
     private Map<String, Object> toStringNodeModel(String value) {
@@ -66,6 +65,13 @@ public class YamlFormatAdapter implements DefinitionsFormatAdapter {
         group.put("nodes", List.copyOf(model.getNodes()));
 
         return group;
+    }
+
+    private Map<String, Object> toStringSettingsModel(SubjectTypeSettingsModel model) {
+        Map<String, Object> settings = new HashMap<>();
+        settings.put("dynamic-groups", model.isDynamicGroupsAllowed());
+
+        return settings;
     }
 
     private Map<String, Object> toStringDefaultGrantModel(DefaultGrantsDefinitionModel model) {

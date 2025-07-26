@@ -17,8 +17,8 @@ public class DefinitionsObjectFactoryImpl implements DefinitionsObjectFactory {
     }
 
     @Override
-    public SubjectTypeDefinitionModel createSubjectTypeModel(String id) {
-        return new PlaneSubjectTypeDefinitionModel(id, new ArrayList<>(), new ArrayList<>());
+    public SubjectTypeDefinitionModel createSubjectTypeModel(String id, SubjectTypeSettingsModel settings) {
+        return new PlaneSubjectTypeDefinitionModel(id, new ArrayList<>(), new ArrayList<>(), settings);
     }
 
     @Override

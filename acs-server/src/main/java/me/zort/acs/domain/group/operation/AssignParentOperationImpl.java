@@ -2,7 +2,7 @@ package me.zort.acs.domain.group.operation;
 
 import lombok.Getter;
 import me.zort.acs.api.domain.group.operation.AssignParentOperation;
-import me.zort.acs.domain.group.Group;
+import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.domain.util.GroupUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Scope;

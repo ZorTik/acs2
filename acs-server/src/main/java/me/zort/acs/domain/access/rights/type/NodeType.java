@@ -9,9 +9,7 @@ import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.grant.type.NodeGrant;
 import me.zort.acs.domain.model.SubjectType;
-import me.zort.acs.domain.provider.options.GrantOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,24 +22,23 @@ public class NodeType implements RightsHolderType<Node> {
     private final GrantRepository grantRepository;
     private final RightsStrategy rightsStrategy;
     private final PersistenceToDomainMapper<NodeEntity, Node> nodeMapper;
+    private final PersistenceToDomainMapper<GrantEntity, Grant> grantMapper;
 
     @Override
-    public Grant createGrantFromHolder(Node holder, GrantOptions options) {
-        return new NodeGrant(options.getId(), options.getAccessor(), options.getAccessed(), holder);
+    public Optional<Grant> getGrantForHolder(Node holder, SubjectId accessorId, SubjectId accessedId) {
+        return grantRepository
+                .findNodeGrant(accessorId, accessedId, holder.getValue())
+                .map(grantMapper::toDomain);
     }
 
     @Override
-    public Optional<GrantEntity> getGrantEntitiesForHolder(Node holder, SubjectId accessorId, SubjectId accessedId) {
-        return grantRepository.findNodeGrant(accessorId, accessedId, holder.getValue());
-    }
-
-    @Override
-    public List<GrantEntity> getGrantEntitiesForHolders(List<Node> holders, SubjectId accessorId, SubjectType accessedType) {
+    public List<Grant> getGrantsForHolders(List<Node> holders, SubjectId accessorId, SubjectType accessedType) {
         return grantRepository.findAllBetween(accessorId, accessedType.getId())
                 .stream()
                 .filter(grant -> holders
                         .stream()
                         .anyMatch(node -> rightsStrategy.isNodeApplicableOn(nodeMapper.toDomain(grant.getNode()), node)))
+                .map(grantMapper::toDomain)
                 .toList();
     }
 

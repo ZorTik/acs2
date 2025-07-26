@@ -14,6 +14,8 @@ types:
         parent: group1
         nodes:
           - "example.node.subnode"
+    settings:
+      dynamic-groups: false
 
   # A subject group representing resources (e.g., files, endpoints)
   example2:
@@ -25,6 +27,22 @@ types:
       group1:
         nodes:
           - "example2.node"
+    settings:
+      dynamic-groups: false
+
+  # An example using dynamic groups
+  example3:
+    nodes:
+      - value: "example3.node"
+    groups:
+      # This is a default group when using dynamic groups
+      group1:
+        nodes:
+          - "example3.node"
+    settings:
+      # if enabled, it is allowed to create groups per-subject in this
+      # subject type.
+      dynamic-groups: true
 
 # Default access grants between subject types
 # These define default permissions from one subject group (e.g., users)

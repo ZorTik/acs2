@@ -68,6 +68,13 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
     }
 
     @Override
+    public void setSupportsDynamicGroups(SubjectType subjectType, boolean supportsDynamicGroups) {
+        subjectType.setSupportsDynamicGroups(supportsDynamicGroups);
+
+        subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
+    }
+
+    @Override
     public void deleteSubjectType(String id) {
         subjectTypeRepository.deleteById(id);
     }

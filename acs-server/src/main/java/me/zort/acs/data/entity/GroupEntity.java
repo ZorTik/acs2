@@ -23,9 +23,6 @@ public class GroupEntity implements AcsEntity<GroupId> {
     @JoinColumn(name = "subject_type_id", insertable = false, updatable = false)
     private SubjectTypeEntity subjectType;
 
-    @Column(name = "group_name", insertable = false, updatable = false)
-    private String name;
-
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "parent_group_id", referencedColumnName = "group_name"),
@@ -43,6 +40,10 @@ public class GroupEntity implements AcsEntity<GroupId> {
             inverseJoinColumns = @JoinColumn(name = "node_value")
     )
     private Set<NodeEntity> nodes = new HashSet<>();
+
+    public String getName() {
+        return id.getName();
+    }
 
     @SuppressWarnings("all")
     @Override

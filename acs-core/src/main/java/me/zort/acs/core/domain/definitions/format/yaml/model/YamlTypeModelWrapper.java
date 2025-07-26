@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.core.domain.definitions.model.NodeDefinitionModel;
 import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
+import me.zort.acs.core.domain.definitions.model.SubjectTypeSettingsModel;
 
 import java.util.List;
 import java.util.Map;
@@ -33,5 +34,10 @@ public class YamlTypeModelWrapper implements SubjectTypeDefinitionModel {
     @Override
     public List<GroupDefinitionModel> getGroups() {
         return List.copyOf(groups);
+    }
+
+    @Override
+    public SubjectTypeSettingsModel getSettings() {
+        return model.getSettings();
     }
 }

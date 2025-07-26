@@ -5,6 +5,7 @@ import me.zort.acs.core.domain.definitions.model.*;
 import me.zort.acs.plane.api.domain.definitions.DefinitionsObjectFactory;
 import me.zort.acs.plane.api.domain.mapper.DefinitionsMapper;
 import me.zort.acs.plane.data.definitions.model.*;
+import me.zort.acs.plane.domain.definitions.object.model.PlaneSubjectTypeSettingsDefinitionModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,8 +23,11 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
     public DefinitionsModel toDomain(RealmDocument entity) {
         Map<String, SubjectTypeDefinitionModel> subjectTypeDefs = new HashMap<>();
         entity.getSubjectTypes().forEach(subjectTypeEntity -> {
+            SubjectTypeSettingsModel settingsModel = new PlaneSubjectTypeSettingsDefinitionModel(
+                    subjectTypeEntity.getSettings().isDynamicGroups());
+
             SubjectTypeDefinitionModel model = definitionsObjectFactory
-                    .createSubjectTypeModel(subjectTypeEntity.getName());
+                    .createSubjectTypeModel(subjectTypeEntity.getName(), settingsModel);
             subjectTypeEntity.getNodes().forEach(nodeEntity -> {
                 NodeDefinitionModel nodeModel = definitionsObjectFactory.createNodeModel(nodeEntity.getValue());
 
@@ -74,6 +78,7 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
         grantModel.setTo(grant.getAccessedType().getId());
         grantModel.setNodes(grant.getGrantedNodes());
         grantModel.setGroups(grant.getGrantedGroups());
+
         return grantModel;
     }
 
@@ -87,6 +92,8 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
         subjectTypeDocument.setGroups(subjectType.getGroups()
                 .stream()
                 .map(this::toPersistenceGroup).toList());
+        subjectTypeDocument.setSettings(toPersistenceSubjectTypeSettings(subjectType.getSettings()));
+
         return subjectTypeDocument;
     }
 
@@ -106,5 +113,13 @@ public class DomainDefinitionsMapperImpl implements DefinitionsMapper {
         groupDocument.setNodes(new ArrayList<>(group.getNodes()));
 
         return groupDocument;
+    }
+
+    @NotNull
+    private SubjectTypeSettingsDocument toPersistenceSubjectTypeSettings(SubjectTypeSettingsModel settings) {
+        SubjectTypeSettingsDocument settingsDocument = new SubjectTypeSettingsDocument();
+        settingsDocument.setDynamicGroups(settings.isDynamicGroupsAllowed());
+
+        return settingsDocument;
     }
 }

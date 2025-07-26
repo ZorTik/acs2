@@ -1,6 +1,7 @@
 package me.zort.acs.domain.group;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.api.domain.operation.Operation;
 import me.zort.acs.api.domain.group.GroupOperationsFactory;
 import me.zort.acs.domain.group.operation.AssignNodesOperationImpl;

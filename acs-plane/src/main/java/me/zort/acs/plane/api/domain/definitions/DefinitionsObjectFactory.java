@@ -24,7 +24,7 @@ public interface DefinitionsObjectFactory {
      * @param id the identifier of the subject type
      * @return a new subject type definition model
      */
-    SubjectTypeDefinitionModel createSubjectTypeModel(String id);
+    SubjectTypeDefinitionModel createSubjectTypeModel(String id, SubjectTypeSettingsModel settings);
 
     /**
      * Creates a new instance of {@link DefaultGrantsDefinitionModel} for the given accessor and accessed type IDs.

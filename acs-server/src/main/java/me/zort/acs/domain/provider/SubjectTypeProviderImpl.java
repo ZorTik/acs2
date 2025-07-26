@@ -10,6 +10,6 @@ public class SubjectTypeProviderImpl implements SubjectTypeProvider {
 
     @Override
     public SubjectType getSubjectType(SubjectTypeOptions options) {
-        return new SubjectType(options.getId(), options.getNodes());
+        return new SubjectType(options.getId(), options.getNodes(), options.isSupportsDynamicGroups());
     }
 }

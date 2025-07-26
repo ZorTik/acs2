@@ -3,6 +3,7 @@ package me.zort.acs.data.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import me.zort.acs.data.entity.GrantEntity;
+import me.zort.acs.data.id.DynamicGroupId;
 import me.zort.acs.data.id.GroupId;
 import me.zort.acs.data.id.SubjectId;
 import org.springframework.stereotype.Repository;
@@ -62,6 +63,27 @@ public class JpaGrantRepositoryCustomImpl implements JpaGrantRepositoryCustom {
                 .setParameter("accessorId", accessorId)
                 .setParameter("accessedTypeId", accessedTypeId)
                 .setParameter("groupIds", groupIds)
+                .getResultList();
+    }
+
+    @Override
+    public Optional<GrantEntity> findDynamicGroupGrant(SubjectId accessorId, SubjectId accessedId, DynamicGroupId dynamicGroupId) {
+        return entityManager.createQuery(
+                        "SELECT g FROM acs_grants g WHERE g.accessor.id = :accessorId AND g.accessed.id = :accessedId AND g.dynamicGroup.id = :groupId", GrantEntity.class)
+                .setParameter("accessorId", accessorId)
+                .setParameter("accessedId", accessedId)
+                .setParameter("groupId", dynamicGroupId)
+                .getResultStream()
+                .findFirst();
+    }
+
+    @Override
+    public List<GrantEntity> findAllByDynamicGroupIn(SubjectId accessorId, String accessedTypeId, List<DynamicGroupId> dynamicGroupIds) {
+        return entityManager.createQuery(
+                        "SELECT g FROM acs_grants g WHERE g.accessor.id = :accessorId AND g.accessed.subjectType.id = :accessedTypeId AND g.dynamicGroup.id IN :groupIds", GrantEntity.class)
+                .setParameter("accessorId", accessorId)
+                .setParameter("accessedTypeId", accessedTypeId)
+                .setParameter("groupIds", dynamicGroupIds)
                 .getResultList();
     }
 

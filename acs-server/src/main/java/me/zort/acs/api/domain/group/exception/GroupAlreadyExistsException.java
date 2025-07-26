@@ -1,7 +1,7 @@
 package me.zort.acs.api.domain.group.exception;
 
 import lombok.Getter;
-import me.zort.acs.domain.group.Group;
+import me.zort.acs.api.domain.group.Group;
 import org.jetbrains.annotations.NotNull;
 
 @Getter

@@ -26,6 +26,7 @@ public class DomainSubjectTypeMapper implements DomainModelMapper<SubjectType, S
     public SubjectTypeEntity toPersistence(SubjectType domain) {
         SubjectTypeEntity entity = persistenceEntityProvider.getCachedOrCreate(SubjectTypeEntity.class, domain.getId());
         entity.setId(domain.getId());
+        entity.setSupportsDynamicGroups(domain.isSupportsDynamicGroups());
         entity.getNodes().clear();
         entity.getNodes().addAll(domain.getNodes()
                 .stream()
@@ -42,6 +43,7 @@ public class DomainSubjectTypeMapper implements DomainModelMapper<SubjectType, S
 
         return subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
                 .id(persistence.getId())
+                .supportsDynamicGroups(persistence.isSupportsDynamicGroups())
                 .nodes(nodes).build());
     }
 }

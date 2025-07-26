@@ -9,4 +9,6 @@ public interface SubjectTypeDefinitionModel {
     List<NodeDefinitionModel> getNodes();
 
     List<GroupDefinitionModel> getGroups();
+
+    SubjectTypeSettingsModel getSettings();
 }

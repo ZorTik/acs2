@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.zort.acs.core.domain.definitions.model.GroupDefinitionModel;
 import me.zort.acs.core.domain.definitions.model.NodeDefinitionModel;
 import me.zort.acs.core.domain.definitions.model.SubjectTypeDefinitionModel;
+import me.zort.acs.core.domain.definitions.model.SubjectTypeSettingsModel;
 
 import java.util.List;
 
@@ -14,5 +15,6 @@ public class PlaneSubjectTypeDefinitionModel implements SubjectTypeDefinitionMod
     private final String id;
     private final List<NodeDefinitionModel> nodes;
     private final List<GroupDefinitionModel> groups;
+    private final SubjectTypeSettingsModel settings;
 
 }

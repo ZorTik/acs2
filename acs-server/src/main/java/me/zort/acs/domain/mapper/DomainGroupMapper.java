@@ -9,7 +9,8 @@ import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.data.entity.NodeEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.id.GroupId;
-import me.zort.acs.domain.group.Group;
+import me.zort.acs.api.domain.group.Group;
+import me.zort.acs.domain.group.StaticGroup;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.domain.provider.options.GroupOptions;
@@ -33,14 +34,13 @@ public class DomainGroupMapper implements DomainModelMapper<Group, GroupEntity> 
         GroupId id = groupIdMapper.toPersistence(domain.getSubjectType(), domain.getName());
         GroupEntity entity = persistenceEntityProvider.getCachedOrCreate(GroupEntity.class, id);
         entity.setId(id);
-        entity.setName(domain.getName());
         entity.setSubjectType(subjectTypeMapper.toPersistence(domain.getSubjectType()));
         entity.setNodes(domain.getNodes()
                 .stream()
                 .map(nodeMapper::toPersistence).collect(Collectors.toSet()));
 
-        if (domain.getParent() != null) {
-            entity.setParent(toPersistence(domain.getParent()));
+        if (domain.getParent() != null && domain.getParent() instanceof StaticGroup staticGroupParent) {
+            entity.setParent(toPersistence(staticGroupParent));
         }
 
         return entity;

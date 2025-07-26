@@ -10,5 +10,6 @@ public class SubjectTypeDocument {
     private String name;
     private List<NodeDocument> nodes = new ArrayList<>();
     private List<GroupDocument> groups = new ArrayList<>();
+    private SubjectTypeSettingsDocument settings;
 
 }

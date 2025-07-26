@@ -6,7 +6,7 @@ import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
 import me.zort.acs.api.domain.group.operation.AssignNodesOperation;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.data.entity.GroupEntity;
-import me.zort.acs.domain.group.Group;
+import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
 import org.jetbrains.annotations.NotNull;

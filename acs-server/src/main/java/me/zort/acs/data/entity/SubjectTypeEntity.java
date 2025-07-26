@@ -18,6 +18,9 @@ public class SubjectTypeEntity implements AcsEntity<String> {
     @Column(length = 128)
     private String id;
 
+    @Column(name = "supports_dynamic_groups")
+    private boolean supportsDynamicGroups = false;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "acs_subject_types_nodes",

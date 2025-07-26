@@ -12,6 +12,8 @@ public class SubjectTypeOptions {
     private final String id;
     private final List<Node> nodes;
 
+    private final boolean supportsDynamicGroups;
+
     public List<Node> getNodes() {
         return List.copyOf(nodes);
     }

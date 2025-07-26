@@ -66,6 +66,26 @@ public class GrantEntity implements AcsEntity<UUID> {
     })
     private GroupEntity group = null;
 
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(
+                    name = "group_name",
+                    referencedColumnName = "group_name",
+                    insertable = false,
+                    updatable = false),
+            @JoinColumn(
+                    name = "group_subject_id",
+                    referencedColumnName = "subject_id",
+                    insertable = false,
+                    updatable = false),
+            @JoinColumn(
+                    name = "group_subject_type_id",
+                    referencedColumnName = "subject_type_id",
+                    insertable = false,
+                    updatable = false)
+    })
+    private DynamicGroupEntity dynamicGroup = null;
+
     @SuppressWarnings("all")
     @Override
     public final boolean equals(Object o) {

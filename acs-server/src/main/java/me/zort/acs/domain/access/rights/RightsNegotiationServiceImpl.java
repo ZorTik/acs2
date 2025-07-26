@@ -11,10 +11,9 @@ import me.zort.acs.api.domain.definitions.DefinitionsService;
 import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
-import me.zort.acs.data.entity.GrantEntity;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.domain.group.Group;
+import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.domain.model.*;
 import me.zort.acs.domain.util.PageUtils;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +36,6 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
     private final GroupService groupService;
     private final SubjectRepository subjectRepository;
     private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
-    private final DomainModelMapper<Grant, GrantEntity> grantMapper;
     private final RightsHolderTypeRegistry rightsHolderTypeRegistry;
 
     /**
@@ -132,8 +130,7 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
                 .flatMap(rightsHolders -> rightsHolderTypeRegistry.castAndCallAdapter(
                         rightsHolders.get(0),
                         (holder, type) ->
-                                type.getGrantEntitiesForHolders(rightsHolders, accessorSubjectId, accessedType).stream()))
-                .map(grantMapper::toDomain)
+                                type.getGrantsForHolders(rightsHolders, accessorSubjectId, accessedType).stream()))
                 .filter(Grant::isValid)
                 .map(Grant::getAccessed).toList();
 

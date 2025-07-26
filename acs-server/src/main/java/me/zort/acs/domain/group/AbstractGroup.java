@@ -3,18 +3,16 @@ package me.zort.acs.domain.group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.SubjectType;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
 @AllArgsConstructor
-public class Group implements RightsHolder {
+public abstract class AbstractGroup implements Group {
     private final SubjectType subjectType;
     private final String name;
     private final Set<Node> nodes;
@@ -43,24 +41,5 @@ public class Group implements RightsHolder {
         }
 
         return grantedNodes;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Group group)) return false;
-        return Objects.equals(getSubjectType(), group.getSubjectType()) && Objects.equals(name, group.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSubjectType(), name);
-    }
-
-    @Override
-    public String toString() {
-        return "Group{" +
-                "subjectType=" + subjectType +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

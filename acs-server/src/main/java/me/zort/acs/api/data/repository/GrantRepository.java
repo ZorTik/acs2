@@ -1,6 +1,7 @@
 package me.zort.acs.api.data.repository;
 
 import me.zort.acs.data.entity.GrantEntity;
+import me.zort.acs.data.id.DynamicGroupId;
 import me.zort.acs.data.id.GroupId;
 import me.zort.acs.data.id.SubjectId;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -27,6 +28,10 @@ public interface GrantRepository {
     Optional<GrantEntity> findGroupGrant(SubjectId accessorId, SubjectId accessedId, GroupId groupId);
 
     List<GrantEntity> findAllByGroupIn(SubjectId accessorId, String accessedTypeId, List<GroupId> groupIds);
+
+    Optional<GrantEntity> findDynamicGroupGrant(SubjectId accessorId, SubjectId accessedId, DynamicGroupId dynamicGroupId);
+
+    List<GrantEntity> findAllByDynamicGroupIn(SubjectId accessorId, String accessedTypeId, List<DynamicGroupId> dynamicGroupIds);
 
     int countByAccessorId(SubjectId accessorId);
 }

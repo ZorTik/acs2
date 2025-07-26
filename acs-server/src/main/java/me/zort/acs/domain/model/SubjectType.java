@@ -1,6 +1,7 @@
 package me.zort.acs.domain.model;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -14,9 +15,13 @@ public class SubjectType {
     private final String id;
     private final List<Node> nodes;
 
-    public SubjectType(String id, List<Node> nodes) {
+    @Setter
+    private boolean supportsDynamicGroups;
+
+    public SubjectType(String id, List<Node> nodes, boolean supportsDynamicGroups) {
         this.id = id;
         this.nodes = new ArrayList<>(nodes);
+        this.supportsDynamicGroups = supportsDynamicGroups;
     }
 
     public void addNode(Node node) {

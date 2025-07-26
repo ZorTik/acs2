@@ -7,8 +7,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
+import me.zort.acs.domain.model.Subject;
 import me.zort.acs.http.dto.body.groups.ListGroupsResponseDto;
 import me.zort.acs.http.dto.model.group.GroupDto;
+import me.zort.acs.http.internal.annotation.SubjectRequestParam;
 import me.zort.acs.http.mapper.HttpGroupMapper;
 import me.zort.acs.http.mapper.HttpSubjectTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +37,16 @@ public class GroupsController {
             @ApiResponse(responseCode = "200", description = "List of groups returned"),
             @ApiResponse(responseCode = "400", description = "Missing or invalid subjectType query parameter")
     })
-    public ListGroupsResponseDto listGroups(@RequestParam(required = false) String subjectType) {
+    public ListGroupsResponseDto listGroups(
+            @RequestParam(required = false) String subjectType,
+            @SubjectRequestParam(value = "subject", required = false) Subject subject) {
         List<GroupDto> groups;
         if (subjectType != null) {
             groups = groupService.getGroups(subjectTypeMapper.toDomain(subjectType))
+                    .stream()
+                    .map(groupMapper::toHttp).toList();
+        } else if (subject != null) {
+            groups = groupService.getGroups(subject)
                     .stream()
                     .map(groupMapper::toHttp).toList();
         } else {

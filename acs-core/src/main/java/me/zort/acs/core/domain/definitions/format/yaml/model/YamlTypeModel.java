@@ -12,5 +12,6 @@ import java.util.Map;
 public class YamlTypeModel {
     private List<YamlNodeModel> nodes;
     private Map<String, YamlGroupModel> groups = new HashMap<>();
+    private YamlTypeSettingsModel settings;
 
 }

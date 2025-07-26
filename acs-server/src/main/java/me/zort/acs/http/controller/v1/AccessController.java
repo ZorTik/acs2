@@ -118,7 +118,7 @@ public class AccessController {
 
         return new GrantNodesResponseDto(
                 grantFunc.apply(nodesToGrant, nodeMapper::toDomain),
-                grantFunc.apply(groupsToGrant, name -> groupMapper.toDomain(to.getSubjectType(), name)));
+                grantFunc.apply(groupsToGrant, name -> groupMapper.toDomain(to, name)));
     }
 
     @PostMapping("/revoke")

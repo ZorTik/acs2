@@ -3,7 +3,8 @@ package me.zort.acs.http.mapper;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
-import me.zort.acs.domain.group.Group;
+import me.zort.acs.api.domain.group.Group;
+import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
 import me.zort.acs.http.dto.model.group.GroupDto;
 import me.zort.acs.http.dto.model.node.NodeDto;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
@@ -23,6 +25,10 @@ public class HttpGroupMapper {
     public Group toDomain(SubjectType subjectType, String name) {
         return groupService.getGroup(subjectType, name).orElseThrow(() ->
                 exceptionFactory.createException(HttpException.GROUP_NOT_FOUND, null, subjectType, name));
+    }
+
+    public Group toDomain(Subject subject, String name) {
+        return groupService.getGroup(subject, name).orElseGet(() -> toDomain(subject.getSubjectType(), name));
     }
 
     public GroupDto toHttp(Group group) {
