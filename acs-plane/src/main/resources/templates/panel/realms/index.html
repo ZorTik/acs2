@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
+<head>
+    <title>Realms</title>
+</head>
+<body>
+
+<div layout:fragment="heading-wrapper">
+    <h1 th:replace="~{layouts/general :: heading('Realms', null)}">Realms</h1>
+</div>
+
+<div layout:fragment="content">
+    <div class="flex gap-4">
+        <div class="w-full">
+            <div th:replace="~{fragments/component :: block(~{::listing-table}, null, null)}">
+                <th:block th:fragment="listing-table">
+                    <table class="w-full border-separate border-spacing-y-4">
+                        <thead class="text-left pb-5">
+                        <tr>
+                            <th class="text-gray-500 font-normal">Name</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="realm : ${realms}">
+                            <td>
+                                <i class="fa-solid fa-hashtag text-gray-600 text-sm"></i>
+                                <span th:text="${realm.name}">Realm Name</span>
+                            </td>
+                            <td class="flex space-x-2 justify-end">
+                                <a th:href="@{/panel/realms/edit(realm=${realm.name})}">Edit</a>
+
+                                <!-- TODO: Dropdown -->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <a th:href="@{/panel/realms/create}">
+                        <button th:replace="~{fragments/component :: button-primary('New Realm', 'mt-4', null)}"></button>
+                    </a>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

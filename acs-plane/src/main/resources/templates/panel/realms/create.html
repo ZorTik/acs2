@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
+<head>
+    <title>Detail</title>
+</head>
+<body>
+    <div layout:fragment="heading-wrapper">
+        <h1 th:replace="~{layouts/general :: heading(title='Create Realm', addition=null)}"></h1>
+    </div>
+
+    <div layout:fragment="content">
+        <form method="post" class="flex flex-col">
+            <label for="name">Realm Name</label>
+            <input type="text" name="name" id="name" placeholder="Enter realm name" required />
+
+            <button th:replace="~{fragments/component :: button-primary('Create', null, 'submit')}"></button>
+        </form>
+    </div>
+</body>
+</html>

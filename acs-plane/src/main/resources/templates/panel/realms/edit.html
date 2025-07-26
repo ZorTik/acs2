@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/realm}"
+      lang="en">
+<head>
+    <title>Detail</title>
+
+    <layout:fragment name="extra-head">
+        <style>
+            .CodeMirror {
+                height: 500px;
+            }
+        </style>
+    </layout:fragment>
+</head>
+<body>
+<div layout:fragment="heading-wrapper">
+    <h1 th:replace="~{layouts/general :: heading(title='Edit Realm', addition=~{/fragments/component :: badge-primary(${realm.getName()}, null)})}"></h1>
+</div>
+<div layout:fragment="realm-content">
+    <div class="w-full h-full space-y-4">
+        <div class="w-full">
+            <div th:replace="~{fragments/component :: block(~{::form-content}, 'Raw Definitions', 'Edit the definitions using the editor below')}">
+                <th:block th:fragment="form-content">
+                    <form method="post" class="h-full">
+                        <label for="definitions"></label>
+                        <textarea th:text="${definitions}" id="definitions" name="definitions" class="w-full" />
+
+                        <button th:replace="~{fragments/component :: button-primary('Save', 'mt-4', 'submit')}"></button>
+                    </form>
+
+                    <script>
+                        initCodeMirror("definitions");
+                    </script>
+                </th:block>
+            </div>
+        </div>
+        <div class="w-full">
+            <div th:replace="~{fragments/component :: block(~{::upload-content}, 'Upload Definitions File', 'Edit the definitions using the editor below')}">
+                <th:block th:fragment="upload-content">
+                    <form method="post" class="h-full flex flex-col" th:target="@{/panel/realms/upload-definitions(realm=${realm.getName()})}" enctype="multipart/form-data">
+                        <input type="file" name="definitions-file" id="definitions-file" accept=".json" placeholder="Select definitions file" required />
+
+                        <button th:replace="~{fragments/component :: button-primary('Save', 'mt-4 w-min', 'submit')}"></button>
+                    </form>
+                </th:block>
+            </div>
+        </div>
+        <div class="w-full">
+            <div th:replace="~{fragments/component :: block(~{::danger-content}, 'Danger Zone', 'Potentially destructive actions')}">
+                <th:block th:fragment="danger-content">
+                    <a th:href="@{/panel/realms/delete(realm=${realm.getName()})}">
+                        <button th:replace="~{fragments/component :: button-danger('Delete Realm', null, null)}"></button>
+                    </a>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

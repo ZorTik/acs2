@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/highlighted}"
+      lang="en">
+    <head>
+        <title>Login</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <h1>Login</h1>
+            <form method="post" class="flex flex-col">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Insert username" required />
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Insert password" required />
+
+                <button type="submit">Login</button>
+
+                <a href="#" th:href="@{/panel/auth/register}" th:if="${registrationsAllowed}">Register instead</a>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
+<body>
+<!-- <nav layout:fragment="middle-nav" th:replace="~{fragments/nav :: wrapper(null, ~{::middle-nav-content}, null)}">
+    <th:block th:fragment="middle-nav-content">
+        <li th:replace="~{fragments/nav :: link(@{/panel/realms/info(realm=${realm.getName()})}, 'Info')}" />
+        <li th:replace="~{fragments/nav :: link(@{/panel/realms/definitions/raw(realm=${realm.getName()})}, 'Raw Definitions')}" />
+    </th:block>
+</nav> -->
+
+<div layout:fragment="content">
+
+    <th:block layout:fragment="realm-content" th:class="h-full">
+        <!-- Realm page content -->
+    </th:block>
+</div>
+</body>
+</html>

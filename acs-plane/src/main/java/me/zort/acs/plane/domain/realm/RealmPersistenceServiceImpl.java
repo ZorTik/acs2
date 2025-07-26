@@ -3,13 +3,10 @@ package me.zort.acs.plane.domain.realm;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.plane.data.definitions.model.RealmDocument;
-import me.zort.acs.plane.api.data.realm.RealmRepository;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmPersistenceService;
+import me.zort.acs.plane.data.definitions.repository.MongoRealmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class RealmPersistenceServiceImpl implements RealmPersistenceService {
-    private final RealmRepository realmRepository;
+    private final MongoRealmRepository realmRepository;
     private final DomainModelMapper<Realm, RealmDocument> realmMapper;
 
     @Override

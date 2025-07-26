@@ -1,0 +1,4 @@
+<div th:fragment="alert(message)" id="alert-box" class="flex absolute left-1/2 top-5 transition-all duration-500 ease-in-out space-x-1">
+    <p th:text="${message}"></p>
+    <button onclick="$('#alert-box').toggleClass('hidden')"><i class="fa-solid fa-xmark text-sm font-light"></i></button>
+</div>

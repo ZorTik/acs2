@@ -46,6 +46,32 @@ public class AcsClientV1 extends AbstractAcsClient {
     }
 
     /**
+     * Registers a new resource (subject) in the ACS system.
+     *
+     * @param subject the subject to register as a resource
+     * @return a response indicating the result of the registration
+     */
+    public @NotNull BasicResponseV1 registerResource(final @NotNull AcsSubjectResolvable subject) {
+        return executeRequest(BasicResponseV1.class, (builder, serializer) -> builder
+                .method(HttpMethod.POST)
+                .path(REGISTER_RESOURCE_URL)
+                .body(serializer.apply(new SubjectV1(subject.getGroup(), String.valueOf(subject.getId())))));
+    }
+
+    /**
+     * Unregisters a resource (subject) from the ACS system.
+     *
+     * @param subject the subject to unregister as a resource
+     * @return a response indicating the result of the unregistration
+     */
+    public @NotNull BasicResponseV1 unregisterResource(final @NotNull AcsSubjectResolvable subject) {
+        return executeRequest(BasicResponseV1.class, (builder, serializer) ->  builder
+                .method(HttpMethod.POST)
+                .path(UNREGISTER_RESOURCE_URL)
+                .body(serializer.apply(new SubjectV1(subject.getGroup(), String.valueOf(subject.getId())))));
+    }
+
+    /**
      * Checks whether the accessor has access to the accessed subject based on specified nodes.
      *
      * @param accessor the subject requesting access
@@ -146,32 +172,6 @@ public class AcsClientV1 extends AbstractAcsClient {
                 .queryAttributes(Map.of(
                         "accessor", serializeSubjectToQuery(accessor),
                         "resource", serializeSubjectToQuery(resource))));
-    }
-
-    /**
-     * Registers a new resource (subject) in the ACS system.
-     *
-     * @param subject the subject to register as a resource
-     * @return a response indicating the result of the registration
-     */
-    public @NotNull BasicResponseV1 registerResource(final @NotNull AcsSubjectResolvable subject) {
-        return executeRequest(BasicResponseV1.class, (builder, serializer) -> builder
-                .method(HttpMethod.POST)
-                .path(REGISTER_RESOURCE_URL)
-                .body(serializer.apply(new SubjectV1(subject.getGroup(), String.valueOf(subject.getId())))));
-    }
-
-    /**
-     * Unregisters a resource (subject) from the ACS system.
-     *
-     * @param subject the subject to unregister as a resource
-     * @return a response indicating the result of the unregistration
-     */
-    public @NotNull BasicResponseV1 unregisterResource(final @NotNull AcsSubjectResolvable subject) {
-        return executeRequest(BasicResponseV1.class, (builder, serializer) ->  builder
-                .method(HttpMethod.POST)
-                .path(UNREGISTER_RESOURCE_URL)
-                .body(serializer.apply(new SubjectV1(subject.getGroup(), String.valueOf(subject.getId())))));
     }
 
     /**

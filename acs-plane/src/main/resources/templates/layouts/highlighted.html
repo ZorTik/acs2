@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en">
+    <head>
+        <th:block th:replace="~{fragments/head :: head}" />
+
+        <link rel="stylesheet" th:href="@{/css/general.css}" />
+        <link rel="stylesheet" th:href="@{/css/nav.css}" />
+    </head>
+<body>
+    <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
+    <th:block th:if="${alert != null and !alert.isEmpty()}">
+        <th:block th:replace="~{fragments/alert :: alert(${alert})}" />
+    </th:block>
+
+    <div layout:fragment="content" class="flex flex-col min-h-screen w-full justify-center items-center">
+        <!-- page content -->
+    </div>
+</body>
+</html>

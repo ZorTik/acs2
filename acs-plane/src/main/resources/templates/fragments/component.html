@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <body>
+        <!-- Button fragments -->
+        <button th:fragment="button-primary(content, className, type)"
+                th:class="${className ?: ''} + ' bg-blue-700 text-white py-1 px-4 rounded-md transition-all duration-300 hover:bg-blue-800'"
+                th:type="${type ?: 'button'}">
+            <span th:text="${content}">Button</span>
+        </button>
+
+        <button th:fragment="button-danger(content, className, type)"
+                th:class="${className ?: ''} + ' bg-red-700 text-white py-1 px-4 rounded-md transition-all duration-300 hover:bg-red-800'"
+                th:type="${type ?: 'button'}">
+            <span th:text="${content}">Button</span>
+        </button>
+
+        <button th:fragment="small-button-primary(content, className, type)"
+                th:class="${className ?: ''} + ' bg-blue-700 text-white px-4 py-0 my-0 rounded-md transition-all duration-300 hover:bg-blue-800'"
+                th:type="${type ?: 'button'}">
+            <span th:text="${content}">Button</span>
+        </button>
+
+        <p th:fragment="badge-primary(content, className)"
+                th:class="${className ?: ''} + ' bg-blue-700 text-white px-4 py-0 my-0 rounded-xl text-sm w-min h-min text-nowrap'"
+                th:text="${content}">
+        </p>
+
+        <!-- Layout fragments -->
+        <div th:fragment="block(content, title, subtitle)" th:class="'p-4 rounded-md w-full h-full bg-white'">
+            <th:block th:if="${title} != null and ${subtitle} != null">
+                <div class="w-full mb-4">
+                    <h2 th:text="${title}" class="text-xl m-0 p-0 text-gray-900"></h2>
+                    <h3 th:text="${subtitle}" class="text-md m-0 p-0 text-gray-500"></h3>
+                </div>
+            </th:block>
+            <th:block th:insert="${content}"></th:block>
+        </div>
+
+        <div th:fragment="info(content)" class="p-4 border-l-2 bg-blue-200 border-blue-500 rounded">
+            <th:block th:insert="${content}"></th:block>
+        </div>
+    </body>
+</html>
