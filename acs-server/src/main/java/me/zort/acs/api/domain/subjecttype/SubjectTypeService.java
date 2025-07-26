@@ -21,14 +21,6 @@ public interface SubjectTypeService {
     SubjectType createSubjectType(String id, CreateSubjectTypeOptions options) throws SubjectTypeAlreadyExistsException;
 
     /**
-     * Assigns the given nodes to the subject type with the specified ID.
-     *
-     * @param id the unique identifier of the subject type
-     * @param nodes the collection of nodes to assign
-     */
-    void assignNodes(String id, Collection<Node> nodes);
-
-    /**
      * Assigns the given nodes to the specified subject type.
      *
      * @param subjectType the subject type to which nodes will be assigned

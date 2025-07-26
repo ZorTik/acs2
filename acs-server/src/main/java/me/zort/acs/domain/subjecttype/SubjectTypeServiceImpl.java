@@ -48,11 +48,6 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
     }
 
     @Override
-    public void assignNodes(String id, Collection<Node> nodes) {
-        getSubjectType(id).ifPresent(subjectType -> assignNodes(subjectType, nodes));
-    }
-
-    @Override
     public void assignNodes(SubjectType subjectType, Collection<Node> nodes) {
         nodes = nodes
                 .stream()
