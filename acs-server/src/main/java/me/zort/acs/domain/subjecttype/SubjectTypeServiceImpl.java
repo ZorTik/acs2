@@ -72,6 +72,10 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
         subjectType.setSupportsDynamicGroups(supportsDynamicGroups);
 
         subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
+
+        if (!supportsDynamicGroups) {
+            // TODO: Settings changed
+        }
     }
 
     @Override

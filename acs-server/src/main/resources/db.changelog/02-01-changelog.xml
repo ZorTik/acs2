@@ -13,8 +13,8 @@
     </changeSet>
     <changeSet id="1748863482868-8" author="PC">
         <addColumn tableName="acs_grants">
-            <column name="group_name" type="VARCHAR(255)"/>
-            <column name="group_subject_type_id" type="VARCHAR(255)"/>
+            <column name="group_name" type="VARCHAR(128)"/>
+            <column name="group_subject_type_id" type="VARCHAR(128)"/>
         </addColumn>
     </changeSet>
     <changeSet id="1748863482868-10" author="PC">
@@ -24,9 +24,6 @@
     </changeSet>
     <changeSet id="1748863482868-17" author="PC">
         <dropTable cascadeConstraints="true" tableName="acs_groups_subjects"/>
-    </changeSet>
-    <changeSet id="1748863482868-5" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(255)" columnName="node_value" tableName="acs_grants"/>
     </changeSet>
 
 </databaseChangeLog>

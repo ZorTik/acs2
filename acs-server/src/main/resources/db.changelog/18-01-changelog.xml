@@ -19,9 +19,7 @@
             <column name="accessed_subject_type_id" type="VARCHAR(128)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_acs_grants"/>
             </column>
-            <column name="node_value" type="VARCHAR(255)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_acs_grants"/>
-            </column>
+            <column name="node_value" type="VARCHAR(255)" />
         </createTable>
     </changeSet>
     <changeSet id="1747598115368-2" author="PC">
@@ -91,5 +89,6 @@
     <include file="db.changelog/26-01-changelog.xml"/>
     <include file="db.changelog/01-01-changelog.xml"/>
     <include file="db.changelog/02-01-changelog.xml"/>
+    <include file="db.changelog/26-02-changelog.xml"/>
 
 </databaseChangeLog>

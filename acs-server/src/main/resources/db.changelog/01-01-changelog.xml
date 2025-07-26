@@ -10,11 +10,8 @@
             <column name="id" type="char(36)"/>
         </addColumn>
     </changeSet>
-    <changeSet id="1748779081236-1" author="PC">
-        <dropNotNullConstraint columnDataType="varchar(255)" columnName="node_value" tableName="acs_grants"/>
-    </changeSet>
     <changeSet id="1748779081236-2" author="PC">
-        <dropPrimaryKey tableName="acs_grants" constraintName="PRIMARY"/>
+        <dropPrimaryKey tableName="acs_grants" constraintName="pk_acs_grants"/>
     </changeSet>
     <changeSet id="1748779081236-3" author="PC">
         <addPrimaryKey columnNames="id" constraintName="pk_acs_grants" tableName="acs_grants"/>

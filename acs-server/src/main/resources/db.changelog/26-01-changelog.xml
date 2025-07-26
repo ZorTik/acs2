@@ -7,41 +7,41 @@
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
     <changeSet id="1748296718839-9" author="konda">
         <createTable tableName="acs_groups">
-            <column name="group_name" type="VARCHAR(255)">
+            <column name="group_name" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="subject_type_id" type="VARCHAR(255)">
+            <column name="subject_type_id" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="parent_subject_type_id" type="VARCHAR(255)"/>
-            <column name="parent_group_id" type="VARCHAR(255)"/>
+            <column name="parent_subject_type_id" type="VARCHAR(128)"/>
+            <column name="parent_group_id" type="VARCHAR(128)"/>
         </createTable>
     </changeSet>
     <changeSet id="1748296718839-10" author="konda">
         <createTable tableName="acs_groups_nodes">
-            <column name="group_name" type="VARCHAR(255)">
+            <column name="group_name" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="group_subject_type_id" type="VARCHAR(255)">
+            <column name="group_subject_type_id" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="node_value" type="VARCHAR(255)">
+            <column name="node_value" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet id="1748296718839-11" author="konda">
         <createTable tableName="acs_groups_subjects">
-            <column name="group_name" type="VARCHAR(255)">
+            <column name="group_name" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="group_subject_type_id" type="VARCHAR(255)">
+            <column name="group_subject_type_id" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="subject_id" type="VARCHAR(255)">
+            <column name="subject_id" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="subject_type_id" type="VARCHAR(255)">
+            <column name="subject_type_id" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
