@@ -14,7 +14,4 @@ public class CreateSubjectTypeOptions {
     @Builder.Default
     private final Collection<Node> nodes = new ArrayList<>();
 
-    public static @NotNull CreateSubjectTypeOptions defaultOptions() {
-        return CreateSubjectTypeOptions.builder().build();
-    }
 }

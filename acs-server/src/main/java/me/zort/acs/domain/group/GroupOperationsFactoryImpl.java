@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class GroupOperationsFactoryImpl implements GroupOperationsFactory {
     private final ApplicationContext applicationContext;
 

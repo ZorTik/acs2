@@ -2,7 +2,9 @@ package me.zort.acs.domain.subjecttype;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.SubjectTypeRepository;
+import me.zort.acs.api.domain.operation.OperationExecutor;
 import me.zort.acs.api.domain.subjecttype.CreateSubjectTypeOptions;
+import me.zort.acs.api.domain.subjecttype.SubjectTypeOperationsFactory;
 import me.zort.acs.api.domain.subjecttype.exception.SubjectTypeAlreadyExistsException;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.SubjectTypeProvider;
@@ -26,6 +28,8 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
     private final SubjectTypeRepository subjectTypeRepository;
     private final DomainModelMapper<SubjectType, SubjectTypeEntity> subjectTypeMapper;
     private final SubjectTypeProvider subjectTypeProvider;
+    private final OperationExecutor<SubjectType> operationExecutor;
+    private final SubjectTypeOperationsFactory operationsFactory;
 
     @NotNull
     @Override
@@ -39,38 +43,33 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
         SubjectType subjectType = subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
                 .id(id)
                 .nodes(List.of()).build());
+
+        // TODO: přesunout inicializaci do operation
         options.getNodes().forEach(subjectType::addNode);
 
-        SubjectTypeEntity saved = subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
-        subjectType = subjectTypeMapper.toDomain(saved);
+        subjectType = subjectTypeMapper.toDomain(
+                subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType)));
 
         return subjectType;
     }
 
     @Override
     public void assignNodes(SubjectType subjectType, Collection<Node> nodes) {
-        nodes = nodes
-                .stream()
-                .filter(node -> !subjectType.containsNode(node))
-                .toList();
-        if (nodes.isEmpty()) {
+        boolean result = operationExecutor.executeOperation(operationsFactory.assignNodes(nodes), subjectType);
+        if (!result) {
             return;
         }
-
-        nodes.forEach(subjectType::addNode);
-
-        subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
     }
 
     @Override
     public void setSupportsDynamicGroups(SubjectType subjectType, boolean supportsDynamicGroups) {
-        subjectType.setSupportsDynamicGroups(supportsDynamicGroups);
-
-        subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType));
-
-        if (!supportsDynamicGroups) {
-            // TODO: Settings changed
+        boolean result = operationExecutor.executeOperation(
+                operationsFactory.changeDynamicGroupsSupport(supportsDynamicGroups), subjectType);
+        if (!result) {
+            return;
         }
+
+        // TODO: Settings changed
     }
 
     @Override

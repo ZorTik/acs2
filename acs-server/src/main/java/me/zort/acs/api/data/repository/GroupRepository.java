@@ -6,9 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
+import java.util.Optional;
 
 @NoRepositoryBean
-public interface GroupRepository extends CrudRepository<GroupEntity, GroupId> {
+public interface GroupRepository extends SaveRepository<GroupEntity> {
+
+    Optional<GroupEntity> findById(GroupId id);
 
     List<GroupEntity> findAllBySubjectType_Id(String id);
 }

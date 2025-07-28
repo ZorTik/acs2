@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @NoRepositoryBean
-public interface SubjectTypeRepository {
-
-    SubjectTypeEntity save(SubjectTypeEntity entity);
+public interface SubjectTypeRepository extends SaveRepository<SubjectTypeEntity> {
 
     void deleteById(String id);
 

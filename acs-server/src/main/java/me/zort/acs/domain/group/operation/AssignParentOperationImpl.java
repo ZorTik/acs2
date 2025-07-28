@@ -3,6 +3,7 @@ package me.zort.acs.domain.group.operation;
 import lombok.Getter;
 import me.zort.acs.api.domain.group.operation.AssignParentOperation;
 import me.zort.acs.api.domain.group.Group;
+import me.zort.acs.api.domain.operation.OperationCallContext;
 import me.zort.acs.domain.util.GroupUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Scope;
@@ -36,13 +37,9 @@ public class AssignParentOperationImpl implements AssignParentOperation {
     }
 
     @Override
-    public void execute(Group group) {
+    public void execute(Group group, OperationCallContext context) {
         validateOperation(group);
-        group.setParent(parent);
-    }
 
-    @Override
-    public boolean isAutoCommit() {
-        return true;
+        group.setParent(parent);
     }
 }

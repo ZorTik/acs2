@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-public class DynamicGroup extends AbstractGroup {
+public final class DynamicGroup extends AbstractGroup {
     private final Subject subject;
 
     public DynamicGroup(Subject subject, String name, Set<Node> nodes, Group parent) {

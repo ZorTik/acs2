@@ -27,6 +27,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * Implementation of the GroupService interface, providing methods to manage groups.
+ * <p>
+ * Since there are currently two types of groups (static and dynamic),
+ * this service handles both types by delegating to the appropriate repositories and mappers.
+ *
+ * @author ZorTik
+ */
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -59,9 +67,9 @@ public class GroupServiceImpl implements GroupService {
         } else {
             existingGroup = getGroup(options.getSubject(), options.getName());
         }
-        existingGroup.ifPresent(existing -> {
-            throw new GroupAlreadyExistsException(existing);
-        });
+        if (existingGroup.isPresent()) {
+            throw new GroupAlreadyExistsException(existingGroup.get());
+        }
 
         Group group = groupProvider.getGroup(GroupOptions.builder()
                 .subjectType(options.getSubjectType())

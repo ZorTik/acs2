@@ -3,7 +3,8 @@ package me.zort.acs.domain.group.operation;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GroupRepository;
 import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
-import me.zort.acs.api.domain.group.operation.AssignNodesOperation;
+import me.zort.acs.api.domain.operation.CommittableOperation;
+import me.zort.acs.api.domain.operation.CommittableCallContext;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.api.domain.group.Group;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Scope("prototype")
 @Component
-public class AssignNodesOperationImpl implements AssignNodesOperation {
+public class AssignNodesOperationImpl extends CommittableOperation<Group> {
     private final GroupRepository groupRepository;
     private final DomainToPersistenceMapper<Group, GroupEntity> groupMapper;
     private final RightsHolderTypeRegistry rightsHolderTypeRegistry;
@@ -41,7 +42,7 @@ public class AssignNodesOperationImpl implements AssignNodesOperation {
 
     @Transactional
     @Override
-    public void execute(Group group) throws RuntimeException {
+    public void doExecute(Group group, CommittableCallContext<Group> context) throws RuntimeException {
         try {
             for (Node node : nodes) {
                 if (!isPresentInSubjectType(node, group.getSubjectType())) {
@@ -70,10 +71,5 @@ public class AssignNodesOperationImpl implements AssignNodesOperation {
 
     public Collection<Node> getNodes() {
         return List.copyOf(nodes);
-    }
-
-    @Override
-    public boolean isAutoCommit() {
-        return false;
     }
 }
