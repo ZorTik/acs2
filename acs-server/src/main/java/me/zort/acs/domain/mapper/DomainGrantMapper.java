@@ -8,8 +8,7 @@ import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.api.domain.grant.GrantProvider;
 import me.zort.acs.data.entity.*;
 import me.zort.acs.api.domain.group.Group;
-import me.zort.acs.domain.group.DynamicGroup;
-import me.zort.acs.domain.group.StaticGroup;
+import me.zort.acs.domain.group.GroupImpl;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.provider.options.GrantOptions;
@@ -24,7 +23,6 @@ public class DomainGrantMapper implements DomainModelMapper<Grant, GrantEntity> 
     private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
     private final DomainModelMapper<Node, NodeEntity> nodeMapper;
     private final DomainModelMapper<Group, GroupEntity> groupMapper;
-    private final DomainModelMapper<Group, DynamicGroupEntity> dynamicGroupMapper;
     private final PersistenceEntityProvider persistenceEntityProvider;
 
     private final GrantProvider grantProvider;
@@ -45,10 +43,8 @@ public class DomainGrantMapper implements DomainModelMapper<Grant, GrantEntity> 
         RightsHolder rightsHolder = domain.getRightsHolder();
         if (rightsHolder instanceof Node node) {
             entity.setNode(nodeMapper.toPersistence(node));
-        } else if (rightsHolder instanceof StaticGroup group) {
+        } else if (rightsHolder instanceof GroupImpl group) {
             entity.setGroup(groupMapper.toPersistence(group));
-        } else if (rightsHolder instanceof DynamicGroup group) {
-            entity.setDynamicGroup(dynamicGroupMapper.toPersistence(group));
         }
 
         return entity;
@@ -64,8 +60,6 @@ public class DomainGrantMapper implements DomainModelMapper<Grant, GrantEntity> 
             rightsHolder = groupMapper.toDomain(persistence.getGroup());
         } else if (persistence.getNode() != null) {
             rightsHolder = nodeMapper.toDomain(persistence.getNode());
-        } else if (persistence.getDynamicGroup() != null) {
-            rightsHolder = dynamicGroupMapper.toDomain(persistence.getDynamicGroup());
         }
 
         return grantProvider.getGrant(GrantOptions.builder()

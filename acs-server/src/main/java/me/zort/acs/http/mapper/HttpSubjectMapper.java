@@ -1,7 +1,6 @@
 package me.zort.acs.http.mapper;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.subject.CreateSubjectArgs;
 import me.zort.acs.api.domain.subject.SubjectService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.domain.model.NullSubject;
@@ -27,21 +26,11 @@ public class HttpSubjectMapper {
     }
 
     public Subject toDomain(SubjectDto dto) {
-        return toDomain(dto, false);
-    }
-
-    public Subject toDomain(SubjectDto dto, boolean createIfAbsent) {
         SubjectType type = subjectTypeMapper.toDomain(dto.getGroup());
-
         Subject.Id id = Subject.id(dto.getId(), type);
-        if (createIfAbsent && !service.existsSubject(id)) {
-            return service.createSubject(CreateSubjectArgs.builder()
-                    .id(dto.getId())
-                    .subjectType(type).build());
-        } else {
-            return service.getSubject(id)
-                    .orElseThrow(() -> exceptionProvider.createException(HttpException.SUBJECT_NOT_FOUND, null, dto.getId()));
-        }
+
+        return service.getSubject(id)
+                .orElseThrow(() -> exceptionProvider.createException(HttpException.SUBJECT_NOT_FOUND, null, dto.getId()));
     }
 
     /**

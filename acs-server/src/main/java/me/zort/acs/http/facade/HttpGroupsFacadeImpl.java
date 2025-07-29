@@ -58,10 +58,9 @@ public class HttpGroupsFacadeImpl implements HttpGroupsFacade {
         }
 
         // Pre-evaluate nodes to prevent adding someone if there were non-existing ones
-        // This is before subject is created to prevent creating a subject with non-existing nodes
         Map<String, List<Node>> nodesByGroup = preEvaluateNodesForGroups(groups);
 
-        Subject subject = subjectMapper.toDomain(subjectDto, true);
+        Subject subject = subjectMapper.toDomain(subjectDto);
         groups
                 .stream()
                 .filter(dto -> groupService.getGroup(subject, dto.getName()).isPresent())

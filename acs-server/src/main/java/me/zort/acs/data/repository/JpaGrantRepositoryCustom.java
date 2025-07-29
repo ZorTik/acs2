@@ -1,12 +1,11 @@
 package me.zort.acs.data.repository;
 
 import me.zort.acs.data.entity.GrantEntity;
-import me.zort.acs.data.id.DynamicGroupId;
-import me.zort.acs.data.id.GroupId;
 import me.zort.acs.data.id.SubjectId;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface JpaGrantRepositoryCustom {
 
@@ -16,13 +15,9 @@ public interface JpaGrantRepositoryCustom {
 
     Optional<GrantEntity> findNodeGrant(SubjectId accessorId, SubjectId accessedId, String value);
 
-    Optional<GrantEntity> findGroupGrant(SubjectId accessorId, SubjectId accessedId, GroupId groupId);
+    Optional<GrantEntity> findGroupGrant(SubjectId accessorId, SubjectId accessedId, UUID groupId);
 
-    List<GrantEntity> findAllByGroupIn(SubjectId accessorId, String accessedTypeId, List<GroupId> groupIds);
-
-    Optional<GrantEntity> findDynamicGroupGrant(SubjectId accessorId, SubjectId accessedId, DynamicGroupId dynamicGroupId);
-
-    List<GrantEntity> findAllByDynamicGroupIn(SubjectId accessorId, String accessedTypeId, List<DynamicGroupId> dynamicGroupIds);
+    List<GrantEntity> findAllByGroupIn(SubjectId accessorId, String accessedTypeId, List<UUID> groupIds);
 
     int countByAccessorId(SubjectId accessorId);
 }

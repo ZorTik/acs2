@@ -81,8 +81,8 @@ public class AccessController {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     public GrantNodesResponseDto grantAccess(@Valid @RequestBody GrantNodesRequestDto body) {
-        Subject from = subjectMapper.toDomain(body.getAccessor(), true);
-        Subject to = subjectMapper.toDomain(body.getResource(), true);
+        Subject from = subjectMapper.toDomain(body.getAccessor());
+        Subject to = subjectMapper.toDomain(body.getResource());
 
         Set<String> nodesToGrant = body.getNodes();
         Set<String> groupsToGrant = body.getGroups();

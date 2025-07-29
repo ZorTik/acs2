@@ -33,7 +33,7 @@ public class SubjectDeserializer implements AcsHttpDeserializer<Subject> {
             throw new ConstraintViolationException(violations);
         }
 
-        return subjectMapper.toDomain(dto, false);
+        return subjectMapper.toDomain(dto);
     }
 
     @Override

@@ -55,7 +55,7 @@ public class ResourcesController {
 
     @PostMapping("/resource/unregister")
     public BasicResponse unregister(@RequestBody @Valid SubjectDto dto) {
-        Subject subject = subjectMapper.toDomain(dto, false);
+        Subject subject = subjectMapper.toDomain(dto);
 
         subjectService.deleteSubject(Subject.id(subject));
 

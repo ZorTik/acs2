@@ -7,8 +7,11 @@ import me.zort.acs.domain.model.SubjectType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
+import java.util.UUID;
 
 public interface Group extends RightsHolder {
+
+    UUID getId();
 
     void setParent(@Nullable Group parent);
 
@@ -21,6 +24,7 @@ public interface Group extends RightsHolder {
 
     boolean containsNode(Node node);
 
+    @Nullable
     SubjectType getSubjectType();
 
     @Nullable

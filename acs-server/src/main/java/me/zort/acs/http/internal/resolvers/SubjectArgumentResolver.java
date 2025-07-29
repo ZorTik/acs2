@@ -88,7 +88,7 @@ public class SubjectArgumentResolver implements HandlerMethodArgumentResolver {
                 .id(values[1]).build();
 
         if (parameter.getParameterType().equals(Subject.class)) {
-            return subjectMapper.toDomain(options, false);
+            return subjectMapper.toDomain(options);
         } else {
             return subjectMapper.toDomainOrNull(options);
         }
