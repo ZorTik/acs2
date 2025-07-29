@@ -83,6 +83,4 @@ public class ResourcesController {
                 .map(subjectMapper::toHttp).toList();
         return new ListSubjectsResponseDto(subjects);
     }
-
-    // TODO: Synchronizovat logiku ukládání a načítání definicí z/do databáze
 }

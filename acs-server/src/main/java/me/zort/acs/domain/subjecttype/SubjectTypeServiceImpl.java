@@ -33,7 +33,7 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
 
     @NotNull
     @Override
-    public SubjectType createSubjectType(String id, CreateSubjectTypeOptions options) {
+    public SubjectType createSubjectType(String id, CreateSubjectTypeOptions options) throws SubjectTypeAlreadyExistsException {
         Objects.requireNonNull(options, "options cannot be null");
 
         if (subjectTypeRepository.existsById(id)) {
@@ -43,12 +43,9 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
         SubjectType subjectType = subjectTypeProvider.getSubjectType(SubjectTypeOptions.builder()
                 .id(id)
                 .nodes(List.of()).build());
-
-        // TODO: přesunout inicializaci do operation
-        options.getNodes().forEach(subjectType::addNode);
-
-        subjectType = subjectTypeMapper.toDomain(
-                subjectTypeRepository.save(subjectTypeMapper.toPersistence(subjectType)));
+        if (!operationExecutor.executeOperation(operationsFactory.initAndSave(options), subjectType)) {
+            throw new IllegalStateException("Failed to initialize and save subject type with id: " + id);
+        }
 
         return subjectType;
     }
@@ -59,6 +56,8 @@ public class SubjectTypeServiceImpl implements SubjectTypeService {
         if (!result) {
             return;
         }
+
+        // TODO: Event
     }
 
     @Override

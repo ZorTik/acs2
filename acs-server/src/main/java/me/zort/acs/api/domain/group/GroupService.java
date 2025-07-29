@@ -2,6 +2,7 @@ package me.zort.acs.api.domain.group;
 
 import me.zort.acs.api.domain.group.exception.GroupAlreadyExistsException;
 import me.zort.acs.api.domain.group.exception.GroupCreationDisallowedException;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.domain.model.Node;
 import me.zort.acs.domain.model.Subject;
 import me.zort.acs.domain.model.SubjectType;
@@ -27,6 +28,13 @@ public interface GroupService {
      * @throws GroupCreationDisallowedException if the group creation is disallowed for the given subject type or subject
      */
     Group createGroup(CreateGroupOptions options) throws GroupAlreadyExistsException, GroupCreationDisallowedException;
+
+    /**
+     * Delete a group.
+     *
+     * @param group the group to delete
+     */
+    void deleteGroup(Group group);
 
     /**
      * Assign a parent group to a group.
@@ -78,7 +86,7 @@ public interface GroupService {
      * @param subject the subject to get groups for
      * @return a list of groups that belong to the subject
      */
-    List<Group> getGroups(Subject subject);
+    List<Group> getGroups(SubjectLike subject);
 
     /**
      * Get all group memberships for a subject on a specific subject.

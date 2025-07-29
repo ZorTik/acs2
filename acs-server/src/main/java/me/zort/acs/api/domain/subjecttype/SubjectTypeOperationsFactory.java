@@ -8,6 +8,8 @@ import java.util.Collection;
 
 public interface SubjectTypeOperationsFactory {
 
+    Operation<SubjectType> initAndSave(CreateSubjectTypeOptions options);
+
     Operation<SubjectType> assignNodes(Collection<Node> nodes);
 
     Operation<SubjectType> changeDynamicGroupsSupport(boolean dynamicGroupsSupported);

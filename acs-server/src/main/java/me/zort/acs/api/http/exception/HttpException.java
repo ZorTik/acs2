@@ -26,6 +26,8 @@ public enum HttpException {
             "validation.nodes-groups.notempty"),
     SUBJECT_ALREADY_EXISTS(409, 1007, 0,
             "error.subject-already-exists"),
+    GROUP_ALREADY_EXISTS(409, 1008, 1,
+            "error.group-already-exists"),
 
     // Controller errors
     CONTROLLER_QUERY_NOT_APPLICABLE(

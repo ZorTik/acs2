@@ -11,6 +11,7 @@ import me.zort.acs.api.domain.mapper.DomainDynamicGroupIdMapper;
 import me.zort.acs.api.domain.mapper.DomainGroupIdMapper;
 import me.zort.acs.api.domain.group.GroupOperationsFactory;
 import me.zort.acs.api.domain.operation.OperationExecutorProviderService;
+import me.zort.acs.api.domain.subject.SubjectLike;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.GroupProvider;
 import me.zort.acs.api.domain.grant.GrantService;
@@ -35,7 +36,7 @@ import java.util.*;
  *
  * @author ZorTik
  */
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor(onConstructor_ = {@Autowired}) // TODO: Předělat groups tak, aby nebyly potřeba dynamic groups. (přidat ID do groupentity a předělat logiku)
 @Service
 public class GroupServiceImpl implements GroupService {
     private final GrantService grantService;
@@ -71,7 +72,7 @@ public class GroupServiceImpl implements GroupService {
             throw new GroupAlreadyExistsException(existingGroup.get());
         }
 
-        Group group = groupProvider.getGroup(GroupOptions.builder()
+        Group group = groupProvider.getGroup(GroupOptions.builder() // TODO: předělat groupProvider na pravý provider, který bude tahat z databáze a nebo vytvoří instanci
                 .subjectType(options.getSubjectType())
                 .subject(options.getSubject())
                 .name(options.getName())
@@ -86,6 +87,11 @@ public class GroupServiceImpl implements GroupService {
         if (options.getSubjectType() != null && options.getSubject() != null) {
             throw new IllegalArgumentException("Cannot specify both subject type and subject. Use one or the other.");
         }
+    }
+
+    @Override
+    public void deleteGroup(Group group) {
+        // TODO
     }
 
     @Override
@@ -122,10 +128,16 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> getGroups(Subject subject) {
-        return dynamicGroupRepository.findAllBySubject_Id(subjectIdMapper.toPersistence(Subject.id(subject)))
-                .stream()
-                .map(dynamicGroupMapper::toDomain).toList();
+    public List<Group> getGroups(SubjectLike subject) {
+        List<Group> groups = new ArrayList<>(getGroups(subject.getSubjectType()));
+
+        if (subject instanceof Subject notNullSubject) {
+            // Subject is not null, may have dynamic groups assigned to it.
+            groups.addAll(dynamicGroupRepository.findAllBySubject_Id(subjectIdMapper.toPersistence(Subject.id(notNullSubject)))
+                    .stream()
+                    .map(dynamicGroupMapper::toDomain).toList());
+        }
+        return groups;
     }
 
     @Override
