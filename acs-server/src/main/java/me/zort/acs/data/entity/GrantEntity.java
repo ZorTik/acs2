@@ -52,18 +52,7 @@ public class GrantEntity implements AcsEntity<UUID> {
     private NodeEntity node = null;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(
-                    name = "group_name",
-                    referencedColumnName = "group_name",
-                    insertable = false,
-                    updatable = false),
-            @JoinColumn(
-                    name = "group_subject_type_id",
-                    referencedColumnName = "subject_type_id",
-                    insertable = false,
-                    updatable = false)
-    })
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
     private GroupEntity group = null;
 
     @SuppressWarnings("all")

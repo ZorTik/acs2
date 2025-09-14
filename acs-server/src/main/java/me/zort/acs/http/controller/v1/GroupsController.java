@@ -55,7 +55,7 @@ public class GroupsController {
     public BasicResponse addDynamicGroups(@RequestBody @Valid AddDynamicGroupsRequestDto body) {
         groupsFacade.addGroups(body.getSubject(), body.getGroups());
 
-        return new BasicResponse("Groups added successfully");
+        return new BasicResponse("Groups added.");
     }
 
     @PostMapping("/remove")
@@ -64,6 +64,6 @@ public class GroupsController {
             @SubjectRequestParam("subject") Subject subject, @RequestBody @Valid RemoveDynamicGroupsRequestDto body) {
         groupsFacade.removeGroups(subject, body.getGroups());
 
-        return new BasicResponse("Groups removed successfully");
+        return new BasicResponse("Groups removed.");
     }
 }

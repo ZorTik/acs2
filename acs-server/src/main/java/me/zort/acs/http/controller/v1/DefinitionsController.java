@@ -29,6 +29,6 @@ public class DefinitionsController {
     public ResponseEntity<BasicResponse> refresh() {
         refreshService.refreshDefinitions();
 
-        return ResponseEntity.ok(new BasicResponse("Definitions refreshed successfully"));
+        return ResponseEntity.ok(new BasicResponse("Definitions refreshed."));
     }
 }

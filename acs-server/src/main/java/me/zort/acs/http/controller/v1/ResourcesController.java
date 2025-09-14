@@ -50,7 +50,7 @@ public class ResourcesController {
                 .subjectType(subjectType)
                 .id(dto.getId()).build());
 
-        return new BasicResponse("Resource registered successfully");
+        return new BasicResponse("Resource registered.");
     }
 
     @PostMapping("/resource/unregister")
@@ -59,7 +59,7 @@ public class ResourcesController {
 
         subjectService.deleteSubject(Subject.id(subject));
 
-        return new BasicResponse("Resource deleted successfully");
+        return new BasicResponse("Resource deleted.");
     }
 
     @GetMapping("/resources/granted")

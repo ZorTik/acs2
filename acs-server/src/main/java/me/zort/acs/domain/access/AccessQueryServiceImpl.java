@@ -19,6 +19,38 @@ public class AccessQueryServiceImpl implements AccessQueryService {
     private final List<AccessQueryable> sources;
 
     /**
+     * @see AccessQueryService#performAggregatedQuery(AggregatedAccessQuery, Pageable)
+     */
+    @Override
+    public <T> Page<T> performAggregatedQuery(AggregatedAccessQuery<T> query, Pageable pageable) {
+        // Sort the sources to start with the smallest ones.
+        List<AccessQueryable> sortedSources = sources
+                .stream()
+                .sorted(Comparator.comparingLong(source -> getTotalElementsInSource(source, query)))
+                .toList();
+
+        List<T> cache = new ArrayList<>(pageable.getPageSize());
+        long aggregatedQueryableOffset = 0;
+        for (AccessQueryable queryable : sortedSources) {
+
+            final long totalElementsInSource = getTotalElementsInSource(queryable, query);
+            if (isWithinRange(pageable, aggregatedQueryableOffset, totalElementsInSource)) {
+                // If the current offset is within the range of this queryable and the page is fully in the source,
+                // we can fetch the page from it.
+                return queryFully(query, pageable, queryable, aggregatedQueryableOffset);
+            } else if (exceedsSourceSize(pageable, aggregatedQueryableOffset, totalElementsInSource)) {
+                // The page is larger than the source, so we need to fetch the partial page.
+                return queryPartially(
+                        query, pageable, aggregatedQueryableOffset, cache, queryable, totalElementsInSource);
+            }
+
+            aggregatedQueryableOffset += totalElementsInSource;
+        }
+
+        return Page.empty(pageable);
+    }
+
+    /**
      * Performs a partial query across multiple queryables.
      *
      * @param query The function to query the data from the queryable.
@@ -123,37 +155,5 @@ public class AccessQueryServiceImpl implements AccessQueryService {
                 // The page starts in this queryable
                 && requestedOffset < aggregatedQueryableOffset + totalElementsInSource
                 && requestedOffset + pageable.getPageSize() >= aggregatedQueryableOffset + totalElementsInSource;
-    }
-
-    /**
-     * @see AccessQueryService#performAggregatedQuery(AggregatedAccessQuery, Pageable)
-     */
-    @Override
-    public <T> Page<T> performAggregatedQuery(AggregatedAccessQuery<T> query, Pageable pageable) {
-        // Sort the sources to start with the smallest ones.
-        List<AccessQueryable> sortedSources = sources
-                .stream()
-                .sorted(Comparator.comparingLong(source -> getTotalElementsInSource(source, query)))
-                .toList();
-
-        List<T> cache = new ArrayList<>(pageable.getPageSize());
-        long aggregatedQueryableOffset = 0;
-        for (AccessQueryable queryable : sortedSources) {
-
-            final long totalElementsInSource = getTotalElementsInSource(queryable, query);
-            if (isWithinRange(pageable, aggregatedQueryableOffset, totalElementsInSource)) {
-                // If the current offset is within the range of this queryable and the page is fully in the source,
-                // we can fetch the page from it.
-                return queryFully(query, pageable, queryable, aggregatedQueryableOffset);
-            } else if (exceedsSourceSize(pageable, aggregatedQueryableOffset, totalElementsInSource)) {
-                // The page is larger than the source, so we need to fetch the partial page.
-                return queryPartially(
-                        query, pageable, aggregatedQueryableOffset, cache, queryable, totalElementsInSource);
-            }
-
-            aggregatedQueryableOffset += totalElementsInSource;
-        }
-
-        return Page.empty(pageable);
     }
 }

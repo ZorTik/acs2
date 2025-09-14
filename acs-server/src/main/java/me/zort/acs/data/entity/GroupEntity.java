@@ -16,8 +16,10 @@ import java.util.UUID;
 @Entity(name = "acs_groups")
 public class GroupEntity implements AcsEntity<UUID> {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "group_name", nullable = false)
     private String name;
 
     @ManyToOne
