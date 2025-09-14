@@ -7,6 +7,7 @@ import me.zort.acs.plane.api.domain.realm.RealmPersistenceService;
 import me.zort.acs.plane.api.domain.realm.RealmService;
 import me.zort.acs.plane.api.domain.realm.exception.RealmAlreadyExistsException;
 import me.zort.acs.plane.api.domain.realm.exception.RealmNotExistsException;
+import me.zort.acs.plane.api.domain.user.User;
 import me.zort.acs.plane.domain.realm.event.RealmCreatedEvent;
 import me.zort.acs.plane.domain.realm.event.RealmDeletedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,16 @@ public class RealmServiceImpl implements RealmService {
     @Override
     public Optional<Realm> getRealm(String realm) {
         return persistenceService.getRealm(realm);
+    }
+
+    @Override
+    public Optional<Realm> getDefaultRealmForLoggedInUser(User user) {
+        List<Realm> allRealms = getAllRealms();
+        if (allRealms.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(allRealms.get(0));
+        }
     }
 
     @Override
