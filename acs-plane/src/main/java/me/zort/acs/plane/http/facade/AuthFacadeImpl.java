@@ -1,4 +1,4 @@
-package me.zort.acs.plane.facade;
+package me.zort.acs.plane.http.facade;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,7 +8,7 @@ import me.zort.acs.plane.api.domain.user.CreateWithSimpleLoginArgs;
 import me.zort.acs.plane.api.domain.user.UserAccountService;
 import me.zort.acs.plane.api.domain.user.exception.AccountCreateException;
 import me.zort.acs.plane.api.facade.AuthFacade;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 import me.zort.acs.plane.http.dto.auth.RegisterForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

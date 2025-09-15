@@ -1,4 +1,4 @@
-package me.zort.acs.plane.facade;
+package me.zort.acs.plane.http.facade;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.exception.DefinitionsParseException;
@@ -9,8 +9,7 @@ import me.zort.acs.plane.api.domain.definitions.DefinitionsService;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
 import me.zort.acs.plane.api.http.mapper.HttpFormatMapper;
-import me.zort.acs.plane.facade.util.Result;
-import org.jetbrains.annotations.NotNull;
+import me.zort.acs.plane.http.facade.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

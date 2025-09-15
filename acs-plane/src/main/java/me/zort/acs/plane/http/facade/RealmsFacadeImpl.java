@@ -1,11 +1,11 @@
-package me.zort.acs.plane.facade;
+package me.zort.acs.plane.http.facade;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmService;
 import me.zort.acs.plane.api.domain.realm.exception.RealmAlreadyExistsException;
 import me.zort.acs.plane.api.facade.RealmsFacade;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 import me.zort.acs.plane.http.dto.model.ListedRealm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

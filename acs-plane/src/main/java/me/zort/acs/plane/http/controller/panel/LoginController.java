@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.zort.acs.plane.api.domain.security.AuthService;
 import me.zort.acs.plane.api.facade.AuthFacade;
 import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 import me.zort.acs.plane.http.dto.auth.RegisterForm;
 import me.zort.acs.plane.http.internal.service.PathService;
 import org.springframework.stereotype.Controller;
