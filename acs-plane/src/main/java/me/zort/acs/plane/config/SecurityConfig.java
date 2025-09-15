@@ -1,5 +1,6 @@
 package me.zort.acs.plane.config;
 
+import me.zort.acs.plane.api.domain.security.Privilege;
 import me.zort.acs.plane.http.security.PlaneUserDetailsService;
 import me.zort.acs.plane.http.internal.service.PathService;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,8 @@ public class SecurityConfig {
                         .requestMatchers("/error", "/actuator/**").permitAll()
                         .requestMatchers(pathService.getApiPathPattern()).permitAll()
                         .requestMatchers(pathService.getLoginPage(), pathService.getRegisterPage()).permitAll()
-                        .requestMatchers("/panel/realms/**").hasAuthority("EDIT_REALMS")
+                        .requestMatchers("/panel/realms/**").hasAuthority(Privilege.EDIT_REALMS.getAuthority())
+                        .requestMatchers("/panel/users/**").hasAuthority(Privilege.EDIT_USERS.getAuthority())
                         .requestMatchers(pathService.getPanelPathPattern()).authenticated()
                         .anyRequest().permitAll())
                 .build();
