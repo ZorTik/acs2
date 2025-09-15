@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/error", "/actuator/**").permitAll()
                         .requestMatchers(pathService.getApiPathPattern()).permitAll()
                         .requestMatchers(pathService.getLoginPage(), pathService.getRegisterPage()).permitAll()
+                        .requestMatchers("/panel/realms/**").hasAuthority("EDIT_REALMS")
                         .requestMatchers(pathService.getPanelPathPattern()).authenticated()
                         .anyRequest().permitAll())
                 .build();
