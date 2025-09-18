@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
+<head>
+    <title>API Keys</title>
+</head>
+<body>
+
+<div layout:fragment="heading-wrapper">
+    <h1 th:replace="~{layouts/general :: heading('API Keys', null)}">API Keys</h1>
+</div>
+
+<div layout:fragment="content">
+    <div class="flex gap-4">
+        <div class="w-full">
+            <div th:replace="~{fragments/component :: block(~{::listing-table}, null, null)}">
+                <th:block th:fragment="listing-table">
+                    <table class="w-full border-separate border-spacing-y-4">
+                        <thead class="text-left pb-5">
+                        <tr>
+                            <th class="text-gray-500 font-normal">#</th>
+                            <th class="text-gray-500 font-normal">Name</th>
+                            <th class="text-gray-500 font-normal">Claims</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="key, stat : ${keys}">
+                            <td>
+                                <span th:text="${stat.count}">N/A</span>
+                            </td>
+                            <td>
+                                <span th:text="${key.name}">N/A</span>
+                            </td>
+                            <td>
+                                <div class="flex flex-wrap gap-1">
+                                    <span th:each="claim : ${key.claims}"
+                                          th:text="${claim.authority}"
+                                          class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">
+                                        CLAIM
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="flex space-x-2 justify-end">
+                                <!-- TODO: Delete button -->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <a th:href="@{/panel/keys/create}">
+                        <button th:replace="~{fragments/component :: button-primary('New Key', 'mt-4', null)}"></button>
+                    </a>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
