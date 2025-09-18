@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ApiDefinitionsController {
     private final DefinitionsFacade definitionsFacade;
 
-    @PreAuthorize("hasAnyAuthority('VIEW_DEFINITIONS', 'EDIT_REALMS')")
+    @PreAuthorize("hasAuthority('VIEW_DEFINITIONS')")
     @GetMapping("/realm/{realm}/definitions/v1")
     public ResponseEntity<String> definitionsGet(
             @RequestHeader("Accept") String acceptHeader, @PathVariable Realm realm) {

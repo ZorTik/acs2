@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,7 +37,7 @@ public class HttpErrorControllerAdvice {
     @ExceptionHandler(Exception.class)
     public ModelAndView handleHttpError(Exception e, HttpServletRequest request, HttpServletResponse response) {
         HttpError error;
-         if (e instanceof HttpError httpError) {
+        if (e instanceof HttpError httpError) {
             error = httpError;
         } else {
             error = mapKnownHttpError(e);
@@ -82,6 +83,9 @@ public class HttpErrorControllerAdvice {
         Class<? extends Exception> type = e.getClass();
         if (type.equals(NoResourceFoundException.class)) {
             return new HttpError(404, "Resource Not Found");
+        }
+        if (type.equals(AuthorizationDeniedException.class)) {
+            return new HttpError(403, "Not authorized to access this resource");
         }
 
         return null;

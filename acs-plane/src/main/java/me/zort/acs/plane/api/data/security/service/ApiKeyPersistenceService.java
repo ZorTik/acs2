@@ -9,6 +9,8 @@ public interface ApiKeyPersistenceService {
 
     ApiKeyModel saveApiKey(ApiKeyModel apiKey);
 
+    boolean deleteApiKey(int id);
+
     Optional<? extends ApiKeyModel> getApiKey(int id);
 
     int getNextFreeId();

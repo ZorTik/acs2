@@ -65,9 +65,9 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
     volumes:
-      - .:/home/gradle/project:cached
+      - .:/home/gradle/project
       #- ./plane/src/main/resources/templates:/home/gradle/project/src/main/resources/templates
-      #- /home/gradle/project/.gradle
+      - /home/gradle/project/.gradle
       #- /home/gradle/project/build
       - plane-gradle-cache:/home/gradle/.gradle
     ports:

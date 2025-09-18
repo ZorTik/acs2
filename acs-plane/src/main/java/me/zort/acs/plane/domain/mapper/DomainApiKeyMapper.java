@@ -1,11 +1,12 @@
 package me.zort.acs.plane.domain.mapper;
 
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.plane.api.data.security.service.ApiKeyPersistenceService;
 import me.zort.acs.plane.api.domain.security.ApiKey;
 import me.zort.acs.plane.api.domain.security.Privilege;
+import me.zort.acs.plane.api.domain.security.SecretKeyEncoder;
+import me.zort.acs.plane.api.domain.security.SecretKeyGenerator;
 import me.zort.acs.plane.data.security.model.ApiKeyDocument;
 import me.zort.acs.plane.data.security.model.ApiKeyModel;
 import me.zort.acs.plane.domain.security.ApiKeyImpl;
@@ -18,6 +19,8 @@ import java.util.Objects;
 @Component
 public class DomainApiKeyMapper implements DomainModelMapper<ApiKey, ApiKeyModel> {
     private final ApiKeyPersistenceService persistenceService;
+    private final SecretKeyGenerator secretKeyGenerator;
+    private final SecretKeyEncoder secretKeyEncoder;
 
     /**
      * Maps model to key.
@@ -54,16 +57,12 @@ public class DomainApiKeyMapper implements DomainModelMapper<ApiKey, ApiKeyModel
     public ApiKeyModel toPersistence(ApiKey domain) {
         String secret = persistenceService.getApiKey(domain.getId())
                 .map(ApiKeyModel::getSecret)
-                .orElseGet(DomainApiKeyMapper::createSigningKey);
+                .orElseGet(() -> secretKeyEncoder.encode(secretKeyGenerator.generateSecretKey()));
         List<String> claims = domain.getClaims()
                 .stream()
                 .map(Privilege::name)
                 .toList();
 
         return new ApiKeyDocument(domain.getId(), domain.getName(), secret, claims);
-    }
-
-    private static String createSigningKey() {
-        return new String(Jwts.SIG.HS256.key().build().getEncoded());
     }
 }

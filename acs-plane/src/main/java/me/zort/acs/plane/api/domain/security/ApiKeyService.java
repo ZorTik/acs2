@@ -12,6 +12,8 @@ public interface ApiKeyService {
      */
     String createApiKey(CreateApiKeyParams params);
 
+    boolean deleteApiKey(int id);
+
     /**
      * Verify, decrypt and check existence of the provided api key.
      *

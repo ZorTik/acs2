@@ -8,21 +8,17 @@ import me.zort.acs.plane.api.domain.user.User;
 import me.zort.acs.plane.api.http.mapper.HttpRealmMapper;
 import me.zort.acs.plane.http.error.exception.PanelNoDefaultRealmException;
 import me.zort.acs.plane.http.internal.service.PathService;
-import me.zort.acs.plane.http.security.LoggedInUserDetails;
+import me.zort.acs.plane.spring.security.user.LoggedInUserDetails;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import java.util.List;
 
 /**
  * This class resolves Realm type of objects in controller methods that don't have any

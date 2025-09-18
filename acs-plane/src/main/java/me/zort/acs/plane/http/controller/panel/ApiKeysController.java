@@ -6,12 +6,10 @@ import me.zort.acs.plane.api.facade.AuthFacade;
 import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
 import me.zort.acs.plane.http.dto.auth.CreateApiKeyForm;
 import me.zort.acs.plane.http.dto.model.ListedApiKey;
+import me.zort.acs.plane.http.facade.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -42,6 +40,18 @@ public class ApiKeysController {
 
         alertPropagator.propagateAlertToModel("Key generated: " + key, model);
 
+        return listApiKeysGet(model);
+    }
+
+    @GetMapping("/delete")
+    public String deleteApiKeyGet(@RequestParam int id, Model model) {
+        Result<Void> result = authFacade.deleteApiKey(id);
+
+        if (result.isError()) {
+            alertPropagator.propagateErrorToModel(result.getError(), model);
+        } else {
+            alertPropagator.propagateAlertToModel("Api key deleted.", model);
+        }
         return listApiKeysGet(model);
     }
 }

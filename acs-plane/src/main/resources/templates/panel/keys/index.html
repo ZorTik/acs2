@@ -27,9 +27,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="key, stat : ${keys}">
+                        <tr th:each="key : ${keys}">
                             <td>
-                                <span th:text="${stat.count}">N/A</span>
+                                <span th:text="${key.id}">N/A</span>
                             </td>
                             <td>
                                 <span th:text="${key.name}">N/A</span>
@@ -44,7 +44,7 @@
                                 </div>
                             </td>
                             <td class="flex space-x-2 justify-end">
-                                <!-- TODO: Delete button -->
+                                <a th:href="@{/panel/keys/delete(id=${key.id})}"><i class="fa-solid fa-trash"></i></a>
                             </td>
                         </tr>
                         </tbody>

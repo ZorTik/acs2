@@ -1,7 +1,6 @@
 package me.zort.acs.plane.api.facade;
 
 import jakarta.servlet.http.HttpServletRequest;
-import me.zort.acs.plane.api.domain.security.ApiKey;
 import me.zort.acs.plane.http.dto.auth.CreateApiKeyForm;
 import me.zort.acs.plane.http.dto.model.ListedApiKey;
 import me.zort.acs.plane.http.facade.util.Result;
@@ -34,6 +33,8 @@ public interface AuthFacade {
      * @return The generated key
      */
     Result<String> createApiKey(CreateApiKeyForm form);
+
+    Result<Void> deleteApiKey(int id);
 
     /**
      * List API keys.

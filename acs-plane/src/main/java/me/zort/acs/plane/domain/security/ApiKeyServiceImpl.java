@@ -2,15 +2,12 @@ package me.zort.acs.plane.domain.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.plane.api.data.security.service.ApiKeyPersistenceService;
-import me.zort.acs.plane.api.domain.security.ApiKey;
-import me.zort.acs.plane.api.domain.security.ApiKeyService;
-import me.zort.acs.plane.api.domain.security.CreateApiKeyParams;
-import me.zort.acs.plane.api.domain.security.Privilege;
+import me.zort.acs.plane.api.domain.security.*;
 import me.zort.acs.plane.data.security.model.ApiKeyModel;
+import me.zort.acs.plane.http.util.JwtUtils;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -20,6 +17,8 @@ import java.util.*;
 @Service
 public class ApiKeyServiceImpl implements ApiKeyService {
     private final ApiKeyPersistenceService persistenceService;
+    private final SecretKeyGenerator secretKeyGenerator;
+    private final SecretKeyEncoder secretKeyEncoder;
     private final DomainModelMapper<ApiKey, ApiKeyModel> mapper;
 
     @Override
@@ -29,8 +28,13 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         ApiKeyModel model = mapper.toPersistence(new ApiKeyImpl(id, params.getName(), params.getPrivileges()));
         model = persistenceService.saveApiKey(model);
 
-        Key key = Keys.hmacShaKeyFor(model.getSecret().getBytes());
+        Key key = secretKeyEncoder.decode(model.getSecret());
         return buildApiKeyValue(id, params.getPrivileges(), key);
+    }
+
+    @Override
+    public boolean deleteApiKey(int id) {
+        return persistenceService.deleteApiKey(id);
     }
 
     /**
@@ -48,7 +52,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                         .stream()
                         .map(Privilege::name).toList())
                 .issuedAt(new Date())
-                .signWith(secret)
+                .signWith(secret, secretKeyGenerator.getSignatureAlgorithm())
                 .compact();
     }
 
@@ -72,14 +76,11 @@ public class ApiKeyServiceImpl implements ApiKeyService {
      * @throws IllegalArgumentException If the JWT key is invalid
      */
     private int decodeApiKeyId(String apiKeyValue) throws IllegalArgumentException {
-        Claims claims = Jwts.parser()
-                .build()
-                .parseUnsecuredClaims(apiKeyValue)
-                .getPayload();
+        String idString = JwtUtils.extractSubject(apiKeyValue);
 
         int id;
         try {
-            id = Integer.parseInt(claims.getSubject());
+            id = Integer.parseInt(idString);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid subject ID");
         }
@@ -88,7 +89,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid API Key"));
         try {
             Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(model.getSecret().getBytes()))
+                    .verifyWith(secretKeyEncoder.decode(model.getSecret()))
                     .build()
                     .parse(apiKeyValue);
         } catch (Exception e) {

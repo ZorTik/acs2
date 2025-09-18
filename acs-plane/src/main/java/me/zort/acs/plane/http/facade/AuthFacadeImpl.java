@@ -72,6 +72,15 @@ public class AuthFacadeImpl implements AuthFacade {
     }
 
     @Override
+    public Result<Void> deleteApiKey(int id) {
+        if (apiKeyService.deleteApiKey(id)) {
+            return Result.ok();
+        } else {
+            return Result.error(404, "Api key not found");
+        }
+    }
+
+    @Override
     public Result<Set<ListedApiKey>> listApiKeys() {
         return Result.ok(apiKeyService.getApiKeys()
                 .stream()

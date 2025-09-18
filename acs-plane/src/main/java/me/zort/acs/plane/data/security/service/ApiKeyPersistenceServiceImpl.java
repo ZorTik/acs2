@@ -23,6 +23,16 @@ public class ApiKeyPersistenceServiceImpl implements ApiKeyPersistenceService {
     }
 
     @Override
+    public boolean deleteApiKey(int id) {
+        if (!repository.existsById(id)) {
+            return false;
+        }
+
+        repository.deleteById(id);
+        return true;
+    }
+
+    @Override
     public Optional<? extends ApiKeyModel> getApiKey(int id) {
         return repository.findById(id);
     }
