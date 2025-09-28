@@ -3,7 +3,7 @@ package me.zort.acs.plane.http.internal.advice;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.http.internal.service.PathService;
-import me.zort.acs.plane.http.security.LoggedInUserDetails;
+import me.zort.acs.plane.spring.security.user.LoggedInUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;

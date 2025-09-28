@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/general}"
+      lang="en">
+<head>
+    <title>Detail</title>
+</head>
+<body>
+<div layout:fragment="heading-wrapper">
+    <h1 th:replace="~{layouts/general :: heading(title='Create API key', addition=null)}"></h1>
+</div>
+
+<div layout:fragment="content">
+    <form method="post" class="flex flex-col space-y-3">
+        <div class="flex flex-col">
+            <label for="name">API Key Name</label>
+            <input type="text" name="name" id="name" placeholder="Enter API key name" required />
+        </div>
+        <div>
+            <label class="block mb-2">Privileges</label>
+            <div class="flex flex-col gap-1">
+                <div th:each="priv : ${T(me.zort.acs.plane.api.domain.security.Privilege).values()}">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="claims" th:value="${priv}" />
+                        <span th:text="${priv}"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <button th:replace="~{fragments/component :: button-primary('Create', null, 'submit')}"></button>
+    </form>
+</div>
+</body>
+</html>

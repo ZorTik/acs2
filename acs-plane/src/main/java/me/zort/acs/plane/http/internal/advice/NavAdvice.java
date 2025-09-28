@@ -27,6 +27,8 @@ public class NavAdvice {
             identifier = "home";
         } else if (pathMatcher.match("/panel/realms/**", path)) {
             identifier = "realms";
+        } else if (pathMatcher.match("/panel/keys/**", path)) {
+            identifier = "keys";
         }
 
         model.addAttribute("navIdentifier", identifier);

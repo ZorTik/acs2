@@ -1,20 +1,30 @@
 package me.zort.acs.plane.config;
 
+import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.security.Privilege;
-import me.zort.acs.plane.http.security.PlaneUserDetailsService;
+import me.zort.acs.plane.http.error.HttpErrorControllerAdvice;
+import me.zort.acs.plane.http.internal.filter.ApiKeyFilter;
+import me.zort.acs.plane.spring.security.user.PlaneUserDetailsService;
 import me.zort.acs.plane.http.internal.service.PathService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@RequiredArgsConstructor
 @EnableWebSecurity
+@EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
+    private final ApiKeyFilter apiKeyFilter;
+    private final HttpErrorControllerAdvice errorHandlingAdvice;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -35,12 +45,17 @@ public class SecurityConfig {
                         .logoutSuccessUrl(loginPage).permitAll())
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers("/error", "/actuator/**").permitAll()
-                        .requestMatchers(pathService.getApiPathPattern()).permitAll()
                         .requestMatchers(pathService.getLoginPage(), pathService.getRegisterPage()).permitAll()
                         .requestMatchers("/panel/realms/**").hasAuthority(Privilege.EDIT_REALMS.getAuthority())
                         .requestMatchers("/panel/users/**").hasAuthority(Privilege.EDIT_USERS.getAuthority())
+                        .requestMatchers("/panel/keys/**").hasAuthority(Privilege.EDIT_API_KEYS.getAuthority())
+                        .requestMatchers(pathService.getApiPathPattern()).authenticated()
                         .requestMatchers(pathService.getPanelPathPattern()).authenticated()
                         .anyRequest().permitAll())
+                .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling( configurer -> configurer
+                        .accessDeniedHandler((AccessDeniedHandler) (req, res, error) ->
+                                errorHandlingAdvice.handleHttpError(error, req, res)))
                 .build();
     }
 

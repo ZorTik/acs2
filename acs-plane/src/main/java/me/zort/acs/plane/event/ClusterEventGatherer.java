@@ -1,4 +1,4 @@
-package me.zort.acs.plane.domain.cluster;
+package me.zort.acs.plane.event;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
