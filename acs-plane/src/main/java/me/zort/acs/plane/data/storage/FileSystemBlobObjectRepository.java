@@ -1,14 +1,17 @@
 package me.zort.acs.plane.data.storage;
 
+import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.storage.BlobObject;
 import me.zort.acs.plane.api.domain.storage.BlobPath;
 import me.zort.acs.plane.api.data.storage.BlobObjectRepository;
 import me.zort.acs.plane.api.domain.storage.exception.BlobObjectCollisionException;
 import me.zort.acs.plane.api.domain.storage.exception.BlobObjectNotExistsException;
-import org.springframework.stereotype.Service;
 
-@Service
+import java.io.File;
+
+@RequiredArgsConstructor
 public class FileSystemBlobObjectRepository implements BlobObjectRepository {
+    private final File storageDir;
 
     @Override
     public void put(BlobPath path, BlobObject object) throws BlobObjectCollisionException {
