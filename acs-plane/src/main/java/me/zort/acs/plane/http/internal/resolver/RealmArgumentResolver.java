@@ -4,20 +4,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmService;
+import me.zort.acs.plane.api.domain.user.User;
 import me.zort.acs.plane.api.http.mapper.HttpRealmMapper;
 import me.zort.acs.plane.http.error.exception.PanelNoDefaultRealmException;
 import me.zort.acs.plane.http.internal.service.PathService;
+import me.zort.acs.plane.spring.security.user.LoggedInUserDetails;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import java.util.List;
 
 /**
  * This class resolves Realm type of objects in controller methods that don't have any
@@ -82,7 +83,11 @@ public class RealmArgumentResolver implements HandlerMethodArgumentResolver {
 
         // No realm in the request, try to get the default one
         if (realm == null) {
-            realm = getDefaultRealmForLoggedInUser(request);
+            User loggedInUser = getLoggedInUser();
+
+            if (loggedInUser != null) {
+                realm = realmService.getDefaultRealmForLoggedInUser(loggedInUser).orElse(null);
+            }
         }
 
         if (realm == null) {
@@ -93,12 +98,12 @@ public class RealmArgumentResolver implements HandlerMethodArgumentResolver {
         return realm;
     }
 
-    private @Nullable Realm getDefaultRealmForLoggedInUser(HttpServletRequest request) {
-        List<Realm> allRealms = realmService.getAllRealms();
-        if (allRealms.isEmpty()) {
-            return null;
-        } else {
-            return allRealms.get(0);
+    private User getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof LoggedInUserDetails loggedInUserDetails) {
+            return loggedInUserDetails.getUser();
         }
+
+        return null;
     }
 }

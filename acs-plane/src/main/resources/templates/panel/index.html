@@ -18,7 +18,7 @@
         </th:block>
     </div>
 
-    <div class="flex gap-4">
+    <div class="flex gap-4 mt-5">
         <div class="w-1/2">
             <div th:replace="~{fragments/component :: block(~{::realm-count-content}, null, null)}">
                 <th:block th:fragment="realm-count-content">
@@ -36,11 +36,6 @@
             </div>
         </div>
     </div>
-
-    <!--
-     <p>Username: <span th:text="${user.displayName}" /></p>
-     <p>Role: <span th:text="${user.role.name()}" /></p>
-     -->
 </div>
 </body>
 </html>

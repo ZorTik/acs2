@@ -2,7 +2,7 @@ package me.zort.acs.plane.http.mapper;
 
 import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
 import me.zort.acs.plane.api.http.mapper.HttpFormatMapper;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package me.zort.acs.plane.http.security;
+package me.zort.acs.plane.spring.security.user;
 
 import lombok.Getter;
 import me.zort.acs.plane.api.domain.security.Credentials;

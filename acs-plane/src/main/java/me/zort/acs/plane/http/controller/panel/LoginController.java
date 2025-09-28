@@ -4,10 +4,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zort.acs.plane.api.domain.security.AuthService;
+import me.zort.acs.plane.api.domain.security.RegistrationsStrategy;
 import me.zort.acs.plane.api.facade.AuthFacade;
 import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 import me.zort.acs.plane.http.dto.auth.RegisterForm;
 import me.zort.acs.plane.http.internal.service.PathService;
 import org.springframework.stereotype.Controller;
@@ -24,19 +24,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
     private final AuthFacade authFacade;
     private final PathService pathService;
-    private final AuthService authService;
+    private final RegistrationsStrategy registrationsStrategy;
     private final HttpAlertPropagator errorPropagator;
 
     @GetMapping("/login")
     public String loginGet(Model model) {
-        model.addAttribute("registrationsAllowed", authService.isRegistrationAllowed());
+        model.addAttribute("registrationsAllowed", registrationsStrategy.isRegistrationAllowed());
 
         return "panel/auth/login";
     }
 
     @GetMapping("/register")
     public String registerGet() {
-        if (authService.isRegistrationAllowed()) {
+        if (registrationsStrategy.isRegistrationAllowed()) {
             return "panel/auth/register";
         } else {
             log.warn("User attempted to access registration page, but registrations are not allowed.");

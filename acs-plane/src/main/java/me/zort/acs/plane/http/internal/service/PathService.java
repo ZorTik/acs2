@@ -21,11 +21,22 @@ public class PathService {
             this.supportsViewModel = supportsViewModel;
         }
 
+        /**
+         * Returns if this path group supports visual views.
+         *
+         * @return The state
+         */
         public boolean supportsViewModel() {
             return supportsViewModel;
         }
     }
 
+    /**
+     * Tries to identify which path group this path belongs to.
+     *
+     * @param path The path
+     * @return The path group, or `PathGroup.UNKNOWN` if not recognized
+     */
     public @NotNull PathGroup getPathGroup(@NotNull String path) {
         if (PATH_MATCHER.match(PathUtils.panelPathPattern(), path)) {
             return PathGroup.PANEL;

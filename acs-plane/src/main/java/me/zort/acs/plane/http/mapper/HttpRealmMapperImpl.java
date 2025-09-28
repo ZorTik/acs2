@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.domain.realm.RealmService;
 import me.zort.acs.plane.api.http.mapper.HttpRealmMapper;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

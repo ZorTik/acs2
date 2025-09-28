@@ -15,11 +15,6 @@
     </script>
 </head>
 <body>
-    <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <th:block th:if="${alert != null and !alert.isEmpty()}">
-        <th:block th:replace="~{fragments/alert :: alert(${alert})}" />
-    </th:block>
-
     <div class="flex w-full min-h-screen">
         <nav th:replace="~{fragments/nav :: wrapper(~{::nav-title}, ~{::nav-content}, null)}">
             <th:block th:fragment="nav-title">
@@ -33,6 +28,9 @@
                 </li>
                 <li th:replace="~{fragments/nav :: link(@{/panel/realms}, ~{::#realms-link}, 'realms')}">
                     <span id="realms-link"><i class="fa-solid fa-layer-group mr-1"></i> Realms</span>
+                </li>
+                <li th:replace="~{fragments/nav :: link(@{/panel/keys}, ~{::#keys-link}, 'keys')}">
+                    <span id="keys-link"><i class="fa-solid fa-key mr-1"></i> API Keys</span>
                 </li>
                 <li th:replace="~{fragments/nav :: link(@{/panel/users}, ~{::#users-link}, 'users')}">
                     <span id="users-link"><i class="fa-solid fa-users mr-1"></i> Users</span>
@@ -72,8 +70,23 @@
                 </div>
             </div>
 
-            <div layout:fragment="content" class="flex flex-col flex-1 space-y-5 px-12 py-5">
-                <!-- page content -->
+            <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
+            <!--<th:block th:if="${alert != null and !alert.isEmpty()}">
+                <th:block th:replace="~{fragments/alert :: alert(${alert})}" />
+            </th:block>-->
+
+            <div class="flex flex-col flex-1 space-y-5 px-12 py-5">
+                <th:block th:if="${alert != null and !alert.isEmpty()}">
+                    <div th:replace="~{fragments/component :: info(~{::alert-box})}">
+                        <th:block th:fragment="alert-box">
+                            <h2 th:text="${alert}" />
+                        </th:block>
+                    </div>
+                </th:block>
+
+                <div layout:fragment="content" class="w-full">
+                    <!-- page content -->
+                </div>
             </div>
 
             <div class="mt-auto w-full px-12 py-5 text-gray-400 text-right">

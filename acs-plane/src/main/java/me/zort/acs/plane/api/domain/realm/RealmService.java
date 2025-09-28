@@ -2,6 +2,7 @@ package me.zort.acs.plane.api.domain.realm;
 
 import me.zort.acs.plane.api.domain.realm.exception.RealmAlreadyExistsException;
 import me.zort.acs.plane.api.domain.realm.exception.RealmNotExistsException;
+import me.zort.acs.plane.api.domain.user.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -39,6 +40,8 @@ public interface RealmService {
      * @return an {@link Optional} containing the found {@link Realm}, or empty if not found
      */
     Optional<Realm> getRealm(String realm);
+
+    Optional<Realm> getDefaultRealmForLoggedInUser(User user);
 
     List<Realm> getAllRealms();
 }

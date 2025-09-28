@@ -1,6 +1,6 @@
 package me.zort.acs.plane.api.http.mapper;
 
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 
 public interface HttpToDomainMapper<H, D> {
 

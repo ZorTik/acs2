@@ -11,8 +11,10 @@ import me.zort.acs.plane.data.user.repository.MongoUserRepository;
 import me.zort.acs.plane.domain.user.event.UserCreatedEvent;
 import me.zort.acs.plane.domain.user.event.UserDeletedEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -56,5 +58,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public long getUserCount() {
         return userRepository.count();
+    }
+
+    @Override
+    public List<User> listUsers(Pageable pageable) {
+        // TODO
+
+        return List.of();
     }
 }

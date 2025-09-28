@@ -8,7 +8,7 @@ import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
 import me.zort.acs.plane.api.facade.RealmsFacade;
 import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 import me.zort.acs.plane.http.dto.model.ListedRealm;
 import me.zort.acs.plane.http.dto.realms.RealmsCreateForm;
 import org.springframework.beans.factory.annotation.Autowired;

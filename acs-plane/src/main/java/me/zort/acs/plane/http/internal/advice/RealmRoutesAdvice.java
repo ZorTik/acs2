@@ -1,5 +1,6 @@
 package me.zort.acs.plane.http.internal.advice;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.http.internal.resolver.RealmArgumentResolver;
@@ -15,9 +16,11 @@ public class RealmRoutesAdvice implements HandlerInterceptor {
     private final RealmArgumentResolver realmArgumentResolver;
 
     @ModelAttribute
-    public void addRealm(Model model, NativeWebRequest request) {
-        Realm realm = realmArgumentResolver.resolveRealm(request);
+    public void addRealm(Model model, HttpServletRequest request, NativeWebRequest webRequest) {
+        if (request.getRequestURI().matches("^\\/panel\\/realms(?![^\\/]|\\/create).*$")) {
+            Realm realm = realmArgumentResolver.resolveRealm(webRequest);
 
-        model.addAttribute("realm", realm);
+            model.addAttribute("realm", realm);
+        }
     }
 }

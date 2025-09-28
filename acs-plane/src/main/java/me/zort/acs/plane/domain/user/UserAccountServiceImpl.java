@@ -5,7 +5,6 @@ import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.security.Credentials;
 import me.zort.acs.plane.api.domain.security.CredentialsService;
-import me.zort.acs.plane.api.domain.security.Role;
 import me.zort.acs.plane.api.domain.user.*;
 import me.zort.acs.plane.api.domain.user.exception.AccountCreateException;
 import me.zort.acs.plane.api.domain.user.exception.AccountCreateInvalidFormException;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -32,16 +30,8 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .displayName(args.getDisplayName())
                 .build());
         credentialsService.assignCredentials(user, args.getUsername(), args.getPassword());
-        afterUserCreate(user);
 
         return user;
-    }
-
-    private void afterUserCreate(User user) {
-        if (userService.getUserCount() == 1) {
-            // This is the first user, so we assign them the ADMIN role.
-            userService.setRole(user, Role.ADMIN);
-        }
     }
 
     private void validateCreateArgs(CreateWithSimpleLoginArgs args) throws AccountCreateException {
@@ -54,15 +44,5 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (!violations.isEmpty()) {
             throw new AccountCreateInvalidFormException(violations);
         }
-    }
-
-    @Transactional
-    @Override
-    public void deleteUserWithId(UUID id) {
-        userService.getUserById(id).ifPresent(user -> {
-            credentialsService.deleteCredentialsByUser(user);
-
-            userService.deleteUser(user);
-        });
     }
 }

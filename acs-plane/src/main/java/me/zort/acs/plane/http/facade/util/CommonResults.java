@@ -1,4 +1,4 @@
-package me.zort.acs.plane.facade.util;
+package me.zort.acs.plane.http.facade.util;
 
 import lombok.experimental.UtilityClass;
 

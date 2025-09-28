@@ -1,7 +1,7 @@
 package me.zort.acs.plane.api.facade;
 
 import me.zort.acs.plane.api.domain.realm.Realm;
-import me.zort.acs.plane.facade.util.Result;
+import me.zort.acs.plane.http.facade.util.Result;
 
 public interface DefinitionsFacade {
 
