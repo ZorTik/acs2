@@ -20,7 +20,15 @@ public final class BlobPath {
      * @throws IllegalArgumentException if the segments array is empty or contains invalid segments
      */
     private static void validateSegments(String[] segments) throws IllegalArgumentException {
-        // TODO
+        if (segments.length == 0) {
+            throw new IllegalArgumentException("Path cannot be empty");
+        }
+
+        for (String segment : segments) {
+            if (segment == null || segment.isBlank()) {
+                throw new IllegalArgumentException("Segment of path cannot be null or blank");
+            }
+        }
     }
 
     /**

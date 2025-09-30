@@ -1,14 +1,10 @@
 package me.zort.acs.plane.api.domain.ruleset;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public interface RuleSet {
 
-@Getter
-@AllArgsConstructor
-public class RuleSet {
-    private final String id;
+    String getId();
 
-    private final String name;
-    private final String description;
+    String getName();
 
+    String getDescription();
 }
