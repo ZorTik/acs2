@@ -1,5 +1,7 @@
 package me.zort.acs.plane.api.domain.storage;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.regex.Pattern;
 
 public final class BlobPath {
@@ -54,5 +56,20 @@ public final class BlobPath {
      */
     public Pattern getMatchSubfilesPattern() {
         return Pattern.compile("^/" + String.join("/", segments) + "(/.*)?$");
+    }
+
+    /**
+     * Append the provided blob path at the end of this path.
+     *
+     * @param append The path to append
+     * @return The result path
+     */
+    @NotNull
+    public BlobPath append(BlobPath append) {
+        String[] newSegments = new String[segments.length + append.segments.length];
+        System.arraycopy(segments, 0, newSegments, 0, segments.length);
+        System.arraycopy(append.segments, 0, newSegments, segments.length, append.segments.length);
+
+        return new BlobPath(newSegments);
     }
 }

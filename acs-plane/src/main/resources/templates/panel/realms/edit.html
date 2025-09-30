@@ -48,6 +48,44 @@
             </div>
         </div>
         <div class="w-full">
+            <div th:replace="~{fragments/component :: block(~{::rulesets-content}, 'Rule Sets', 'List of rule sets registered in this realm')}">
+                <th:block th:fragment="rulesets-content">
+                    <table class="w-full border-separate border-spacing-y-4">
+                        <thead class="text-left pb-5">
+                        <tr>
+                            <th class="text-gray-500 font-normal">Id</th>
+                            <th class="text-gray-500 font-normal">Name</th>
+                            <th class="text-gray-500 font-normal">Description</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="ruleSet : ${ruleSets}">
+                            <td>
+                                <span th:text="${ruleSet.id}">N/A</span>
+                            </td>
+                            <td>
+                                <span th:text="${ruleSet.name}">N/A</span>
+                            </td>
+                            <td>
+                                <span th:text="${ruleSet.description}">N/A</span>
+                            </td>
+                            <td class="flex space-x-2 justify-end">
+                                <a th:href="@{/panel/ruleset/delete(realm=realmId, id=${ruleSet.id})}"><i class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <form method="post" class="h-full flex flex-col" th:target="@{/panel/ruleset/upload(realm=${realm.getName()})}" enctype="multipart/form-data">
+                        <input type="file" name="rulesets-file" id="rulesets-file" accept=".jar" placeholder="Select rulesets file" required />
+
+                        <button th:replace="~{fragments/component :: button-primary('Upload Rule Set', 'mt-4 w-min', 'submit')}"></button>
+                    </form>
+                </th:block>
+            </div>
+        </div>
+        <div class="w-full">
             <div th:replace="~{fragments/component :: block(~{::danger-content}, 'Danger Zone', 'Potentially destructive actions')}">
                 <th:block th:fragment="danger-content">
                     <a th:href="@{/panel/realms/delete(realm=${realm.getName()})}">

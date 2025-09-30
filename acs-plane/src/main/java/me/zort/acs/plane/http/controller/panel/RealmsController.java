@@ -7,6 +7,7 @@ import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.plane.api.domain.realm.Realm;
 import me.zort.acs.plane.api.facade.DefinitionsFacade;
 import me.zort.acs.plane.api.facade.RealmsFacade;
+import me.zort.acs.plane.api.facade.RuleSetFacade;
 import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
 import me.zort.acs.plane.http.facade.util.Result;
 import me.zort.acs.plane.http.dto.model.ListedRealm;
@@ -23,6 +24,7 @@ import java.util.List;
 @Controller
 public class RealmsController {
     private final RealmsFacade realmsFacade;
+    private final RuleSetFacade ruleSetFacade;
     private final DefinitionsFacade definitionsFacade;
     private final HttpAlertPropagator alertPropagator;
 
@@ -70,7 +72,9 @@ public class RealmsController {
     @GetMapping("/edit")
     public String editRealmGet(Realm realm, Model model) {
         DefinitionsModel definitions = realm.getDefinitionsModel();
+        model.addAttribute("realmId", realm.getName());
         model.addAttribute("definitions", DefinitionsFormat.YAML.toStringModel(definitions));
+        model.addAttribute("ruleSets", ruleSetFacade.getRuleSets(realm.getName()));
 
         return "panel/realms/edit";
     }

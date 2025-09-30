@@ -5,7 +5,6 @@ import me.zort.acs.plane.api.domain.storage.BlobObject;
 import me.zort.acs.plane.api.domain.storage.BlobPath;
 import me.zort.acs.plane.api.data.storage.BlobObjectRepository;
 import me.zort.acs.plane.api.domain.storage.exception.BlobObjectCollisionException;
-import me.zort.acs.plane.api.domain.storage.exception.BlobObjectNotExistsException;
 
 import java.io.File;
 
@@ -19,7 +18,7 @@ public class FileSystemBlobObjectRepository implements BlobObjectRepository {
     }
 
     @Override
-    public BlobObject get(BlobPath path) throws BlobObjectNotExistsException, IllegalArgumentException {
+    public BlobObject get(BlobPath path) throws IllegalArgumentException {
         // TODO
     }
 
