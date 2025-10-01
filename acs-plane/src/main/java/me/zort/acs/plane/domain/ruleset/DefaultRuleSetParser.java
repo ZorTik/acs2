@@ -28,7 +28,13 @@ public class DefaultRuleSetParser implements RuleSetParser {
 
     @Override
     public RuleSet parseRuleSet(byte[] data) throws MalformedRuleSetDataException {
+        validateRuleSetData(data);
+
         return parseRuleSetConfig(getRuleSetConfig(data));
+    }
+
+    private static void validateRuleSetData(byte[] data) {
+        // TODO: Validate if the file contains meta-inf services the right imports
     }
 
     /**
