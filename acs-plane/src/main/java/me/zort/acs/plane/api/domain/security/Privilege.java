@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 public enum Privilege implements GrantedAuthority {
     VIEW_DEFINITIONS,
+    VIEW_RULESETS,
     EDIT_REALMS,
     EDIT_USERS,
     EDIT_API_KEYS;
