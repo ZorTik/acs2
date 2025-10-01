@@ -11,6 +11,8 @@ import me.zort.acs.plane.api.domain.storage.BlobStorageService;
 import me.zort.acs.plane.api.facade.RuleSetFacade;
 import me.zort.acs.plane.http.dto.model.ListedRuleSet;
 import me.zort.acs.plane.http.mapper.HttpRuleSetMapper;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +45,13 @@ public class RuleSetFacadeImpl implements RuleSetFacade {
 
             throw e;
         }
+    }
+
+    @Override
+    public Resource downloadRuleSet(String realmId, String id) {
+        BlobPath ruleSetPath = getPathForRuleSet(realmId, id);
+
+        return new InputStreamResource(blobStorageService.retrieve(ruleSetPath));
     }
 
     @Override

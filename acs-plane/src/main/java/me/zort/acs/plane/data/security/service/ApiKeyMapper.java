@@ -11,6 +11,12 @@ import java.util.List;
 @Component
 public class ApiKeyMapper {
 
+    /**
+     * Convert api key domain object to mongo document.
+     *
+     * @param apiKey The api key
+     * @return The mongo document
+     */
     public ApiKeyDocument toDocument(ApiKey apiKey) {
         List<String> claims = apiKey.getClaims()
                 .stream()
@@ -20,6 +26,12 @@ public class ApiKeyMapper {
         return new ApiKeyDocument(apiKey.getId(), apiKey.getName(), apiKey.getSecret(), claims);
     }
 
+    /**
+     * Convert api key mongo document to domain object.
+     *
+     * @param document The mongo document
+     * @return The domain object
+     */
     public ApiKey toApiKey(ApiKeyDocument document) {
         List<Privilege> claims = document.getClaims()
                 .stream()

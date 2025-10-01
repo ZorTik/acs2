@@ -1,11 +1,12 @@
 package me.zort.acs.plane.api.domain.storage;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.core.io.InputStreamSource;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public interface BlobObject {
+public interface BlobObject extends InputStreamSource {
 
     /**
      * Transfer the object's data in the out stream.

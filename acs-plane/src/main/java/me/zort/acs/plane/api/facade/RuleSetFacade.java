@@ -1,6 +1,7 @@
 package me.zort.acs.plane.api.facade;
 
 import me.zort.acs.plane.http.dto.model.ListedRuleSet;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 public interface RuleSetFacade {
 
     void uploadRuleSet(String realmId, MultipartFile file);
+
+    Resource downloadRuleSet(String realmId, String id);
 
     void deleteRuleSet(String realmId, String id);
 
