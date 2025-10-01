@@ -55,6 +55,6 @@ public class DefaultRuleSetParser implements RuleSetParser {
     }
 
     private RuleSet parseRuleSetConfig(byte[] ruleSetData) {
-        return this.yaml.loadAs(new ByteArrayInputStream(ruleSetData), YamlRuleSet.class);
+        return this.yaml.loadAs(new ByteArrayInputStream(ruleSetData), RuleSetImpl.class);
     }
 }

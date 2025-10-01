@@ -1,5 +1,7 @@
 package me.zort.acs.plane.domain.ruleset;
 
+import lombok.RequiredArgsConstructor;
+import me.zort.acs.plane.api.data.ruleset.RuleSetPersistenceService;
 import me.zort.acs.plane.api.domain.ruleset.RuleSet;
 import me.zort.acs.plane.api.domain.ruleset.RuleSetService;
 import me.zort.acs.plane.api.domain.ruleset.exception.RuleSetAlreadyExistsException;
@@ -8,21 +10,22 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RuleSetServiceImpl implements RuleSetService {
-    // TODO: Repository
+    private final RuleSetPersistenceService persistenceService;
 
     @Override
     public void registerRuleSet(String realmId, RuleSet ruleSet) throws RuleSetAlreadyExistsException {
-        // TODO
+        persistenceService.persistRuleSet(realmId, ruleSet);
     }
 
     @Override
     public void unregisterRuleSet(String realmId, String id) {
-        // TODO
+        persistenceService.deleteRuleSet(realmId, id);
     }
 
     @Override
     public List<RuleSet> getRuleSets(String realmId) {
-        // TODO
+        return persistenceService.getRuleSets(realmId);
     }
 }

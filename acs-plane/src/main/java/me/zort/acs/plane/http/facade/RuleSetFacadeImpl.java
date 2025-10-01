@@ -33,7 +33,7 @@ public class RuleSetFacadeImpl implements RuleSetFacade {
         RuleSet ruleSet = ruleSetParser.parseRuleSet(data);
 
         BlobPath ruleSetPath = getPathForRuleSet(realmId, ruleSet.getId());
-        blobStorageService.store(ruleSetPath, BlobObject.of("application/java-archive", data));
+        blobStorageService.store(ruleSetPath, BlobObject.of(data));
 
         try {
             ruleSetService.registerRuleSet(realmId, ruleSet);

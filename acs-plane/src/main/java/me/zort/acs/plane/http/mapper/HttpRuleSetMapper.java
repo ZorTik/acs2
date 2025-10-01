@@ -14,6 +14,6 @@ public class HttpRuleSetMapper {
      * @return The mapped dto
      */
     public ListedRuleSet toHttpListed(RuleSet ruleSet) {
-        // TODO
+        return new ListedRuleSet(ruleSet.getId(), ruleSet.getName(), ruleSet.getDescription());
     }
 }

@@ -1,6 +1,5 @@
 package me.zort.acs.plane.domain.security;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;

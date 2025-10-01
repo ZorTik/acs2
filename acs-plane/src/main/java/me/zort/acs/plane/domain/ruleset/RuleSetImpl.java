@@ -10,7 +10,7 @@ import me.zort.acs.plane.api.domain.ruleset.RuleSet;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class YamlRuleSet implements RuleSet {
+public class RuleSetImpl implements RuleSet {
     private String id;
 
     private String name;

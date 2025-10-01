@@ -19,3 +19,6 @@ server:
     whitelabel:
       enabled: false
     path: /error
+
+storage:
+  location: ${STORAGE_LOCATION:./storage}

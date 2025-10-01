@@ -1,7 +1,9 @@
 package me.zort.acs.plane.api.domain.storage;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.regex.Pattern;
 
 public final class BlobPath {
@@ -79,5 +81,32 @@ public final class BlobPath {
         System.arraycopy(append.segments, 0, newSegments, segments.length, append.segments.length);
 
         return new BlobPath(newSegments);
+    }
+
+    /**
+     * Gets a file relative to the provided root.
+     *
+     * @param root The root dir
+     * @param extension The extension, or null if no extension should be added
+     * @return The relative file represented by this path
+     */
+    public File toRelativeFile(File root, @Nullable String extension) {
+        File current = root;
+        for (int i = 0; i < segments.length; i++) {
+            String segment = segments[i];
+            String suffix = "";
+
+            if (i == segments.length - 1 && extension != null) {
+                if (extension.startsWith(".")) {
+                    suffix = extension;
+                } else {
+                    suffix = "." + extension;
+                }
+            }
+
+            current = new File(current, segment + suffix);
+        }
+
+        return current;
     }
 }

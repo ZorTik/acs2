@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.data.storage.BlobObjectRepository;
 import me.zort.acs.plane.api.domain.storage.*;
 import me.zort.acs.plane.api.domain.storage.exception.BlobObjectCollisionException;
+import me.zort.acs.plane.api.domain.storage.exception.BlobObjectNotExistsException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -14,7 +15,7 @@ public class BlobStorageServiceImpl implements BlobStorageService {
     private final BlobObjectRepository repository;
 
     @Override
-    public void store(BlobPath path, BlobObject object) throws IllegalArgumentException, BlobObjectCollisionException {
+    public void store(BlobPath path, BlobObject object) throws BlobObjectCollisionException {
         Objects.requireNonNull(path, "Path cannot be null");
         Objects.requireNonNull(object, "BlobObject cannot be null");
 
@@ -22,7 +23,7 @@ public class BlobStorageServiceImpl implements BlobStorageService {
     }
 
     @Override
-    public BlobObject retrieve(BlobPath path) throws IllegalArgumentException {
+    public BlobObject retrieve(BlobPath path) throws BlobObjectNotExistsException {
         Objects.requireNonNull(path, "Path cannot be null");
 
         return repository.get(path);

@@ -1,6 +1,7 @@
 package me.zort.acs.plane.api.domain.storage;
 
 import me.zort.acs.plane.api.domain.storage.exception.BlobObjectCollisionException;
+import me.zort.acs.plane.api.domain.storage.exception.BlobObjectNotExistsException;
 
 public interface BlobStorageService {
 
@@ -13,14 +14,25 @@ public interface BlobStorageService {
      */
     void store(BlobPath path, BlobObject object) throws BlobObjectCollisionException;
 
+    default void storeForcibly(BlobPath path, BlobObject object) {
+        delete(path);
+
+        store(path, object);
+    }
+
     /**
      * Retrieves the BlobObject stored at the specified BlobPath.
      *
      * @param path the path of the BlobObject to retrieve
      * @return the BlobObject stored at the specified path
-     * @throws IllegalArgumentException if the path is invalid or does not exist
+     * @throws BlobObjectNotExistsException if the object does not exist at the given path
      */
-    BlobObject retrieve(BlobPath path) throws IllegalArgumentException;
+    BlobObject retrieve(BlobPath path) throws BlobObjectNotExistsException;
 
+    /**
+     * Deletes a blob object at the given path.
+     *
+     * @param path The path to the blob object
+     */
     void delete(BlobPath path);
 }
