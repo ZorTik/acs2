@@ -22,5 +22,10 @@ public interface ApiKeyService {
      */
     Optional<ApiKey> verifyApiKey(String apiKey);
 
+    /**
+     * Get all api keys.
+     *
+     * @return All api keys
+     */
     List<ApiKey> getApiKeys();
 }

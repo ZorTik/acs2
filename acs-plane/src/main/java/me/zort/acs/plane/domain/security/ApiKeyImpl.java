@@ -13,5 +13,6 @@ public class ApiKeyImpl implements ApiKey {
     private final int id;
     private final String name;
     private final List<Privilege> claims;
+    private final String secret;
 
 }

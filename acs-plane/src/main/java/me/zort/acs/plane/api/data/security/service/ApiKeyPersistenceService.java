@@ -1,19 +1,17 @@
 package me.zort.acs.plane.api.data.security.service;
 
-import me.zort.acs.plane.data.security.model.ApiKeyModel;
+import me.zort.acs.plane.api.domain.security.ApiKey;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ApiKeyPersistenceService {
 
-    ApiKeyModel saveApiKey(ApiKeyModel apiKey);
+    ApiKey saveApiKey(ApiKey apiKey);
 
     boolean deleteApiKey(int id);
 
-    Optional<? extends ApiKeyModel> getApiKey(int id);
+    Optional<ApiKey> getApiKey(int id);
 
-    int getNextFreeId();
-
-    List<? extends ApiKeyModel> getAllApiKeys();
+    List<ApiKey> getAllApiKeys();
 }

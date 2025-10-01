@@ -2,8 +2,8 @@ package me.zort.acs.plane.data.security.service;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.data.security.service.ApiKeyPersistenceService;
+import me.zort.acs.plane.api.domain.security.ApiKey;
 import me.zort.acs.plane.data.security.model.ApiKeyDocument;
-import me.zort.acs.plane.data.security.model.ApiKeyModel;
 import me.zort.acs.plane.data.security.repository.MongoApiKeyRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,14 @@ import java.util.Optional;
 @Service
 public class ApiKeyPersistenceServiceImpl implements ApiKeyPersistenceService {
     private final MongoApiKeyRepository repository;
+    private final ApiKeyMapper mapper;
 
     @Override
-    public ApiKeyModel saveApiKey(ApiKeyModel model) {
-        model = new ApiKeyDocument(model.getId(), model.getName(), model.getSecret(), model.getClaims());
+    public ApiKey saveApiKey(ApiKey apiKey) {
+        ApiKeyDocument document = mapper.toDocument(apiKey);
+        document = repository.save(document);
 
-        return repository.save((ApiKeyDocument) model);
+        return mapper.toApiKey(document);
     }
 
     @Override
@@ -33,19 +35,15 @@ public class ApiKeyPersistenceServiceImpl implements ApiKeyPersistenceService {
     }
 
     @Override
-    public Optional<? extends ApiKeyModel> getApiKey(int id) {
-        return repository.findById(id);
+    public Optional<ApiKey> getApiKey(int id) {
+        return repository.findById(id).map(mapper::toApiKey);
     }
 
     @Override
-    public int getNextFreeId() {
-        return repository.findTopByOrderByIdDesc()
-                .map(ApiKeyDocument::getId)
-                .orElse(0) + 1;
-    }
-
-    @Override
-    public List<? extends ApiKeyModel> getAllApiKeys() {
-        return repository.findAll();
+    public List<ApiKey> getAllApiKeys() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toApiKey)
+                .toList();
     }
 }

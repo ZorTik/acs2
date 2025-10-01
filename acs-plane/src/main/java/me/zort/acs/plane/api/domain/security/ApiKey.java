@@ -9,4 +9,6 @@ public interface ApiKey {
     String getName();
 
     List<Privilege> getClaims();
+
+    String getSecret();
 }
