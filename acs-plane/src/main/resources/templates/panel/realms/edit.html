@@ -39,7 +39,7 @@
         <div class="w-full">
             <div th:replace="~{fragments/component :: block(~{::upload-content}, 'Upload Definitions File', 'Edit the definitions using the editor below')}">
                 <th:block th:fragment="upload-content">
-                    <form method="post" class="h-full flex flex-col" th:target="@{/panel/realms/upload-definitions(realm=${realm.getName()})}" enctype="multipart/form-data">
+                    <form method="post" class="h-full flex flex-col" th:action="@{/panel/realms/upload-definitions(realm=${realm.getName()})}" enctype="multipart/form-data">
                         <input type="file" name="definitions-file" id="definitions-file" accept=".json" placeholder="Select definitions file" required />
 
                         <button th:replace="~{fragments/component :: button-primary('Save', 'mt-4 w-min', 'submit')}"></button>
@@ -77,10 +77,10 @@
                         </tbody>
                     </table>
 
-                    <form method="post" class="h-full flex flex-col" th:target="@{/panel/ruleset/upload(realm=${realm.getName()})}" enctype="multipart/form-data">
+                    <form method="post" class="h-full flex flex-col" th:action="@{/panel/ruleset/upload(realm=${realm.getName()})}" enctype="multipart/form-data">
                         <input type="file" name="rulesets-file" id="rulesets-file" accept=".jar" placeholder="Select rulesets file" required />
 
-                        <button th:replace="~{fragments/component :: button-primary('Upload Rule Set', 'mt-4 w-min', 'submit')}"></button>
+                        <button th:replace="~{fragments/component :: button-primary('Upload', 'mt-4 w-min', 'submit')}"></button>
                     </form>
                 </th:block>
             </div>
