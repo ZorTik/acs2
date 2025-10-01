@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface RuleSetRepository<D> {
 
-    void save(D ruleSet);
+    D save(D ruleSet);
 
     void deleteByRealmIdAndRuleSetId(String realmId, String ruleSetId);
 
