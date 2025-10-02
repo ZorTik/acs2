@@ -3,26 +3,24 @@ package me.zort.acs.plane.http.error;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.domain.ruleset.exception.MalformedRuleSetDataException;
-import me.zort.acs.plane.api.http.error.HttpAlertPropagator;
-import org.springframework.ui.Model;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Order(0)
 @ControllerAdvice
 @RequiredArgsConstructor
 public class RuleSetErrorControllerAdvice {
-    private final HttpAlertPropagator alertPropagator;
+    private final ErrorViewer errorViewer;
 
     @ExceptionHandler(MalformedRuleSetDataException.class)
-    public String handleMalformedRuleSetDataError(MalformedRuleSetDataException e, HttpServletRequest request, Model model) {
-        alertPropagator.propagateAlertToModel("Malformed rule set: " + e.getMessage(), model);
-
-        String redirectPrefix = "redirect:/panel/realms";
-        String realmId = request.getParameter("realmId");
+    public String handleMalformedRuleSetDataError(MalformedRuleSetDataException e, HttpServletRequest request) {
+        String redirectUrl = "/panel/realms";
+        String realmId = request.getParameter("realm");
         if (realmId != null) {
-            redirectPrefix += "/edit?realm=" + realmId;
+            redirectUrl += "/edit?realm=" + realmId;
         }
 
-        return redirectPrefix;
+        return errorViewer.buildRedirectErrorView(redirectUrl, ErrorType.MALFORMED_RULESET, e.getMessage());
     }
 }

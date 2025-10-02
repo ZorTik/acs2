@@ -10,6 +10,7 @@ import me.zort.acs.plane.http.error.exception.PanelNoDefaultRealmException;
 import me.zort.acs.plane.http.internal.service.PathService;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @ControllerAdvice
+@Order
 public class HttpErrorControllerAdvice {
     private final HttpMessageConverter<Object> messageConverter;
     private final PathService pathService;

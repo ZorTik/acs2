@@ -1,5 +1,6 @@
 package me.zort.acs.plane.http.controller.panel;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.definitions.format.DefinitionsFormat;
@@ -70,7 +71,7 @@ public class RealmsController {
     }
 
     @GetMapping("/edit")
-    public String editRealmGet(Realm realm, Model model) {
+    public String editRealmGet(Realm realm, Model model, HttpServletRequest request) {
         DefinitionsModel definitions = realm.getDefinitionsModel();
         model.addAttribute("realmId", realm.getName());
         model.addAttribute("definitions", DefinitionsFormat.YAML.toStringModel(definitions));
