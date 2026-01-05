@@ -2,7 +2,7 @@ package me.zort.acs.domain.subjecttype.operation;
 
 import me.zort.acs.api.domain.operation.AutoCommittableOperation;
 import me.zort.acs.api.domain.operation.OperationCallContext;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectType;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

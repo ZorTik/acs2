@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.access.strategy;
 
-import me.zort.acs.domain.model.Node;
+import me.zort.acs.core.model.Node;
 
 /**
  * Strategy interface for defining different approaches

@@ -1,8 +1,8 @@
 package me.zort.acs.http.internal.resolvers;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.subject.SubjectLike;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.SubjectLike;
+import me.zort.acs.core.model.Subject;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
 import me.zort.acs.http.internal.annotation.SubjectRequestParam;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
@@ -28,7 +28,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * </p>
  * <p>
  * Supports parameters of type {@link SubjectLike}
- * and {@link me.zort.acs.domain.model.Subject}.
+ * and {@link me.zort.acs.core.model.Subject}.
  * </p>
  */
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})

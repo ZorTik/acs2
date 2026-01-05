@@ -13,4 +13,11 @@ public interface RuleSetParser {
      * @throws InvalidRuleSetException If the provided data are invalid
      */
     RuleSet parseRuleSet(byte[] data) throws InvalidRuleSetException;
+
+    /**
+     * Integrates the rule set into the system using the provided integration visitor.
+     *
+     * @param integrationVisitor The integration visitor
+     */
+    void integrateRuleSet(RuleSetIntegrationVisitor integrationVisitor);
 }

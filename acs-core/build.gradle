@@ -23,6 +23,7 @@ dependencies {
     compileOnly 'org.hibernate.orm:hibernate-core:7.0.4.Final'
     compileOnly 'org.projectlombok:lombok'
     compileOnly 'commons-io:commons-io:2.21.0'
+    compileOnly 'org.springframework.data:spring-data-commons'
     annotationProcessor 'org.projectlombok:lombok'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

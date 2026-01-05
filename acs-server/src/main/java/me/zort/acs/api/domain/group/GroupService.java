@@ -2,10 +2,10 @@ package me.zort.acs.api.domain.group;
 
 import me.zort.acs.api.domain.group.exception.GroupAlreadyExistsException;
 import me.zort.acs.api.domain.group.exception.GroupCreationDisallowedException;
-import me.zort.acs.api.domain.subject.SubjectLike;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectLike;
+import me.zort.acs.core.model.Node;
+import me.zort.acs.core.model.Subject;
+import me.zort.acs.core.model.SubjectType;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,7 +1,7 @@
 package me.zort.acs.domain.provider;
 
 import me.zort.acs.api.domain.provider.SubjectTypeProvider;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectType;
 import me.zort.acs.domain.provider.options.SubjectTypeOptions;
 import org.springframework.stereotype.Component;
 

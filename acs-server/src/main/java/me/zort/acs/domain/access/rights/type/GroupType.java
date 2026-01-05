@@ -12,7 +12,7 @@ import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.domain.group.DynamicGroup;
 import me.zort.acs.domain.group.StaticGroup;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

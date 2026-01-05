@@ -1,11 +1,11 @@
 package me.zort.acs.api.domain.access.request;
 
 import lombok.Getter;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.subject.SubjectLike;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
+import me.zort.acs.core.model.SubjectLike;
 
 @Getter
-public final class SubjectToSubjectAccessRequest implements AccessRequest {
+public final class SubjectToSubjectAccessRequest implements me.zort.acs.core.domain.access.request.AccessRequest {
     private final SubjectLike accessor;
     private final SubjectLike accessed;
     private final RightsHolder rightsHolder;

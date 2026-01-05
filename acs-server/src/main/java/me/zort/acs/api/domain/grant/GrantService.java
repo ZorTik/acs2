@@ -1,10 +1,10 @@
 package me.zort.acs.api.domain.grant;
 
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
 import me.zort.acs.domain.grant.exception.InvalidGrantException;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.Subject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

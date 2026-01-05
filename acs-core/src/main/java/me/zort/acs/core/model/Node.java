@@ -1,8 +1,8 @@
-package me.zort.acs.domain.model;
+package me.zort.acs.core.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 
 import java.util.Objects;
 import java.util.Set;

@@ -1,8 +1,8 @@
 package me.zort.acs.domain.access;
 
 import me.zort.acs.api.domain.access.AccessControlService;
-import me.zort.acs.api.domain.access.request.AccessRequest;
-import me.zort.acs.domain.access.rule.AccessRule;
+import me.zort.acs.core.domain.access.request.AccessRequest;
+import me.zort.acs.core.domain.access.rule.AccessRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

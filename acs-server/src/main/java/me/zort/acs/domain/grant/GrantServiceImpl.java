@@ -2,7 +2,7 @@ package me.zort.acs.domain.grant;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.GrantRepository;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.core.domain.mapper.DomainToPersistenceMapper;
@@ -16,7 +16,7 @@ import me.zort.acs.domain.grant.event.GrantAddEvent;
 import me.zort.acs.domain.grant.event.GrantRemoveEvent;
 import me.zort.acs.domain.grant.exception.GrantAlreadyExistsException;
 import me.zort.acs.domain.grant.exception.InvalidGrantException;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.Subject;
 import me.zort.acs.domain.provider.options.GrantOptions;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

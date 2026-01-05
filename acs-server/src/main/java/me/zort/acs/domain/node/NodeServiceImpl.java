@@ -7,7 +7,7 @@ import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.api.domain.provider.NodeProvider;
 import me.zort.acs.api.domain.node.NodeService;
 import me.zort.acs.data.entity.NodeEntity;
-import me.zort.acs.domain.model.Node;
+import me.zort.acs.core.model.Node;
 import me.zort.acs.domain.provider.options.NodeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

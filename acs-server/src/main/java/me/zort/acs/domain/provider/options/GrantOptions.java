@@ -3,8 +3,8 @@ package me.zort.acs.domain.provider.options;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
+import me.zort.acs.core.model.Subject;
 
 import java.util.UUID;
 

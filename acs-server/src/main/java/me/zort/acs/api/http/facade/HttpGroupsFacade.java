@@ -1,7 +1,7 @@
 package me.zort.acs.api.http.facade;
 
-import me.zort.acs.api.domain.subject.SubjectLike;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.SubjectLike;
+import me.zort.acs.core.model.Subject;
 import me.zort.acs.http.dto.model.group.BriefGroupDto;
 import me.zort.acs.http.dto.model.group.GroupDto;
 import me.zort.acs.http.dto.model.subject.SubjectDto;

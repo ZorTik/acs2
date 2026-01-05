@@ -2,7 +2,7 @@ package me.zort.acs.domain.mapper;
 
 import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.Subject;
 import org.springframework.stereotype.Component;
 
 @Component

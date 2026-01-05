@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.access;
 
-import me.zort.acs.domain.access.AccessQueryable;
+import me.zort.acs.core.domain.access.AccessQueryable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

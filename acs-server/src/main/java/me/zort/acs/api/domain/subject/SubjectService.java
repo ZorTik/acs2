@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.subject;
 
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.Subject;
 
 import java.util.Optional;
 

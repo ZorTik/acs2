@@ -1,7 +1,7 @@
 package me.zort.acs.api.domain.node;
 
 import me.zort.acs.api.domain.node.exception.NodeAlreadyExistsException;
-import me.zort.acs.domain.model.Node;
+import me.zort.acs.core.model.Node;
 
 import java.util.Optional;
 

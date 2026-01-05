@@ -1,8 +1,8 @@
 package me.zort.acs.api.domain.subjecttype;
 
 import me.zort.acs.api.domain.subjecttype.exception.SubjectTypeAlreadyExistsException;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.Node;
+import me.zort.acs.core.model.SubjectType;
 
 import java.util.Collection;
 import java.util.List;

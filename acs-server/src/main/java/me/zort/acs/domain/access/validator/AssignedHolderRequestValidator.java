@@ -1,10 +1,10 @@
 package me.zort.acs.domain.access.validator;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
-import me.zort.acs.api.domain.subject.SubjectLike;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectLike;
+import me.zort.acs.core.model.SubjectType;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

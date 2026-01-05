@@ -1,9 +1,8 @@
-package me.zort.acs.domain.model;
+package me.zort.acs.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.zort.acs.api.domain.subject.SubjectLike;
-import me.zort.acs.api.domain.garbage.disposable.Disposable;
+import me.zort.acs.core.domain.garbage.disposable.Disposable;
 import org.jetbrains.annotations.NotNull;
 
 public class Subject implements SubjectLike, Disposable {

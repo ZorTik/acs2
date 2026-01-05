@@ -1,9 +1,9 @@
-package me.zort.acs.domain.access;
+package me.zort.acs.core.domain.access;
 
-import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.api.domain.subject.SubjectLike;
-import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
+import me.zort.acs.core.model.SubjectLike;
+import me.zort.acs.core.model.Subject;
+import me.zort.acs.core.model.SubjectType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -3,7 +3,7 @@ package me.zort.acs.http.mapper;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.node.NodeService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
-import me.zort.acs.domain.model.Node;
+import me.zort.acs.core.model.Node;
 import me.zort.acs.http.dto.model.node.NodeDto;
 import me.zort.acs.http.dto.model.node.NodeWithStateDto;
 import me.zort.acs.api.http.exception.HttpException;

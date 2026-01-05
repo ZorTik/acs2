@@ -1,7 +1,7 @@
-package me.zort.acs.domain.access.rule;
+package me.zort.acs.core.domain.access.rule;
 
-import me.zort.acs.api.domain.access.request.AccessRequest;
-import me.zort.acs.domain.access.AccessQueryable;
+import me.zort.acs.core.domain.access.request.AccessRequest;
+import me.zort.acs.core.domain.access.AccessQueryable;
 
 /**
  * Interface representing an access rule that can be applied to access requests.

@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.grant;
 
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.domain.access.rights.type.RightsHolderType;
 
 import java.util.Set;

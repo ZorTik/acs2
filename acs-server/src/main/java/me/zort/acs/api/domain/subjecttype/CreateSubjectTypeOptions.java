@@ -2,8 +2,7 @@ package me.zort.acs.api.domain.subjecttype;
 
 import lombok.Builder;
 import lombok.Getter;
-import me.zort.acs.domain.model.Node;
-import org.jetbrains.annotations.NotNull;
+import me.zort.acs.core.model.Node;
 
 import java.util.ArrayList;
 import java.util.Collection;

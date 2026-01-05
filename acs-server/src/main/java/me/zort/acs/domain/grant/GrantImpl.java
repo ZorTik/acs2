@@ -1,9 +1,9 @@
 package me.zort.acs.domain.grant;
 
 import lombok.Getter;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.Subject;
 
 import java.util.UUID;
 

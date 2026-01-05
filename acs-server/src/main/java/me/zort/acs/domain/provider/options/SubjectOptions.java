@@ -2,7 +2,7 @@ package me.zort.acs.domain.provider.options;
 
 import lombok.Builder;
 import lombok.Getter;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectType;
 
 @Builder
 @Getter

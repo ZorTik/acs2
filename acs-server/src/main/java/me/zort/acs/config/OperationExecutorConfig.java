@@ -9,7 +9,7 @@ import me.zort.acs.data.entity.DynamicGroupEntity;
 import me.zort.acs.data.entity.GroupEntity;
 import me.zort.acs.api.domain.group.Group;
 import me.zort.acs.data.entity.SubjectTypeEntity;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectType;
 import me.zort.acs.domain.operation.OperationExecutorBase;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

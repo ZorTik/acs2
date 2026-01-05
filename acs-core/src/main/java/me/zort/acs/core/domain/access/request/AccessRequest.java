@@ -1,4 +1,4 @@
-package me.zort.acs.api.domain.access.request;
+package me.zort.acs.core.domain.access.request;
 
 public interface AccessRequest {
 

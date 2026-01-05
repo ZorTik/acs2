@@ -1,7 +1,7 @@
 package me.zort.acs.domain.grant.exception;
 
-import me.zort.acs.api.domain.access.rights.RightsHolder;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
+import me.zort.acs.core.model.Subject;
 
 public class InvalidGrantException extends RuntimeException {
   private final Subject accessor;

@@ -1,7 +1,7 @@
 package me.zort.acs.domain.garbage;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.garbage.disposable.Disposable;
+import me.zort.acs.core.domain.garbage.disposable.Disposable;
 import me.zort.acs.api.domain.garbage.DisposablesHolder;
 import me.zort.acs.api.domain.garbage.ResourceDisposalRegistry;
 import me.zort.acs.api.domain.garbage.ResourceDisposalService;

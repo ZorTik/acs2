@@ -2,7 +2,7 @@ package me.zort.acs.api.domain.garbage.disposable;
 
 import java.util.Set;
 
-public interface CacheDisposable extends Disposable {
+public interface CacheDisposable extends me.zort.acs.core.domain.garbage.disposable.Disposable {
 
     Set<String> getCacheKeys();
 }

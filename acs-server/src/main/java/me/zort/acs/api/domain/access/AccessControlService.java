@@ -1,6 +1,6 @@
 package me.zort.acs.api.domain.access;
 
-import me.zort.acs.api.domain.access.request.AccessRequest;
+import me.zort.acs.core.domain.access.request.AccessRequest;
 
 /**
  * Service interface for evaluating access control requests and retrieving grant states.

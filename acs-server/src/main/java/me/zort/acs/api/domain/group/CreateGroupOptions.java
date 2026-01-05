@@ -2,9 +2,9 @@ package me.zort.acs.api.domain.group;
 
 import lombok.Builder;
 import lombok.Getter;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.Node;
+import me.zort.acs.core.model.Subject;
+import me.zort.acs.core.model.SubjectType;
 
 import java.util.ArrayList;
 import java.util.List;

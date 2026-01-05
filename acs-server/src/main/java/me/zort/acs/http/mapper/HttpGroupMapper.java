@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.group.GroupService;
 import me.zort.acs.api.http.exception.HttpExceptionFactory;
 import me.zort.acs.api.domain.group.Group;
-import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.Subject;
+import me.zort.acs.core.model.SubjectType;
 import me.zort.acs.http.dto.model.group.GroupDto;
 import me.zort.acs.http.dto.model.node.NodeDto;
 import me.zort.acs.api.http.exception.HttpException;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Component

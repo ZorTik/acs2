@@ -11,9 +11,9 @@ import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.entity.SubjectTypeEntity;
 import me.zort.acs.data.id.DynamicGroupId;
 import me.zort.acs.domain.group.DynamicGroup;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.Subject;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.Node;
+import me.zort.acs.core.model.Subject;
+import me.zort.acs.core.model.SubjectType;
 import me.zort.acs.domain.provider.options.GroupOptions;
 import org.springframework.stereotype.Component;
 

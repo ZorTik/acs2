@@ -6,7 +6,7 @@ import me.zort.acs.api.domain.operation.Operation;
 import me.zort.acs.api.domain.group.GroupOperationsFactory;
 import me.zort.acs.domain.group.operation.AssignNodesOperationImpl;
 import me.zort.acs.domain.group.operation.AssignParentOperationImpl;
-import me.zort.acs.domain.model.Node;
+import me.zort.acs.core.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

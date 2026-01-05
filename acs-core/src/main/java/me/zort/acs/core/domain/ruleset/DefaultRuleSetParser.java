@@ -15,6 +15,8 @@ import java.util.jar.JarInputStream;
 
 /**
  * Default implementation of RuleSetParser that parses rule set from JAR file containing ruleset.yml.
+ *
+ * @author ZorTik
  */
 public class DefaultRuleSetParser implements RuleSetParser {
     private static final String CONFIG_ENTRY_REGEX = "^ruleset\\.ya?ml$";
@@ -42,6 +44,11 @@ public class DefaultRuleSetParser implements RuleSetParser {
             throw new InvalidRuleSetConfigException(violations);
         }
         return ruleSet;
+    }
+
+    @Override
+    public void integrateRuleSet(RuleSetIntegrationVisitor integrationVisitor) {
+        // TODO: Implement integration logic
     }
 
     private static void validateRuleSetData(byte[] data) {

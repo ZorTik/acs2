@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.Subject;
 import me.zort.acs.http.dto.model.subject.SubjectDto;
 import me.zort.acs.http.mapper.HttpSubjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,9 @@
 package me.zort.acs.domain.access.rule;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.request.AccessRequest;
+import me.zort.acs.core.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
+import me.zort.acs.core.domain.access.rule.AccessRule;
 
 @RequiredArgsConstructor
 public abstract class SubjectToSubjectAccessRule implements AccessRule {

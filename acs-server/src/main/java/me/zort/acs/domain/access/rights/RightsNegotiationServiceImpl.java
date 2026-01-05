@@ -3,10 +3,10 @@ package me.zort.acs.domain.access.rights;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.data.repository.SubjectRepository;
 import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
 import me.zort.acs.api.domain.model.Grant;
-import me.zort.acs.api.domain.subject.SubjectLike;
+import me.zort.acs.core.model.SubjectLike;
 import me.zort.acs.api.domain.definitions.DefinitionsService;
 import me.zort.acs.api.domain.grant.GrantService;
 import me.zort.acs.api.domain.group.GroupService;
@@ -14,7 +14,6 @@ import me.zort.acs.core.domain.mapper.DomainModelMapper;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.id.SubjectId;
 import me.zort.acs.api.domain.group.Group;
-import me.zort.acs.domain.model.*;
 import me.zort.acs.domain.util.PageUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
     private final DefinitionsService definitionsService;
     private final GroupService groupService;
     private final SubjectRepository subjectRepository;
-    private final DomainModelMapper<Subject, SubjectEntity> subjectMapper;
+    private final DomainModelMapper<me.zort.acs.core.model.Subject, SubjectEntity> subjectMapper;
     private final RightsHolderTypeRegistry rightsHolderTypeRegistry;
 
     /**
@@ -43,8 +42,8 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
      */
     @Override
     public List<RightsHolder> getRightsHolders(SubjectLike accessorLike, SubjectLike accessedLike) {
-        SubjectType accessorType = accessorLike.getSubjectType();
-        SubjectType accessedType = accessedLike.getSubjectType();
+        me.zort.acs.core.model.SubjectType accessorType = accessorLike.getSubjectType();
+        me.zort.acs.core.model.SubjectType accessedType = accessedLike.getSubjectType();
 
         List<RightsHolder> holders = new ArrayList<>();
 
@@ -55,7 +54,7 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
                 .getDefaultGrantedGroups(accessorType, accessedType));
 
         // Holders applicable only between existing subjects
-        if (accessorLike instanceof Subject accessor && accessedLike instanceof Subject accessed) {
+        if (accessorLike instanceof me.zort.acs.core.model.Subject accessor && accessedLike instanceof me.zort.acs.core.model.Subject accessed) {
             // Nodes granted by external requests
             List<RightsHolder> holdersOfGrants = grantService.getGrants(accessor, accessed)
                     .stream()
@@ -81,7 +80,7 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
      * @param anyOf the list of rights holders to check against
      * @return true if the accessor has default access, false otherwise
      */
-    private boolean hasDefaultAccess(SubjectLike accessor, SubjectType accessedType, List<RightsHolder> anyOf) {
+    private boolean hasDefaultAccess(SubjectLike accessor, me.zort.acs.core.model.SubjectType accessedType, List<RightsHolder> anyOf) {
         Stream<RightsHolder> streamOfDefaultRightsHolders = Stream.concat(
                 definitionsService.getDefaultGrantedGroups(accessor.getSubjectType(), accessedType).stream(),
                 definitionsService.getDefaultGrantedNodes(accessor.getSubjectType(), accessedType).stream());
@@ -120,12 +119,12 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
      * @param pageable the pagination information
      * @return a page of candidate subjects that the accessor can access
      */
-    private @NotNull Page<Subject> getCandidateSubjectsFromGrants(
-            Subject accessor, SubjectType accessedType, List<RightsHolder> anyOf, Pageable pageable) {
+    private @NotNull Page<me.zort.acs.core.model.Subject> getCandidateSubjectsFromGrants(
+            me.zort.acs.core.model.Subject accessor, me.zort.acs.core.model.SubjectType accessedType, List<RightsHolder> anyOf, Pageable pageable) {
         Map<Class<?>, List<RightsHolder>> rightsHoldersByType = groupHoldersByType(anyOf);
 
         SubjectId accessorSubjectId = subjectMapper.toPersistence(accessor).getId();
-        List<Subject> candidateSubjectsByGrants = rightsHoldersByType.values()
+        List<me.zort.acs.core.model.Subject> candidateSubjectsByGrants = rightsHoldersByType.values()
                 .stream()
                 .flatMap(rightsHolders -> rightsHolderTypeRegistry.castAndCallAdapter(
                         rightsHolders.get(0),
@@ -138,16 +137,16 @@ public class RightsNegotiationServiceImpl implements RightsNegotiationService {
     }
 
     /**
-     * @see RightsNegotiationService#getCandidateSubjects(SubjectLike, SubjectType, List, Pageable)
+     * @see RightsNegotiationService#getCandidateSubjects(SubjectLike, me.zort.acs.core.model.SubjectType, List, Pageable)
      */
     @Override
-    public Page<Subject> getCandidateSubjects(
-            SubjectLike accessor, SubjectType accessedType, List<RightsHolder> anyOf, Pageable pageable) {
+    public Page<me.zort.acs.core.model.Subject> getCandidateSubjects(
+            SubjectLike accessor, me.zort.acs.core.model.SubjectType accessedType, List<RightsHolder> anyOf, Pageable pageable) {
         if (hasDefaultAccess(accessor, accessedType, anyOf)) {
             // If there is any default access, the subject has access to all subjects of the accessed type
             // since we check against the default granted nodes or groups.
             return subjectRepository.findAll(pageable).map(subjectMapper::toDomain);
-        } else if (accessor instanceof Subject accessorRealSubject) {
+        } else if (accessor instanceof me.zort.acs.core.model.Subject accessorRealSubject) {
             return getCandidateSubjectsFromGrants(accessorRealSubject, accessedType, anyOf, pageable);
         } else {
             // If the accessor is not a real subject, there are definitely no grants,

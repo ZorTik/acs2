@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import me.zort.acs.api.domain.group.Group;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.Node;
+import me.zort.acs.core.model.SubjectType;
 
 import java.util.HashSet;
 import java.util.Set;

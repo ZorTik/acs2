@@ -1,7 +1,7 @@
 package me.zort.acs.domain.access.rights;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.grant.RightsHolderTypeRegistry;
 import me.zort.acs.domain.access.rights.type.RightsHolderType;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,8 @@ package me.zort.acs.api.domain.definitions;
 
 import me.zort.acs.core.domain.definitions.model.DefinitionsModel;
 import me.zort.acs.api.domain.group.Group;
-import me.zort.acs.domain.model.Node;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.Node;
+import me.zort.acs.core.model.SubjectType;
 
 import java.util.Set;
 

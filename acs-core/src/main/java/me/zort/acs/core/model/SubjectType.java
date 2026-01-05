@@ -1,4 +1,4 @@
-package me.zort.acs.domain.model;
+package me.zort.acs.core.model;
 
 import lombok.Getter;
 import lombok.Setter;

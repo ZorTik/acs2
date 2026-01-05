@@ -9,7 +9,7 @@ import me.zort.acs.api.domain.provider.SubjectProvider;
 import me.zort.acs.api.domain.subject.SubjectService;
 import me.zort.acs.data.entity.SubjectEntity;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.domain.model.Subject;
+import me.zort.acs.core.model.Subject;
 import me.zort.acs.domain.provider.options.SubjectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

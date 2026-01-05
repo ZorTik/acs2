@@ -3,6 +3,7 @@ package me.zort.acs.domain.access;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.api.domain.access.AccessQueryService;
 import me.zort.acs.api.domain.access.AggregatedAccessQuery;
+import me.zort.acs.core.domain.access.AccessQueryable;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

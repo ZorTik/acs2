@@ -1,9 +1,9 @@
 package me.zort.acs.domain.access.rights.type;
 
-import me.zort.acs.api.domain.access.rights.RightsHolder;
+import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.model.Grant;
 import me.zort.acs.data.id.SubjectId;
-import me.zort.acs.domain.model.SubjectType;
+import me.zort.acs.core.model.SubjectType;
 
 import java.util.List;
 import java.util.Optional;

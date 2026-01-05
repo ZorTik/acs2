@@ -1,7 +1,7 @@
 package me.zort.acs.api.domain.group;
 
 import me.zort.acs.api.domain.operation.Operation;
-import me.zort.acs.domain.model.Node;
+import me.zort.acs.core.model.Node;
 
 import java.util.Collection;
 
