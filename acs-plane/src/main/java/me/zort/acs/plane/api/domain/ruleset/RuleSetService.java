@@ -1,5 +1,6 @@
 package me.zort.acs.plane.api.domain.ruleset;
 
+import me.zort.acs.core.domain.ruleset.RuleSet;
 import me.zort.acs.plane.api.domain.ruleset.exception.RuleSetAlreadyExistsException;
 
 import java.util.List;

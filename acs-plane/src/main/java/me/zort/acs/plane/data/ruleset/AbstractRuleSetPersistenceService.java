@@ -2,7 +2,7 @@ package me.zort.acs.plane.data.ruleset;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.plane.api.data.ruleset.RuleSetPersistenceService;
-import me.zort.acs.plane.api.domain.ruleset.RuleSet;
+import me.zort.acs.core.domain.ruleset.RuleSet;
 import me.zort.acs.plane.api.domain.ruleset.exception.RuleSetAlreadyExistsException;
 
 import java.util.List;

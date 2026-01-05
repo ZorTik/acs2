@@ -2,7 +2,7 @@ package me.zort.acs.plane.data.ruleset;
 
 import lombok.Builder;
 import lombok.Getter;
-import me.zort.acs.plane.api.domain.ruleset.RuleSet;
+import me.zort.acs.core.domain.ruleset.RuleSet;
 
 public interface RuleSetMapper<D> {
 

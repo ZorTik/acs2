@@ -18,9 +18,11 @@ dependencies {
     implementation 'org.yaml:snakeyaml:2.2'
     implementation 'org.springframework:spring-beans:6.2.6'
     implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     compileOnly 'org.hibernate.orm:hibernate-core:7.0.4.Final'
     compileOnly 'org.projectlombok:lombok'
+    compileOnly 'commons-io:commons-io:2.21.0'
     annotationProcessor 'org.projectlombok:lombok'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

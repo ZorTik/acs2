@@ -1,8 +1,8 @@
 package me.zort.acs.plane.data.ruleset.mongo;
 
-import me.zort.acs.plane.api.domain.ruleset.RuleSet;
+import me.zort.acs.core.domain.ruleset.RuleSet;
 import me.zort.acs.plane.data.ruleset.RuleSetMapper;
-import me.zort.acs.plane.domain.ruleset.RuleSetImpl;
+import me.zort.acs.core.domain.ruleset.RuleSetImpl;
 import org.springframework.stereotype.Component;
 
 @Component

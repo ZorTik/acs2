@@ -1,6 +1,6 @@
 package me.zort.acs.plane.http.mapper;
 
-import me.zort.acs.plane.api.domain.ruleset.RuleSet;
+import me.zort.acs.core.domain.ruleset.RuleSet;
 import me.zort.acs.plane.http.dto.model.ListedRuleSet;
 import org.springframework.stereotype.Component;
 

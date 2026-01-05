@@ -1,6 +1,6 @@
-package me.zort.acs.plane.api.domain.ruleset;
+package me.zort.acs.core.domain.ruleset;
 
-import me.zort.acs.plane.api.domain.ruleset.exception.MalformedRuleSetDataException;
+import me.zort.acs.core.domain.ruleset.exception.InvalidRuleSetException;
 
 public interface RuleSetParser {
 
@@ -10,7 +10,7 @@ public interface RuleSetParser {
      *
      * @param data The data of the jar file
      * @return The rule set info
-     * @throws MalformedRuleSetDataException If the provided data are invalid
+     * @throws InvalidRuleSetException If the provided data are invalid
      */
-    RuleSet parseRuleSet(byte[] data) throws MalformedRuleSetDataException;
+    RuleSet parseRuleSet(byte[] data) throws InvalidRuleSetException;
 }
