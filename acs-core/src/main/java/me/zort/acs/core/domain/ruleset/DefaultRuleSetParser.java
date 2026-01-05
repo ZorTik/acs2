@@ -2,13 +2,18 @@ package me.zort.acs.core.domain.ruleset;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import me.zort.acs.common.ByteArrayJarClassLoader;
 import me.zort.acs.core.domain.ruleset.exception.InvalidRuleSetConfigException;
 import me.zort.acs.core.domain.ruleset.exception.InvalidRuleSetException;
+import me.zort.acs.core.domain.ruleset.exception.MalformedRuleSetException;
 import org.apache.commons.io.IOUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.ServiceConfigurationError;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -47,8 +52,24 @@ public class DefaultRuleSetParser implements RuleSetParser {
     }
 
     @Override
-    public void integrateRuleSet(RuleSetIntegrationVisitor integrationVisitor) {
-        // TODO: Implement integration logic
+    public List<RuleSetIntegration> integrateRuleSet(byte[] data) {
+        validateRuleSetData(data);
+
+        ClassLoader cl;
+        try {
+            cl = new ByteArrayJarClassLoader(data, this.getClass().getClassLoader());
+        } catch (IOException e) {
+            throw new MalformedRuleSetException("Failed to load jar file", e);
+        }
+
+        try {
+            return ServiceLoader.load(RuleSetIntegration.class, cl)
+                    .stream()
+                    .map(ServiceLoader.Provider::get)
+                    .toList();
+        } catch (ServiceConfigurationError e) {
+            throw new MalformedRuleSetException("Failed to load RuleSetIntegration implementations", e);
+        }
     }
 
     private static void validateRuleSetData(byte[] data) {

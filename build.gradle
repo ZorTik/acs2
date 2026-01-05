@@ -1,4 +1,4 @@
-allprojects {
+allprojects { proj ->
     apply plugin: 'java'
 
     java {
@@ -17,6 +17,10 @@ allprojects {
         implementation 'com.google.guava:guava:33.4.8-jre'
         compileOnly 'org.projectlombok:lombok:1.18.38'
         annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+        if (proj.name != 'acs-common') {
+            implementation project(':acs-common')
+        }
     }
 }
 

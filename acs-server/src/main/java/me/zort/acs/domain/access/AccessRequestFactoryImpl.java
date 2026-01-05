@@ -3,7 +3,7 @@ package me.zort.acs.domain.access;
 import lombok.RequiredArgsConstructor;
 import me.zort.acs.core.domain.access.request.AccessRequest;
 import me.zort.acs.api.domain.access.AccessRequestFactory;
-import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
+import me.zort.acs.core.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.core.model.SubjectLike;
 import org.jetbrains.annotations.NotNull;

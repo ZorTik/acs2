@@ -2,8 +2,9 @@ package me.zort.acs.domain.access.rule;
 
 import me.zort.acs.core.domain.access.rights.RightsHolder;
 import me.zort.acs.api.domain.access.rights.RightsNegotiationService;
-import me.zort.acs.api.domain.access.request.SubjectToSubjectAccessRequest;
+import me.zort.acs.core.domain.access.request.SubjectToSubjectAccessRequest;
 import me.zort.acs.api.domain.access.strategy.RightsStrategy;
+import me.zort.acs.core.domain.access.rule.SubjectToSubjectAccessRule;
 import me.zort.acs.core.model.SubjectLike;
 import me.zort.acs.core.model.Node;
 import me.zort.acs.core.model.SubjectType;

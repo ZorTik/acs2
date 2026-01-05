@@ -2,6 +2,8 @@ package me.zort.acs.core.domain.ruleset;
 
 import me.zort.acs.core.domain.ruleset.exception.InvalidRuleSetException;
 
+import java.util.List;
+
 public interface RuleSetParser {
 
     /**
@@ -15,9 +17,11 @@ public interface RuleSetParser {
     RuleSet parseRuleSet(byte[] data) throws InvalidRuleSetException;
 
     /**
-     * Integrates the rule set into the system using the provided integration visitor.
+     * Integrates the rule set from provided bytes representing JAR file.
      *
-     * @param integrationVisitor The integration visitor
+     * @param data The data of the jar file
+     * @return List of RuleSetIntegration instances
+     * @throws InvalidRuleSetException If the provided data are invalid
      */
-    void integrateRuleSet(RuleSetIntegrationVisitor integrationVisitor);
+    List<RuleSetIntegration> integrateRuleSet(byte[] data);
 }
